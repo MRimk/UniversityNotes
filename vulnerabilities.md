@@ -166,3 +166,28 @@ _Location_:
 **Steps to reproduce:** \
 
 **How it was found:** \
+
+<!-- +  +  = -->
+
+## Vulnerability 6
+
+**Program nummber:** 2, 4 (find more later) - this can be separated into few vulnerabilities
+
+**Type of a vulnerability:** cryptography not used when it is necessary
+
+**Impact of a vulnerability:**
+
+- [ ] None
+- [ ] Loss of availability
+- [x] Data leak - Mallory can impersonate and read the messages that are sent for the user
+- [ ] Data corruption
+- [ ] Code execution
+
+**Cause:** Not encrypting private messages and not having signatures (this can be separate)
+
+_Location_:
+
+**Steps to reproduce:** \
+
+**How it was found:** \
+Looking through the code.
