@@ -208,7 +208,7 @@ Looking through the code.
 - [x] Data corruption
 - [ ] Code execution
 
-**Cause:** Sanitizing user input for SQL code in the **client**. If this sanitization is disabled, the SQL injection can take place. 
+**Cause:** Sanitizing user input for SQL code in the **client**. If this sanitization is disabled, the SQL injection can take place.
 
 _Location_: client.c client_process_command() lines 148-153:
 
@@ -247,7 +247,7 @@ Reading the client code I noticed that there is sanitization there, but not on t
 - [ ] Data corruption
 - [ ] Code execution
 
-**Cause:** 
+**Cause:**
 
 _Location_:
 
