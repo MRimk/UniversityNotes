@@ -81,4 +81,4 @@ Financials: \
 add a timeline of the financial position change, and maybe show how it was changing. 
 
 Aesthetics: \
-try to use a font size a min of 15pt \
+try to use a font size a min of 15pt

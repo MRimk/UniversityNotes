@@ -1,4 +1,4 @@
-<!--Martynas Rimkevicius - curr: ~21.5-->
+<!--Martynas Rimkevicius - curr: ~28-->
 
 # Assignment 2 - Vulnerabilities
 
@@ -192,7 +192,7 @@ _Location_:
 **How it was found:** \
 Looking through the code.
 
-<!-- +  +  = -->
+<!-- 2 + 2.5 + 2 = 6.5 -->
 
 ## Vulnerability 7
 
@@ -203,9 +203,9 @@ Looking through the code.
 **Impact of a vulnerability:**
 
 - [ ] None
-- [X] Loss of availability
-- [x] Data leak  
-- [x] Data corruption
+- [X] Loss of availability - server crashes when the SQL injection is sent
+- [ ] Data leak
+- [x] Data corruption - Mallory can impersonate a user if they insert a message with other user's name as the value. The messages will be seen after server is restored after the crash.
 - [ ] Code execution
 
 **Cause:** Sanitizing user input for SQL code in the **client**. If this sanitization is disabled, the SQL injection can take place.
