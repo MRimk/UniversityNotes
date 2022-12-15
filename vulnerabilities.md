@@ -191,3 +191,32 @@ _Location_:
 
 **How it was found:** \
 Looking through the code.
+
+
+<!-- +  +  = -->
+
+## Vulnerability 7
+
+**Program nummber:** 2
+
+**Type of a vulnerability:** SQL injection
+
+**Impact of a vulnerability:**
+
+- [ ] None
+- [X] Loss of availability
+- [x] Data leak  
+- [x] Data corruption
+- [ ] Code execution
+
+**Cause:** Not using salt to generate a password and using just hashing (SHA224)
+
+_Location_: client.c client_process_command() lines 119-139
+
+**Steps to reproduce:** \
+This vulnerability was found through the code, but it will can be exploited with simple brute force password guesser. If user is known to be registered, the password can be put in over and over, and thus be guessed over time.
+`/login abd asd`
+`ap',0,'abd','NULL'); drop table Users;`
+
+**How it was found:** \
+In the database Users table there is no field for salt for the hash, thus this raised a suspicion that salt might not be used and once the hashing part of the code was located, it could be seen that it is not used.
