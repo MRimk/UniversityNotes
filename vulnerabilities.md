@@ -56,7 +56,7 @@ Trying the functional security requirements of the program - manual testing. In 
 _Location_: client.c client_process_command() lines 119-139
 
 **Steps to reproduce:** \
-This vulnerability was found through the code, but it will can be exploited with simple brute force password guesser. If user is known to be registered, the password can be put in over and over, and thus be guessed over time.
+This vulnerability was found through the code, but it can be exploited with simple brute force password guesser. If user is known to be registered, the password can be put in over and over, and thus be guessed over time.
 
 **How it was found:** \
 In the database Users table there is no field for salt for the hash, thus this raised a suspicion that salt might not be used and once the hashing part of the code was located, it could be seen that it is not used.
@@ -192,7 +192,6 @@ _Location_:
 **How it was found:** \
 Looking through the code.
 
-
 <!-- +  +  = -->
 
 ## Vulnerability 7
@@ -209,14 +208,49 @@ Looking through the code.
 - [x] Data corruption
 - [ ] Code execution
 
-**Cause:** Not using salt to generate a password and using just hashing (SHA224)
+**Cause:** Sanitizing user input for SQL code in the **client**. If this sanitization is disabled, the SQL injection can take place. 
 
-_Location_: client.c client_process_command() lines 119-139
+_Location_: client.c client_process_command() lines 148-153:
+
+```C
+for (int i = 0; i < strlen(message); i++) {
+    if (message[i] == '\'') {
+        memmove(message + i + 1, message + i, strlen(message) - i + 1);
+        message[i++] = '\'';
+    }
+}
+```
 
 **Steps to reproduce:** \
-This vulnerability was found through the code, but it will can be exploited with simple brute force password guesser. If user is known to be registered, the password can be put in over and over, and thus be guessed over time.
-`/login abd asd`
+
+`/register abd asd`
+`/register user 123`
 `ap',0,'abd','NULL'); drop table Users;`
+`ap',0,'abd','NULL'); INSERT INTO Messages VALUES(7, 'kill text', 1, 'user', 'user');`
 
 **How it was found:** \
-In the database Users table there is no field for salt for the hash, thus this raised a suspicion that salt might not be used and once the hashing part of the code was located, it could be seen that it is not used.
+Reading the client code I noticed that there is sanitization there, but not on the server side. This meant that there can be SQL injection, thus tried inputs, where the messages were inserted.
+
+<!-- +  +  = -->
+
+## Vulnerability 8
+
+**Program nummber:** 2
+
+**Type of a vulnerability:**
+
+**Impact of a vulnerability:**
+
+- [ ] None
+- [ ] Loss of availability
+- [ ] Data leak  
+- [ ] Data corruption
+- [ ] Code execution
+
+**Cause:** 
+
+_Location_:
+
+**Steps to reproduce:** \
+
+**How it was found:** \
