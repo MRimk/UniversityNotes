@@ -1,4 +1,4 @@
-<!--Martynas Rimkevicius - curr: ~21.5-->
+<!--Martynas Rimkevicius - curr: 37 -->
 
 # Assignment 2 - Vulnerabilities
 
@@ -143,19 +143,45 @@ This means that user is logged in, but the client does not work. New user _test4
 **How it was found:** \
 It was found after testing long messages with 3 users, after having noticed that after 2 messages sent, other messages are showing the certificates of users who are logged in.
 
-<!-- +  +  = -->
+<!--1 + 2.5 + 1 = 4.5 -->
 
-## Vulnerability 5
+## Vulnerability 9
 
-**Program nummber:** 6
+**Program nummber:** 5
 
-**Type of a vulnerability:** double free!!!!!!!
+**Type of a vulnerability:** cryptography missing where required - missing message signatures, and cryptography is not used correctly - same RSA key-pair for both sides of the connection.
 
 **Impact of a vulnerability:**
 
 - [ ] None
 - [ ] Loss of availability
-- [ ] Data leak
+- [x] Data leak - according to the threat model Mallory could hijack the network connection, and having the RSA key-pair could read the data.
+- [x] Data corruption - according to the threat model Mallory could inject into the data sent over the network connection, therefore all messages are not guaranteed to arrive from the source they were sent.
+- [ ] Code execution
+
+**Cause:** each message sent from the client is missing the signature of that user, and is encrypted only with the server public key sent both ways (client-server and server-client), therefore the message can be modified and neither receiver, nor server would know that this edit occured. Since the message is encrypted/decrypted with the same key-pair on both sides, mallory, having hijacked one client, could know the key-pair and use it to intercept connections on the network, decrypt them, **read and modify** them and and send them, and it could not be known to any party.
+
+_Location_: api.c api_recv() line 96 `private_decrypt(buffer, read, "serverkeys/server-key.pem", decrypted);` and api_send() line 174 `public_encrypt(serialized, strlen((char *)serialized), "serverkeys/public-key.pem", encrypted);`. Both functions are used in the client.c and worker.c to send and receive the messages.
+
+**Steps to reproduce:** \
+The vulnerability was found in the code, and would be abused, according to the threat model, in the hijacked connection, which I was not able to do.
+
+**How it was found:** \
+It was found while looking through the client sending a message function, where the goal was to find how the message is safeguarded from being read while on the network.
+
+<!-- +  +  = -->
+
+## Vulnerability 6
+
+**Program nummber:**
+
+**Type of a vulnerability:**
+
+**Impact of a vulnerability:**
+
+- [ ] None
+- [ ] Loss of availability
+- [x] Data leak
 - [ ] Data corruption
 - [ ] Code execution
 
@@ -167,32 +193,7 @@ _Location_:
 
 **How it was found:** \
 
-<!-- +  +  = -->
-
-## Vulnerability 6
-
-**Program nummber:** 2, 4 (find more later) - this can be separated into few vulnerabilities
-
-**Type of a vulnerability:** cryptography not used when it is necessary
-
-**Impact of a vulnerability:**
-
-- [ ] None
-- [ ] Loss of availability
-- [x] Data leak - Mallory can impersonate and read the messages that are sent for the user
-- [ ] Data corruption
-- [ ] Code execution
-
-**Cause:** Not encrypting private messages and not having signatures (this can be separate)
-
-_Location_:
-
-**Steps to reproduce:** \
-
-**How it was found:** \
-Looking through the code.
-
-<!-- +  +  = -->
+<!-- 2 + 2 + 2 = 6 -->
 
 ## Vulnerability 7
 
@@ -203,8 +204,8 @@ Looking through the code.
 **Impact of a vulnerability:**
 
 - [ ] None
-- [X] Loss of availability
-- [x] Data leak  
+- [x] Loss of availability
+- [x] Data leak
 - [x] Data corruption
 - [ ] Code execution
 
@@ -223,34 +224,38 @@ for (int i = 0; i < strlen(message); i++) {
 
 **Steps to reproduce:** \
 
+<!--ADD MORE-->
+
 `/register abd asd`
 `/register user 123`
 `ap',0,'abd','NULL'); drop table Users;`
 `ap',0,'abd','NULL'); INSERT INTO Messages VALUES(7, 'kill text', 1, 'user', 'user');`
 
 **How it was found:** \
-Reading the client code I noticed that there is sanitization there, but not on the server side. This meant that there can be SQL injection, thus tried inputs, where the messages were inserted.
+Reading the client code I noticed that there is sanitization there, but not on the server side. This meant that there can be SQL injection, thus tried inputs, where the messages were inserted. Since after each SQL injection server crashes, I restarted it, relogged in and found the inserted messages. Also this was checked with sqlite itself - opening chat.db file and confirming that the messages were inserted.
 
-<!-- +  +  = -->
+<!-- 2 + 2 + 1 = 5 -->
 
 ## Vulnerability 8
 
-**Program nummber:** 2
+**Program nummber:** 4
 
-**Type of a vulnerability:**
+**Type of a vulnerability:** cryptography missing where required - missing encryption of messages
 
 **Impact of a vulnerability:**
 
 - [ ] None
 - [ ] Loss of availability
-- [ ] Data leak  
+- [x] Data leak - according to the threat model Mallory could read the data sent over the network connection, therefore read the private messages that are not intended to be seen by them.
 - [ ] Data corruption
 - [ ] Code execution
 
-**Cause:**
+**Cause:** lack of RSA encryption of client-server communication, when sending the messages.
 
-_Location_:
+_Location_: lines 66-154 client_process_command function, client.c. Messages are parsed, and formed to be sent to the server, but not encrypted.
 
 **Steps to reproduce:** \
+The vulnerability was found in the code, and would be read, according to the threat model, in the hijacked connection, which I was not able to do.
 
 **How it was found:** \
+It was found while looking through the client sending a message function, where the goal was to find how the message is modified before it is written to the socket.
