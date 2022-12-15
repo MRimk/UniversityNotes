@@ -205,7 +205,7 @@ _Location_:
 
 - [ ] None
 - [x] Loss of availability
-- [x] Data leak
+- [ ] Data leak
 - [x] Data corruption
 - [ ] Code execution
 
