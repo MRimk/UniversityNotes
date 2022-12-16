@@ -1,11 +1,10 @@
 ---
 title: Assignment 2
-author: Martynas Rimkevicius 
+author: Martynas Rimkevicius
 Student ID: 2708302
 ---
-# Assignment 2 - Vulnerabilities
 
-<!--2 * 1.5 * 2 = 6-->
+# Assignment 2 - Vulnerabilities
 
 ## Vulnerability 1
 
@@ -38,8 +37,6 @@ To test if the Client 1 works general message from _gahsd_ gets delivered to the
 **How it was found:** \
 Trying the functional security requirements of the program - manual testing. In particular trying registering and logging in with the same username on multiple clients. It was discovered when one client was quit from and then the other two clients were used to continue test if the user was still connected. Which was not the case, proven by opening the database to check whether the value representing the "logged in" condition was not set to true for user _gahsd_.
 
-<!--2 * 2 * 1 = 4-->
-
 ## Vulnerability 2
 
 **Program nummber:** 2
@@ -63,8 +60,6 @@ This vulnerability was found through the code, but it can be exploited with simp
 
 **How it was found:** \
 In the database Users table there is no field for salt for the hash, thus this raised a suspicion that salt might not be used and once the hashing part of the code was located, it could be seen that it is not used.
-
-<!--2 * 2 * 2 = 8-->
 
 ## Vulnerability 3
 
@@ -95,8 +90,6 @@ registration succeeded
 
 **How it was found:** \
 In the code I noticed limit on the read buffer from stdin, therefore I wanted to try a long password input to see how it is handled. Therefore I generated 256 character string and saw that it was not handled correctly.
-
-<!-- 2 * 1.5 * 2 = 6-->
 
 ## Vulnerability 4
 
@@ -146,8 +139,6 @@ This means that user is logged in, but the client does not work. New user _test4
 **How it was found:** \
 It was found during stress testing - sending random messages with initially 2 users and then adding the 3rd one.
 
-<!--1 * 2.5 * 1 = 2.5 -->
-
 ## Vulnerability 5
 
 **Program nummber:** 5
@@ -171,8 +162,6 @@ The vulnerability was found in the code, and would be abused, according to the t
 
 **How it was found:** \
 It was found while looking through the client sending a message function, where the goal was to find how the message is safeguarded from being read while on the network.
-
-<!-- 2 * 2.5 * 2 = 10 -->
 
 ## Vulnerability 6
 
@@ -198,8 +187,6 @@ If the command or the given path are too long such that the client says "error: 
 
 **How it was found:** \
 It was found when I noticed that there is a shell system call with the string formatter in the rsa.c, which uses the username. After trying to use `../` blocks to traverse the path back to unexpected directories, I was not able to do so because of the check for alphanumeric characters. However, this check is on the client side only, thus, after having modified the client to be malicious, I was able to traverse directories on the server side.
-
-<!-- 2 * 2 * 2 = 8 -->
 
 ## Vulnerability 7
 
@@ -229,18 +216,16 @@ for (int i = 0; i < strlen(message); i++) {
 ```
 
 **Steps to reproduce:** \
-
-<!--ADD MORE-->
-
-`/register abd asd`
-`/register user 123`
-`ap',0,'abd','NULL'); drop table Users;`
-`ap',0,'abd','NULL'); INSERT INTO Messages VALUES(7, 'fake text', 1, 'user', 'user');`
+messages sent to have users: \
+`/register abd asd` \
+`/register user 123` \
+message sent to have loss of availability: \
+`ap',0,'abd','NULL'); drop table Users;` \
+message sent to have data corruption: \
+`ap',0,'abd','NULL'); INSERT INTO Messages VALUES(7, 'fake text', 1, 'user', 'abd');`
 
 **How it was found:** \
 Reading the client code I noticed that there is sanitization there, but not on the server side. This meant that there can be SQL injection, thus tried inputs, where the messages were inserted. Since after each SQL injection server crashes, I restarted it, relogged in and found the inserted messages. Also this was checked with sqlite itself - opening chat.db file and confirming that the messages were inserted.
-
-<!-- 2 * 2 * 1 = 4 -->
 
 ## Vulnerability 8
 
@@ -266,8 +251,6 @@ The vulnerability was found in the code, and would be read, according to the thr
 **How it was found:** \
 It was found while looking through the client sending a message function, where the goal was to find how the message is modified before it is written to the socket.
 
-<!-- 2 * 1.5 * 2 = 6 -->
-
 ## Vulnerability 9
 
 **Program nummber:** 6
@@ -290,8 +273,6 @@ Output either in the server or the client: `malloc(): invalid next size (unsorte
 
 **How it was found:** \
 manual testing with the mentioned input.
-
-<!-- 1 * 1.5 * 2 = 3 -->
 
 ## Vulnerability 10
 
@@ -316,8 +297,6 @@ after registering a user send this message:
 **How it was found:** \
 manual testing with the mentioned input.
 
-<!-- 1 * 1.5 * 2 = 3 -->
-
 ## Vulnerability 11
 
 **Program nummber:** 1
@@ -327,16 +306,16 @@ manual testing with the mentioned input.
 **Impact of a vulnerability:**
 
 - [ ] None
-- [x] Loss of availability - after this error not being handled client can think it is still connected, but it is not anymore
+- [x] Loss of availability - after this error client is not connected to the server anymore, since the worker crashes.
 - [ ] Data leak
 - [ ] Data corruption
 - [ ] Code execution
 
-**Cause:** because of a long message sent from the client to the worker, that is being encrypted with RSA, the message length, that was supposed to be in the message packet itself was not there, and in api.c api_recv(), line 104, there is a SEGFAULT, where the string cannot be converted to int.
+**Cause:** realloc in api.c api_recv() function at line 58 `realloc(msg, total_size);`, reallocates the msg with the total size, but in the assigns a new pointer to msg, thus overwriting the pointer obtained previously, and thus the free() crashes on the pointer later on, since it passes a pointer to free() obtained previously.
 
 **Steps to reproduce:** \
-after registering a user send this message:
-"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ut justo scelerisque, semper nunc in, semper augue. Nullam in egestas libero, sit amet ultrices arcu. Morbi euismod vel urna sed consequat. Nulla ex leo, semper id erat vel vestibulu" (248 bytes) x 3
+After /register command send this message: \
+"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin cursus leo vel consectetur ultricies. Proin nec augue quis enim cursus molestie. Etiam varius dolor ut quam ornare sodales. Nunc eu imperdiet tortor. Maecenas non elit quis mauris aliquam vulputate id ac augue. Suspendisse consequat in ante nec porta. Nunc lectus velit, facilisis non libero id, volutpat accumsan sapien. Duis a sodales risus. Duis turpis ante, iaculis a eros sit amet, facilisis interdum tortor. Praesent sagittis tellus vitae ornare cursus. Nulla sed pulvinar libero. Etiam pulvinar accumsan velit a viverra. Maecenas aliquam." 608 bytes
 
 **How it was found:** \
-manual testing with the mentioned input.
+manual testing with the mentioned input to see what happens with long inputs
