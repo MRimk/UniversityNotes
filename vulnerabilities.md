@@ -93,13 +93,13 @@ registration succeeded
 **How it was found:** \
 In the code I noticed limit on the read buffer from stdin, therefore I wanted to try a long password input to see how it is handled. Therefore I generated 256 character string and saw that it was not handled correctly.
 
-<!-- 2 + 1.5 + 1.5 = 5-->
+<!-- 2 + 1.5 + 2 = 5.5-->
 
 ## Vulnerability 4
 
 **Program nummber:** 6
 
-**Type of a vulnerability:** error handling incorrect/malloc/free problem
+**Type of a vulnerability:** other - new users are not able to register
 
 **Impact of a vulnerability:**
 
@@ -109,9 +109,9 @@ In the code I noticed limit on the read buffer from stdin, therefore I wanted to
 - [ ] Data corruption (2pts)
 - [ ] Code execution (2.5pts)
 
-**Cause:** printing client certificates? or malloc problem
+**Cause:** When a new user registers or a user relogs in, they retrieve only part of the messages from the database, but the count of messages is correctly calculated, therefore there is a read out of bounds and the server worker that is in the connection with this user SEGFAULTS.
 
-_Location_:
+_Location_: worker.c get_new_msgs() lines 32-41. Specifically this `for (int i = 0; i < msg_read + priv_msg_count; i++)` traverses db_msgs array out of bounds because there is no check for msg_read + priv_msg_count and maximum amound of messages from the database: msg_read.
 
 **Steps to reproduce:** \
 The conversation of 3 clients was as follows:
@@ -141,11 +141,11 @@ test3
 This means that user is logged in, but the client does not work. New user _test4_ tried to register, received the message "registration succeeded", and the client crashed.
 
 **How it was found:** \
-It was found after testing long messages with 3 users, after having noticed that after 2 messages sent, other messages are showing the certificates of users who are logged in.
+It was found during stress testing - sending random messages with initially 2 users and then adding the 3rd one.
 
 <!--1 + 2.5 + 1 = 4.5 -->
 
-## Vulnerability 9
+## Vulnerability 5
 
 **Program nummber:** 5
 
@@ -169,29 +169,31 @@ The vulnerability was found in the code, and would be abused, according to the t
 **How it was found:** \
 It was found while looking through the client sending a message function, where the goal was to find how the message is safeguarded from being read while on the network.
 
-<!-- +  +  = -->
+<!-- 2 + 1 + 1 = 4 -->
 
 ## Vulnerability 6
 
-**Program nummber:**
+**Program nummber:** 2
 
-**Type of a vulnerability:**
+**Type of a vulnerability:** other - writing a file into a unauthorized directory
 
 **Impact of a vulnerability:**
 
-- [ ] None
+- [x] None - this vulnerability does not impact availability, data integrity or security, but it completes an action that is not supposed to take place.
 - [ ] Loss of availability
-- [x] Data leak
+- [ ] Data leak
 - [ ] Data corruption
 - [ ] Code execution
 
-**Cause:**
-
-_Location_:
+**Cause:** not sanitizing username on the server side. There is an assumption, that the username is only alphanumeric characters, when it is sent to the server, because it does this check in the client side (client.c client_process_command() lines 105-111), but if the client is malicious, i.e. these lines are removed, the server generates client keys with their username (worker.c execute_request() line 282, rsa.c generate_keys() line 85 and 89 `sprintf(command, "openssl genrsa -out clientkeys/%s-private-key.pem 2048 > /dev/null 2>&1", username);`)
 
 **Steps to reproduce:** \
+Create a malicious client by removing lines 105-111 in client.c file, which check if the username has non-alphanumeric characters. \
+Use command `/register ../../.. password` \
+Check the dirrectory, where the 'program' folders are to have the client key pair.
 
 **How it was found:** \
+It was found when I noticed that there is a shell system call with the string formatter in the rsa.c, which uses the username. After trying to use `../` blocks to traverse the path back to unexpected directories, I was not able to do so because of the check for alphanumeric characters. However, this check is on the client side only, thus, after having modified the client to be malicious, I was able to traverse directories on the server side.
 
 <!-- 2 + 2 + 2 = 6 -->
 
@@ -204,12 +206,12 @@ _Location_:
 **Impact of a vulnerability:**
 
 - [ ] None
-- [x] Loss of availability
+- [x] Loss of availability - It is possible to manipulate the tables, such that the server crashes because of SQL error.
 - [ ] Data leak
-- [x] Data corruption
+- [x] Data corruption - Mallory can impersonate a user by injecting values into the database that represent a private message sent by someone else
 - [ ] Code execution
 
-**Cause:** Sanitizing user input for SQL code in the **client**. If this sanitization is disabled, the SQL injection can take place.
+**Cause:** Sanitizing user input for SQL code only in the **client**. If this sanitization is disabled, the SQL injection can take place.
 
 _Location_: client.c client_process_command() lines 148-153:
 
@@ -229,7 +231,7 @@ for (int i = 0; i < strlen(message); i++) {
 `/register abd asd`
 `/register user 123`
 `ap',0,'abd','NULL'); drop table Users;`
-`ap',0,'abd','NULL'); INSERT INTO Messages VALUES(7, 'kill text', 1, 'user', 'user');`
+`ap',0,'abd','NULL'); INSERT INTO Messages VALUES(7, 'fake text', 1, 'user', 'user');`
 
 **How it was found:** \
 Reading the client code I noticed that there is sanitization there, but not on the server side. This meant that there can be SQL injection, thus tried inputs, where the messages were inserted. Since after each SQL injection server crashes, I restarted it, relogged in and found the inserted messages. Also this was checked with sqlite itself - opening chat.db file and confirming that the messages were inserted.
@@ -259,3 +261,51 @@ The vulnerability was found in the code, and would be read, according to the thr
 
 **How it was found:** \
 It was found while looking through the client sending a message function, where the goal was to find how the message is modified before it is written to the socket.
+
+<!-- 2 + 1.5 + 1 = 3 - NOT REALLY HOPEFUL TO FIND  -->
+
+## Vulnerability 9
+
+**Program nummber:** 6
+
+**Type of a vulnerability:** Use-after-free (Double free)
+
+**Impact of a vulnerability:**
+
+- [ ] None
+- [x] Loss of availability - server does not work anymore after double free error.
+- [ ] Data leak
+- [ ] Data corruption
+- [ ] Code execution
+
+**Cause:**
+
+_Location_:
+
+**Steps to reproduce:** \
+
+**How it was found:** \
+
+<!-- 2 + 2 + 1 = 5 -->
+
+## Vulnerability 10
+
+**Program nummber:** 2
+
+**Type of a vulnerability:** shell command injection
+
+**Impact of a vulnerability:**
+
+- [x] None
+- [ ] Loss of availability
+- [ ] Data leak
+- [ ] Data corruption
+- [ ] Code execution
+
+**Cause:** unescapped shell special characters in the username can be used to run an environment variables 
+
+_Location_:
+
+**Steps to reproduce:** \
+
+**How it was found:** \
