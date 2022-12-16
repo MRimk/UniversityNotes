@@ -1,12 +1,15 @@
-<!--Martynas Rimkevicius - curr: 57.5 -->
-
+---
+title: Assignment 2
+author: Martynas Rimkevicius 
+Student ID: 2708302
+---
 # Assignment 2 - Vulnerabilities
 
 <!--2 * 1.5 * 2 = 6-->
 
 ## Vulnerability 1
 
-**Program nummber:** 1 TODO: test whether this is a problem elsewhere as well
+**Program nummber:** 1
 
 **Type of a vulnerability:** authentication error
 
