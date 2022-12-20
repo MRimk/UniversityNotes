@@ -161,7 +161,7 @@ Processes cannot access each other's memory
 
 Vulnerabilities only cross process throygh explicit interfaces (networking, files, inter-process communication)
 
-**Principle of least privilege (POLP)**\
+**Principle of least privilege (POLP)**
 
 _Every program and every privileged user of the system should operate using the least amount of privilege necessary to complete the job_\
 
@@ -248,23 +248,24 @@ Well known hashes: SHA-2, SHA-3, MD5
 
 ## Random numbers
 
-Many crypto algorithms need random numbers. \
-Problem is that CPU is deterministic and it is hard to produce random data. So it should use information from the environment.\
+Many crypto algorithms need random numbers.
+Problem is that CPU is deterministic and it is hard to produce random data. So it should use information from the environment.
 
-That is why pseudorandom number generator is used. It uses a seed which is updated with each new number. \
+That is why pseudorandom number generator is used. It uses a seed which is updated with each new number.
 
-However sequence is often predictable. that is why it is necessary to use cryptographically secure PRNG\
+However sequence is often predictable. that is why it is necessary to use cryptographically secure PRNG
 
 ## Symmetric cryptography
 
 Alice and Bob know the key, Mallory does not.
 
-# I missed some parts
+**One Time pad:**\
+This is a key that is xor'ed with a message and then the message is once again xor'ed with a key to decrypt (works because encm xor k = m xor k xor k = m xor 0 = m)
 
 **Stream cipher**:\
 One time pad rarely practival - huge key size and no key reuse.
 
-Solution: use a PRNG to generate key. Initial seed now becomes the real key, and it is simple and efficient.
+Solution: use a pseudorandom number generator to generate key. Initial seed now becomes the real key, and it is simple and efficient.
 
 **Block ciphers**
 Idea: divide data in blocks, perform computation using key to map each plain block into a cipher block, reverse computation possible with the same key.\
@@ -272,9 +273,9 @@ It is widely used.
 
 **Cipher Block Chaining (CBC)**:\
 Block-by-block encryption is Electronic Codebook. It reveals repetitions, and allows reordering blocks.\
-_Solution_ - make each block edepend on the previous one. For the first block use initialization vector (IV) instead (this should not be reused, doesn't have to be a secret).
+_Solution_ - make each block indedepend on the previous one. For the first block use initialization vector (IV) instead (this should not be reused, doesn't have to be a secret).
 
-How it works: \
+How it works:
 
 - it xors IV with plaintext, and apply the key. That is how we get ciphertext.
 - then use the ciphertext to xor the next plaintext. etc etc
@@ -316,12 +317,12 @@ Due to complex math, computing pr from pu with message requeires writing message
 
 Messages require padding, because if message is short it is not mathematically difficult to decrypt. Padding is random padding, but this is handled by the algortihm itself.
 
-Important notes:\
+Important notes:
 
 - random padding is critical so the ciphertext is different each time
 - RSA only works for data that fits inside the key size, not multiple blocks
 
-Typical use:\
+Typical use:
 
 - generate symmetric key
 - RSA encrypts only symmetric key
@@ -332,7 +333,7 @@ Signing: Alice computes hash(m), encrypts it with her private key d,
 Alice sends m and Ed(hash(m)) to Bob.\
 Verification: Bob determines Alice's pub key, .........
 
-Integrity protected:\
+Integrity protected:
 
 - if Mallory modifies m, the hash is no longer correct
 - .....
@@ -354,7 +355,7 @@ Ways to solve this:
 - use trusted third party to authenticate keys
 
 **Key Distribution Centre - KDC**\
-Have a trusted party T:\
+Have a trusted party T:
 
 - It shares symmetric keys with all others
 - verifies identities of key owners
@@ -363,11 +364,11 @@ E.g.: Alice wants to Bob, so it gets the key from KDC.
 
 Kat/Kbt - key shared between Alice with T/Bob with T \
 Kab - temporary key between Alice and Bob \
-N - random number that is not reused (nonce) \
+N - random number that is not reused (nonce)
 
 Communication is encrypted with Kab.
 
-Process of setup:\
+Process of setup:
 
 1. A -> T, to send message to Bob (A,B)
 2. T -> A, encrypted message that contains Kab, and encrypted message (Alice, Kab), encrypted with Bob's shared key.
@@ -377,7 +378,7 @@ Process of setup:\
 
 This is not an existing protocol, just simplification. In reality it is needed to have more nonces and shared keys, so that replay attack would be prevented. Needham-Shroeder protocol. And on top of this Kerberos protocol is built which is widely used in Windows and Unix.
 
-Kerberos drawbacks:\
+Kerberos drawbacks:
 
 - needs constant access to KDC
 - Single point of failure: availability or all keys can be compromised by an attack
@@ -393,7 +394,7 @@ Compromised CA allow forged certificates.
 
 **X5.09 Certificates**\
 these are used to prove identity was verified.\
-They contain\
+They contain
 
 - identity of holder
 - domain name of holder
@@ -401,7 +402,7 @@ They contain\
 - expiration date
 - signature from CA
 
-Getting a Certificate:\
+Getting a Certificate:
 
 1. Bob creates key pair
 2. Bob creates a certificate signing request including data to be signed (especially the pub key)
@@ -416,10 +417,10 @@ Can be made by anyone, since it saves money but is not trusted by default (doesn
 Programs can be configured to trust specific certificates. It is usefull if pub key can be verified personally.\
 Example of this could be in SSL.
 
-Checking certificate:\
+Checking certificate:
 
 1. server address must match the certificate
-2. srrvers must demonstrate knowledge of private key matching the pub key (e.g decrypt data encrypted with pub key or create signature valid with pub key)
+2. servers must demonstrate knowledge of private key matching the pub key (e.g decrypt data encrypted with pub key or create signature valid with pub key)
 3. certificate must not be expired
 4. signature from CA must be valid
 5. CA must be trusted byt the user
@@ -439,7 +440,7 @@ There can be anyone eavesdropping on HTTP. In ISPs, hackers, governments, etc.
 Secure Socket Layer (SSL) ensures cryptographic protection for a network connection on top of TCP.\
 Any TCP protocol can be modified to support SSL. That is why we use HTTPS.
 
-SSL goals:\
+SSL goals:
 
 - end-to-end encryption that ensures only browser and server can read.
 - typically authenticates the server using X5.09 certificate.
@@ -447,9 +448,7 @@ SSL goals:\
 
 ## Passwords
 
-# MY LAPTOP DIED, GO THROUGH THE SLIDES HERE
-
-How to check certificate validity?:\
+How to check certificate validity?:
 
 - server address must match the certificate
 - server must demostrate knowledge of private key matching public key
@@ -460,57 +459,55 @@ How to check certificate validity?:\
 
 # Conservative Programming
 
-Trying to prevent vulnerabilities.\
+Trying to prevent vulnerabilities.
 
 ## Handling user input
 
 URL is a user input, thus has to be careful - never trust the parameters from user input blindly and verify the user authority for such input.\
 This is risky when handling direct user input, but after storing a message in db, and retrieving it, it still is risky.\
-_Solution_ - sanitization (if something that shouldn't be there, drop/remove), escaping (e.g. SQL input), authorization (only certain user can access such parameters).\
+_Solution_ - sanitization (if something that shouldn't be there, drop/remove), escaping (e.g. SQL input), authorization (only certain user can access such parameters).
 
-**Sanitization**: it is for the things that are illegitimate\
+**Sanitization**: it is for the things that are illegitimate
 
 - verify that data follows the expected structure
 - verify that any values are within reasonable range
 
-Be careful with error messages, such that attacker shouldn't have anything to exploit from information.\
+Be careful with error messages, such that attacker shouldn't have anything to exploit from information.
 
 Name should not probably be of length 1000, or empty strings can cause troubles as well
 
-Name should probably not contain < >\
+Name should probably not contain < >
 
-Verify numbers to be in a reasonable range\
+Verify numbers to be in a reasonable range
 
-Some input may only take values from a specific set\
+Some input may only take values from a specific set
 
-**USE REGEXES** for allowlisting\
+**USE REGEXES** for allowlisting
 
-**Escaping**\
+**Escaping**
 
-characters that have special meanings, this is replaced such that they lose special meaning\
+characters that have special meanings, this is replaced such that they lose special meaning
 
 ## Intrusion detection
 
-Validation might not be sufficient to detect intrusion, because e.g. there can be spam emails.\
+Validation might not be sufficient to detect intrusion, because e.g. there can be spam emails.
 
-The heuristics depend on the context of the system.\
-
-# Skipped a lot in the lecture, internet was shit
+The heuristics depend on the context of the system.
 
 # Questions
 
-1000000 begning files\
+1000000 begning files
 5000 malicious files
 sys A: 5% false positives, 10% false negatives. (false positive - non malicious marked as malicious, false negative - malicious not marked as malicious)\
-sys B: 4% false positives, 50% false negatives.\
+sys B: 4% false positives, 50% false negatives.
 
-Which is more safe?\
-System B.\
+Which is more safe?
+System B.
 
 Why choose another system?\
-Depends on the context - in some cases false positives are important, but if system is vulnerable false negatives could be quite bad.\
+Depends on the context - in some cases false positives are important, but if system is vulnerable false negatives could be quite bad.
 
-What should the server verify before trusting data sent by the client for:\
+What should the server verify before trusting data sent by the client for:
 
 - data to be stored/processed by the server - validation/escaping in the client, but client should be considered untrusted, so it should be on the server.
 - secrets between the client and the server - use trusted third party to verify the secret to prevent the man-in-the-middle attack. Also prevent others to forge the secret.
@@ -526,33 +523,33 @@ There are a lot of programming assumptions. Such as: person's age fits in three 
 
 **Use assert for the assumption that you make**\
 
-If the assumption is violated, there is no need to keep the program running, because the program is no longer safe.\
+If the assumption is violated, there is no need to keep the program running, because the program is no longer safe.
 
-It is also important to document the assumptions, and also check it. It also helps to debug the program.\
+It is also important to document the assumptions, and also check it. It also helps to debug the program.
 
-The assertions can be disabled with -DNDEBUG flag to increase performance, and it is usually done during deployment, but for security purposes it is better to keep them in.\
+The assertions can be disabled with -DNDEBUG flag to increase performance, and it is usually done during deployment, but for security purposes it is better to keep them in.
 
-**Don't make assumptions on:**\
+**Don't make assumptions on:**
 
 - User input
 - data read from disk
 - data received from the network
 
 Order of Operations is a common source of bad assumptions. This is why threading might cause issues:\
-This is because user may give commands in unexpected sequence; Environment may change right after check; thread interleaving can be unexpected; signal may get delivered at bad time (just before blocking call);\
+This is because user may give commands in unexpected sequence; Environment may change right after check; thread interleaving can be unexpected; signal may get delivered at bad time (just before blocking call);
 
 To avoid this - always verify whether system is in expected state before executing command, and fail if it is not.\
-Any interaction with the file system, network, etc, might see different state than the orevious one.\
+Any interaction with the file system, network, etc, might see different state than the orevious one.
 
 # Handling Errors
 
-There are a lot of way for program to have errors. Almost all calls can fail, usually in multiple ways.\
+There are a lot of way for program to have errors. Almost all calls can fail, usually in multiple ways.
 
-System calls is a part of the system, that is out of hour control, therefore it is generally expected that anything can fail.\
+System calls is a part of the system, that is out of hour control, therefore it is generally expected that anything can fail.
 
 ## Error handling goals
 
-Even if an error happens we should ensure:\
+Even if an error happens we should ensure:
 
 - Any resources (memory, open files, mutexes, etc..) are still released.
 - Persistent state (files/databases) remains consistent
@@ -567,7 +564,7 @@ Usually is it also desirable to inform the user and/or log the error for later a
 Terminating immediately leaves no way to clean up resources and persistent state \
 
 ```PHP
-$handle = fopen('myfile.txt', 'r') or die('open fauled');
+$handle = fopen('myfile.txt', 'r') or die('open failed');
 ```
 
 Ignoring is easy in C but means state will be inconsistent with expectations, which may threaten security\
@@ -579,7 +576,7 @@ fread(buf, sizeof(buf), 1, file); // buf uninitialized
 
 Bash is one of the languages that ignores errors and continues execution, which might lead to some big problems\
 
-Functions report errors by: return value (C, PHP, UNIX API, Windows API); Excpetion (C++, C#, Java, Javascript, Python); Error code in memory (many third-party libraries)\
+Functions report errors by: return value (C, PHP, UNIX API, Windows API); Excpetion (C++, C#, Java, Javascript, Python); Error code in memory (many third-party libraries)
 
 Handling errors is hard:
 
@@ -587,15 +584,15 @@ Handling errors is hard:
 - number of error handling paths grows quickly with number of calls that may fail
 - each path produces a different path which might complicate cleanup
 
-Example of unnoticed problem:\
+Example of unnoticed problem:
 
 ```C
 *pwd_p = (char *)sqlite3_column_text(stmt, 0);
 ```
 
-This points to some memmory in sqlite, ie statement object owns memory buffer storing string. This might get deallocated before use (use after free problem).\
+This points to some memory in sqlite, ie statement object owns memory buffer storing string. This might get deallocated before use (use after free problem).
 
-To solve this we should make a copyt of the string:\
+To solve this we should make a copyt of the string:
 
 ```C
 *pwd_p = strdup((char *)sqlite3_column_text(stmt, 0));
@@ -605,7 +602,7 @@ To solve this we should make a copyt of the string:\
 Initializing reference parameters is one example of more general problem: consistency of state.\
 State is inconsistent when values are not what code expects them to be; Example - count inconsistent with number of entries in the list;
 
-Before returning error code:\
+Before returning error code
 
 - Think of all changes you made that affect program's state
 - Reverse those changes to keep the state.
@@ -614,18 +611,18 @@ Before returning error code:\
 
 handling error codes gets messy quickly.
 
-**Exceptions** provide a better alternative in most languages\
+**Exceptions** provide a better alternative in most languages
 
-**Exception handling**\
+**Exception handling**
 
-Whenever an exception is thrown, execution continues at the exception handler of the most recent open try block\
+Whenever an exception is thrown, execution continues at the exception handler of the most recent open try block
 
 - try block may be in another function
 - code between exception throw and exception handler might not be executed
 
-Cleanup is easier when handling exceptions because of catch blocks, or finally calls. It is nicer to have RAII practice in C++ (return call calls the destructor of an object)\
+Cleanup is easier when handling exceptions because of catch blocks, or finally calls. It is nicer to have RAII practice in C++ (return call calls the destructor of an object)
 
-Exceptions can alter control flow on any call\
+Exceptions can alter control flow on any call
 
 # Memory management
 
@@ -677,8 +674,8 @@ In C++ it is important which class inherits which. (e.g. ClassB and ClassC inher
 
 Memory access is type-unsafe if the value is read as another type than it was written\
 This usually happens due to incorrect typecasts.\
-In C there are no checking for typecasts. In C++ there is a dynamic*cast (it is slow) which ensures type safety.\
-\_Advice* don't use casts if possible, and prefer dynamic_casts
+In C there are no checking for typecasts. In C++ there is a dynamiccast (it is slow) which ensures type safety.\
+_Advice_ don't use casts if possible, and prefer dynamicCasts
 
 **Object lifetime**
 
@@ -749,7 +746,7 @@ but even with this, it can miss, for example, out-of-bounds error
 
 **Dynamic Analysis**
 
-attempts to find buges at runtime - looks for undefined behaviour and kills the program
+attempts to find bugs at runtime - looks for undefined behaviour and kills the program
 
 this is inconvenient since you need explicit test cases
 
@@ -869,7 +866,7 @@ _Solution_ - need to flip branches
 
 Use dynamic taint analysis - mark user input as tainted. Then propagate taint and track how it works.
 
-Dynamic taint alaysis
+**Dynamic taint analysis**
 
 Benefits \
 targeted mutations, fewer attempts needed to flip branch
@@ -1024,8 +1021,6 @@ Pointer is just an integer storing a memory address. \
 the x86_64 arch stores pointers as 64bit integers. However it uses only 48 least significant bits are actually used. The 16 msb are null bytes (warning). \
 However x86_64 arch is little endian - lsb is stored first (looks reversed). This means the null bytes of the pointer are stored at the end, which is good.
 
-# 2 Lectures skipped - web security
-
 ## Questions (Web security)
 
 Q1: You add security checks to ensure user-submitted content can only be retrieced by the same user that submitted it. This completely mitigates stored XSS attacks - True. If we submit the content ourselves, it will be stored for us and only sent back to use. Hence, we cannot unject js in other users' sessions, and there is no point in doing so in our own.
@@ -1130,4 +1125,3 @@ encryption - detect and decrypt, and have the final answer.
 
 **Q6**\
 with small information talk about the web security vulnerabilities.
-
