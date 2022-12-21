@@ -432,7 +432,7 @@ This is known as &quot;attack surface&quot;. Program defense is more effective w
 <p>Applications often naturally consist of compartments (client, server, db). Usually attacker aims for the most data-ful compartment, but all compartments should be secured.</p>
 <p>Processes cannot access each other&apos;s memory</p>
 <p>Vulnerabilities only cross process throygh explicit interfaces (networking, files, inter-process communication)</p>
-<p><strong>Principle of least privilege (POLP)</strong>\</p>
+<p><strong>Principle of least privilege (POLP)</strong></p>
 <p><em>Every program and every privileged user of the system should operate using the least amount of privilege necessary to complete the job</em>\</p>
 <p>If a web-server is compromised. Solution is to drop privileges.</p>
 <p>Databases - if a program can execute arbitrary SQL queries on the db, it does not serve as a separate component.</p>
@@ -501,25 +501,25 @@ Hash is a secure way to verify a message.</p>
 <p>Well known hashes: SHA-2, SHA-3, MD5</p>
 <h2 class="mume-header" id="random-numbers">Random numbers</h2>
 
-<p>Many crypto algorithms need random numbers. <br>
-Problem is that CPU is deterministic and it is hard to produce random data. So it should use information from the environment.\</p>
-<p>That is why pseudorandom number generator is used. It uses a seed which is updated with each new number. \</p>
-<p>However sequence is often predictable. that is why it is necessary to use cryptographically secure PRNG\</p>
+<p>Many crypto algorithms need random numbers.<br>
+Problem is that CPU is deterministic and it is hard to produce random data. So it should use information from the environment.</p>
+<p>That is why pseudorandom number generator is used. It uses a seed which is updated with each new number.</p>
+<p>However sequence is often predictable. that is why it is necessary to use cryptographically secure PRNG</p>
 <h2 class="mume-header" id="symmetric-cryptography">Symmetric cryptography</h2>
 
 <p>Alice and Bob know the key, Mallory does not.</p>
-<h1 class="mume-header" id="i-missed-some-parts">I missed some parts</h1>
-
+<p><strong>One Time pad:</strong><br>
+This is a key that is xor&apos;ed with a message and then the message is once again xor&apos;ed with a key to decrypt (works because encm xor k = m xor k xor k = m xor 0 = m)</p>
 <p><strong>Stream cipher</strong>:<br>
 One time pad rarely practival - huge key size and no key reuse.</p>
-<p>Solution: use a PRNG to generate key. Initial seed now becomes the real key, and it is simple and efficient.</p>
+<p>Solution: use a pseudorandom number generator to generate key. Initial seed now becomes the real key, and it is simple and efficient.</p>
 <p><strong>Block ciphers</strong><br>
 Idea: divide data in blocks, perform computation using key to map each plain block into a cipher block, reverse computation possible with the same key.<br>
 It is widely used.</p>
 <p><strong>Cipher Block Chaining (CBC)</strong>:<br>
 Block-by-block encryption is Electronic Codebook. It reveals repetitions, and allows reordering blocks.<br>
 <em>Solution</em> - make each block edepend on the previous one. For the first block use initialization vector (IV) instead (this should not be reused, doesn&apos;t have to be a secret).</p>
-<p>How it works: \</p>
+<p>How it works:</p>
 <ul>
 <li>it xors IV with plaintext, and apply the key. That is how we get ciphertext.</li>
 <li>then use the ciphertext to xor the next plaintext. etc etc</li>

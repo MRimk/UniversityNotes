@@ -618,7 +618,7 @@ Some history: \
 First attempt to make networks programmable was demultiplexing packets to software programs (active networking). This was done by inserting a snipet of code into the packet header, router would extract it and would apply the behaviour. Or the other way is to inject some code into the router before the packet. \
 Evolution from that was separation of control/data planes. Example: Ethane - flow-based switching with centralized control for enterprise.
 
-**Software defined network** - thake the control plane and separate it from the data plane. Also centralize the control plane that would control several forarding devices.
+**Software defined network** - take the control plane and separate it from the data plane. Also centralize the control plane that would control several forwarding devices.
 
 With this concept there can be a network arch, where data plane has boxes that is taking care only of data plane, but they have control channels to the centralized control network OS running control programs.
 
@@ -631,7 +631,7 @@ To realize this we need:
 **Abs#1** \
 Interface between forwarding blocks and network OS. This does not care about the way the match+action is implemented, but cares that it works. \
 OpenFlow is current proposal for forwarding: standardized interface to switch, configuration in terms of flow entries, and no hardware modifications needed. Specifies how the OpenFlow switches communicate with network OS and vice versa. Match+action is great because by specifying any type of header to match on, any actions (that are supported) can be taken \
-Benefits of this - switches are much cheaper, and no vendro lock-in
+Benefits of this - switches are much cheaper, and no vendor lock-in
 
 **Abs#2** \
 Gives global network view - annotated network graph provided through an API. Control program: Configuration = Function(View) \
@@ -648,7 +648,7 @@ So far it is assumed that all the nodes are under the same authority. In between
 ## 9.2. SDN use case - network slicing
 
 **Network testing** - it is an interesting problem because it is hard to show that the new solution works. \
-Solutions for that is to have a hardware testber (but it is expensive and small scale because of NetFPGA), software testbed (can be large-scale (emulation), but performance is slow (CPU-based), no realistic topology and hard to maintain, wild test it on the internet (convincing network operators to try something new is very hard)). \
+Solutions for that is to have a hardware testbed (but it is expensive and small scale because of NetFPGA), software testbed (can be large-scale (emulation), but performance is slow (CPU-based), no realistic topology and hard to maintain, wild test it on the internet (convincing network operators to try something new is very hard)). \
 Therefore network testing is very problematic.
 
 One _solution_ - **network slicing**.
@@ -666,8 +666,8 @@ _Problem_ - in order to create slicing, you need to modify each and every router
 
 However OpenFlow interfaces has control mechanisms abstractions such that you don't need to modify switch, but add a FlowVisor intermediate entity which decides on slicing logic and then forward the control instructions from respective controller.
 
-Slicing policies - each slicing policy can specifiy the resource limir for each slice: link bandwtich, max number of forwarding rules, topology, fraction of switch/router CPU. \
-Also needs to have FlowSpaces - which packet does the slice control? - maps packts to slices according to their "classes" defined by the packet header fields.
+Slicing policies - each slicing policy can specifiy the resource limit for each slice: link bandwtich, max number of forwarding rules, topology, fraction of switch/router CPU. \
+Also needs to have FlowSpaces - which packet does the slice control? - maps packets to slices according to their "classes" defined by the packet header fields.
 
 Real user traffic - opt in \
 Bob's experimental slice: all HTTP traffic to/from users who opted in (allow: tcp_port=80 and ip=user_ip) \
@@ -732,9 +732,9 @@ Bisection bandwith: the minimum bandwidth of the links that divide the network i
 
 Full bisection bandwidth: nodes in one half can communicate to the other half in this bandwidth (?)
 
-### 10.1.3. Oversubscription ration
+### 10.1.3. Oversubscription ratio
 
-Ratio of worst-case required aggregate bandwidth to the total uplink bandwidth of a network device. - Abilityt of hosts to fully utilize its uplink capabilities.
+Ratio of worst-case required aggregate bandwidth to the total uplink bandwidth of a network device. - Ability of hosts to fully utilize its uplink capabilities.
 
 Oversubscription ratio 1:1 means that all hosts can use full uplink capacity.
 
@@ -763,7 +763,7 @@ Fat-tree scalability -
 
 Challenges with fat-tree:
 
-- routing algorithms (such as OSPF) will naively choose a single shortest path to use between subnets (even though there are plenty of other minimal paths). this leads to bottleneck quickly, in theory (k/2)^2 shortest paths available but only one will be used
+- routing algorithms (such as OSPF) will naively choose a single shortest path to use between subnets (even though there are plenty of other minimal paths). this leads to bottleneck quickly, in theory (k/2)^2^ shortest paths available but only one will be used
 - complex writing to lack of high-speed ports
 
 **Addressing in fat-tree**
@@ -777,7 +777,7 @@ Prefix matching on pod traffic, suffix matching on inter pod matching
 
 Each host-to-host communication has a single static path. - this introduces a problem that a single path can be overutilized, and the rest can be underutilized.
 
-This is colled flow collistion.
+This is colled flow collision.
 
 _Solution_ to flow collisions:
 
@@ -788,7 +788,7 @@ _Solution_ to flow collisions:
 
 ususally in TCP AIMD, we do slowstart and then do timeout, again slowstart and do additive increase later
 
-**TCP incast problem** - data center application runs on multiple servers, and they use a scatter-gather work patter (scatter - a client sends a request to a bunch of servers for data, gather- all servers respond to the client). More broadly, a client-facing query might have to collect data to many servers.
+**TCP incast problem** - data center application runs on multiple servers, and they use a scatter-gather work pattern (scatter - a client sends a request to a bunch of servers for data, gather- all servers respond to the client). More broadly, a client-facing query might have to collect data to many servers.
 
 From switch POV: \
 first, the scatter will send the request to different servers \
@@ -804,7 +804,7 @@ Solutions:
 - use fake timeouts
 - ~someting~
 
-what cane we do to do better: \
+what can we do to do better: \
 in essence you don't wnat to overenginneer the system, and make limitted solutions.
 
 ### 10.3.1. What if we avoid packet drops?
