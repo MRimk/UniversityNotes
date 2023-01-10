@@ -1,4 +1,4 @@
-<!-- markdownlint-disable MD010 MD041 MD001 MD036 MD029-->
+<!-- markdownlint-disable MD010 MD041 MD001 MD036 MD029 MD007-->
 
 # Compiler Construction
 
@@ -40,7 +40,7 @@ If the analysis and synthesis are separated, there has to be L \* M compilers
 
 Intermediate code can be abstract syntax tree (AST) which is constructed from the grammar.
 
-### Parser
+### Parser's purpose
 
 To produce AST:
 
@@ -98,3 +98,98 @@ pattern: describes how the token looks.
 lexeme: string that matches the pattern
 
 Example: pos = init + r \* 60 => < id, pos > < = > < id, init > < + > < id, r > < \* > < 60 >
+
+### Parser
+
+Goal: translate tokens to AST
+
+Example:
+
+```C
+while(a != 0){
+    printf("%d",a);
+    a = a - 1;
+}
+```
+
+AST:
+
+- while
+  - !=
+    - var a
+    - const 0
+  - block
+    - call
+      - printf...
+
+Steps:
+
+1. Given a CFG for the language
+2. for some string s construct a derivation of s
+3. from derivation construct AST
+
+Example:
+s -> e + s | e
+e -> number | (s)
+Derive (1 + 2 + (3 + 4)) + 5
+
+s -> e + s -> (s) + s -> (e + s) + s -> (1 + s) + 5 -> (1 + e + s) + 5 -> (1 + 2 + (s)) + 5 -> (1 + 2 + (e + s)) + 5 -> (1 + 2 + (3 + 4)) + 5
+
+What is a derivation:
+
+1. start from s
+2. apply productions until we get sentence
+3. For arbitrary alpha, beta, gamma and production A -> beta, a single derivation step subtitutes _alpha A gamma_ with _alpha beta gamma_
+
+### Parse tree
+
+- leaves are terminals
+- inner nodes are non-terminals
+- no information about the derivation order
+
+Rules:
+
+- Grammar G = (N, Sigma, P, S)
+- root labeled with S
+- leaf is labeled with a c Sigma
+- interior nodes are labeld with a c N
+- if interior node is labeled with A and children Beta1, ..., Betan then (A -> Beta1 ... Betan) is a production
+- string formed by leaves is called yield
+
+### Parse tree vs AST
+
+Parse tree is concrete syntax tree, whereas AST is abstract syntax tree
+
+Compute AST by deleting information from parse tree
+
+### Derivation order
+
+for production A -> B, replace alpha A gamma by alpha beta gamma
+
+there are different orders:
+leftmost, rightmost
+
+Usually the parse tree will be the same if grammar is not ambiguous.
+
+A grammar G is **ambiguous** if for some s c L(G), there are two diffrent parse-trees.
+
+Eliminating ambiguity:
+disambiguate by adding more non terminals
+
+Example: 1 + 2 \* 3
+it was: s -> s + s | s \* s | number
+
+Now:
+s -> s + t | t
+t -> t \* num | num
+
+Example of ambiguous grammar:
+S -> if(E) S
+S -> if(E) S else S
+
+statement: if(E1) if(E2) S1 else S2, we don't know to which if we have to match.
+
+unambiguated:
+
+- split into matched and unmatched statement: S -> matched | unmatched
+- and no unmatched grammar between if ... else
