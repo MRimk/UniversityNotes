@@ -6,11 +6,10 @@
 
 ## Penalties
 
-1. **Bathroom break** - going to the bathroom will result with a **+2** for the team
-2. **Falling down** - tripping and falling down will result with a **+2** for the team
-3. **Cheating** - trying to spill a drink or somehow cheat results with a **+5** for the team
-4. **Skip** - skipping a hole results with a **+2**
-5. **Spillage is lickage** - if the drink is spilled, the team receives **+1** unless the person who spilled the drink licks up the drink.
+1. **Falling down** - tripping and falling down will result with a **+2** for the team
+2. **Cheating** - trying to spill a drink or somehow cheat results with a **+5** for the team
+3. **Skip** - skipping a hole results with a **+2**
+4. **Spillage is lickage** - if the drink is spilled, the team receives **+1** unless the person who spilled the drink licks up the drink.
 
 ## Drinks and pars
 

@@ -193,3 +193,34 @@ unambiguated:
 
 - split into matched and unmatched statement: S -> matched | unmatched
 - and no unmatched grammar between if ... else
+
+### Questions
+
+Grammar G:
+A -> (B) | !
+B -> A | AB | empty
+
+_Q1_: is G ambiguous?
+Yes, because there can be two different parse trees. Argument: (()).
+Derivation 1: A -> (B) -> (A) -> ((B)) -> (())
+Derivation 2: A -> (B) -> (AB) -> ((B)B) -> (()B) -> (())
+If there are transitions that give choice (in this case B -> A or B -> AB (where B is empty)), it leads to ambiguity.
+
+_Q2_: Why are ambiguous grammars bad?
+If the grammar is ambiguous, and it might change the order of execution from what is intended. And because the parsers become non-deterministic
+
+_Q3_: What happens, if we use a recursive descent parser in G?
+Because the grammar is ambiguous, it will pick the first match (A), thus does not cover the other case (AB). But if the grammar is commuted B -> AB | A | empty
+
+_Q4_: What are First(A), First(B), Follow(A), Follow(B)?
+First(A) = {!, (}
+First(B) = {!, (, empty}
+Follow(A) = {EOF, !, (, empty, )}
+Follow(B) = {EOF, !, (, )}
+
+_Q5_: What are these sets good for?
+First(A) is a set of elements that A is responsible in the string.
+In the LL(1), it looks ahead to see what is each derivation responsible for in the string.
+
+_Q6_: Is G in LL(1)?
+LL(1) means that there is a top-down symbol and the leftmost symbol will be expanded first, and there is only **1** lookahead.
