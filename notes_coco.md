@@ -224,3 +224,38 @@ In the LL(1), it looks ahead to see what is each derivation responsible for in t
 
 _Q6_: Is G in LL(1)?
 LL(1) means that there is a top-down symbol and the leftmost symbol will be expanded first, and there is only **1** lookahead.
+
+## Lecture 3
+
+## Lecture 5
+
+### LLVM IR
+
+LLVM combines low-level control (like assembly) and high-level information such as types.
+
+_Q_: How is LLVM different/similar to assembly?
+Assembly does not have static single assignment, unlimited registers.
+Low-level aspects: it depends on the assembly. If assembly is RISC ISA, then there is RISC-like address codes; simple, low-level control flow structs.
+
+_Q_: How is LLVM different/similar to C?
+Types, etc.
+
+_Q_: what is the difference between a LLVM register and a LLVM "variable"?
+All registers are understood as variables, thus typically they are the same, but sometimes there it was meant to be global variable, instead of just a variable.
+
+_Q_: can compilation on different targets result in different LLVM IR outputs?
+LLVM IR is, in theory, target independent, so no. This can be interpreted that the syntax is language and target independent.
+However, target-specific optimization can still be in the middle-end, since it is sometimes easier to do that rather than doing it in the backend. Target-dependent libraries or inline code (as in if x86 arch do this, if ARM do this) also means that there can be different resulting outputs. Inline assembly can affect the resulting code. The frontend could do target-specific things, such as integers can be unspecified length, and if the system, for example, is not 64bit i64 could not be used.
+
+_Q_: how are arrays and structs different than C?
+Explicit 0 initializer in global variables.
+Pointers and arrays in LLVM are different things, because LLVM cares about explicit types. And array in LLVM is not an integer, thus not a pointer.
+Structs are similar to C, but field names are not preserved.
+If a C union is complied with LLVM IR, then frontend would need to specifically cast each time, the union part if accessed.
+
+Module in LLVM:
+it depends. (C module is like a file with .c or a header file).
+However, in LLVM at compile time module is the individual C files, and in LLVM link time module takes the necessary modules and make a single module that is made out of those, thus representing the whole program.
+
+_Q_: How many times a typical GEP instruction access memory?
+it does not. (getelementptr is doing type element-aware pointer arithmetic)
