@@ -200,29 +200,29 @@ Grammar G:
 A -> (B) | !
 B -> A | AB | empty
 
-_Q1_: is G ambiguous?
+_Q1_: _is G ambiguous?_
 Yes, because there can be two different parse trees. Argument: (()).
 Derivation 1: A -> (B) -> (A) -> ((B)) -> (())
 Derivation 2: A -> (B) -> (AB) -> ((B)B) -> (()B) -> (())
 If there are transitions that give choice (in this case B -> A or B -> AB (where B is empty)), it leads to ambiguity.
 
-_Q2_: Why are ambiguous grammars bad?
+_Q2_: _Why are ambiguous grammars bad?_
 If the grammar is ambiguous, and it might change the order of execution from what is intended. And because the parsers become non-deterministic
 
-_Q3_: What happens, if we use a recursive descent parser in G?
+_Q3_: _What happens, if we use a recursive descent parser in G?_
 Because the grammar is ambiguous, it will pick the first match (A), thus does not cover the other case (AB). But if the grammar is commuted B -> AB | A | empty
 
-_Q4_: What are First(A), First(B), Follow(A), Follow(B)?
+_Q4_: _What are First(A), First(B), Follow(A), Follow(B)?_
 First(A) = {!, (}
 First(B) = {!, (, empty}
 Follow(A) = {EOF, !, (, empty, )}
 Follow(B) = {EOF, !, (, )}
 
-_Q5_: What are these sets good for?
+_Q5_: _What are these sets good for?_
 First(A) is a set of elements that A is responsible in the string.
 In the LL(1), it looks ahead to see what is each derivation responsible for in the string.
 
-_Q6_: Is G in LL(1)?
+_Q6_: _Is G in LL(1)?_
 LL(1) means that there is a top-down symbol and the leftmost symbol will be expanded first, and there is only **1** lookahead.
 
 ## Lecture 3
@@ -233,21 +233,21 @@ LL(1) means that there is a top-down symbol and the leftmost symbol will be expa
 
 LLVM combines low-level control (like assembly) and high-level information such as types.
 
-_Q_: How is LLVM different/similar to assembly?
+_Q_: _How is LLVM different/similar to assembly?_
 Assembly does not have static single assignment, unlimited registers.
 Low-level aspects: it depends on the assembly. If assembly is RISC ISA, then there is RISC-like address codes; simple, low-level control flow structs.
 
-_Q_: How is LLVM different/similar to C?
+_Q_: _How is LLVM different/similar to C?_
 Types, etc.
 
-_Q_: what is the difference between a LLVM register and a LLVM "variable"?
+_Q_: _what is the difference between a LLVM register and a LLVM "variable"?_
 All registers are understood as variables, thus typically they are the same, but sometimes there it was meant to be global variable, instead of just a variable.
 
-_Q_: can compilation on different targets result in different LLVM IR outputs?
+_Q_: _can compilation on different targets result in different LLVM IR outputs?_
 LLVM IR is, in theory, target independent, so no. This can be interpreted that the syntax is language and target independent.
 However, target-specific optimization can still be in the middle-end, since it is sometimes easier to do that rather than doing it in the backend. Target-dependent libraries or inline code (as in if x86 arch do this, if ARM do this) also means that there can be different resulting outputs. Inline assembly can affect the resulting code. The frontend could do target-specific things, such as integers can be unspecified length, and if the system, for example, is not 64bit i64 could not be used.
 
-_Q_: how are arrays and structs different than C?
+_Q_: _how are arrays and structs different than C?_
 Explicit 0 initializer in global variables.
 Pointers and arrays in LLVM are different things, because LLVM cares about explicit types. And array in LLVM is not an integer, thus not a pointer.
 Structs are similar to C, but field names are not preserved.
@@ -257,5 +257,61 @@ Module in LLVM:
 it depends. (C module is like a file with .c or a header file).
 However, in LLVM at compile time module is the individual C files, and in LLVM link time module takes the necessary modules and make a single module that is made out of those, thus representing the whole program.
 
-_Q_: How many times a typical GEP instruction access memory?
+_Q_: _How many times a typical GEP instruction access memory?_
 it does not. (getelementptr is doing type element-aware pointer arithmetic)
+
+## Optimizations
+
+Most optimizations are at IR level, but some can be in the frontend.
+
+Regular LLVM does not have High and Low IR for now.
+
+Optimization - code transformation where space and/or time are improved.
+
+Code optimizations must be safe - they preserve the meaning of the program, and must be left unoptimized if cannot prove correctness.
+
+Ultimate goal - optimize program hot spots, which is mostly loops, functions, etc.
+
+_Q_ _how does inlining work in presence of recursion? And in presence of indirect calls?_
+If the depth is known then it can be unwrapped, but usually just give up. For the indirect calls, if the function pointer is constant, ie we can know that the pointer points to a function, then we can do inlining. It is possible to have indirect call that does indirect call promotion, such that indirect call is translated to multiple direct calls, where it can jump to correct inlined code according to the pointer value.
+
+Function cloning - function can be cloned and a special edition is created for the use.
+
+_Q_ - _Cloning and inlining similarities/differences?_
+Similarities: duplicating code and specializing the code sides, such that later those parts are optimized.
+Difference: with cloning the call is still there, with cloning the code can increase more than inlining (but it can be otherwise still; usually cloning produces smaller code than inlining only because we clone iff it is known that there is advantage for the optimization).
+
+_Q_ _what optimization passes are needed to optimize the following code away (assume x and y are dead at the end of the snippet)?_
+
+```C
+int x = INT_MAX - 1;
+int y = x;
+if (y < 0)
+  printf("Oops!")
+```
+
+1. Constant folding - calculate INT_MAX - 1
+2. Constant propagation on x => y = INT_MAX - 1
+3. Constant propagation on y (to if condition)
+4. Arithmetic simplication into false (INT_MAX - 1 is not < 0)
+5. Unreachable code elim (inside of if)
+6. Dead code elimination (x and y are dead)
+
+**Loop-invariant code elimination** - if the result of statement/expression does not change during the loop and there are no externally visible side effects, it can be moved out of the loop
+
+**Induction variable elimination** - eliminate other variable to leave just one induction variable that is used
+
+**Loop unrolling** - execute loop body multiple times at each iteration. It faces the same problem like inlining, since what is the limit of how many lines is good amount of lines.
+
+_Q: which of the loop optimizations considered can benefit from a profile-guided optimization strategy?_
+After getting the profiling, there is a profile-guided strategy.
+Loop-invariant code motion benefits if the fast-path (indirect code promotion) and then uses the invariant code, otherwise does not use invariant code.
+Induction Variable Elimination - we just use speculative optimizations, ie if therer is some uncertainty that cannot be resolved by static analysis, based on speculation, there can be a decision made.
+Loop unrolling - profiling helps to get a better estimation of the unrolling cost. Find the amount of times the loop runs (trip count), and find the optimal number that can be unrolled. Find if there are other loops elsewhere in the code, ie find whether it is a hotspot or not (thus if it needs to be bloated or not).
+
+Statically trip count can be found if it is constant, constant variable, or after the constant propagation, or there is an invariant. When the exact value is known, the loop can be removed and the loop body is copy pasted. However, this is dependant if the trip count is not too big.
+
+Liveness idea: we want to know what is dead in the future such that we do not have it now.
+
+_Q it takes many scanse to reach convergence with oir fixed-point algorithm, can we make the infividual scans more efficient?_
+Skip applying formulas for every point.
