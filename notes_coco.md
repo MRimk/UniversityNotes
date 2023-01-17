@@ -331,3 +331,13 @@ _Q Can we replace PHI Nodes with Select instructions?_
 We can insert additional information in the blocks to say from which block we came from. We can cheat SSA by passing register SSA by storing information in memory and then loading the var.
 Assuming we don't want to cheat SSA with memory. We can do that by extracting the variable from the condition and assigning the value of select. This is what happens in LLVM compiler where if assignments get flattened to selects.
 However, this replacement can work for simple if statements, for example, in the for loops, which we cannot unwrap, we have to use the PHI nodes.
+
+## LLVM Passes
+
+Hierarchy: Module -> Functions -> BasicBlocks -> Intructions
+
+Types of passes: (we get more points if we pick correct pass - most restrictive that works)
+
+1. ModulePass - least restrictive pass
+2. FunctionPass - cannot create or remove functions
+3. LoopPass - calls pass for every loop
