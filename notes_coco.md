@@ -315,3 +315,19 @@ Liveness idea: we want to know what is dead in the future such that we do not ha
 
 _Q it takes many scanse to reach convergence with oir fixed-point algorithm, can we make the infividual scans more efficient?_
 Skip applying formulas for every point.
+
+### Copy propagation
+
+Goal - determine copies available at each program point
+
+_Q why is the pre-order used for the fixed point analysis rather than post-order like in liveness?_
+Here the order does not matter since convergence is not affected and is still correct, but speed is affected. This is different to the liveness analysis, where order is important since we are looking into the future if it is used
+
+### Data-flow analysis
+
+Structured framework to have these analysis passes. They would have transfer functuons, where forward and backward analysis is transfered to/from in/out.
+
+_Q Can we replace PHI Nodes with Select instructions?_
+We can insert additional information in the blocks to say from which block we came from. We can cheat SSA by passing register SSA by storing information in memory and then loading the var.
+Assuming we don't want to cheat SSA with memory. We can do that by extracting the variable from the condition and assigning the value of select. This is what happens in LLVM compiler where if assignments get flattened to selects.
+However, this replacement can work for simple if statements, for example, in the for loops, which we cannot unwrap, we have to use the PHI nodes.
