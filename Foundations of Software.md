@@ -104,4 +104,3 @@ Stuck terms model run-time errors.
 ### Multi-step evaluation
 
 The **multi-step evaluation** relation $\rightarrow*$ is the reflexve, transitive closure of single-step evaluation.
-

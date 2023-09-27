@@ -120,7 +120,7 @@ Secret key:
 - ordered choice of alpha, beta gamma in S of pairwise different permutations
 - a number a
 
-Encryption: yi = σ −1 ◦ αi−1 ◦ βi−1 ◦ γi−1 ◦ π ◦ γi3 ◦ βi2 ◦ αi1 ◦ σ(xi)
+Encryption: $y_i = σ_{−1} ◦ α_{i−1} ◦ β_{i−1} ◦ γ_{i−1} ◦ π ◦ γ_{i3} ◦ β_{i2} ◦ α_{i1} ◦ σ_{xi}$
 where i3 i2 i1 are the last three digits of the basis 26
 numeration of i + a.
 
@@ -147,3 +147,142 @@ Security should not rely on the secrecy of the cryptosystem itself
 WHY? - the adversary may get some information about the system (e.g. reverse engineer)
 WHAT DOES IT MEAN? - security analysis starts with the assumption that adversary knows the cryptosystem
 DOES NOT MEAN - cryptosystem must be public.
+
+### Law 2: scalability - the n^2 problem
+
+in a network of n users, there is a number of potential pairs of users within the order of magnitude of n^2
+
+We cannot assume that every pair of users share a secret key
+We must find a way for any pair of users to establish a secret key
+
+### Law 3: Moore law
+
+the speed of CPUs doubles ever 18-24 months.
+
+We should wonder how long a system must remain secure
+We must estimate the speed of CPU at the end of its period
+
+### 128-bit key
+
+Possible key combinations - 2^128 (39 digit number)
+
+It is impossible to do an exchaustive search.
+
+In 2007, a standard PC could test 10^6 keys per second
+To run exhaustive search within 14 billion years we need 770 000 bilion 2007-PCs
+
+if the Moore law goes on, a single 2215-PC will do it in a second
+
+## Two Revolutions
+
+Communication - information theory, mass communication (radio) -> we need standard crypto
+
+Computing - computer science, automata -> adversaries have more power
+
+## XOR
+
+Bit-wise exclusive or.
+
+Due to its properties forms a commutative group.
+
+### Vernam cipther
+
+Message is passed through a key with xor, and then decrypted with the same key with xor. $(X \oplus K) \oplus K = X \oplus (K \oplus K)$
+
+This cipher was tried to be published in 1918 (only published in 1926), because it was deemed that the WW is over.
+
+We use a uniformly distributed random key K.
+Every message X requires a new K of same size (one-time pad)
+
+Q: When is it insecure?
+
+1. When using the same key twice: $Y_1 = X_1 \oplus K$ and $Y_2 = X_2 \oplus K$. We xor those numbers and we get (by applying distributivity and commutativity) xor of plaintext: $Y_1 \oplus Y_2 = X_1 \oplus X_2$.
+   The same way it could be used for visual cryptography. And in visual crypto it can be seen clearer why it is possible to deduce what are those plaintexts (plain images) when they are xor'ed.
+2. if K is smaller than X. only the left part wil be encrypted and the right part will stay the same.
+3. if K is not uniformly distributed. $Pr[K = k] high \implies Pr[X = y \oplus k] high$
+
+Due to one-time use, in most cases it does not make sense to use this.
+But provides perfect security
+
+Makes sense to prepare emergency communication (red telephone) - keys are exchanged (through slow channels) before the messages to transmit are known
+
+bad news for other applications - there is essentially no better cipher with this strong security property
+
+#### Intuition on perfect security
+
+if the adversary gets Y = y then for any x:
+$$Pr[X = x | Y = y] = Pr[X = x | X \oplus K = y] = Pr[X = x]$$
+
+because $X$ and $X \oplus K$ are statisticaly independent $\implies$ the adversary gets no information about X in knowing that Y = y
+
+#### Abelian group
+
+Set of G together with a mapping from G x G to G which maps (a,b) to an element denoted a + b
+
+1. [closure]
+2. [associativity]
+3. [neutral element]
+4. [invertability]
+5. [commutativity] (only in Abelian groups)
+
+E.g.
+$\Z$ with regular addition
+$\{0, 1\}^2$ with $\oplus$
+$\{0,1,...,n-1\}$ with $(a,b) \rightarrowtail \begin{cases}
+    a+b\ \text{if}\ a+b < n \\
+    a+b-n\ otherwise
+\end{cases}$
+
+#### Useful lemma to prove security
+
+**Lemma**: Let X and K be two independent random variables in a given group. If K is uniformly distributed, then Y = K + X is uniformly distributed and independent from X.
+
+**Proof**
+For any x and y:
+$$Pr[X = x, Y = y] = Pr[X = x, K = y - x]$$
+
+$$= Pr[X=x] \times Pr[K = y - x]$$
+
+$$= Pr[X=x] \frac{1}{\# group}$$
+
+$$Pr[Y=y] = \sum_x Pr[X=x, Y=y] = \frac{1}{\# group}$$
+
+#### Theorem
+
+**Theorem** - For any distribution of X over G, Y is independent from X and uniformly distributed
+(perfect secrecy)
+
+### Information theory
+
+Entropy - (used in this course) number of bits.
+But there is the Shannon Entropy - amount of information you have in a random variable.
+
+### Perfect Secrecy
+
+**Definition**: Perfect secrecy means that the a posteriori distribution of the plaintext of X after we know the ciphertext Y is equal to the a priori distribution of the plaintext:
+$\forall x,y \ Pr[Y=y] \ne 0 \implies Pr[X=x | Y =y] = Pr[X=x]$
+
+Also, perfect secrecy is equivalent to statistic independence of X and Y
+Or, is equivalent to H(X|Y) = H(X)
+
+**Theorem**: For any distribution of the plaintext, the generalized Vernam cipher provides perfect secrecy.
+
+**Shannon theory** - perfect secrecy implies $H(K) \ge H(X)$
+Or: Perfect secrecy implies that the support of K is at least as large as the support of X.
+
+#### Negative side of Shannon Theorem
+
+If we want ot achieve perfect secrecy, the number of possible keys must be at least as large as the number of possible plaintexts
+
+**Theorem**: perfect secrecy implies that X has a finite support.
+$\#support(X) \le \frac{1}{p}$, where $p = Pr [Y=y] \ne 0$
+
+Intuition - length of the cipher text will give some information on the plaintext. E.g. 1TB plaintext will be represented by approx 1TB ciphertext
+
+#### Summary of Shannon results
+
+We have mathematically formalized the notion of perfect strategy
+Vernam Cipher achieves perfect secrecy
+Despite Vernam Cipher is expensive, there is no cheaper alternative.
+
+The **Complexity theory** is missing, since the perfect secrecy is impractical.
