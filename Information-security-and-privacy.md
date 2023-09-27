@@ -264,3 +264,29 @@ Insecure file operations: incorrect assumptions about ownership, location or att
 Side-channel leakage: leaking information via time, power, sound, etc.
 
 Weaknesses in the implementation of access control: authentication and authorization flaws
+
+## Exercises 1
+
+**Exercise 1** Matching mechanisms
+authenticity - message authentication code (keyed hash)
+availability - duplicate/distribute system
+confidentiality - isolation
+intergrity - hash
+
+**Exercise 2**
+q: In your opinion, what is the most important technical means you need to have in order to be protected against ransomware attacks?
+a: secured backups on a separate hardware, because if ransom is asked, then it is not required to pay out the ransom to get the information back.
+
+**Exercise 3**
+q: You are developing a website that sells cigarettes online in Switzerland. Imagine a cyber threat of each category below. For each threat, describe the goal of the threat and by which means the goal is achieved:
+
+- Commodity threat - get money from highly profitable company. Extorsion.
+- Hacktivism: goal - reduce smoking.
+
+**Exercise 4**
+q:In you opinion, is an anti-virus software a good protection against social engineering attacks carried out over e-mail? Explain why. What would be the best way of protecting against these attacks?
+a: no, because the attacks are aimed at people, not software availability or infection. To protect against these attacks, it is best to spread awareness
+
+**Exercise 5**
+q: An anti-malware tool adds up the sizes of all files on a disk, adds the size of the empty space and compares it to the total disk size. What type of malware is this software trying to detect? Explain why.
+a: trojan 
