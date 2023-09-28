@@ -289,4 +289,4 @@ a: no, because the attacks are aimed at people, not software availability or inf
 
 **Exercise 5**
 q: An anti-malware tool adds up the sizes of all files on a disk, adds the size of the empty space and compares it to the total disk size. What type of malware is this software trying to detect? Explain why.
-a: trojan 
+a: trojan
