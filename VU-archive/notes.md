@@ -192,7 +192,7 @@ E.g. ubuntu forbids logging in as root user by default, creating only a user acc
 3. Authentification - Mallory cannot convince Bob she is Alice
 4. Non-repudiation - Mallory cannot deny she was the one who sent a message to Bob
 
-Terms:\
+Terms:
 
 - Plaintext - the readable text to be transmitted
 - ciphertext - the unreadable text actually sent

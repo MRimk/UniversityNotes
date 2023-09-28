@@ -86,3 +86,62 @@ Bit rate is bits per second.
 Bandwith is width of the frequency range that can be used ofr transmission over the channel.
 
 There are limits to some channels (e.g. Shannon's law)
+
+### Skipped first part of the lecture
+
+## Network layer - middle
+
+### IP Rule #1 = Structured addresses + Longest prefix match
+
+goal of IP is to connect all systems using IP addresses
+
+Every network interface has a structured IP address that is prefix + suffix.
+
+Router has a forwarding table that links prefixes to output
+
+### IP Rule #2 = Don't use routers inside LAN/subnet
+
+Implication:
+
+- between LANs/subnets use routers, inside each subnet do not
+- hosts in same subnet must have same subnet mask and same subnet prefix
+
+### IPv4
+
+32 bits usually writen in dotted decimal notation.
+Unequely identifies one interface in the internet (in principle)
+
+#### Special addresses
+
+| address                                   | meaning                                                                                      |
+| ----------------------------------------- | -------------------------------------------------------------------------------------------- |
+| 0.0.0.0                                   | absence of address                                                                           |
+| 127.0.0/24 for example 127.0.0.1          | this host (loopback address)                                                                 |
+| 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16 | private networks (e.g. at home) used by anyone, but cannot be used on the public Internet    |
+| 100.64/10                                 | private addresses used only by Internet Service Providers (ISPs)—Carrier Grade NAT addresses |
+| 192.88.99/24                              | IPv6-to-IPv4 relay routers                                                                   |
+| 169.254.0.0/16                            | link local address (can be used only between systems on same LAN)                            |
+| 224/4                                     | multicast                                                                                    |
+| 240/4                                     | reserved until recently                                                                      |
+| 255.255.255.255/32                        | link local (LAN) broadcast                                                                   |
+
+### IPv6
+
+Why new version - IPv4 address space was too small
+What does IPv6 do: same thing as IPv4, but with more address space but is not backwards compatible
+
+Forwarding tables work essentially the same with prefixes.
+Except it uses local IP address with interface number separated byt %
+
+For every IPv6 interface there has to be a global IP address and local IP address.
+
+Compression rules for IPv6 addresses:
+
+- uses hex digits in hextets (4 hex digits)
+- hextets separated by :
+- leading zeroes in a hextet are omitted
+- :: replaces any number of 0s in more than one hextet; appears at most once in address
+
+Only one block 2000/3 is allocated for global unicast addresses.
+
+
