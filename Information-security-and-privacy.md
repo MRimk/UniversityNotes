@@ -290,3 +290,355 @@ a: no, because the attacks are aimed at people, not software availability or inf
 **Exercise 5**
 q: An anti-malware tool adds up the sizes of all files on a disk, adds the size of the empty space and compares it to the total disk size. What type of malware is this software trying to detect? Explain why.
 a: trojan
+
+## Crypto Basics
+
+Goals of cryptography:
+
+- Confidentiality - data is only accessible with the correct key
+- Integrity - any modification of data can be detected (in security it says that it cannot be _modified_)
+- Authentification - the author of a message can be identified
+- Non Repudiation - the author of a message cannot deny being the author
+
+### Naive approach to encryption
+
+#### Rotation cipher
+
+Two parties agree on an algorithm and keep it secret
+
+Problem: if you know that it is a shift, it only takes 26 trials to break it.
+
+So Kerckhoff's principle comes into effect: a cryptosystem should be secure even if everything about the system, except the key, is public knowledge
+
+#### One-time pad
+
+Key is a random string and at least as long as plaintext
+Encryption - XOR operation to encrypt and decrypt
+
+It is **perfect** in theory.
+
+Disadvatages:
+needs truly random uniform random one-time pad
+key must not be used more than once
+key length depends on the message length
+
+It is benefitial when the communication is not immediate. Key can be exchanged once and then use it at some point in time.
+
+### Symmetric Crypto
+
+Encryption and decryptopm are done with the **same key**.
+Solves the problem of transferring large amounts of confidential data by creating the problem of **key exchange**
+
+#### Stream cipher
+
+Use a key and pseudo random number generator to encrypt the data with the random bits (with XOR). Initialize RNG with key as seed.
+
+Pros:
+can encrypt data of arbitrary length
+
+**Limitations**:
+
+**Malleability** - if you flip one bit of the ciphertext, then one bit will be flipped in the cleartext.
+E.g. if you know which bit encodes the sign of a value, you can change a payment from 100 to -100.
+That is why ther should always be integrity check added when encrypting data
+
+**Cipher-reuse** - if two messages are encrypted with the same stream, then there could be some bits leaked from the message.
+$M_1 \oplus M_2 = C_1 \oplus C_2$
+$M_2[k] = M_1[k] \oplus C_1[k] \oplus C_2[k]$
+
+**Initialization vector**
+Stream cipher with initialization vector (IV). IV has to be sent with each message. IV can just be a random number.
+
+#### Block cipher
+
+Encrypts a **fixed size** blocks of data
+
+- a **padding scheme** is used to fill the last block (with random stuff)
+- a **mod of operation** to combine multiple blocks
+
+Data Encryption Standard (DES):
+
+- block size 64 bits (too short, collisions)
+- key size 56 bits (too short, can be brute forced) (because goverments wanted to be able to brute force)
+
+Advanced Encryption Standard (AES):
+
+- block size 128 bits
+- key size 128/192/256 bits
+- hardware support (e.g. Intel, AMD, ARMv8)
+
+_When in doubt - use AES_
+
+**Modes of Operation**:
+
+**ECB**: Encrypt each block separately with the same key.
+
+Problem - every block with the same data will look like encrypted same data
+
+To solve this - we chain the blocks
+
+**CBC** - cipher-block chaining.
+Take some output from the cipher text and use that to XOR with the plaintext before encrypting the block with the key.
+Basically the IV is the previous block's output.
+
+Decryption is the opposite of encrytption.
+
+**Problem**
+If there is an error in one block it propagates: this effects the block (becomes garbage) that it is in and the following block (1 bit flip).
+
+**Malleability**
+Flipping one bit of IV, flips the same bit in the cleartext
+Flipping one bit in a ciphertext block flips the same bit in the next cleartext block and mangles the current block
+**Always** add **integrity check**
+
+**Padding oracle attack** - padding needs to be carefully done.
+
+### Data Integrity
+
+**Integrity** - protects agains unauthorized modification
+
+_It is easy to flip bits of the cleartext._
+
+We need a primitive that:
+
+- detects any modification of the message
+- cannot be forged by an attacker
+
+#### Hash function
+
+take an arbitray length input and generate fixed length output.
+
+**Porperties**:
+
+- resistant to pre-image attacks (needs to be one-way function and is useful for password hashing) - hacker cannot find your password
+- second pre-image resistance - given a message $m_1$ it is difficult to find a second message $m_2$ such that hash($m_1$) = hash($m_2$) - hacker cannot find a string that hashes to the same hash
+- colision resistance - it is difficult to find any two messages $m_1$, $m_2$ such that hash($m_1$) = hash($m_2$) (usually that happens because we are compressing infinitely long text to some amount of bits)
+
+What is the complexity of randomly finding a 2nd preimage in a random function that generates 160bit outputs (e.g. SHA-1)? - naively 2^160 (better: 2^80) ops, but in practice it took 2^63 operations to break SHA-1.
+
+MD5 - broken
+SHA-1 - broken in big investment
+SHA-2 is the current standard but is related to SHA-1.
+SHA-3 - no weakness known (not able to run on embedded system, because it is computationally more difficult)
+BLAKE3 - no weakness known, faster, not standard
+
+#### Message Authentication Codes (MAC)
+
+Similar to hash function but involves a symmetric key
+The same key is used to generate the MAC and to validate it.
+
+If the key is know to two parties, a correct MAC proves:
+
+- authentication
+- integrity
+
+This is similar to encryption but does not encrypt, just verifies.
+
+### Authenticated Encryption
+
+#### Confidentiality and Integrity
+
+**Always** require both confidentiality **and** integrity.
+
+Different approaches:
+
+- encrypt, then MAC (e.g. IPSec, _use whenever possible_) - it allows first to check integrity and then decrypt
+- MAC then encrypt (e.g. TLS)
+- encrypt and MAC (e.g. SSH)
+
+Modern encryption modes guarantee confidentiality and integrity.
+They include additional data that is authenticated but not encrypted - used for seq number or other metadata.
+
+AEAD (authenticated encryption associated data)
+E.g. Galois/Counter Mode (GCM) - common standard together with AES.
+
+### Public-key cryptography
+
+Solves the problem to agree on a pre-shared symmetric key.
+
+Uses a pair of **public** and **private** key.
+
+Encrypt with a public key and decrypt with a private key.
+Sign with a private key (add MAC) and anyone with the public key to check validity.
+
+**Primitives**:
+
+- public and private key
+  - two keys: pub key is widely distributed, private is kept secrete
+  - must be hard to derive priv from pub
+  - may be easy to derive pub from priv
+- Encryption and decryption
+  - encrypt with pub key, decrypt with the priv key
+  - hard to decrypt without private key
+
+#### Digital signatures
+
+private key allows signer to generate an unforgeable signature that attests to the validity of the message.
+
+Examples: software updates, contracts.
+
+#### Diffie-Hellman key exchange
+
+Protocol for key exchange.
+
+$K = g^{ab}\ mod\ n$
+
+Algorithm: K = A^b % p = (g^a % p)^b % p = g^ab % p = (g^b % p)^a % p = B^a % p
+
+**Problem**:
+Man-in-the-middle attack. Giving the impression to Alice and Bob that they are safe.
+Therefore there needs to be integrity through pub keys etc
+
+#### RSA
+
+n is product of thwo large primes p \* q
+
+e is compirme with (p-1)(q-1), (ed-1) is multiple of (p-1)(q-1)
+
+#### Eliptic curve cryptography (ECC)
+
+Based on the eliptic curves over finite field.
+
+Smaller keys for equivalent security.
+
+ECC could be used for the key exchange, e.g. TLS: ECC Diffie-Hellman
+Used for signature.
+
+For example, Sony used ECDSA to sign software for Playstation 3.
+
+#### Crypto Comparison
+
+Asymmetric is powerful but orders of magnitude slower than symmetric crypto.
+
+Assymetric is used to exchange a symmetric key, then symmetric takes over.
+
+All these algorithms are on;y safe with ling enough keys (for 128bits of security):
+
+- Symmetric 128 to 256 bits
+- Asymmetric: RSA 3072 bits, ECC 256 bits
+- Hash: 256bits
+
+Cryptography is used IRL:
+
+- Symmetric - Kerberos
+- Asymmetric - WPA3 (not possible to crack WiFi passwords)
+
+### Public key distribution
+
+Public keys don't have to be secrete but have to be **authentic**.
+
+#### Certificate Authority
+
+We need a trusted 3rd party to distribute the public keys.
+
+It does some validation before signing the keys:
+
+- email
+- copy of password
+- this is documented in CPS (certificate practice statement)
+
+If we trus the key of CA, we can trus all keys signed by the CA
+
+A ‘signed key’ is a certificate. It contains at least:
+
+- the identity of the holder (subject)
+- the validity date of the certificate
+- the public key of the subject
+- the signature by the CA
+
+**Hierarchy of trust**:
+if you could break the root certificate, then you could create any certificate which would be valid but controlled by the attacker.
+There are intermediary certificates to reduce to attack surface - if it is hacked, then everything is bad.
+
+Current browsers have a set of root CAs.
+If there is a chain of signatures up to a trusted root, the browser trusts the certificate.
+
+### Crypto summary
+
+Crypto can be symmetric (fast), asymmetric (slow)
+
+Asymmetric should only be used to encrypt short data, as hash of document, a random symmetric key.
+
+ECC is replacing RSA as asymmetric algorithm (it's faster, shorter keys)
+
+Trus is not possible without a trust root.
+
+### Case study: TLS
+
+TLS provides confidentiality, integrity, and authentication.
+
+Basic idea: build your client-server app without security, add TLS and it works.
+
+#### Building blocks
+
+The server is authenticated with a certificate
+It proves its identity by signing some information received from the client with its private key.
+
+Client and server create a symmetric key using asymmetric crypto.
+
+#### Cipher Suites
+
+Algorithms to be used are specified in cipher suits. E.g. TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+
+There are 5 suites for v1.3.
+
+#### Perfect Forward Security
+
+**Strong security notion** - session keys should no be compromised even if long-term secrete are.
+It is not related to the client or server data, and it is established after the key exchange. It must not be stored anywhere such that it does not get recovered.
+
+Diffie-Hellman-like protocol offer Perfect Forward Secrecy (PFS)
+
+#### TLS uses public and symmetric crypto
+
+Public key crypto:
+
+- The CA has signed the server’s certificate (and its own root certificate)
+- The server signs the key exchange to prove it holds the private key
+- Elliptic curve Diffie Hellman is used to exchange a symmetric key
+
+Symmetric crypto:
+
+- AES block cipher is used in CBC mode for encryption
+- SHA hash is used for HMAC, for key derivations
+
+#### Weaknesses in TLS
+
+There have been attacks that broke it.
+
+Downgrade attacks
+Padding oracle attacks
+
+#### Implementing TLS
+
+Assign a new port (HTTPS uses different port), start with TLS handshake, not compatible with clients that can't TLS.
+
+Put STARTTLS command on the standard protocol.
+
+#### Deploying TLS on the Internet
+
+Using HTTPS is becoming default for Privacy and Security
+
+#### Let's encrypt - Free certificates
+
+To be able to create certificates that are trusted by all browsers, you must undergo a certification.
+
+To obtain a certificate, you must place specific data
+
+- in a file on your web server, or
+- in a DNS entry of your domain
+
+Fully automatable: no excuse for not using TLS.
+
+Let's Encrypt certificates have to be regenerated every few months because certificate revokation is broken (if it is attacked, the certificate is still valid until the end of the certificate).
+
+#### Attacks on HTTPS and defences
+
+SSL Stripping - a MITM makes you believe that the site uses HTTP instead of HTTPS.
+Defence - HSTS - HTTP Strict Transport Security. It has a preload list that has web addresses that should not be connected through HTTP.
+
+Untrustworth CAs - any CA can give the MITM a trusted certificate in the name of any server. Using this the server can intercept the server traffic.
+Defence:
+
+- certificate pinning - client-side list of trusted certificates. If the server shows a certificate which is not signed bu this pin, it does not accept to connect.
+- Certificate transparencry - public list of certificates. Servers can check who requested certificates for their domain and clients can verify that a cert received from server is in the logs.
