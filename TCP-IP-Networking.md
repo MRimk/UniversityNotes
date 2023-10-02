@@ -143,5 +143,3 @@ Compression rules for IPv6 addresses:
 - :: replaces any number of 0s in more than one hextet; appears at most once in address
 
 Only one block 2000/3 is allocated for global unicast addresses.
-
-

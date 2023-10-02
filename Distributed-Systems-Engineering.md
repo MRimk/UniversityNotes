@@ -202,3 +202,158 @@ What killed it (around 1995)?
 (didn't kill it but) the data became too heavy
 Number 1 reason - spam! Because there was no censorship, spam was not stopped (first spam was "Global alert for all: Jesus is Coming Soon", and then people found a way to make money in it)
 Other causes - better alternatives, slow evolution because it was decentralized.
+
+## Beyond Usenet: Gossip efficiency
+
+What if we wanted to further minimize traffic?
+
+with ihave/sendme: pro - message content is only sent once per node, con - we still need P2P communication broadcast
+
+### Improved Gossiping
+
+From people we can learn **Rumour mongering** - checking whether a person knows the rumour or not.
+
+Algorithm:
+
+- when a message M is received
+- pick a random neighbor, send M
+- neighbor replies "new rumour?"
+- if new: repeat
+- else: flip_coin() (random)
+  - if head: repeat
+  - else: stop
+
+(On average we will talk to only 2 neighbors because of geometric progression expected value)
+
+Problems:
+Rumour might die.
+Pros: very fast and spreads to _most_ nodes
+
+#### How to make sure messages reach every node?
+
+Using **anti-entropy** - pull-gossiping
+
+Algorithm:
+
+- Periodically (when timer fires):
+  - pick random neighbor
+  - send "anything new?"
+  - reduce entropy (ihave/sendme)
+
+Problems:
+could be a lot of traffic
+propagation could be extremely slow because the rumour is new
+
+Expected time to cover the whole network - 1 or 2 (timer) cycles.
+
+In general: works slowly but ensure complete coverage, at O(n) per period.
+
+#### Gossip Quality Measures
+
+Is your protocol any good?
+How can you tell?
+
+- Traffic $\frac{total\ traffic}{number\ of\ nodes}$
+- $t_{avg}, t_{95}$ average & 95th percentile time for rumour -> node
+- $t_{last}$ time for rumour -> last node
+- Resistance to churn
+- Residue - looking at the time t, what percentage of the nodes have not seen the message.
+
+Broadcast: good in residue, bad in traffic, and good in time of delivery.
+Rumour mongering: might not reach everyone, so quite bad in that, good in average time and traffic, but residue is not always good.
+Anti-entropu: good in residue, not great in traffic, bad at average time but good at reaching the last node.
+So combination of anti-entropy and rumour mongering works very well.
+
+#### How can we "delete" rumours?
+
+Instead of propagating the data in the database, we want to delete it.
+
+To delete it, we can spread the rumour to delete it. But the problem is that we keep the original rumour and the death certificate ("delete this") rumour.
+Also, rumour can get resurrected - because it is decentralized system, so someone has to keep the death certificate alive.
+
+#### Few applications of Gossip
+
+Metadata propagation
+
+Failure detection
+
+Group membership
+
+$\uarr$ databases uses gossip to spread metadata, but the data itself is spread normally.
+
+E.g. Apache Cassandra, CockroachDB, Consul
+
+#### Failure detection
+
+Adding a heartbeat bits to each message sent by the node with a counter. Later anyone can check when was the last time it was heard from that node.
+
+## Finding data among (many, unknown) peers
+
+May open questions:
+
+- where can the data be found?
+- Does the data even exist?
+- Who knows about it?
+- How do we retrieve it?
+
+Most importantly:
+
+- What can we assume about the peers and the network?
+
+### Distributed Search algorithms
+
+Two families:
+
+- Unstructured search:
+  - Robust to churn, instantly adptive
+- Structured search
+  - Much more efficient many more problems
+
+#### Building Gnutella
+
+Context (1999-2008):
+No spotify, no Netflix
+No BitTorrent
+People still want entertainment
+
+Specifications:
+
+- search any file anywhere
+- Complex queries
+
+**Standard, basic algorithm**:
+What can we learn from people - **Flooding**
+
+- Gossip searches (query)
+- Direct response (query hit)
+
+Issues:
+Unpredictable delays
+Connectivity - how does a node reply to me?
+Efficiency - all nodes asee & process all searches
+
+**Optimizations**
+Cane we not flood everyone?
+**Expanding-ring search** - have limited number of steps for flooding
+
+- Limited flooding (TTL)
+- Increasing TTL on retry
+
+What are the trade-offs?
+Higher latency
+Asymptotically worse O(n logn)
+
+Pragmatically, it works
+
+**Optimizations**
+More efficient: **BubbleStorm**
+
+- Birthday paradox - in a room bigger size, there is a 99.999\% chance that 2 people share a birthday
+- Data search & storage random "meet in the middle". Spread a file in $\sqrt{n}$ nodes. Bubbles overlap and there is a high chance that someone in my bubble has the file
+- If the bubble is increased by a constant (from $\sqrt{n}$ nodes) we exponentially increase the chance of someone having the file because of the birthday paradox.
+
+Key considerations:
+Asymptotically efficient $O(\sqrt{n})$
+"Mostly unstructured" - robust to churn
+Tunable parameters
+Extremely robust/resilient - therefore it can be applied in different systems, not only search
