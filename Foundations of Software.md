@@ -103,4 +103,91 @@ Stuck terms model run-time errors.
 
 ### Multi-step evaluation
 
-The **multi-step evaluation** relation $\rightarrow*$ is the reflexve, transitive closure of single-step evaluation.
+The **multi-step evaluation** relation $\rightarrow^*$ is the reflexve, transitive closure of single-step evaluation.
+
+## Untyped Lambda calculus
+
+Example where call-by-name does not evaluate to call-by-value in one step:
+Call-by-value: $$(\lambda x.x)((\lambda y.y)(\lambda z.z)) \rightarrow^{value}(\lambda x.x)(\lambda z.z)$$
+
+Call-by-name: $$(\lambda x.x)((\lambda y.y)(\lambda z.z)) \rightarrow^{name} (\lambda y.y)(\lambda z.z)$$
+
+#### Termination of evaluation
+
+**Theorem** - termination of evaluation - for every $t$ there is some normal form $t'$ such that $t \rightarrow^* t'$
+
+This is not a Turing-complete then.
+
+Lambda calculus does not terminate because of the $\Omega$ term.
+
+#### Lambda calculus puzzles
+
+Q: one-step evaluation of $t = (\lambda x.\ \lambda y.y\ x)(\lambda z.z)$
+A: $t' = \lambda y.y\ (\lambda z.z)$
+This showcases that $\lambda$ extends as far to the right as possible (in this case, as far as the parenthesis allow)
+
+Q: one-step evaluation of $t = (\lambda x.\ \lambda y. x)(\lambda z. y\ z)$
+A: $t' = \lambda y'. (\lambda z. y\ z)$
+
+Q: one-step evaluation of $t = ((\lambda x.x) y)((\lambda z.z)(\lambda w.w))$
+A: $t' = ((\lambda x.x) y)((\lambda z.z)(\lambda w.w))$
+This is because y is not a value to apply E-APPABS rule, and we cannot reduce the right side because for E-APP2 because left side is not a value.
+If it was **call-by-name**, then we could apply E-APPABS and E-APP1 to get $y((\lambda z.z)(\lambda w.w))$
+
+#### Rules
+
+**E-APP1** $t_1 \rightarrow t_1' \rArr t_1t_2 \rightarrow t_1' t_2$
+
+**E-APP2** $t_2 \rightarrow t_2' \rArr v_1t_2 \rightarrow v_1 t_2'$
+
+**E-APPABS** $(\lambda x. t_{12})v_2\rightarrow [x \rightarrowtail v_2] t_{12}$
+
+### Recursion in Lambda calculus
+
+Recursion and divergence are intertwined, so we need to consider divergent terms.
+
+$$\Omega = (\lambda x.xx) (\lambda x. xx)$$
+
+$\Omega$ evaluates in one step to itself. Therefore it never reaches a normal form - it _diverges_.
+
+#### Iterated application
+
+Suppose f is some $\lambda$-abstraction, and consider the following variant of omega:
+
+$$Y_f = (\lambda x. f (x x))(\lambda x. f(xx))$$
+
+This creates a "pattern of divergence":
+$$Y_f = (\lambda x. f (x x))(\lambda x. f(xx)) \rightarrow f(\lambda x. f (x x))(\lambda x. f(xx)) \rightarrow f(f(\lambda x. f (x x))(\lambda x. f(xx))) ...$$
+This is a problem because it never reaches anything, only diverges.
+
+#### Delaying divergence
+
+**poisonpill = $\lambda$y. omega**
+
+**poisonpill** is a value. It delays the explosion of omega
+
+**Delayed variant of omega**
+omegav = $\lambda y. (\lambda x. (\lambda y. x x y))(\lambda x. (\lambda y. x x y))y$.
+
+omegav is a normal form, however if we apply the argument v too many times, it diverges.
+
+**Another variant**:
+
+$z_f = \lambda y. (\lambda x. f(\lambda y. x x y))(\lambda x. f(\lambda y. x x y))y$
+
+And if we apply $z_f$ to an argument v, we get this:
+
+$$z_f\ v = (\lambda y. (\lambda x. f(\lambda y. x x y))(\lambda x. f(\lambda y. x x y))y)\ v \rightarrow (\lambda x. f(\lambda y. x x y))(\lambda x. f(\lambda y. x x y))v$$
+
+$$\rightarrow f\ (\lambda y. (\lambda x. f(\lambda y. x x y))(\lambda x. f(\lambda y. x x y))y)\ v = f\ z_f\ v$$
+
+Since $z_f$ and v are both values, the next computation step will be the reduction of f $z_f$
+
+Example:
+f = $\lambda fct.\ \lambda a.\ if\ n=0\ then\ 1\ else\ n\times\ (fct(pred\ n))$
+
+$$z_f\ 3 \rightarrow^* f\ z_f\ 3 = (\lambda fct.\ \lambda n.\ ...) \rightarrow^* 3\times(z_f\ 2)...$$
+
+**Define z = $\lambda f. z_f$**
+
+READ: chapter 8.
