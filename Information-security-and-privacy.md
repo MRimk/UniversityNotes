@@ -584,7 +584,7 @@ There are 5 suites for v1.3.
 
 #### Perfect Forward Security
 
-**Strong security notion** - session keys should no be compromised even if long-term secrete are.
+**Strong security notion** - session keys should no be compromised even if long-term secrets are.
 It is not related to the client or server data, and it is established after the key exchange. It must not be stored anywhere such that it does not get recovered.
 
 Diffie-Hellman-like protocol offer Perfect Forward Secrecy (PFS)
@@ -642,3 +642,31 @@ Defence:
 
 - certificate pinning - client-side list of trusted certificates. If the server shows a certificate which is not signed bu this pin, it does not accept to connect.
 - Certificate transparencry - public list of certificates. Servers can check who requested certificates for their domain and clients can verify that a cert received from server is in the logs.
+
+### Exercises 2
+
+1. Why can’t you use a message authentication code (e.g. HMAC-SHA2) to sign a contract between a buyer and a seller?
+   - Buyer and seller would need to exhange a symmetric key to verify the contract and MITM could impersonate the seller.
+2. If asymmetric crypto is really more useful than symmetric, why are we still using AES?
+   - Because symmetric crypto is easier and faster computationally.
+3. Explain why using the same initialization vector (IV) multiple times with a stream cipher is more dangerous than with a block cipher.
+   - Stream cipher would reveal more statistical invormation
+4. Explain why AEAD is not malleable
+   - AEAD not only encrypts data but also preserves its integrity, and, for example, in IPSec if the data is modified, it is not being decrypted.
+5. Describe an attack that would work if it was possible to find second pre-images for a hash function.
+   - Brute-force attack with a wordlist
+6. How can you find out all cipher suites supported by a TLS server?
+   - _A_:
+7. Why is perfect forward secrecy important?
+   - this is so that MITM attack could not take place, since if the session key is obtained, there is no authetication guarantee.
+8. To be sure that your customers connect to your website with https instead of http, you configure your web server to answer requests on the http port with a redirection to the https port.
+   • _Q_: Why does this not guarantee that all customers will end up using https?
+   _A:_
+   • _Q_: Why does closing the http port still not guarantee that customers will use https?
+   _A:_
+   • _Q_: What would be a working solution?
+   _A:_
+9. Most mobile e-banking applications use certificate pinning to validate the certificates of the servers they connect to. Describe an attack that can be prevented by using a pinned certificate.
+   - _A_:
+10. Which certificate authorities have been used to sign the certificate of the [www.epfl.ch] web server?
+    _A:_
