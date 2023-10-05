@@ -1,5 +1,13 @@
 <!-- markdownlint-disable MD010 MD041 MD001 MD036 MD029-->
 
+---
+
+header-includes:
+
+- \usepackage{algorithm2e}
+
+---
+
 # Cryptography and Security
 
 ## Ancient cryptography
@@ -493,3 +501,172 @@ for $m = p_1^{α_1} × · · · × p_r^{α_r}$ with pairwise different prime num
 λ(m)= lcm λ(p1α1 ), · · · , λ(prαr )
 
 **application**: if n is hard to factor, we can still find generators: find prime factors up to some bound B
+
+#### Picking a generator in a cyclic group with known order
+
+This algorith is probabilistic with a bound of $\text{Pr[output g not generator]} \le \frac{1}{B\log B}\log B$
+
+$\text{Pr[not generator | passed]} \le \frac{1}{B}(r-s) \le \frac{\log q}{B\log B} \le \frac{\log n}{B\log B}$
+Where B is a bound for small factors, n is the order. (r-s) is ... and q is the remainder of incomplete factorization
+
+### $\Z_p$ Field
+
+**Field** is a ring where every possible element that is not 0, is invertible.
+
+Example fields: rational, real, complex numbers.
+We will use $Z_p$ for p prime
+
+**Theorem** - $\Z_p$ structure
+
+1. $Z_p^* = \{1, ..., p-1\}$ (GCD = 1, therefore they are invertable)
+2. (Little Fermat Theorem) for any $x \in Z_p^*$ we have $x^{p-1} = 1 (mod\ p)$ (Lagrange theorem)
+3. $Z_p^*$ is a cyclic group. So there exist g such that: $Z_p^* = \{g^0, g^1, g^2\ mod\ p,  .., g^{p-2}\ mod\ p\}$
+
+subgroup of $\langle g \rangle \subseteq Z_p^*$ of prime order q (if not, then it would be just even numbers): $\langle g \rangle = \{1, g, .., g^{q-1} \} \lrarr \{0, 1, ..., q-1\} \subseteq Z_p^*$
+
+Example: SSH2 parameters
+
+#### The discrete logarithm problem
+
+**Definition**: The DL problem, relative to Setup, is hard if for any (probabilistic polynomial-time) algrorithm A, the probability that the follong game returns 1 is negl($\lambda$):
+
+```
+DL(λ):
+1: Setup(1^λ ) → (group, q, g)
+2: pick x ∈ Zq
+3: X ← g^x
+4: A(group, q, g, X) → x'
+5: return 1_X=g^x′
+```
+
+Negligible function - the output is very small - goes to 0 faster than any inverse of polynomial.
+
+Examples of groups:
+$Z_n$ - dividing by g is easy because the operations are easy
+$Z_p^*$ - believed to be hard (not proven), could be easy if there is extra information
+over an elliptic curve - believed to be hard
+
+The notion of game:
+Game(security parameter):
+1: setup of parameters
+2: initialization of the game
+3: A(what he should know) -> result
+4: return 1 (on winning condition)
+
+Advantage of A:
+Adv(security parameter) = Pr[Game -> 1]
+
+Security:
+$\forall$PPT Adv = negl
+
+Some facts about DL Problem:
+
+- it is easy on quantum computer - Shor algorithm (quasilinear time)
+- easy if n has only small prime factors (e.g. 2^100) - Pohlig-Hellman algorithm -> that is why n is preferred to be prime number
+- best algorithm for a subgroup $Z_p^*$ with n and p prime:
+  - General Number Field Sieve (GNFS) with complexity e^(equiv to const \* log n \* log log n) <- smaller than exponential; but if n is large enough
+  - This is mostly precomputation (without X)
+  - the computation from y (after precomputation) takes similar time but smaller by a constant in exponent
+- Generig algorithms $\O(\sqrt{n})$
+  - baby-step giant-step algorithm
+  - Pollard p algorithm
+
+#### Baby-step giant-step algorithm
+
+Be given some x and know which power of g it is.
+Take a giant step - size of l = $\lceil \sqrt{B} \rceil$
+for l steps insert (g^il, i) into hashtable
+
+for l steps
+compute z = Xg^-j
+if we have a (z,i) in the hash table then
+yielf x = il +j and stop
+
+This means that this algorithm is O(l) = $O(\sqrt{B})$
+
+Pollar p algorithm is also in similar complexity.
+
+#### Attacks based on precomputation
+
+for example for p length of 512 bits precomputation (on 1 core) will take 10.2 years, and attack (on 1 core) will take 10 minutes.
+whereas 1024 bits, precomputation 45 million years, and attack 30 days.
+
+SSH2 uses a fixed p of 1024 bits.
+
+### Diffie-Hellman key agreement protocol
+
+Both compute K=g^xy.
+
+Adversary knows the group, g, and all messages exchanged - X, Y (g^x, g^y). Computational Diffie-Hellman Problem.
+
+#### Unavoidable active attack
+
+MITM attack:
+Eve replaces the communication with their key and runs Diffie-Hellman with Alice, Bob and they will not know that they are talking to Eve.
+
+It is not avoidable, but all other attacks, where adversary is passive should be avoided.
+
+Diffie-Hellman shall resist to passive attack, so must be computationally hard.
+
+#### Computational Diffie-Hellman problem
+
+CDH(λ):
+1: Setup(1^λ) → (group, q, g)
+2: pick x, y ∈ Zq
+3: X ← g^x , Y ← g^y
+4: A(group, q, g, X , Y ) → K
+5: return 1 if K=g^xy
+
+The goal of this game is to find K where K = g^xy
+
+hardness of this problem requires the Discrete Logarithm Problem to be hard
+Examples:
+subgroup of $Z_p^*$ of prime order q
+elliptic curve
+
+#### CDH hard $\implies$ DL hard
+
+- assume CDH is hard
+- to prove DL hardness, consider DL algorithm A
+- construct B, s.t. A wins DL $\implies$ B wins CDH: Pr[DL -> 1] $\le$ Pr[Modified CDH -> 1] = negl
+- $X = g^{x'} \implies K = Y^{x'} = g^{yx'} = X^y = g^{xy}$
+
+#### Decisional Diffie-Hellman problem
+
+there is an extra input to the game - bit b.
+
+if the bit is 1, z is xy, otherwise z is totally random number.
+The game is for the adversary to find out when the bit is 0 or 1, which means that the goal is for them to not distinguish from these cases:
+
+Adv($\lambda$) = Pr[DDH($\lambda$, 1) -> 1] - Pr[DDH($\lambda$, 0) -> 1] = negl($\lambda$)
+
+#### DDH hard $\implies$ CDH hard
+
+assume DDH is hard
+consider C(group,q,g,X,Y,Z):
+pick x' in $Z_q$
+return 1 if X=g^x', Z=Y^x'
+
+negl = Adv C = Pr[DDHC (1) → 1]−Pr[DDHC (0) → 1] = 1/q - 1/q^2 ~ 1/q
+
+hence 1/q = negl
+
+transition from CDH game to DDH game.
+transformation:
+B(group, q,g,X,Y,Z):
+run A(group,g,X,Y) -> K
+return 1 if K=Z
+
+DDH in B (1) -> 1 is equivalent to CDH in A -> 1
+
+Pr[DDH in B (1) → 1] = Pr[CDH in A → 1]
+
+Pr[DDH in B (0) → 1] = 1/q = negl
+
+hence Adv B ($\lambda$) = Adv A ($\lambda$) - negl
+we know that Adv B (λ) = negl(λ) (since DDH is hard)
+hence Pr[A wins] = negl(λ)
+
+#### DDH easy case of a group whose order has a smooth factor
+
+That is why we need prime factors.
