@@ -670,3 +670,122 @@ Defence:
    - _A_:
 10. Which certificate authorities have been used to sign the certificate of the [www.epfl.ch] web server?
     _A:_
+
+## Access control
+
+How we can control who gets access to certain object?
+
+### Basics
+
+Defines and enforces **operations** that **subjects** can do on **objects**
+
+E.g. Person has permission to read/write from a socket
+(this implies that the subject has been authenticated first)
+
+#### Security policy
+
+**Access rights** describe which subjects can do what operations on what objects.
+
+A **security policy** is a collection of access rights. Security policies can be represented as an access control matrix. It shows what subject can do what on the object.
+
+#### Security mechanism
+
+**Security mechanism** tries to prevent operations that are not authorized bu the security policy.
+
+Allow-list - anything that is not allowed implicitly is denied.
+Deny-list - anything that is not denied is allowed. (worse because we will only figure out if something is not denied after the attack)
+
+#### Principle of Least Privilege (PoLP)
+
+- subjects only have the minimum rights required for their job
+- i.e. subjects are only allowed minimal operations on objects per task
+- this limits the impact if anything should go wrong
+
+This also limits the impact of something going wrong.
+
+The challenge in access control is to have a system that is simple to implement and manage and that is close to the principle of least privilege.
+
+**This is the most important access control principle**
+
+Another way to look at it: if you cannot remove any right without taking away functionality
+
+#### Multiple levels of access control
+
+In a network there could be several layers of AC: firewall, server, application
+
+This provides a question of tradeoff:
+
+- we want to filter as early as possible, and as early as we can make a decision (e.g. ssh at firewall level)
+- only one configuration screw-up would result in successful attack
+- bug effects are diminished
+- sometimes other layers don't have the correct semantics (e.g. user profiles in an application is just a file for OS)
+
+### Multiple Approaches to access control
+
+- Role-based Access Control (RBAC)
+- Discretionary Access Control (DAC)
+- Mandatory Access Control (MAC)
+
+#### RBAC
+
+Simplifies the specification of permissions by grouping users into roles.
+(Centered on user roles)
+
+A role can contain multiple permissions.
+
+Why is such a role based system useful?
+If the system was just users and rights, it would become a very complicated matrix. Roles simplifies that because it is an abstraction to group a certain set of roles.
+
+Each subject can have multiple roles. (In Unix each object can only be in one group - that's just implementation)
+
+##### Example RBAC implementation - OS
+
+Most OS have the notion of groups
+Groups can be given a set of permissions
+Users can be added to groups
+
+##### RBAC Pros
+
+Easy to grasp the idea of roles
+
+Easy to manage (roles decouple digital entities from permissions)
+
+Easy to tell through roles which permissions a subject has and why (typically centrally managed)
+
+##### RBAC Cons
+
+Difficult to decide on the granularity of roles - how deep the role has the access in; leads either to role explosion or roles that are too broad
+
+Role meaning is fuzzy (based on human explanation)
+
+Uncliear if roles can be shared across differen departments
+
+#### Discretionary Access Control (DAC)
+
+Someone owns the file, and ownes specifies policies to access resources it owns
+
+Represented by access control list (ACL)
+
+**ACL** vs **Capabilities**
+It could be seen as a door protected by the bouncer bs a door protected by the lock
+
+ACL (bouncer):
+the bouncer knows exactly who can get in
+People don't know where they can get in and where they can't
+
+Capabilities (key, tied to subject):
+Doors don't know hwo will show up with a key
+People know exactly for which doors they have a key
+
+ACL is practical when you often have to create or modify rights on objects
+Capabilities, when you often create or change rights of subjects or roles
+
+##### DAC in Unix FS
+
+Done with ACL
+Stored in the target object (in the metadata)
+subjects are grouped in three categories - owner, group, other.
+
+Three access rights - read, write, execute
+
+Why is it possible for the owner not to be able to rwx? - remove permissions from yourself from overwriting accidentally.
