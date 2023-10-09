@@ -688,39 +688,43 @@ Perfect secrecy proof:
 for all x, y, where Pr[Y=y] != 0, Pr[X=x | Y=y] = Pr[X=x]
 If the key is uniformly distributed, there is no chance to guess the relation between the text and the cipher text because key picks the matrix entry.
 
+Proper proof: let X be the random var for the plaintext, Y be the random var for the ciphertext and K for the key.
+
+Then we have:
+$$Pr[X = x, Y = y] = \sum_{k=1}^{n} Pr[X = x, Y = y | K =k]Pr[K=k] = \frac{1}{n}\sum_{k=1}^{n} Pr[X = x, Y = y | K =k]$$ since the key is uniformly distributed. Moreover $$Pr[X = x, Y = y | K =k] = 1_{l_{x,k=y}}Pr[X=x | K=k]$$ as for a given message x and key k there is only one corresponding y. Finally, since X and K are independent, $$Pr[X=x, Y=y] = \frac{1}{n}\sum_{k=1}^{n} 1_{l_{x,k=y}}Pr[X=x] = \frac{Pr[X=x]}{n}$$ because as L is a latin square, there is only one value k such that y. On the other hand: $$Pr[Y=y] = \sum_{x=1}^{n}Pr[Y=y, X=x] = \frac{1}{n}$$
+
+We conclude that Pr[X=x | Y=y] = Pr[X=x].
+
 #### Exercise 2
 
-1) Why is it insecure: you will never roll a 1, so odd values will 
+1. Why is it insecure: the distribution is not uniform because the likelyhood of k mod 12 being 2 is 1/12 and k mod 12 being 7 is 1/6
 
-3) y = (k+x) mod 4, x in {0,1}
-   k = {2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}
-   Pr[2] = 1/36
-   Pr[3] = 2/36
-   Pr[4] = 3/36
-   Pr[5] = 4/36
-   Pr[6] = 5/36
-   Pr[7] = 6/36
-   Pr[8] = 7/36
-   Pr[9] = 4/36
-   Pr[10] = 3/36
-   Pr[11] = 2/36
-   Pr[12] = 1/36
+2. y = (k+x) mod 4, x in {0,1}
+   if k mod n is not uniformly distributed, then it is not secure. Because k is uniformly distributed modulo 6, the scheme is secure for factors of 6 = {1, 2, 3, 6}. The scheme is not secure for mod 12. For mod 4:
 
-   Pr[x = 0 | y = c] = Pr[x = 0, y = c] / Pr[y = c] =
-   Pr[x = 1 | y = c] = Pr[x = 1, y = c] / Pr[y = c] =
+k1 mod 4 and k2 mod 4 have a distribution for i={0,3} = 1/6, for i= {1,2} = 1/3, so for i = 0 it's 1/4, for i=1 it's 2/9 ... so the distribution is not uniform for n=4
 
 #### Exercise 3
 
 G is multiplicative group. $S \subseteq G$ and S $\ne$ 0, such that for all $a, b \in S$, we have $ab^{-1} \in S$. Show that S is a group.
 
+Properties:
+
+1. neutral element: for $a \in S$, we have $aa^{-1} = e \in S$, which means that neutral element e is in S
+2. invertability: we have that $e \in S$. Then, for any $a \in S$, we have $ea^{-1} \in S$, thus $a^{-1} \in S$
+3. closure: for any $a,b \in S$, we have $b^{-1} \in S$, thus $a(b^{-1})^{-1} = ab \in S$
+4. associativity: it is inherited from G
+
+Thus S is a group.
+
 #### Exercise 4
 
 For all i,j in {1,2,3,4,5,6}, i != j we have yi != yj. (intuition - all are different)
 total combinations = 6^12
-allowed events in x i={6, 6, 5, 5, 4, 4, 3, 3, 2, 2, 1, 1}
+allowed events in x: assume each pair has two digits, so 36 possibilities.
 
-Pr[events] = 42 / 6^12
+Pr[events] = 36 \* 35 \* 34 \* 33 \* 32 \* 31 / 6^12
 
 There exists i,j in {1,2,3,4,5,6}, i != j we have yi != yj. (intuition - there exists a pair that is different)
 
-Pr 
+1 - 6^2 / 6^12 = 1 - 6^-10
