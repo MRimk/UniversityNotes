@@ -357,3 +357,183 @@ Asymptotically efficient $O(\sqrt{n})$
 "Mostly unstructured" - robust to churn
 Tunable parameters
 Extremely robust/resilient - therefore it can be applied in different systems, not only search
+
+**Unrealistic assumption** - so far we said that the node can just reply to the source, but that's not possible.
+
+## Ad-hoc Routing Protocols
+
+#### P2P Example - home and EPFL networks
+
+EPFL Network <- EPFL Firewall <- Public internet -> ISP -> home router + NAT -> IP address
+
+If laptop at home tries to connect to the PC at EPFL it cannot because firewall
+If you try to connect to your laptop at home, you cannot because it does not have an IP address (if there is no port forwarding)
+
+Problem: even in the wired state of routing, you will not be able to connect to everyone simply.
+
+#### P2P Example - ad-hoc networks - drones
+
+Drones can go out of range.
+
+Bob sent out a lot of drones and wants to communicate with all of them. Drones find each other and set up links.
+However, drones move around which causes the reconfiguration of the network. (similar to this, a person moves with their device in EPFL)
+
+#### P2P Example - analysis
+
+- peers may not be directly accessible
+- peers may join or leave the network at arbitrary times
+- we need to route packes through the system
+
+Some differences:
+
+- Churn - going offline, joining back in
+- Node mobility / network reconfiguration
+- Bandwidth
+- Protocols / Physical layer / etc.
+
+### Naive routing (don't do this)
+
+Nodes advertise a distance to other nodes.
+
+E.g.:
+B -> D = 1
+A -> D = 2 (through B or C)
+c -> D = 1
+
+If D loses connectivity to B and C.
+B updates to B -> D = 2 (through C)
+C updates to C -> D = 3 (through B)
+.... it goes on and on
+This is because B and C are making decision on outdated information.
+
+### Reaching arbitrary peers in a network : AODV
+
+Ad-hoc On-demand Distance Vector
+
+Key idea: Flooding search for a node (e.g. E) - when we know that a node exists.
+Nodes remember where the search came from. (Remember only the first search coming through). And once the answer is there, nodes walk back the path like in Usenet.
+Every node along the found path gets a temporal path to the origin of the search as well.
+A->B->D->E
+A<-B<-D<-E
+
+This is valid over a short time window and the idea is not to remember for a long time.
+
+It has the same problems as flooding.
+
+Zigbee wireless protocol uses this.
+
+### DSDV
+
+Destination-Sequenced Distance Vector
+
+Key idea:
+
+- Store next hop for any destination (O(n))
+- Version ("sequence") rounting table entries
+
+Each node periodically broadcasts its existance:
+Flood the network, with increasing sequence numebrs (we know which version of this flood we are getting).
+
+O(n^2) traffic, superseeded by newer protocols.
+**versioning** idea is still on
+
+### Quality factors in ad-hoc routing
+
+- amount of traffic during updates/creation
+- amount of traffic at rest
+- robustness to churn and movement
+- speed of convergence - the routing could be temporarily broken
+- guarantee of being loop-free
+
+## Compact routing and structured search
+
+### General approach
+
+Build a structured _overlay network_ (like a virtual LAN)
+It enables significant efficiency gains
+
+The price paid:
+
+- more engineering effort
+- nodes will need local state (to keep the strucure AND what to do when nodes disappear)
+- constant fight against churn
+- loss of generality
+
+### Distributed Hash Table
+
+Local hash tables need:
+
+- "good" hashing function
+- Random Access memory (for constant time access)
+- Not too full
+
+Most of the time hash functions are not cryptographic (to not pay the cost of calculating hash cryptographically)
+
+Distributed hash tables considerations:
+
+- what do we need from the hash functions?
+  - Avoid collisions, not time sensitive (because of networks time cost)
+  - crypto hash functions for it to be collision resistant and well distributed (because it will be big system)
+- what are we missing?
+  - random access memory
+
+#### Chord DHT
+
+Hash into a collection of RAMs
+To do that we will use circular hash ID space (e.g. SHA-256)
+
+Each node has a pseudo-random hash ID (it enables us to put the nodes somewhere in the hash value space).
+What goes into that ID? (ideas: IP, MAC, time, PubK) - this has to be unique and unchanging. Only PK cannot be faked
+
+How to approximate the RAM:
+divide space up between the nodes
+Each node owns the space to its successor
+
+API:
+PUT(key,value)
+GET(key) -> value/error
+
+Problems:
+
+- churn
+- resource allocation
+- security (malicious)
+- routing information (as in who is ahead and behinf you in this pie)
+
+**Reliability**:
+How to prevent data loss?
+Define a redundancy factor r
+And copies are stored by "owner" node + (r-1) successors.
+
+**Load**:
+What is the expected load per node?
+
+Load ~ $\frac{\text{# of nodes} \times \text{# of kv pairs}}{\text{redundancy}}$
+
+**Performance**:
+How do we make this O(log n)?
+(in storage, network, etc)
+
+Using only the successors O(1) routing table but O(n) access time
+
+Binary search makes it O(log n) for both.
+Finger tables:
+Contains my successor, 1/2 circle from me, 1/4 circle from me, 1/8 circle from me...
+We are using SHA-256, so we expect to have 2^256 numbers (HUGE, and most of this will be empty), that is why we expect log n spaces in the routing table.
+
+**Churn**:
+
+Need to handle:
+
+- concurrent joining
+  - there are challenges - e.g. a lot of nodes joining between A and B - therefore a lot of changes
+- nodes leaving (gracefully)
+  - replicating data, changing routing tables
+- nodes leaving (unresponsive)
+  - making others successors while successor is pointing to another value (**see drawing**) TODO: insert drawing
+  - because of this system is going to underperform
+
+Approach:
+
+- split correctness and performance (tolerate some incorrectness)
+- transient failures can be retried

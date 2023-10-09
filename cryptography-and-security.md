@@ -670,3 +670,57 @@ hence Pr[A wins] = negl(λ)
 #### DDH easy case of a group whose order has a smooth factor
 
 That is why we need prime factors.
+
+### Exercises 3
+
+#### Exercise 1
+
+Latin square of order 4
+l:
+1234
+2341
+3412
+4123
+p = 3, k = 2
+c(p) = l_kx = 4
+
+Perfect secrecy proof:
+for all x, y, where Pr[Y=y] != 0, Pr[X=x | Y=y] = Pr[X=x]
+If the key is uniformly distributed, there is no chance to guess the relation between the text and the cipher text because key picks the matrix entry.
+
+#### Exercise 2
+
+1) Why is it insecure: you will never roll a 1, so odd values will 
+
+3) y = (k+x) mod 4, x in {0,1}
+   k = {2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}
+   Pr[2] = 1/36
+   Pr[3] = 2/36
+   Pr[4] = 3/36
+   Pr[5] = 4/36
+   Pr[6] = 5/36
+   Pr[7] = 6/36
+   Pr[8] = 7/36
+   Pr[9] = 4/36
+   Pr[10] = 3/36
+   Pr[11] = 2/36
+   Pr[12] = 1/36
+
+   Pr[x = 0 | y = c] = Pr[x = 0, y = c] / Pr[y = c] =
+   Pr[x = 1 | y = c] = Pr[x = 1, y = c] / Pr[y = c] =
+
+#### Exercise 3
+
+G is multiplicative group. $S \subseteq G$ and S $\ne$ 0, such that for all $a, b \in S$, we have $ab^{-1} \in S$. Show that S is a group.
+
+#### Exercise 4
+
+For all i,j in {1,2,3,4,5,6}, i != j we have yi != yj. (intuition - all are different)
+total combinations = 6^12
+allowed events in x i={6, 6, 5, 5, 4, 4, 3, 3, 2, 2, 1, 1}
+
+Pr[events] = 42 / 6^12
+
+There exists i,j in {1,2,3,4,5,6}, i != j we have yi != yj. (intuition - there exists a pair that is different)
+
+Pr 
