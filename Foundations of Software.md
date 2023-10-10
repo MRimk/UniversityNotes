@@ -191,3 +191,84 @@ $$z_f\ 3 \rightarrow^* f\ z_f\ 3 = (\lambda fct.\ \lambda n.\ ...) \rightarrow^*
 **Define z = $\lambda f. z_f$**
 
 READ: chapter 8.
+
+#### Delaying evaluation in ite
+
+We delay the evaluation of the branches of the if then else, we add an identity function afterwards to first evaluate the boolean evaluation. And we add dummy lamba wrappers for the branches
+Test already has the unit. (sometimes)
+
+#### Church numerals
+
+There can be different representations of the same number which means that equality is under question.
+
+If we enrich the pure lambda calculus with "regular numbers", we can display church numberal by converting them to regular numbers:
+realnat = $\lambda$n. n ($\lambda$m. succ m) 0
+
+### Inductive proofs about the lambda calculus
+
+**Exercise**: If t -> t', then FV(t) $\supseteq$ FV(t').
+
+**Proof**:
+Proof by induction on the derivation tree of t -> t'.
+Case analysis on the last rule used to derive t-> t'
+
+Case E-App1:
+from the case we get: t = t1 t2, t' = t1' t2, t1 -> t1', and IH: FV(t1) $\supseteq$ FV(t1')
+FV(t1 t2) ?$\supseteq$ FV(t1' t2)
+FV(t1 t2) = FV(t1) $\cup$ FV(t2)
+FV(t1' t2) = FV(t1') $\cup$ FV(t2)
+From IH and set theory: FV(t1) $\cup$ FV(t2) $\supseteq$ FV(t1') $\cup$ FV(t2)
+
+Case E-App2:
+Similar (use this in the exam)
+
+Case E-AppAbs:
+t = ($\lambda$x t12) v2, t' = [x -> v2]t12
+FV(($\lambda$x t12) v2) ?$\supseteq$ FV([x -> v2]t12)
+FV(($\lambda$x t12) v2) = FV($\lambda$x t12) $\cup$ FV(v2)
+FV($\lambda$x t12 \\ {x}) $\cup$ FV(v2) ?$\supseteq$ FV([x -> v2]t12)
+
+_Lemma 1_: FV([x -> t2]t1) $\subseteq$ FV($\lambda$x t1) \\ {x} $\cup$ FV(t2)
+_Proof_:
+By induction of the structure of t1.
+Case t1 = x: FV([x -> t2]t1) ?$\subseteq$ FV(x) \\ {x} $\cup$ FV(t2)
+FV(x) \\ {x} $\cup$ FV(t2) = {x} \\ {x} $\cup$ FV(t2)
+FV([x -> t2]t1) = FV(t2)
+Case t1 = y, y $\ne$ x:
+Case t1 = t11 t12, y $\ne$ x:
+Case t1 = ($\lambda$y t12), y $\notin$ FV(t2) (if y is in FV(t2), then we rename alpha rename ($\lambda$y t12)):
+**exercise!!!!**
+
+The most important theorem is that "if t is closed and t -> t', then t' is closed"
+
+Understanding this:
+If t is closed, then:
+either t is a value
+or $\exist$t', t -> t' - **progress**
+
+If t -> t', and t is closed, then t' is closed - **preservation**
+
+Progress + preservation = **safety/soundness**
+
+### Progress
+
+**Theorem:** If t is closed (FV(t) = {}), then t is a value or t -> t'
+**Proof**:
+Proof by induction on the structure of t
+Case analysis on the structure of t
+
+Case t = x: FV(t) = {x}, contradiction
+
+Case t = $\lambda$x. t1 - it is a value
+
+Case t = t1 t2:
+FV(t) = FV(t1) $\cup$ FV(t2) = {} => therefore t1 and t2 are closed
+By IH, t1 is a value or t1 -> t1'
+By IH, t2 is a value or t2 -> t2'
+
+If t1 -> t1', then E-App1 applies;
+otherwise t1 is a value:
+If t2 -> t2', then E-App2 applies;
+otherwise t2 is a value, then
+t = v1 v2, and v1 = $\lambda$x. t12,
+then t= ($\lambda$x. t12) v2, which means E-AppAbs applies
