@@ -789,3 +789,83 @@ subjects are grouped in three categories - owner, group, other.
 Three access rights - read, write, execute
 
 Why is it possible for the owner not to be able to rwx? - remove permissions from yourself from overwriting accidentally.
+
+Only the root has access to modify they /etc/gufw/app_profiles file
+
+setuid/setgid sets a user/group bit to rights to the file such that the file will be run with the permissions of the owner of the file rather than the permissions of the user/group
+
+Programs with setuid can be very dangerous. This is because programs with setuid bit set are privileged and if they have any bug in them that could be used to escalate the privileges of the user.
+
+##### Capabilities in Linux
+
+Capabilities are permissions that are related to a subjec, not to an object.
+
+Linux supports capabilities for processes. e.g.:
+CAP_CHOWN - make arbitrary changes to file user ID and group ID
+CAP_DAC_OVERRIDE - bypass file read, write, and execute permission checks
+
+Example: dumpcap is the program used by wireshark to sniff network traffic:
+
+- it can only be run by root and the members of the wireshark group
+- it does not have the setuid bit
+
+It is most of the time safer than using setuid
+
+##### ACL in Windows
+
+ACL is not limited to three types of subjects (used, group, other) - objects can have a list of ACLs for different users and groups
+
+The Windows administrator account is not the highest privileged account. The system account NT Authority\system is the one that runs the system and launches services.
+Thus, you can configure anti-virus software in a way that even administrators cannot remove it.
+
+##### Capabilities in Windows
+
+Windows has priviliges that act like capabilities:
+
+- SeTimeZonePrivilege - change time zone
+- SeSystemtimePrivilege - can change the system time
+- etc
+
+#### DAC pros and cons
+
+Pros:
+
+- flexible
+- easy to manage (owners get to set the permissions themselves)
+- intuitive
+
+Cons:
+
+- depends on the owners judgement
+- only works if programs are not malicious and users make no mistakes
+- vulnerable to the "Trojan"/declassification problem - a malicious program run by tan authorized user can read a protected file and write an unprotected copy of that file. Anybody can read the file.
+
+#### Mandatory access control (MAC)
+
+Tries to ensure that even someone with access cannot leak the data
+
+Historically associated with military-grade information security (multilevel security - unclassified, confidential, secret, top-secret)
+
+The system lables both subjects and objects with security labels (can only be modified by trusted administrators via trusted software)
+
+Security policy: Subjects can only access objects of the same or lower level
+
+| subjects/objects | top-secret | secret | confidential | unclassified |
+| ---------------- | ---------- | ------ | ------------ | ------------ |
+| top-secret       | rw         | r      | r            | r            |
+| secret           | -          | rw     | r            | r            |
+| confidential     | -          | -      | rw           | r            |
+| unclassified     | -          | -      | -            | rw           |
+
+Depends on trusted software and admins for:
+
+- keeping the system in a protected state, prevents operations that violate the rules of the matrix
+- labeling new subjects and objects
+- perform transitions of labels (e.g. when document is declassified)
+
+Can be used in conjunction with DAC or RBAC
+
+**"no-write-down" problem**:
+A secret subject may read a secret file and write the contents into a confidential file, thereby reclassifying the secrecy level and downgrading it (that's why secret subjects can write only in secret documents)
+
+##### MAC Confidentiality vs Integrity (page 34 slidedeck 3)
