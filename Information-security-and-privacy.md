@@ -1233,4 +1233,89 @@ Tickets are typically valid for eight hours
 
 ##### Kerberos attacks
 
-(slide 78)
+MITM attacks - not possible:
+
+- the attacker does not know the session keys (Kc, K_c,tgs, K_c,s)
+- the attacker does not know the keys K_tgs, Ks used to encrypt the tickets
+- the attacker cannot create/modify any ticket or authenticator
+
+Replay attack: not possible
+
+- Attacker cannot replay an old authenticator, only fresh ones are accepted
+- Attacker cannot replay fresh authenticators, servers keep a list of the last
+  authenticators received
+
+##### Kerberos pre-authentication
+
+Anybody can request a ticket for a user c from AS (they can brute force the password of session key)
+
+To prevent this, pre-authentication can be used.
+
+Microsoft uses pre-authentication.
+
+##### Kerberos symmetric keys
+
+the security of Kerberos relies on symmetric keys:
+
+- the password hash of the user(s)
+- the symmetric keys used to encrypt the tickets
+  - between the AS and the TGS(s)
+  - between the TGS and the server(s)
+
+![Kerberos summary](Screenshot%20from%202023-10-10%2017-24-44.png)
+
+### Delegated authentication
+
+#### OAUTH2
+
+Oauth2 is a protocol used for delegated authentication on the Internet (Oauth2 providers like Facebook, Google, or Twitter can be used to authenticate and access other applications)
+
+##### Roles
+
+Client - application that wants to use authentication and possibly access the user's data
+
+Resource server - server that has user's data that client wants to use
+
+Authorization server - sever on whic hthe user authenticates
+
+User - owner of account and resources on resource server
+
+###### Typical Oauth2 flow
+
+The client and the authentication server have a shared secret
+
+- the client thus has to register with the authentication server before being able
+  to offer this service
+- the secret is used when the client exchanges the **authentication code** for an
+  **access token**
+- the authentication code is not sufficient to get access to the resources
+- It can only be used by the client and nobody else
+
+Oauth can be used by browsers or in apps
+
+- in an app a redirection for authentication can be either
+  - opening a browser within the app (called a webview)
+    - not very safe as the app could be spying while you login
+  - switching to the other app (e.g. facebook) and then back
+
+##### Oauth2 authentication only
+
+If Oauth is only used for logging in, then the flow can stop after getting access token and login
+
+Most apps in smartphones do not store your password:
+they use Oauth2 to reques an access token and use this
+when you cange your password you don't need to type your new password into all your devices
+
+### Authentication summary
+
+Passwords can go a long way, especially if you use a password manager
+
+For critical accounts, 2FA significantly raises the bar for attacker - U2F is secure and user-friendly
+
+Challenge-response protocols authenticate a user without sending the password - can be vulnerable to MITM, in particular if there is no mutual authentication
+
+Kerberos uses tickets to authenticate users across a network - authentication is separated from authorization
+
+Oauth is used to delegate authentication on the internet - it has no crypto at all, relies on communications being made over TLS
+
+Challenge-response protocols we have seen and Kerberos use symmetric crypto
