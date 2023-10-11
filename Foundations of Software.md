@@ -272,3 +272,5 @@ If t2 -> t2', then E-App2 applies;
 otherwise t2 is a value, then
 t = v1 v2, and v1 = $\lambda$x. t12,
 then t= ($\lambda$x. t12) v2, which means E-AppAbs applies
+
+test
