@@ -446,7 +446,7 @@ $Z_{15}$ has order 15.
 - in $Z_{15}$: $\langle 2\rangle = \{0, 2, 4, 6, 8, 10, 12, 14, 1, 3, 5, 7, 9, 11, 13\}$
   - 2 has the order 15, so 2 is a generator
 - we have $\langle 1\rangle = Z_{15}$
-- $Z_{15}^* = \{1,2,4,7,8,11,13,14\}$ (3 is not there because it is not invertible because (3r - 15q = 3r mod 15 != 1), same is for 5 and 6. Intuition 3 and 5 are factors of 15)
+- $Z_{15}^* = \{1,2,4,7,8,11,13,14\}$ (3 is not there because it is not invertible because (3r - 15q = 3r mod 15 $\ne$ 1), same is for 5 and 6. Intuition 3 and 5 are factors of 15)
 - in $Z_{15}^*$ 2 has the order 4: $\langle 2\rangle = \{0, 2, 4, 6, 8\}$
 
 #### $Z_n$ computations
@@ -567,7 +567,7 @@ Some facts about DL Problem:
   - General Number Field Sieve (GNFS) with complexity e^(equiv to const \* log n \* log log n) <- smaller than exponential; but if n is large enough
   - This is mostly precomputation (without X)
   - the computation from y (after precomputation) takes similar time but smaller by a constant in exponent
-- Generig algorithms $\O(\sqrt{n})$
+- Generic algorithms $O(\sqrt{n})$
   - baby-step giant-step algorithm
   - Pollard p algorithm
 
@@ -685,7 +685,7 @@ p = 3, k = 2
 c(p) = l_kx = 4
 
 Perfect secrecy proof:
-for all x, y, where Pr[Y=y] != 0, Pr[X=x | Y=y] = Pr[X=x]
+for all x, y, where Pr[Y=y] $\ne$ 0, Pr[X=x | Y=y] = Pr[X=x]
 If the key is uniformly distributed, there is no chance to guess the relation between the text and the cipher text because key picks the matrix entry.
 
 Proper proof: let X be the random var for the plaintext, Y be the random var for the ciphertext and K for the key.
@@ -719,19 +719,19 @@ Thus S is a group.
 
 #### Exercise 4
 
-For all i,j in {1,2,3,4,5,6}, i != j we have yi != yj. (intuition - all are different)
+For all i,j in {1,2,3,4,5,6}, i $\ne$ j we have yi $\ne$ yj. (intuition - all are different)
 total combinations = 6^12
 allowed events in x: assume each pair has two digits, so 36 possibilities.
 
 Pr[events] = 36 \* 35 \* 34 \* 33 \* 32 \* 31 / 6^12
 
-There exists i,j in {1,2,3,4,5,6}, i != j we have yi != yj. (intuition - there exists a pair that is different)
+There exists i,j in {1,2,3,4,5,6}, i $\ne$ j we have yi $\ne$ yj. (intuition - there exists a pair that is different)
 
 1 - 6^2 / 6^12 = 1 - 6^-10
 
 #### Hardness depending on groups
 
-DL hard (easy if order is smooth) <= CDH hard <= DDH hard (easy if order has any smooth/small factor >1)
+DL hard (easy if order is smooth) $\lArr$ CDH hard $\lArr$ DDH hard (easy if order has any smooth/small factor >1)
 
 #### Problems when not checking group membership
 
