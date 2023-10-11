@@ -1319,3 +1319,6 @@ Kerberos uses tickets to authenticate users across a network - authentication is
 Oauth is used to delegate authentication on the internet - it has no crypto at all, relies on communications being made over TLS
 
 Challenge-response protocols we have seen and Kerberos use symmetric crypto
+
+## Exercises 3
+

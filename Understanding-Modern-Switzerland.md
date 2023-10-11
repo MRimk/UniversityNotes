@@ -166,3 +166,64 @@ Aboids the conflictuals past
 Neutralizes division and cleavages
 
 An example of selective and political use of history.
+
+## Cultural diversity and Political Integration
+
+### Cultural diversity - two major dimensions
+
+Small country, vut important cultural diversity
+
+Religion - protestant vs catholic
+
+Linguistic - german, italian, french, romansch
+
+#### Religious cleavages
+
+Main cities of CH happened turned protestant 16th century
+
+Only few other cantons (primitive ones) remained catholic
+
+Mid 19th century around 40% of the population was catholic. And in 1847 the Sonderbund war was fought between the catholics and the protestants.
+After the civil war, protestants could impose the federal constitution in 1848
+
+There was a **kulturkampf** (cultural struggle) during the second half of the 19th century.
+Religious issues stemmed from education - catholic cantons had schools given by the church, protestant cantons - state schools
+
+And the religious divergence declined in the last part of the 19th century, and there was a reform of the federal Constitution of 1874 and election of a catholic conservative federal council
+
+Today the religious issue is much less relevant.
+
+In the recent times, proportion of "No Affiliation" grew in the last 30 years.
+
+#### Linguistic Cleavages
+
+Much less dividing political issue during the 19th century.
+
+The German speaking part represents a clear majority, but other languages hold the other ~40%
+
+(1950-1970s there was a big immigration from Italy) - this was a time of major economic growth of Switzerland
+
+Linguistic cantonal autonomy is guaranteed by the constitutional principle of **teritoriality** - means each canton is responsible for the use of its language in the canton. It's used to protect the linguistic minority in the canton
+
+3 official bilingual cantons - FR, BE, VS, and trilingual canton - Grisons
+
+**Linguistic tensions/difficulties**:
+
+- failed integration - Jura Canton (26th canton, created 1979)
+  - initially part of Bern, then separatist movement (by French minority) to create a new canton. There was a division between French separatists and French-speaking loyalists (who wanted to stay in Bern). So there was a Jura Canton created without one of the communities that stayed in Bern.
+- Recent period - new tensions
+  - "Rostigraben" since 1992 - separation of the rosti (a potato dish).
+  - This was the issue from the vote of joining the European Economic Area, where there was a half divide - 49.7 for (concentrated in French speaking, and Basel city+outside), 50.3 against (in popular vote) - 6+2/2 for and 14+4/2 against. The rest of the German part and Ticcino refused to join.
+  - This is influenced by the perception of EU from the Swiss people. French population had a more positive outlook, and the German-speaking part were more sceptical about EU, and the influence of Germany.
+  - 10 years later there was a bilateral agreement between the EU and Switzerland. One central part is the free movement of people to work in either area.
+
+Also - a debate on what second language taught at school should be. The usual - German for French-speaking, French for German-speaking. There were tensions when some cantons voted to have Englsih before French
+
+**How do Swiss peopl communicate with each other**:
+one person switches to the language of the other (in the informal context) - relatively rare because you need to be fluent in both languages
+
+Each person speaks their language and is supposed to understand the other language (very often the case in formal contexts, and the national or intercantonal levels)
+
+Or the speak English (... but are not proud of it) e.g. in scientific national meetings of politics or something else
+
+The people do not really know each other in other cantons
