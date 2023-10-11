@@ -1262,7 +1262,7 @@ the security of Kerberos relies on symmetric keys:
   - between the AS and the TGS(s)
   - between the TGS and the server(s)
 
-![Kerberos summary](Screenshot%20from%202023-10-10%2017-24-44.png)
+![Kerberos summary](Images/Screenshot%20from%202023-10-10%2017-24-44.png)
 
 ### Delegated authentication
 
