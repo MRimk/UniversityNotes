@@ -219,7 +219,7 @@ Linguistic cantonal autonomy is guaranteed by the constitutional principle of **
 
 Also - a debate on what second language taught at school should be. The usual - German for French-speaking, French for German-speaking. There were tensions when some cantons voted to have Englsih before French
 
-**How do Swiss peopl communicate with each other**:
+**How do Swiss people communicate with each other**:
 one person switches to the language of the other (in the informal context) - relatively rare because you need to be fluent in both languages
 
 Each person speaks their language and is supposed to understand the other language (very often the case in formal contexts, and the national or intercantonal levels)
@@ -227,3 +227,66 @@ Each person speaks their language and is supposed to understand the other langua
 Or the speak English (... but are not proud of it) e.g. in scientific national meetings of politics or something else
 
 The people do not really know each other in other cantons
+
+### Switzerland as a Paradigmatic Case of Political Integration
+
+Wh yis it possible to have peacefull cohabitation and national integration in a such diverse country? - because between religious and linguistinc cleavages; political institutions are favorable to power-sharing and political integration.
+
+#### How it was built
+
+The political unification in 1848, made emergence for common sentiments (political) of nationhood
+
+**Major political institutions, which favored political integration**:
+
+1. Federalism
+2. Proportional representation
+3. Direct democracy
+
+### Federalism
+
+Federalism was a _institutional compromise_ between both sides in 1848
+
+There are 3 levels to Swiss democracy - Federal, Cantonal, and Communcal levels
+
+Built with a bottom-up construction - Subsidiarity principle
+
+**Communes** - have limited power to organize themselves, have government and parliament or citizens assembly; are financially strong (~25% of tax revenue)
+
+**Cantons** - have power to organize themselves (own constitutions), have paraliaments, governments and courts; Implement their own but also most of federal laws; are financially strong (~40% of tax revenue)
+
+**Bicameral Legislature/Parliament**:
+
+- National Council (200 seats)
+- Council of States (46)
+- both are equal power
+
+Double majority for Constitutional amendment - the people and the cantons
+Implication of cantos in federal decision-making
+Central role of cantons in the implementation of some federal policies.
+
+#### Parliament - the National Council
+
+It is representation of the People
+
+200 members
+Seats distributed among cantons according to population
+Elections (every 4 years), based on principle of proportionality since 1919
+
+#### Parliament - the Council of States
+
+It is the representation of the Cantons
+
+46 members
+
+Two representatives per canton
+Elected every 4 years according to system determined by canton
+Equal weight and competencies as National Council.
+
+#### Executive - Federal Council
+
+7 members - Ministers
+
+Elected by Federal Assembly for 4 years
+Rotating Presidency (each year)
+Speask with one voice (principle of collegiality)
+Each member is head of one ministry

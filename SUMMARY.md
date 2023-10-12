@@ -12,4 +12,3 @@
 - [Understanding Modern Switzerland](Understanding-Modern-Switzerland.md)
 
 # Bachelor's at Vrije Universiteit
-

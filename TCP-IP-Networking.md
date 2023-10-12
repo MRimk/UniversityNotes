@@ -309,3 +309,6 @@ Details:
 - DHCP server suses limited lifetime allocations - DHCP lease.
 
 #### SLAAC
+
+## MAC
+
