@@ -1322,3 +1322,253 @@ Challenge-response protocols we have seen and Kerberos use symmetric crypto
 
 ## Exercises 3
 
+## Data Security
+
+Data storage requirements are ubiquitous.
+
+Companies must consider securiyt of data they store - EU idea is to store only what is needed, US store everything.
+
+- what are security requirements of DB systems?
+- what are main attack vectors of DB systems?
+- what are main protections of DB systems?
+
+Biggest Swiss privacy scandal - affair efisch - data stored of the citizens.
+
+### Typical setups
+
+on premises - internet -> firewall -> web server farm -> DB
+in cloud - internet -> cloud server farm with DBs
+
+### Multitier architecture
+
+1. presentation tier (UI, web pages, interface)
+2. application tier (logic - aoordinates application, processes, performs calculations, moves data)
+3. data tier (storing and retrieveing from db or file system)
+
+### Database access control
+
+#### Layers
+
+Layer - threat
+
+- Hardware - a thief could take the disk or its backup
+- OS - the sysadmin can access the files
+- Database - administrators with privileged accounts they can access all data
+- Network - hackers could connect to the DB remotely
+- Application - ab applicaiton user can access data of other application users
+
+Each layer must have a proper different access control
+
+#### Hardware access control
+
+if it is a physical machine in a data center - physical protection - locks, cameras, alarms
+
+if it is a virtual machine in the cloud: cloning the machine is like stealing the hard disk, so limit the number of people who have the right to clone, use strong auth for your cloud management console, e.g. 2FA
+
+#### OS access control
+
+Database is run a userspace proces, so it is owned by OS user.
+
+This user is the only one allowed to access the files of the database. And the data is stored in the directory of that DB, and its only allowed to be accessed by _mysql_ user, or any root
+
+#### Discretionary DB access control
+
+SQL databases use discretionary access control (DAC) to grant access to objects through privileges.
+
+By default the root or system user has all privileges on all the objects.
+
+To allow Alice read, modify or write the table or column, we can say "grant privileges (for columns) ON table to alice@localhost"
+
+This data is stored in another table
+
+There is a possibility to allow granularity at the row level by defining views: "CREATE VIEW Year_2023 AS SELECT \* FROM com402.students WHERE academic_year=2023"
+
+**Role-based DB Access control**- SQL databases support roles
+
+You can grant several roles to a same user, and they act as users.
+
+#### Network access control
+
+sometimes the applciation tier runs on the same machine as the DB. (then DB should be configured to listen to connections from localhost)
+
+In other casesm the application tier runs on a different machine - accept connections only from machines that should talk to the DB (E.g. installing a firewall in from of the DB, or using a local firewall on the DB server, restricting users to certain IP addresses that can access the DB ("CREATE USER bob@10.2.2.3 ..."))
+
+#### Application access control
+
+applicaitons usually have their own layer of users and privileges - they use one or few DB accounts to interact with the DB
+
+an e-banking application has 1K customers and three tables - a customer table with all customers and their password hashes, an account table with all accounts and their owners, a transaction table with all transactions of all accounts.
+
+Access control is handled by the application - it uses the customer table for authenticaiton. It uses the other two tables to find the accounts and give permissions.
+
+There could be a user who has access to all tables.
+
+Potential flaws in this design:
+
+- it does not follow the principle of least privileges
+- prone to SQL injections
+- it's a confidentiality problem - lack of compartmentalization and separation.
+
+#### Example: SQL injection
+
+An attacker can modify the SQL command by adding a closing the quote and adding additional command to get other data.
+
+Separate code and data! - use %s for string parameters such that the statement could not change.
+
+To limit the impact of them use different DB users for different accesses:
+
+- one DB user with read access on the customer table (for login)
+- user with write access on the customer table (for changing the users' password)
+- user with the read access on the account table (customers cannot change the ownership of accounts)
+- user with r/w access to the transaction table (For the actual application)
+
+It's not exactly POLP byt it reduces the impact of SQL injection
+
+In general using the different DB users is an application of the **defense in depth** principle
+applicaiton uses a fine-grained access control
+DB uses coarse grained
+If the access control at the application level fails, the access control reduces the impact
+
+### Encrypting the data
+
+There are data at rest (hw, db), in use(application), in motion (network)
+
+#### Encrypting data at rest
+
+always encrypt the data before writing to the disk - protects against theft/copy of the disks, but does not protect against users.
+
+DB can be configured to encrypt data before writing it to files. (Keys may be stored in local files or obtained from a key server)
+
+Example use case - mobile phones.
+
+#### Encrypting data in motion
+
+if not encrypted it could be eavesdropped.
+
+Use TLS, but also use certificate pinning
+
+#### Encrypting data in use by the applicaiton
+
+Solution to protect the data in memory of the DB is to encrypt the data in the application before storing it into the DB.
+
+The key stays in the application tier -there is no way to decrypt the data on the DB server.
+
+One way to read the memory is use volatility, cold boot attack.
+
+**What could go wrong if the data is encrypted in the DB**:
+
+- cannot serach with wildcards,
+- sort, compare or aggregate data
+
+useful only to find exact matches, e.g. high profile information
+
+### Password storage
+
+how to store passwords - store hashes.
+
+Microsoft stores Windows passwords as hashes (MD4)
+Almost all passwrods of length 8 can be recovered in under a minute
+
+#### Hashing
+
+classing way - use salt and iterations
+
+- hugely slows down password cracking
+- simple passwords can still be cracked on specialized hw
+
+Modern way - use a memory hard function
+
+- cracking a pass requires a decent amount of memory
+- specialized hw with many cores do not have enough power
+
+##### Importance of salt
+
+SMBv1 (Microsoft) does not salt their password. Without salt same password will result in the same hash.
+
+1. multiple hashes can be cracked at once
+2. hashes can be calculated in advance (aka "rainbow table") (easy for 8letter passwords)
+
+For each user we store a random component to compute the hash
+
+Examples:
+
+- WPA and WPA2 use the SSID as salt, and 4096 iterations of HMAC-SHA1
+  - each test becomes expnsive
+  - only simple passwords can be cracked
+- kerberos pre-auth
+
+##### Time-memory trade-off
+
+when you double the memory, it is four times faster to invert the function
+
+$T ~ \frac {N^2} {M^2}$
+
+Rainbow tables are an optimization of this TMTO
+
+Basic idea - organize hashes in chains
+
+we agree on a set of passwords to crack
+
+we create a reduction function r (collision free function that maps some hash to some pt): it takes a hash as input and produces a password from our set.
+
+Then we build chains of hash-reduce, and we keep the first and the last element of each chain.
+That is how we can save memory and we pay for this with more time to crack the passwords
+
+To build this table we create four chains and only store the first and last elements.
+Typically, the chains countaine order of 10k of hashes.
+
+let's try to crack h6 that was leaked:
+we check if h6 is a known end of chain - it is not
+reduce and hash, find known hash, and loop around to the possible password.
+
+By storing only the start and end of 4 chains we can crack any of the 10 passwords contained in the chains.
+
+Hellman's original trande-off becomes a colision problem.
+
+Solution is rainbow tables which has different reduction function used.
+
+#### Storing hashes with salt and iterations
+
+using salt prevents two issues - cannot crack multiple hashes with a single hash calculation and cannot calculate the hashes in advance
+
+**What cryptographic primitive can we use to combine a salt with a hash** - concat
+
+Salt is not enough - a simple way of slowing the attacker is to apply the hash function multiple times (because modern GPUS calculate hundreds of billions of hashes per second)
+
+Salt standards - _password based key derivation function 2_
+
+used in WiFi WPA, MacOS, Linux, etc.
+
+#### Memory hard function hashin
+
+##### Memmory hard function
+
+purposefully hard to implement efficiently, it takes a lot of memory to compute.
+
+Better password hash functions require a certain amout of memory (e.g. 16MB) - for one operation it's easy, but to crack is hard because it is paralelized.
+
+The functions run through many steps and intermediate results are in memory, each step depends on results from previous steps.
+If you do not have enough memory you can still recalculate the results.
+
+Scrypt and Argon2
+
+When implementing password storage:
+
+- always use salt and make the hash function slow
+- yescrypt, scrypt, argon2
+
+#### Password storage in Linux
+
+most distros switched to yescrypt (memory hard function)
+
+the salt and hash are stored in /etc/shadow
+
+"\$y\$" is the thype of hash
+
+### Secure remote password protocol
+
+PAKE allows to verify the password of a remote party, and exchange a key (e.g. for encryption)
+
+PAKE is similar to Diffie-hellman but uses the symmetric key.
+
+Password cannot be bruteforced because it is in exponents, and it's safe from eavesdropper.
