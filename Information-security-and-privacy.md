@@ -1322,6 +1322,127 @@ Challenge-response protocols we have seen and Kerberos use symmetric crypto
 
 ## Exercises 3
 
+**Exercise 1**
+Explain what is the most important principle for access control in IT systems.
+
+The most important principle is the least privilege principle. It mandates that each subject should
+only have the minimum set of privileges required for it to fulfill its function
+
+**Exercise 2**
+What is the difference between ACLs and capabilities?
+
+ACLs and capabilities both describe discretionary access rights that subjects have on objects.
+With ACLs, the rights are attached to the corresponding objects. Capabilities are rights that are
+attached to the corresponding subject (e.g. users or programs)
+
+**Exercise 3**
+Describe an advantage and a disadvantage of RBAC
+
+RBAC makes it simpler to manage access rights.
+• It is difficult to define roles that match the least privileges closely. So you either end up
+having many slightly different roles or roles that are too liberal.
+
+**Exercise 4**
+Linux systems store password hashes and other information about user accounts in a file called
+shadow. The file has the following access rights:
+
+```shell
+$ls -l /etc/shadow'
+-rw-r––- 1 root shadow 1359 sep 24 22:13 /etc/shadow
+```
+
+• There is a program called unix_chkpwd that is owned by the user root and the group shadow.
+It has the setgid bit set:
+`-rwxr-sr-x 1 root shadow 38912 fév 14 2019 /usr/sbin/unix_chkpwd`
+What could be the reason for the setgid to be set?
+
+The program can be run by any user (see the last x in -rwxr-sr-x). The setgid bit means that
+even when run by any user, it will run in the group shadow. This group has the right to read,
+but not modify, the file /etc/shadow (see the second r in -rw-r-----). Thus, this program could
+be used by any user for operations that only need to read the hashes but not modify them. For
+example, it could check a user’s password, which is exactly what it is used for.
+Here is a typical list of files with the setgid bit set on a Linux system.
+
+```shell
+find / -perm /g=s -group shadow -printf "%M %u %g %p\n" 2>/dev/null
+root shadow -rwxr-sr-x /usr/bin/chage
+root shadow -rwxr-sr-x /usr/bin/expiry
+root shadow -rwxr-sr-x /usr/sbin/pam_extrausers_chkpwd
+root shadow -rwxr-sr-x /usr/sbin/unix_chkpwd
+```
+
+**Exercise 5**
+When mandatory access control (MAC) is used to protect the integrity of a system:
+• Can a subject write to objects on levels above or below it (write-up or write-down)? Explain.
+• Give an example of how an operating system can use MAC to protect its integrity.
+
+• When protecting integrity, we want to prevent that subjects with lower integrity levels can
+write to higher levels. Subjects can not write to levels above them (no write-up). The goal
+is to preserve the integrity of the higher level objects.
+• Processes that interact with the internet are assigned a low level of integrity. Only few
+directories are assigned to that level. All other directories have higher levels and can not be
+accessed by those processes. This is true even if the user owning the process has DAC rights
+to write into these directories
+
+**Exercise 6**
+Consider the Universal 2nd Factor (U2F) authentication system.
+• Explain why the name of the visited website is added to the information signed by U2F.
+• Explain why a U2F second factor is better than an OATH based one time password (OTP).
+
+• This makes sure that a fake website (e.g. playpal instead of paypal) can not play man-inthe-middle and ask you to sign a challenge it got from the original server.
+• U2F uses signatures made with asymmetric keys. If the server were to be hacked, the attacker
+would only find public keys and could note impersonate the user.
+
+**Exercise 7**
+Is a biometric authentication system with a false acceptance rate of 0.01% a good system?
+
+The false acceptance rate (FAR) alone does not provide enough information to judge the quality
+of a biometric authentication system. For example, the same system could have a false rejection
+rate (FRR) of 80%, which would make it quite unusable
+(Biometric authentication systems can be judged by their equal error rate (EER) which is reached
+when the sensitivity is selected such that FER and FAR are equal.)
+
+**Exercise 8**
+Imagine that an attacker is able to intercept the service ticket and the encrypted session key
+delivered by the TGS to a client.
+• What are the mechanisms that prevent the attacker to use this information to obtain access
+to the service mentioned in the ticket?
+
+• The main protection is given by the encrypted session key. In order to obtain the service,
+the client needs to produce an authenticator when presenting the ticket. To create this
+authenticator the session key is required. The attacker only has the encrypted session key.
+To decrypt it, they would need the session key of the previous step (which is the user’s
+password hash).
+• Additionally, the ticket contains the IP address of the client. The attacker could only use
+the ticket if they were also capable of using the client’s IP address.
+
+**Exercise 9**
+Describe an attack that is possible in Kerberos if no pre-authentication is used.
+Is this type of attack completely avoided with pre-authentication?
+
+Without pre-authentication, anybody can ask the AS for a ticket granting ticket and an encrypted
+session key. The session key of the TGT is encrypted with the password hash of the corresponding
+user. An attacker can then try to bruteforce the user’s password by trying to decrypt the session
+key with the hashes of possible passwords.
+With pre-authentication, the user has to prove that they know the password hash by generating
+an authenticator in order to receive a TGT.
+The attacker can no more ask for some data that will allow them to crack the password. However,
+if they are patient, they can wait until a user logs in and requests a ticket. If they can observe
+the traffic, they can run the same attack or try to bruteforce the password from the authenticator.
+The attack is still possible, but the window of opportunity is much smaller.
+
+**Exercise 10**
+When you change your password on the website of Twitter, you can still access Twitter from
+you smartphone, without giving the new password. How is this possible?
+
+Twitter uses Oauth2 to authenticate its users. When you installed twitter on your phone, you
+had to give the password that was valid at that time. The twitter client used Oauth2 with your
+user username and password to get an access token. That token is stored in your phone and gives
+access to Twitter independently of any password change.
+If you go to the “settings and privacy” page of your twitter account you can find all active tokens
+on “Apps and sessions”. You can invalidate single tokens by cliking on “Log out the device shown”
+for each session.
+
 ## Data Security
 
 Data storage requirements are ubiquitous.
@@ -1572,3 +1693,91 @@ PAKE allows to verify the password of a remote party, and exchange a key (e.g. f
 PAKE is similar to Diffie-hellman but uses the symmetric key.
 
 Password cannot be bruteforced because it is in exponents, and it's safe from eavesdropper.
+
+## Exercises 4
+
+**Exercise 1**
+Your application uses an SQL database which stores the names, grades and year of graduation of
+students.
+• What mechanism can you apply to allow user Alice to only read data of students that
+graduate in 2025?
+
+You can define a VIEW that only returns lines that contain the graduation year 2025. Then you
+can GRANT a privilege to user Alice to read from this view.
+(The exact commands are:
+
+```SQL
+CREATE VIEW Year_2025 AS SELECT * FROM com402.students
+WHERE graduation=2025;
+grant SELECT ON Year_2025 to alice@localhost;
+```
+
+)
+
+**Exercise 2**
+Consider an application that contains medical data. For more security, it uses two different tables:
+one with the personal data of patients and the other one with their medical conditions. Three
+database users are defined:
+
+1. a user that can only read and write the personal data table
+2. a user that can read the personal data and the medical data
+3. a user that can read and write the medical data
+
+The first user is used when patients update there personal data. The second user is used when the
+patients want to see their medical information. Finally, the third user is used when a doctor logs
+in to update the medical data.
+• Which part of the application would have to be vulnerable to SQL injections, to allow a
+patient to read the medical information of another patient?
+• What is a typical way of preventing an SQL injection?
+
+The part of the application that lets a patient see their medical data uses a database user that has
+access to the complete table of medical information. If this part of the application is vulnerable to
+SQL injection, then a patient could modify an SQL request to show other patients’ medical data.
+Prepared statements are a typical technique to avoid SQL injection vulnerabilities
+
+**Exercise 3**
+• Why is transparent data encryption (the DB encrypts before writing to files) better than an
+encrypted file system (the OS encrypts the content of the files)?
+
+In the first case, the data can only be seen by database users that have sufficient privileges or by
+administrators of the server than can dump the memory of the database. In the second case, users
+of the operating system that do not have the right to access the database files can also see the
+data.
+
+**Exercise 4**
+• Give two reasons why it is important to salt password hashes.
+
+A different salt per hash forces the attacker to crack each hash separately. They can not try to
+crack several hashes with a single hash calculation. A random salt prevents the attacker from
+calculating the hashes in advance.
+
+**Exercise 5**
+You just built a very nice rainbow table that can crack 99% of 8 letter passwords. Compared to a
+brute-force attack, it uses 1,000 times less hash operations to find a password.
+You are given a list of ten thousand hashes that need to be cracked.
+• Is it going to be faster to crack the passwords with the rainbow table or with a classical
+brute-force attack?
+
+Although a rainbow table reduces the effort needed to crack a single password, it can not crack
+multiple passwords at a time. You have to search for the corresponding end of chain of each hash
+to crack. So cracking 10,000 passwords will be 10,000 times longer that cracking one password. If
+you have been able to build a rainbow table, this means that the passwords are not salted. Thus,
+a brute-force attack can hash all possible passwords only once and search for the corresponding
+hashes in the list of 10,000 hashes. So even if brute-force is 1,000 times slower, it will still be 10
+times faster than 10,000 rainbow table runs.
+
+**Exercise 6**
+• Why calculating a Windows password hash (based on MD4) is about 200,000 times faster
+than calculating a Linux password hash based on SHA512?
+
+SHA512 is indeed more complicated to calculate than MD4 but the main part of the difference is
+due to the fact a Linux hash is calculated with thousands of iterations (typically 5,000). This very
+efficiently slows down the cracking process.
+
+**Exercise 7**
+• Why is a graphics card that can calculate 10,000 hashes in parallel, not efficient for cracking
+password hashes like Argon or Scrypt?
+
+These hash functions are memory hard, which means that they need a certain amount of memory
+to be calculated efficiently. Although graphics card have many processing cores, they don’t have
+enough memory per core to calculate the hash efficiently.
