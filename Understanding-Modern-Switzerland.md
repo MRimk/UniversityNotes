@@ -290,3 +290,106 @@ Elected by Federal Assembly for 4 years
 Rotating Presidency (each year)
 Speask with one voice (principle of collegiality)
 Each member is head of one ministry
+
+## Swiss political system and its major political institutions
+
+### Proportional representation
+
+**Proportional electroral system** for the National Council since 1919 and earlier in the cantoms themselves.
+
+Cantos are Electoral districs + Seats in the NC per canton are attributed according to the population size
+
+Proportional representation favors small parties and is more representatitve of votes expressed
+
+It is by rule of majority election in single member district - 2 rounds, the first round is won by 2 or 3 candidates and the second round is won by one
+
+Composition of federal instances according to proportional representation (language, regions, parties, ...): Federal Council, Supreme Court (**Unwritten rule**)
+
+Widespread principle that applies not only to the political authorities but also to the administration, interest groups, etc
+
+**This favors power-sharing instead of majoritarian decision**
+
+### Instruments of direct democracy
+
+"country of direct democracy"
+
+In no other country, direct demacracy has such a **structuring impact** on national politics.
+
+**There are three different instruments**:
+
+1. **Compulsory referendum** for constitutional amendment and important international treaties (1848 and 1977)
+2. **Optional referendum** every decision by the Parliament can be brought to the poll if 50k citizens sign the referendum within 100 days (1874)
+3. **Constitutional popular initiative** - 100k signatures are required in 18 months (1891)
+
+#### Examples of popular initiatives refused by the citizens
+
+- 1989 - Switzerland without Army - no = 64.4%
+- 2009 - 6 Weeks of Holiday for everybody - no = 66.5%
+- 2013 - Direct election of the Federal Council by the People - No = 76.3%
+
+Other initiatives:
+
+- Ban the construction of Minarets in Switzerland (2009)
+- Extradition of Criminal Foreigners (Accepted in 28.11.2010)
+- Against mass immigration (accepted 02.2014, only 50.3% yes)
+
+### The structuring impact of direct democracy on Swiss politics
+
+#### Popular initiative
+
+very few popular initiatives have been accepted, but change over time
+
+Popular initative - innovative dimension, also openness of Swiss political system and favorable to changes
+
+**Indirect impact** of the initiative - impulses for partial reforms in the direction of the goals of the initiative (e.g. counter-proposal by Federal Council)
+
+#### Optional referendum
+
+**Referendum** - veto dimension, braking reforms, interven at the end of decision-making process (=veto point)
+
+**Indirect impact** of referendum:
+
+1. political integration of oppositional forces
+2. development of the pre-parliamentary phase of the decision-making process in order to find compromises (= consultation of potential opponents)
+
+### Different phases of political integration - from "Kulturkampf" and class struggle to political integration
+
+#### Kulturkampf
+
+There were numerous tensions between protestants and catholics in 19th cetury
+
+1848-1891 - several successful referendums launched by Catholic conservatives against proposals by the majoritarian Radical-protestants
+
+Declining importance of religious issues during the last quarter of the 19th century resulted in the first catholic-conservative in the Federal Council (1891)
+
+#### Class struggle -> political integration
+
+After religion in the 19th century, class conflict became the most salient political cleavage.
+Numerous social conflicts at the beginning of the 20th century - **General Strike of 1918**
+
+From political tensions to political stability/integration:
+
+1. progressive pacification of labor relations ("Labor peace agreements" of 1937)
+2. Integration of the social democratic party in the Federal Council (1943)
+
+#### General strike of 1918
+
+Main Demands:
+
+- introduction of proportional representation for the elections in the National council
+- reduction of working hours to 48 hours per week
+- introduction of pension insurance
+- right to vote for women
+
+strikers were defeated but can also interpreted as a "victory of the losers"
+
+### Major political parties and the composition on the Federal Council
+
+- PLR/FDP « parti libéral-radical » (german FDP) (1894): Radicals + Liberal (formal merger in 2009)
+- PDC/CVP (1912): Catholic-conservative, Christiandemocratic Party
+- PSS/SPS (1888): Social-democratic Party
+- UDC/SVP (1919): Swiss people Party (Former Farmer and small business party)
+
+- Strong cantonal roots + Weakness of parties at the federal level
+- Composition of Parliament and Government: sildes
+- **Exceptional political stability** in the composition of the Parliament and the Government
