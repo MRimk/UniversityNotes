@@ -819,3 +819,106 @@ class GCounter(object):
 #### Local-First Software - simpler backends
 
 Application becomes sequence of messages storage and sync, and therefore it becomes way easier to deploy.
+
+## Replication of Consensus
+
+### Replication
+
+Replicating storage or nodes in a distributed system
+
+#### Storage Replication
+
+Storage-specific replication techniques assume that node stays alive, and there is a focus on making sure that disk failures are supported.
+
+Classic storage replication techniques:
+e.g. disk failure -> RAID (redundant array of inexpensive disks)
+
+- RAID1 - mirroring (2 copies on 2 disks)
+- RAID5 - striping with parity. (2 disks store one stripe each and third one stores parity disk). Tolerates any **single** disk failure
+- RAID6 - double parity. Tolerates 2 disk failures.
+
+Disks are passive and there is an "authority" who knows/governs the "state of universe"
+
+Replication of distributed _Nodes_ - we want to replicate any node such that when one fails, the system can work. **Problem** - there is no "authority"
+
+### Agreement or Consensus
+
+There are several (n) nodes agreeing on one state (value).
+
+One way to categorize consensus protocols broadly: permissioned or permissionless (since 2008)
+
+- Permissioned - algorithm assumes a well-defined, closed group of n nodes.
+- Permissionless (Bitcoin) - makes nodes prove that they did something - proof-of-work
+
+Narrower categorization for permissioned protocols: Crash failures (loses power, becomes unoperational) vs Byzantine failures (a node might be malicious or compromised)
+
+Many different consistency models - **How** consistent?
+
+- Serialization - we want all nodes agreeing on a single history
+- Eventual consistency - nodes may disagree for a while but eventually come to agreement
+
+#### Paxos consensus algorithm
+
+Assume that there is a set of state nodes - Acceptors. For now have 2 of them. (s1, s2)
+And there are clients which drive the agreement - Proposers (alice, bob)
+
+_Case 1:_
+Assume Bob does not exist, Alice proposes state transaction T, and the state nodes will say yes to T because they have not heard from Bob.
+
+1. **Problem** - alice might not know of a failure before it is accepted, s2 might fail before sending back yes.
+2. If alice wants to tolerate f failures (f < n), then it must be able to move on after waiting for at most n-f answers.
+
+_Case 2:_
+Now assume Alice and Bob proposes transactions T1 and T2, and now the **problem** is that if both wait for just one server to answer, they might disagree (s1 yes to Alice, s2 yes to Bob)
+
+This illustrates **main principle**: To reach agreement of only 1 value, we need to have a _majority_ - n > 2f (or n >= 2f + 1).
+
+Now have 3 acceptors, and 2 clients - alice and bob.
+A and B propose T1, T2.
+Alice transaction gets accepted by s1 and s2 first, bob's gets accepted by s3, and s2 replies to bob that alice won. --> Server 2 is the only disambiguating authority, and if it fails, no one knows who won.
+
+Also a problem
+If there are more proposers.
+Now have 3 acceptors, and 3 clients - alice, bob, and charlie.
+A, B, and C propose T1, T2 and T3.
+s1 accepts A, s2 accepts B, and s3 accepts C -> **Fundamental problem** - no one gets a majority.
+
+**Fundamental problem** - how do you know when consensus has been reached?
+each client has $\le$ n-f observations, so it doesn't have full picture.
+e.g. If i talked with majority and got 0 yes answers, I know i failed; If i talked with majority and got 1 yes answer, i might have succeeded.
+e.g. if I got f yeses, then i might have failed.
+=> "I don't know"
+
+if i got 0 yes, definitely failed; if i got f+1 yes, "looks like" i succeeded.
+
+##### Fundamental challenges
+
+1. Be able to _try again_ on failure.
+2. If agreement might have happened, the future tries have to be consistent with past attempts that _might_ have agreed
+
+**Tackling try-again**:
+Use lock-step time - steps or "ballot numbers" (they are logical steps not real time steps)
+
+Alice convinces s1 on step 1, B on s2, C on s3, so now try again. They start again all, but alice gets first to step 2. So alice wins.
+
+**Tackling phases**:
+
+1. figure out if I _can_ succeed
+2. figure out if I _did_ succeed
+
+Paxos has a time-step reservation system:
+
+1. client asks each server to _reserve_ ("prepare") step for me
+2. only if succeeds, client asks each server to _record_ proposal.
+
+E.g. 3 servers, 1 client Alice.
+Alice sends a proposal "reserve step 1" to each server, waits for answers. Gets majority of the answers "yes", so majority moves forward to ask "record 1:T". And since nobody broke alice's reservation, those recordings are successful from the majority, so the servers knows that alice had a majority.
+
+What happens when s3 dies (and s1 got another reservation from B, which means s2 and s3 guaranteed recording of alice -> s2 is the only one left confirming this)?
+S1 know that alice _might_ have succeded, s2 knows that alice succeeded.
+Bob while reserving step 2 on s2 sees that alice might have succeeded in step 1, and if it succeeds in step 2, it records latest/highest prepared T (because bob is obligated to be consistent with alice's attempt).
+
+**Key rule of Paxos** - if it's possible that at previous timestep client might have succeeded, current client at current step must carry out that previous attempt.
+
+e.g. 3 servers, 2 clients Alice and bob:
+Alice sends a proposal "reserve step 1" to each server, waits for answers. Gets 1 answer "yes" from s1, Bob sees that one server might have succeeded, and sends his reservation for step 2. Bob succeeds at s2 and s3, Bob sends record T', and then s3 records T'. And this depends on the majority that agrees to have the view of overwriting or saving alice's step.
