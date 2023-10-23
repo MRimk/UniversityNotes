@@ -530,10 +530,292 @@ Need to handle:
 - nodes leaving (gracefully)
   - replicating data, changing routing tables
 - nodes leaving (unresponsive)
-  - making others successors while successor is pointing to another value (**see drawing**) TODO: insert drawing
+  - making others successors while successor is pointing to another value (**drawing of successors pointing to next, next next, etc**)
   - because of this system is going to underperform
 
 Approach:
 
 - split correctness and performance (tolerate some incorrectness)
 - transient failures can be retried
+
+## Decentralized Storage & Distribution
+
+### Storing data (reliably)
+
+On local machine:
+Storing in redundancy (RAID - redundant array of independent discs, FEC/ECC/erasure codes) - encode the data and some additional data such that we don't lose it.
+
+Distributed:
+Block-, filesystem- or object-level access (SAN, NAS, AWS S3) - different levels of abstraction
+Redundancy - should all 1000 computers have a copy - no, but more than one copy
+Concurrency control - locking does not scale well but is easy
+Sharding - keeping a subset of the data in one place
+
+### CAP theorem - reminder
+
+Definitions:
+
+- Consistency - anyone reading will read the last write (or error)
+- Availability - all requests get a non-error reply
+- Partition tolerance - dropped/delayed packets
+
+All of them overlap, but not all 3 of them.
+
+Beyond CAP:
+think of availability as latency -> Latency vs consistency (how much am i willing to wait to be consistent or how consistent do i need to be if i want to wait little time)
+-> eventual consistency (at some point i will be consistent)
+
+### Goals and Challenges
+
+Availability - robust to churn, individual node failures, etc (durability could also be included but also independent - how robust are we to losing data)
+
+Consistency - how do we stay in sync? weak or strong consistent?
+
+Scalability, load balancing - efficiency in bandwidth and storage space
+
+Modifiability/mutability - if i want to have data that is modifiable, how do we manage consistency; how to manage multi-writing.
+
+Malicious security - eclipse (have enough keys to take away the data), tampering and rollback attacks (serving old version of the data)
+
+InfoSec (CIA triad) - confidentiality, integrity, availability - access control, logging, accountability
+
+(Logical) data organization - "flat"? files? directories? databases? graph?
+
+(Physical) data location - where should it be stored?
+
+### Building BitTorrent
+
+#### Specificaiton
+
+Distribute a large, static (immutable) files:
+
+- from a source node with limited bandwidth
+- to a large number of users
+- as fast as possible
+
+Scalable - 22% up- and 3% downstream of global internet traffic
+
+Assume users are self-interested = don't assume they want to help
+
+How to build this? Core intuition? - turn downloaders into uploaders
+
+#### Distribution
+
+Source has 6 chunks of data. At any point it is uploading at most to 2 nodes.
+Distribute chunks to the nodes in different steps, and when all the chunks are in the network, all nodes eventually get the full data.
+
+#### Sub-problems
+
+- Advertising a file
+- how to find peers to download from
+- verfiying integrity of large files (or parts of them) - not a virus
+- optimizing performance
+- aligning incentives (downloaders vs uploaders)
+
+##### Distribution and integrity of (large) files
+
+A client should be able to verify:
+parts of file, as they are downloaded
+the whole file (after download)
+
+Solution:
+part 1 - compute hashes for parts (chunking)
+part 2 - hash tree (merkle tree) - hash over the hashes building a tree (otherwise ineficient to transfer data ie all hashes)
+
+##### Finding peers / bootstrapping
+
+Two options:
+
+- Trackers - server whose role is to send peers to other peers who have the files
+- Mainline DHT (based on Kademlia) - key is the hash of the file, value is the list of peers who are working on that file.
+
+Join the swarm and connect to ~80 peers.
+
+##### Publishing new content
+
+1. "Prepare" the file (chunks and build Merkle tree)
+2. Register with a "tracker"
+3. Publish a .torrent file or magnet (DHT) link
+
+##### Performance and Incentives
+
+One of the key ideas is to download rarest data blocks ("chunks") first - entropy maximization
+
+Use Tit-For-Tat strategy ("choking" protocol) - if you're mean to me I am mean to you, if you're good to me I am good to you.
+
+- "chokes" punishes peers that are not uploading
+- "unchokes" peers with the highest upload rates
+- "optimistic unchoking" looks for better/bootstrapping peers
+
+Make the download rate proportional to the upload rate for each peer.
+
+BitTorrent does not take into account where (location-wise) your peers are. And the download and upload speed are not symmetrical.
+
+#### BitTorrent-inspired solutions
+
+Servers:
+
+- Twitter's "Murder" server deployment system (went from 40min to 12s deployment)
+- Facebook's same thing
+
+Games:
+
+- "Blizzard Downloader" - WoW, Diablo 3
+- Wargaming's - World of Tanks, ...
+
+OS:
+
+- Windows Update
+- others have tried - "DebTorrent"
+
+#### BitTorrent limits
+
+Why did DebTorrent fail to materialize?
+
+- Not suited for small files (overhead)
+- Not suited for sharing overlapping sets of data (across torrents)
+- Data is immutable (and not re-usable across torrents)
+- Locality of peers is ignored - ISPs do traffic-shaping
+
+For DebTorrent, both "1 huge torrent" or "1M+ small ones" = inneficient
+
+### IPFS - Inter-Planetary File System
+
+Protocol for P2P distributed file system, fully decentralized
+
+Designed to address (perceived) flaws in HTTP - why do i need to visit this exact website, link-rot, my data etc
+
+Deployed at massive scale:
+2023: >300k nodes, millions of unique weekly users, 100+ PiB stored
+
+A decentralized file system inspired by:
+
+- Kademlia DHT
+- BitTorrent (block exchange)
+- Git versioning
+- Self-certifying filesystems
+
+#### Representing a filesystem in a DHT
+
+Everything is immutable
+
+All objects are self-certifying (files, links, folders, changes) - prevents websites being exact copies of each other; the hash of data coming from different nodes will be the same even if it's coming from different places.
+ID is computed based on object's hash
+
+Any IPFS object (file, folder) is represented in the same way:
+
+```go
+type IPFSObject struct {
+  //array of links
+  links []IPFSLink
+
+  //opaque content data
+  data []byte
+}
+
+type IPFSLink struct {
+  Name string       // target's name
+  Hash Multihash    //... hash
+  Size int          // ... size
+}
+```
+
+##### Representig a file < 256kB
+
+It is a blob, and representation looks like git
+
+##### Representing a file > 256kB
+
+Split it in chunks - list of smaller files
+
+##### Representing a directory
+
+Object that has links to files, to subdirectories. This is a directed acyclic graph.
+
+##### Versioning
+
+- Git-like
+- Build a mMrkle DAG
+- Build a snapshot of the current state
+- Hash of both content and its parent commit's hash
+- Creates a Git-like log of versions
+
+Problems:
+How do we know the latest version?
+merge problems
+
+##### Naming (mutable) data
+
+Objects are immutable so:
+
+- use a separate namespace for mutable data
+- use mutable, signed pointers to immutable data
+- not content-addressable - advertise link on routing system (because the system is dynamic, we need to announce it every ~4 hours)
+- built-in limit to rollback attack (since the link has an expiration time)
+
+These are independent of the file system.
+
+For naming we will use an extension that is IP Naming System:
+use public key to make sure that no one else is using it
+
+### Shifting paradigm - Local-First Software
+
+Git, Google Docs, Apple Notes - work offline and you (nearly) get the full experience
+
+How?
+Multi-versioning concurrency control - how to "merge" versions that forked?
+
+Goals:
+
+- local client is first-class citizen
+- works offline
+- eventual consistency
+- ideally - can handle forks
+
+What tool - Conflic-Free Replicate Data Types (Data structure + Algorithm + Protocol)
+
+### Conflict-Free Replicate Data Types (CRDTs)
+
+Various types:
+
+- Values (simples approach - last write wins)
+- Counters (allow machines to count)
+- Lists
+- Text
+
+Categories:
+Operation-based - commutative replicated data types (CmRDTs)
+State-based - convergent replicative data types (CvRDTs)
+
+#### G-Counter CRDT
+
+Grow-only counter - replicated across N machines
+
+Add(x) - updates our local counter
+
+Query() - returns the value
+
+Merge(other_state) - merge's other's state
+
+```python
+class GCounter(object):
+  def _init_(self, i, n):
+    self.i = i # server id
+    self.n = n # number of servers
+    self.xs = [0] * n
+
+  def add (self, x):
+    assert x >= 0
+    self.xs[self.i] += x
+
+  def query(self):
+    return sum(self.xs)
+
+  def merge(self, other):
+    zipped = zip(self.xs, other.xs)
+    self.xs = [max(x, y) for (x, y) in zipped]
+```
+
+#### Local-First Software - simpler backends
+
+Application becomes sequence of messages storage and sync, and therefore it becomes way easier to deploy.
