@@ -1697,13 +1697,11 @@ Password cannot be bruteforced because it is in exponents, and it's safe from ea
 ## Exercises 4
 
 **Exercise 1**
-Your application uses an SQL database which stores the names, grades and year of graduation of
-students.
+Your application uses an SQL database which stores the names, grades and year of graduation of students.
 • What mechanism can you apply to allow user Alice to only read data of students that
 graduate in 2025?
 
-You can define a VIEW that only returns lines that contain the graduation year 2025. Then you
-can GRANT a privilege to user Alice to read from this view.
+You can define a VIEW that only returns lines that contain the graduation year 2025. Then you can GRANT a privilege to user Alice to read from this view.
 (The exact commands are:
 
 ```SQL
@@ -1716,68 +1714,415 @@ grant SELECT ON Year_2025 to alice@localhost;
 
 **Exercise 2**
 Consider an application that contains medical data. For more security, it uses two different tables:
-one with the personal data of patients and the other one with their medical conditions. Three
-database users are defined:
+one with the personal data of patients and the other one with their medical conditions. Three database users are defined:
 
 1. a user that can only read and write the personal data table
 2. a user that can read the personal data and the medical data
 3. a user that can read and write the medical data
 
-The first user is used when patients update there personal data. The second user is used when the
-patients want to see their medical information. Finally, the third user is used when a doctor logs
-in to update the medical data.
-• Which part of the application would have to be vulnerable to SQL injections, to allow a
-patient to read the medical information of another patient?
+The first user is used when patients update there personal data. The second user is used when the patients want to see their medical information. Finally, the third user is used when a doctor logs in to update the medical data.
+• Which part of the application would have to be vulnerable to SQL injections, to allow a patient to read the medical information of another patient?
 • What is a typical way of preventing an SQL injection?
 
-The part of the application that lets a patient see their medical data uses a database user that has
-access to the complete table of medical information. If this part of the application is vulnerable to
-SQL injection, then a patient could modify an SQL request to show other patients’ medical data.
-Prepared statements are a typical technique to avoid SQL injection vulnerabilities
+The part of the application that lets a patient see their medical data uses a database user that has access to the complete table of medical information. If this part of the application is vulnerable to SQL injection, then a patient could modify an SQL request to show other patients’ medical data. Prepared statements are a typical technique to avoid SQL injection vulnerabilities
 
 **Exercise 3**
 • Why is transparent data encryption (the DB encrypts before writing to files) better than an
 encrypted file system (the OS encrypts the content of the files)?
 
-In the first case, the data can only be seen by database users that have sufficient privileges or by
-administrators of the server than can dump the memory of the database. In the second case, users
-of the operating system that do not have the right to access the database files can also see the
-data.
+In the first case, the data can only be seen by database users that have sufficient privileges or by administrators of the server than can dump the memory of the database. In the second case, users of the operating system that do not have the right to access the database files can also see the data.
 
 **Exercise 4**
 • Give two reasons why it is important to salt password hashes.
 
-A different salt per hash forces the attacker to crack each hash separately. They can not try to
-crack several hashes with a single hash calculation. A random salt prevents the attacker from
-calculating the hashes in advance.
+A different salt per hash forces the attacker to crack each hash separately. They can not try to crack several hashes with a single hash calculation. A random salt prevents the attacker from calculating the hashes in advance.
 
 **Exercise 5**
-You just built a very nice rainbow table that can crack 99% of 8 letter passwords. Compared to a
-brute-force attack, it uses 1,000 times less hash operations to find a password.
-You are given a list of ten thousand hashes that need to be cracked.
+You just built a very nice rainbow table that can crack 99% of 8 letter passwords. Compared to a brute-force attack, it uses 1,000 times less hash operations to find a password. You are given a list of ten thousand hashes that need to be cracked.
 • Is it going to be faster to crack the passwords with the rainbow table or with a classical
 brute-force attack?
 
-Although a rainbow table reduces the effort needed to crack a single password, it can not crack
-multiple passwords at a time. You have to search for the corresponding end of chain of each hash
-to crack. So cracking 10,000 passwords will be 10,000 times longer that cracking one password. If
-you have been able to build a rainbow table, this means that the passwords are not salted. Thus,
-a brute-force attack can hash all possible passwords only once and search for the corresponding
-hashes in the list of 10,000 hashes. So even if brute-force is 1,000 times slower, it will still be 10
-times faster than 10,000 rainbow table runs.
+Although a rainbow table reduces the effort needed to crack a single password, it can not crack multiple passwords at a time. You have to search for the corresponding end of chain of each hash to crack. So cracking 10,000 passwords will be 10,000 times longer that cracking one password. If you have been able to build a rainbow table, this means that the passwords are not salted. Thus, a brute-force attack can hash all possible passwords only once and search for the corresponding hashes in the list of 10,000 hashes. So even if brute-force is 1,000 times slower, it will still be 10 times faster than 10,000 rainbow table runs.
 
 **Exercise 6**
 • Why calculating a Windows password hash (based on MD4) is about 200,000 times faster
 than calculating a Linux password hash based on SHA512?
 
-SHA512 is indeed more complicated to calculate than MD4 but the main part of the difference is
-due to the fact a Linux hash is calculated with thousands of iterations (typically 5,000). This very
-efficiently slows down the cracking process.
+SHA512 is indeed more complicated to calculate than MD4 but the main part of the difference is due to the fact a Linux hash is calculated with thousands of iterations (typically 5,000). This very efficiently slows down the cracking process.
 
 **Exercise 7**
-• Why is a graphics card that can calculate 10,000 hashes in parallel, not efficient for cracking
-password hashes like Argon or Scrypt?
+• Why is a graphics card that can calculate 10,000 hashes in parallel, not efficient for cracking password hashes like Argon or Scrypt?
 
-These hash functions are memory hard, which means that they need a certain amount of memory
-to be calculated efficiently. Although graphics card have many processing cores, they don’t have
-enough memory per core to calculate the hash efficiently.
+These hash functions are memory hard, which means that they need a certain amount of memory to be calculated efficiently. Although graphics card have many processing cores, they don’t have enough memory per core to calculate the hash efficiently.
+
+## Programming languages security
+
+### Motivation
+
+Rust and safe programming languages.
+There has been a push to have more Rust (android, linux etc)
+
+Part of this push if google's 2/3 security rule:
+
+- code that processes untrustworthy input
+- code written in an unsafe language (C/C++)
+- code without strong sandbox
+
+Using a "safe" programming language makes rule unnecessary
+
+#### Consequences of memory safety vulnerabilities
+
+Those vulnerabilities that receive highest severity rating, are mostly memory-safety mvlnerabilities.
+
+~70% of android's high severity vulnerabilities are of memory safety.
+
+Android 13 roll-out most of its new code is in memory-safe language
+
+Morris Worm was an attack on 1M lines of code and it was deemed to be too expensive to rewrite entire codebase in memory safe language (in 1988). Now it's several orders of magnitude more code and there are still problems
+
+### Type safety
+
+Type system is a system that assigns a **type** to every **term** (variable, expression, function)
+
+Type of a **value** specidies which operations can be applied to
+Type of a **variable** limits values that it can be assigned
+Type of an **expression/function** delimits values it accepts and can produce
+
+**Definition** - Well-typed programs cannot go wrong (a well-founded program cannot do anything that is not defined to do)
+
+#### Static/Dynamic Typing
+
+**Static** type system is checked by the compiler (or preprocessors) before program executes (C, Java, Go, Rust, OCaml)
+
+- Type checker uses typing rules to determine type of all terms
+- Compare inferred types against declared types and operations performed on values
+- Mismatch is typing error
+
+**Dynamic** type system tracks types of objects at runtime and prevents improper operations from being applied to them (python, javascript)
+
+Dynamic will expose bugs and crashed during runtime, whereas static will show them at compile-time.
+
+Advantages of Static:
+
+- no runtime overhead
+- find errors before program runs
+- find all errors
+- better for building reliable systems and groups of developers
+
+Advantages of dynamic:
+
+- more flexible
+- fewer type declarations
+- better for quick and dirty programming
+
+#### Declared/Inferred types
+
+Originally languages required full type declarations for all functions and variables, and compilers only infer expression types.
+
+Hindly-Milner type inferece used in Haskell (spread into other languages)
+
+#### Strict/Relaxed
+
+Strict typing enforces typing and does not allow program to continue if the types don't match.
+
+C is not strict.
+
+#### Why is C Type system so ugly/flexible?
+
+C was a thin layer over assembly language, designed by talented programmers for talented programmers. -> Machines were slow, memory was small
+
+Type system did not constrain programmers or prevent them from using assembly language tricks.
+
+Clearly successful, but times change - now the correctness and security are far more important and C's type system is not helpful.
+
+#### Type safety and security
+
+type checking is the only "automatic" bug detection technique in widespread use.
+
+- Type system might prevent you from expressing something exactly in the manner you want
+- it will not stop you from expressign a computation
+- Problems found by sound type system are real errors: No false positives
+
+In Java the programmer does not have access to direct memory and only access to objects and their representations.
+
+#### Type confusion bugs are exploitable
+
+Often when objects are being cast, there could be bugs which can be exploited.
+
+Example - if there is a downcast from an inherited class to a narrower class. This violates memory safety.
+
+### Memory safety
+
+(is the monkey in the cage or outside?)
+
+Memory safety is an essential programming language property.
+Code can only access data within live regions of memory whose pointer is properly obtained.
+
+In a safe language, runtime safety will inform about memory safety, in an unsafe language, the program might crash or might have some other behaviour (it is undefined behaviour).
+
+**Definition** - memory safety ensures that only valid objects are accessed in bounds
+
+**Spactil memory safety** - objets are only accessed in bounds. - after pointer arithmetic, the new pointer still points to the same object
+
+**Temporal memory safety** - only valid objects are accessed. - the underlying object has not been freed.
+
+These safeties are hard to achieve in systems programming languages.
+
+#### Memory corruption
+
+Unintended modification of memory location due to missing/faulty safety check.
+
+```C
+void vulnerable(int user1, int *array){
+  //missing bound check for user1
+  array[user1] = 42
+}
+```
+
+#### Spatial memory safety error
+
+the pointer is updated to point oustide of the valid object
+the pointer is used to dereference invalid memory
+
+(if you're lucky, the program will crash, if unlucky the program will overwrite some data)
+
+```C
+void vulnerable(){
+  char buf[12];
+  char *ptr = buf[11];
+  *ptr++ = 10;
+  *ptr = 42
+}
+```
+
+#### Temporal memory safety error
+
+the referenced object is freed and no longer "live"
+the pointer is used to dereference invalid memory
+
+```C
+void vulnerable(){
+    free(buf);
+    buf[12] = 42;
+}
+```
+
+#### Implementation
+
+- Bounds checking
+  - check that every indexed memory reference is within array boudns
+  - compiler optimizations can eliminate some runtime checks
+- Lifetime tracking
+  - use after free is not allowed
+  - double free is not allowed
+  - memory leakage is bad (but allowed)
+- Automated storage reclamation
+  - garbage collection
+  - reference counting
+  - smart pointers/borrow checking
+
+##### Bounds Checking
+
+every region of memory has a length associated with it
+
+C's interior pointers make tracking more complex (Java does not allow them)
+
+Verify that every memory access in in-bounds
+
+One of the difficulties in C is that you can create internal pointers.
+
+In a smart compiler no check is necessary every loop iteration since it can determine that value of i is within array before the loop using language semantics.
+
+##### Overhead of bounds checking
+
+Overhead for enforcing spatial memory safety for C code is significant (softbound reported 67% overhead, it is due to a lot of additional metadata needed to control this and for each memory access you need to do 2-3 more checks)
+
+Overhead for Java is not nearly as large (it is reported 3-10% on small benchmarks) and similar was found for Rust. This is because the size of the object can be stored in the object itself.
+
+##### Automated Storage reclamation
+
+reclaim and reuse memory that will not be accessed in future execution - conservative approximation - reclaim memory when it's not reachable
+
+Prevent errors with manual reclamation (malloc/free):
+double free, use after free or not freeing.
+
+Many algorithms: refernce counting, garbage collection.
+
+##### Temporal memory safety and security
+
+double free is an **integrity** concern - data structures of the allocator may serve as arbitrary write primitive
+
+Missing free is an **availability** concern - basis for denial-of-service attack (when memory is used up and program crashes)
+
+##### Reference counting
+
+every block of memory maintains a count of numbers of pointers to it:
+1 when block is allocated
++1 copying pointer
+-1 dropping pointer
+
+Conceptually simple but fidgety to implement
+
+Memory freed immediately when last pointer is dropped (count = 0)
+
+#### Garbage collection (GC)
+
+When program is running out of space on heap, stop and run collector to find uncreachable objects.
+Pauses program execution
+Uncollected garbage increases memory requirements
+may be less expensive than RC
+Collects unreachable cyclic structures.
+
+One of the simplest - **Mark-And-Sweep GC**.
+First phase is marking where we start with the root set and then recursively go through the objects and mark them.
+Second phase is going through the whole heap and removing unmarked objects.
+
+It can be implemented for C and C++, conservatively scanning for pointers.
+
+##### GC overhead
+
+GC overhead is difficult to measure
+
+Has a reputation for being significant
+
+More troublesome is unpredicatble interruptions (there are pause-free GCs)
+
+#### Rust
+
+Safe programming language (type and memory)
+
+Ownership types reduce need for runtime gc (also allows unsafe code)
+
+For low-level programming - efficient code, no gc, optional reference counting.
+
+Becoming popular for systems programming - already in use for the Linux kernel, Android, Firefox.
+
+##### Rust Ownership
+
+Variables **own** the value they are bound to (contain)
+
+When variable goes out of scope, vlaue is deallocated (similar to C++ smart pointers)
+
+Key restriction - exactly 1 variable can be vound to a value.
+
+Why?:
+Value’s lifetime is same as variable’s lifetime
+Also, Rust allows destructive operations on values
+
+Also Rust allows Borrowing with a requirement that the lifetime of a borrower is longer than the borrowing function.
+Immutable reference borrowing.
+
+Read/Write restriction - it is useful in concurrent code to prevent data races.
+
+##### Rust reference counting
+
+Lifetime of objects is tied to variable's scope
+(sometimes this does not work e.g. trees, graphs)
+
+Rust also allows reference counted smart pointers
+
+##### Unsafe code
+
+rust also allows unsafe code that would not pass borrow checker
+put unsage code in module and wrap in sage interface
+
+Almost all non-trivial data structures implemented this way
+
+Easier to undetand and hand-verify a small amount of code that explicitly is marked unsafe
+
+### Thread safety
+
+Examples of concurrency bugs:
+
+- race conditions
+- deadlocks
+
+Example of concurrency bugs - dirtycow
+
+Very hard to find
+
+#### DirtyCoW
+
+a local privilege escalation attack that exploits a race condition in the linux kernel's memory-management subsystem
+CoW - copy on write, a mechanism for efficiently sharing modifiable data.
+
+#### In programming languages
+
+Modern languages include type-safe synchronization primites - locks, semaphores, atomic vars
+
+##### Thread safety in Java
+
+In Java, the `synchronized` keyword is used in the declaration of a method to acquire locks.
+
+##### Thread safety in Go
+
+It has Goroutines: green threads created by the go runtime, cheap and fast
+
+It has channels - means of communication between goroutines, data is copied from one end of the channel to another.
+
+##### Thread safety in Rust
+
+Ownership guarantees memory safety.
+
+Either one thread that writes or multiple threads that read the data.
+
+### Sandboxing and comparmentalization
+
+POLP ensures that a component has the least privileges needed to function
+
+#### Sandboxing
+
+implements POLP by running programs (often untrusted code) in an isolated, restricted environment
+
+is usually a implementation feature of programming languages instead of design feature
+
+system calls:
+seccomp
+cgroup
+
+##### Sandboxing example
+
+Flash\*, JS, WebAssembly inside the browser
+
+Interpreters (ghostscript/VBA macors) embedded inside word processors
+
+Without explicit permission from the user, opening a web page or document shouldn't leak secrectsin your local hard disk.
+
+The premise of sandboxing providing security relies entirely on the implementation of sandbox.
+
+**Flash and VBA macros** used to be security nightmares
+
+JS interpreter bugs remain a shource of critical browser vulnerabilities.
+
+#### Compartmentalization
+
+can enforce POLP
+
+break a complex system into small components, limit the access of entities to only what is necessary.
+
+Prevent error propagation in the system to diminish impact.
+
+Sandboxing is an implementation of this.
+
+##### Chromium
+
+**Sandboxed render engines** - cannot affect the world, except via the exposed AP
+
+Start process, establish IPC channel
+Drop all access privileges
+Do not require admin rights
+
+If a webpage crashes, it does not affect the system
+
+**Browser kernel API** - decide how render engines influence the outside world
+
+Available channels:
+User interaction
+Storage
+Network
+
+#### Compartmentalization in PL
+
+what should a basic entity be - functions, libraries? (component)
+
+How should each component interact with each other? (policy)
