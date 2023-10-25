@@ -2126,3 +2126,28 @@ Network
 what should a basic entity be - functions, libraries? (component)
 
 How should each component interact with each other? (policy)
+
+## Exercises 5
+
+**Exercise 5.1**
+Explain type safety and memory safety.
+**Exercise 5.2**
+Is type safety necessary to reduce security vulnerabilities?
+**Exercise 5.3**
+Why would a software developer prefer to use a safe programming language? Why would a developer prefer an unsafe programming language?
+**Exercise 5.4**
+Does language safety impose a burden on a software developer?
+**Exercise 5.5**
+What are the advantages and disadvantages of the memory reclamation techniques discussed in
+the lecture?
+**Exercise 5.6**
+Give examples for violations of spatial and temporal memory safety. Explain how modern programming languages prevent such violations.
+**Exercise 5.7**
+Explain static/dynamic typing. What are their advantages and disadvantages?
+**Exercise 5.8**
+Compare and contrast dynamic typing and loose (weak) typing.
+**Exercise 5.9**
+Do modern programming languages provide full guarantee for thread safety?
+**Exercise 5.10**
+Explain the principle of least privilege, sandboxing, and compartmentalization in your own words.
+Show how they relate to each other.

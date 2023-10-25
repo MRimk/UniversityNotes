@@ -393,3 +393,168 @@ strikers were defeated but can also interpreted as a "victory of the losers"
 - Strong cantonal roots + Weakness of parties at the federal level
 - Composition of Parliament and Government: sildes
 - **Exceptional political stability** in the composition of the Parliament and the Government
+
+## Parliament elections
+
+### Results of federal elections 2023
+
+#### Participation rate
+
+It was 46.6% this year.
+
+Why is it low?
+
+Swiss regularly go to vote (There are around 4 voting times per year.), and if they are not satisfied with the parliament, they can express their vote in the referendums.
+
+Because of the stability of the political climate, people are not inclined to vote.
+
+But this time it does not really apply, because it was the first time former christian democrats, now le centre overtook the radicals (by one seat). And because of that, they can ask for one more seat in the government at the cost of radicals seat.
+
+#### Which parties can be considered as the winners/losers of the elections 2023?
+
+Le centre could be considered winners, because of the overtaking of radicals.
+
+The green parties lost some seats at the cost of Swiss People's Party.
+Why?
+
+- Lack of energy resources in Europe
+- the war in Ukraine affecting the energy prices.
+- Also, that the demonstrations of green militants generated some anger among swiss citizens who didn't want to vote for them anymore.
+- The main topics of the campaign were not about day-to-day citizen problems (inflation)
+- other parties also include some elements of climate/environment preoccupation ideas in their programs
+- there could be a correlation with the fact that greens had more pro-european agenda, and swiss people party had anti-european agenda.
+
+One reason for the radical democratic party bad result is bancrupcy of Credit Suisse, which was closely related to the party.
+
+#### What were their main arguments?
+
+#### What can explain these results?
+
+Why swiss people's party is first?
+
+- conservative attitude
+- increase of immigration
+- uncertainty of world political climate
+- during the crises the tendancy is that right-wing gets more popularity
+
+Long term evolution is that main parties - radicals, soc-democrats, and christians were main ones from 1920s to 1990s, then right-wing dropped when swiss people's party got more votes with a slight decline of soc-democrats, and then the greens came into the mix.
+
+#### Why is the composition of the Parliament not complete yet?
+
+There are still second rounds for some cantons, e.g. Vaud. For the council of states (where there are 2 seats per canton). You need an absolute majority to get elected.
+
+For the proportional election of the national council, there are no second rounds.
+
+#### Will this new composition affect the election of the Federal Council next December?
+
+There are 2 rules that are clashing:
+
+- no residing federal councilor can be removed, and it only can happen if they resign themselves. Ignaccio Cassis (from radical party) does not have a high popularity, so they might be pressured to resign.
+- The centre has more seats than radical right. (but the leader of the party has already said that they will not attack the swiss people's party seat)
+
+So no, it will not.
+
+**How does Federal Council election take place**:
+it takes place every 4 years after the general election (after the second round as well). (in some cases there is a federal councelor who resigns during the term).
+During a year of general election, some old federal councelor resigns before the election to drive attention to the new candidates.
+Every individual is elected one after another, from the oldest to the youngest/newest.
+
+**Who elects the federal council**:
+federal assembly - (national council and federal council).
+You need a majority to get a seat at the federal council, so there can be negotiations.
+
+In 2003, a councelor was not reelected, and Swiss people's party gained a seat.
+
+In 2007, "the night of the long knife" happened, Swiss people's party gained seats at the national council, but majority did not reelect one of their federal council representative. Instead they elected not the leader of the Swiss people's party, but less right-winged, unknown woman that was not even in the parliament.
+When she accepted the election, she got kicked out by her party (because she betrayed her party), and resigned after 2 electoral cycles.
+
+#### Is there any limit for money to spend on ads?
+
+2 years ago there was no regulation on funding and transparency of the campaigning.
+
+Now there is a law that regulates funding of the political campaign for the election and for the popular votes.
+Subsidies of more than 5 or 10k CHF, have to be public.
+(e.g. Philipp Morris subsidized radical party and swiss people's party)
+
+### Synthesis - "Concordance Democracy" in the Shadow of the Referendum
+
+Progressive integration of major oppositional forces in government (referendum + proportional representation in NC (from 1919))
+
+Increasing importance of pre-parliamentary negotiations of decision-making process (importance to consult potential opponents about referendums)
+
+=> Structuring impact of direct democracy on Swiss politics
+
+**Paradox of Swiss politics** - direct democracy has led to "elites negotiation"
+
+_Switzerland is peaceful not because of its people but because of its institutions (W.Linder)_
+
+### Overview of Swiss politics in four phases
+
+#### 1848-1918 German and radical hegemony
+
+Constitutional revision in 1874
+1891 Formal integration of the Catholics in the FC
+And then the rise of class struggle with left/right divide - 1918 General strike as the high point
+
+#### 1919-1959 - Bourgois block vs political left
+
+1919 - proportional electoral system - end of radical domination
+
+Integration of the left
+
+#### 1959-1990s - the high-point of "Concordance Democracy"
+
+1959-2003 - "Magic Formula" stabilizes the Federal Council (222 - three largest parties, 1- for the forth)
+
+after 1945 economic growth and political stability
+
+1970s-1980s new political actors Greens (left), and later right-wing populism of UDC/SVP
+
+#### 1990s-today new polarizations
+
+1990s-2000s polarization of the right/left debate
+
+electoral success of the swiss peoples party (SVP) -> 2 reps in FC
+
+since 2003 instability of the Federal Council.
+
+#### Decision making process - 5 phases
+
+1. Agenda-setting and initiation of reforms (could be in the parliament, could be elsewhere)
+2. Pre-parliamentary phase: extra-parliamentary
+   commissions + formal consultation procedures (involvement of the different actors - experts, parliamentary commissions)
+3. Parliamentary phase: debates in parliamentary
+   commissions and in plenary sessions
+4. Direct-democratic phase, if referendum (law can be refused and you can start again)
+5. Implementation phase
+
+- It is  **Very lengthy** decision-making process
+- With slow and incremental changes
+- Pre-parliamentary phase considered as the most
+  important, but revalorisation of the Parliament since
+  the 1990s
+
+### Role of interest groups in Swiss politics
+
+One important thing - business associations and economic interest groups were organized very early in Swiss politics (even before some parties).
+
+Major economic interest groups:
+
+1. Economiesuisse (1870) - was even called an 8th federal council
+2. USAM (1879) - Swiss Association of Small business
+3. Swiss farmers' association (1897)
+4. Swiss Federation of Trade Unions (1880)
+
+All of them were subsidized by federal administration to provide statistics and provide some public tasks.
+
+Other interest groups - consumer organizations, environmental groups.
+
+#### Why are these groups so influential?
+
+These groups usually have bigger financial resources than the political parties + they have large membership (usually larger than the political party as well) + they have more specific expertise in social policies or their fields.
+
+These groups have close implecation in political decsion-making process (pre-parliamentary phase)
+
+Weakness of political parties and late/unachieved professionalisation of the Parliament (kind of "militia Parliament") - there was no way to have an earning by being a member as a professional parliamentarian <- this was for a very long time until 1990s. (now it's a semi-professional parliament)
+
+Close connections with political parties.
