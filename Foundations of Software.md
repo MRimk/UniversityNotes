@@ -274,3 +274,76 @@ t = v1 v2, and v1 = $\lambda$x. t12,
 then t= ($\lambda$x. t12) v2, which means E-AppAbs applies
 
 test
+
+## Skipped Typed Lambda Calculus
+
+### Proof of preservation
+
+Preservation: if {}/ |- t.T and t -> t', then {}/ |- t'.T
+
+By induction on derivation of {}/ |- t.T
+
+Case analysis of {}/ |- t.T
+
+1 Case T-Var and T-Abs, cannot happen because t->/
+
+2 Case T-App
+t = t1t2
+{}/ |- t1, T2 ->T
+{}/ |- t2, T2
+IH1: If t1 -> t1', {}/ |- t1.T2->T
+IH1: If t2 -> t2', {}/ |- t2.T2
+
+Subcase E-App1
+t1 -> t1'
+t' = t1't2
+From IH1: {}/ |- t1'.T2 -> T
+By T-App. {}/ |- ....
+
+Subcase E-App2 - similar
+
+Subcase E-AppAbs
+t1 =\x.Tx.t12
+t2 = v2
+t' = [x -> v2]t12
+To prove: {}/ |- [x -> v2]t12.T
+
+case analysis of [x -> v2]t12
+
+Case t12 = x
+[x -> v2]t12 = v2
+we need to prove that {}/ |- v2.T (from empty environment v2 has type T)
+
+### Erasure
+
+Takes the term from STLC, and takes it to the untyped lambda calculus
+
+erase(x) = x
+erase(\x:T1. t2) = \x. erase(t2)
+erase(t1 t2) = erase(t1) erase(t2)
+
+We need to have both true: first erase and then take a step in untyped lambda calculus or first take a step in STLC and then erase.
+
+### The Curry-Howard Correspondence - comes up in the exam often
+
+In constructive logics, a proof of P must provide evidence for P (law of excluded middle is not recognized - so $P \lor \neg P$ could be false)
+
+A proof of $P \land Q$ is a _pair_ of evidence for P and evidence for Q.
+
+A proof of $P \supset Q$ is a _procedure_ for transforming evidence for P into evidence for Q
+
+Given the logic formula $(A \land B )\supset A$
+Prove that it is true by giving a well-typed term of the approprate type.
+\\(a\*b).a
+
+Given the logic formula $((A \land B )\supset C) \supset (A \supset (B \supset C))$
+
+| Logic                     | Programming languages              |
+| ------------------------- | ---------------------------------- |
+| propositions              | types                              |
+| proposition $P \supset Q$ | type $P \rightarrow Q$             |
+| proposition $P \land Q$   | type $P \times Q$                  |
+| proof of proposition P    | term t of type P                   |
+| proposition P is provable | type P is inhabited (by some term) |
+
+## Extensions to STLC
