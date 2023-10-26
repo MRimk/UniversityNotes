@@ -1,5 +1,66 @@
 <!-- markdownlint-disable MD010 MD041 MD001 MD036 MD029-->
 
+- [TCP/IP Networking](#tcpip-networking)
+  - [Layers](#layers)
+    - [Application layer](#application-layer)
+    - [Transport layer](#transport-layer)
+    - [Network layer](#network-layer)
+    - [Data link layer (MAC layer)](#data-link-layer-mac-layer)
+    - [Physical layer](#physical-layer)
+    - [Skipped first part of the lecture](#skipped-first-part-of-the-lecture)
+  - [Network layer - middle](#network-layer---middle)
+    - [IP Rule #1 = Structured addresses + Longest prefix match](#ip-rule-1--structured-addresses--longest-prefix-match)
+    - [IP Rule #2 = Don't use routers inside LAN/subnet](#ip-rule-2--dont-use-routers-inside-lansubnet)
+    - [IPv4](#ipv4)
+      - [Special addresses](#special-addresses)
+    - [IPv6](#ipv6)
+    - [NAT](#nat)
+      - [What does it do?](#what-does-it-do)
+      - [How does NAT maintain NAT table?](#how-does-nat-maintain-nat-table)
+      - [Servers behind NAT](#servers-behind-nat)
+      - [NATs and IPv6, v1](#nats-and-ipv6-v1)
+      - [NATs and IPv6, v2](#nats-and-ipv6-v2)
+      - [Carrier-grade NATs](#carrier-grade-nats)
+      - [More on NATs](#more-on-nats)
+    - [MAC address resolution](#mac-address-resolution)
+      - [MAC address resolution with IPv6 (NDP)](#mac-address-resolution-with-ipv6-ndp)
+      - [MAC address resolution with IPv4 (ARP)](#mac-address-resolution-with-ipv4-arp)
+      - [Security issues with ARP/NDP](#security-issues-with-arpndp)
+      - [Secure NDP](#secure-ndp)
+    - [Host/Interface Conifguration](#hostinterface-conifguration)
+      - [DHCP](#dhcp)
+      - [SLAAC (Stateless Address Autoconfiguration)](#slaac-stateless-address-autoconfiguration)
+    - [there is other stuff in slides that i skipped - 58-74 in ip](#there-is-other-stuff-in-slides-that-i-skipped---58-74-in-ip)
+  - [MAC](#mac)
+    - [Medium access control](#medium-access-control)
+    - [Mutual exclusion](#mutual-exclusion)
+      - [ALOHA](#aloha)
+      - [CSMA (carrier sense multiple access)](#csma-carrier-sense-multiple-access)
+      - [CSMA/CD (Collision detection)](#csmacd-collision-detection)
+      - [CSMA/CA - WiFi](#csmaca---wifi)
+    - [Switched ethernet](#switched-ethernet)
+      - [Forwarding frames](#forwarding-frames)
+      - [Spanning Tree Protocol (STP)](#spanning-tree-protocol-stp)
+    - [Ethernet frame format](#ethernet-frame-format)
+      - [MAC Unicast](#mac-unicast)
+      - [MAC Broadcast](#mac-broadcast)
+      - [MAC Multicast](#mac-multicast)
+    - [Virtual LANs](#virtual-lans)
+    - [Bridges](#bridges)
+    - [Security aspects](#security-aspects)
+  - [TCP and UDP](#tcp-and-udp)
+    - [UDP](#udp)
+      - [UDP is message-oriented](#udp-is-message-oriented)
+      - [Socket library](#socket-library)
+      - [Socket from Operating system perspective](#socket-from-operating-system-perspective)
+    - [TCP](#tcp)
+      - [TCP delivery guarantee](#tcp-delivery-guarantee)
+      - [Sliding window](#sliding-window)
+      - [Flow control](#flow-control)
+    - [TCP Connection and sockets](#tcp-connection-and-sockets)
+      - [Sockets](#sockets)
+      - [MSS and segmentation](#mss-and-segmentation)
+
 # TCP/IP Networking
 
 ## Layers
@@ -308,7 +369,301 @@ Details:
 - DHCP uses two phase commit with acks to avoid inconsistent reservations
 - DHCP server suses limited lifetime allocations - DHCP lease.
 
-#### SLAAC
+#### SLAAC (Stateless Address Autoconfiguration)
+
+It is a protocol designed to avoid configuring DHCP serverse and/pr obtain a configuration automatically even if there is no DHCP server.
+
+How it works:
+
+1. how auto-configures a link local address with a 64-bit prefix (fe80::/64) + a 64-bit host address part obtained by one of the following: (manually configured, derived from MAC address, randomly assigned and teporary, randomly assigned but same in same subnet, cryptographically generated address (CGA) - hash of pub key or host + subnet)
+2. host performs address duplication test by sending a mylticast packet to the solicited node multicast addess with the same 24 last bits as its own address
+3. host tries to also obtain globally valid address by obtaining network prefix from routers if any presend.
+
+It does not provide DNS information.
+
+### there is other stuff in slides that i skipped - 58-74 in ip
 
 ## MAC
 
+### Medium access control
+
+exists so that sharing a cable is possible and using a shared wireless radio link
+
+If there is a shared medium, there are collisions.
+
+Solutions:
+Mutual exclusion protocol + distributed
+Joint decoding -- used in cellular networks
+
+### Mutual exclusion
+
+Deterministic - static partitioning on time or frequency to avoid collisions (TDMA, FDMA) and works for only few users
+
+other deterministic - every host takes a turn and passes a token to next host
+
+Random access protocols that allow collisions but detect if they occur (retrasnmissions at _random_ time)
+
+#### ALOHA
+
+Collisions occur when two packet transmissions overlap and if a packet is lost - then the source has to retransmit (no retransmission strategy is defined here)
+
+There is no feedback to the source in case of collision
+
+Max utilization is only 18% which is small. This is assuming ideal retransmission policy
+
+#### CSMA (carrier sense multiple access)
+
+assumes single transitive channel (everyone can hear everyone).
+
+improves efficiency from ALOHA by listening to the channel before transmitting
+
+It avoids many collisions but not all because of propagation delays - if two stations sense the free medium, and then have to backoff, it can again start transmittting.
+
+CSMA works well only if the transmission time is much larger than propagation, namely bandwidth-delay product << frame size
+
+In order to avoid repeated collisions there is a random backoff.
+
+#### CSMA/CD (Collision detection)
+
+When the collision is found (transmitting and started receiving), jam signal is transmitted. Then a random backoff
+
+Acks are not necessary because absence of collision means that the fram could be retransmitted
+
+Random backoff increases exponentially if repeated collisions occur
+
+Minimum frame size is necessary to guarantee collision detection -> CSMA/CD uses min frame siOld-style Ethernet was shared medium (either used
+coax cables or hubs with twisted-pair coppze 64B
+
+#### CSMA/CA - WiFi
+
+Acks are used to detect collisions (by abscence)
+
+Carrier sensing is used but collision detection does not always work (exposed terminal problem)
+
+### Switched ethernet
+
+It is based on switches = beidges
+
+Switches forward frames based on MAC addresses and they have queuing system (frame buffers)
+
+Switches use full-duplex cables which means frames flow simultaneously in both directions without having collisions.
+
+Ethernet is transparent protocol and since there are no collisions, CSMA/CD is desabled by default
+
+#### Forwarding frames
+
+Exact match forarding algorithm:
+
+- listen to all traffic on all ports
+- for each frame - read the destination MAC and obtain the destination porrt (if dest port == origin port, no need to forward)
+- if dest address is not in the table - broadcast to all ports except origin
+
+Smarter switches handle multicast addresses separately
+
+Populating:
+
+- self-learning from source MAC address
+- learnt addresses time out if not re-learnt after "ageing time"
+
+different from IP routers that use routing algorithms
+
+This populating does not always work - if there are loops in the topology
+
+#### Spanning Tree Protocol (STP)
+
+Forces the active topology to be a tree that spans all switches by deactivating some links
+
+Adapts to link failures and additions whenever needed
+
+How?:
+
+1. Switches elect one root switch - switch with smallest label ID
+2. Only links that are along the shortest path to root switch become active - spanning tree = set of shortest paths to root switch
+3. all switches monitor whether the root is reachable, and if not re-computation of a new spanning tree
+
+It is distributed algorithm
+Each link between switches has a (configurable) cost
+Shortest paths are identified by using a variant of the Bellman-Ford algorithm
+
+**Side-effect** - all frames go through the spanning tree, direct link between two non-root switches may not be used even if it is optimal
+
+It is less efficient than the shortest path
+Some more sophisticated switches implement Shortest path bridging instead of STP
+
+### Ethernet frame format
+
+Has error detectio with Frame Check Sequence. Uses CRC 32bits
+If frame fails the check, it is dropped.
+
+#### MAC Unicast
+
+MAC address - 48 bits - unique worldwide (adpter ID)
+
+In shared-medium LAN - all stations read all frames but keep only if destination address matches
+In switched Ethernet - switches forward only to ports that need it
+
+#### MAC Broadcast
+
+In shared-medium LAN all machines receive the packet and don't discard it
+In switched ethernet - broadcast frames are sent on all nodes and ports on the spanning tree
+
+#### MAC Multicast
+
+MAC addresses with 8th bit == 1 are multicast addresses
+
+makes sense only in switched Ethernet - ethernet adapter discards multicast packets unless host subscribes to address
+non-smart switches broadcast such frames
+smar switches send only to relevant nodes
+
+### Virtual LANs
+
+Invented to have more traffic isolation
+to make more efficient use of switches
+to manage users
+
+Goal: decouple who belongs to which LAN from their physical location
+
+They are handled as if they are physically separate
+
+How does it work?:
+
+- configure which switch port belongs to which VLAN
+- switch handles ports of different VLANs as separate, non communicating worlds
+- switches are interconnected via **trunk** ports that use VLAN tags in an ehternet's extended header in order to correctly allocate frames to VLANs
+
+### Bridges
+
+switches that are used between different medium access technologies (e.g. WiFi and ethernet)
+
+**Wifi access point** is a bridge example.
+It consists of wifi base station and a switch with an ehernet backend (called the Distribution System)
+
+### Security aspects
+
+MAC addresses are sent in the clear, so there are possible attacks:
+
+- eavesdropping
+- free riding
+- impersonation
+
+Solutions (MACSEC):
+
+- Access control - requires user to show credentials before allowing access to the network
+  - share secret (E.g. Wifi WPA-Personal) - same password for all users
+  - per-user authentication (e.g. wifi WPA-Enterprise) - user has a personal password
+- Authentication - every MAC frame is signed using crypto and numbered - prevents free riding and impersonation
+- Encryption - MAC frame payload is encrypted (not MAC address) - prevents eavesdropping
+
+## TCP and UDP
+
+Transport layer makes the network services available to programs and is in end-systems only
+
+### UDP
+
+uses port numbers and the server's port numbers must be well-known to clients
+
+src and dest port numbers are inside transport-layer header
+
+**Server** - the role of a program that waits for requests to come (abstraction in this context)
+
+#### UDP is message-oriented
+
+UDP delivers the exact message or nothing
+
+one message, up to 65535 bytes
+
+consecutive messages may arrive out of order
+messages may be lost
+
+If a UDP message is larger than the maximum size for the IP layer (MTU) then fragmentation is done -this is not visible to the application layer
+
+#### Socket library
+
+there are IPv4 and IPv6 sockets, so to get what we _can_ have we do `socket.getaddrinfo()`
+
+This does not affect UDPv6 - UDP and TCP are not affected by IP layer
+
+IPv6 socket can be dual-stack - (on some dual-stack machine) IPv6 socket can be bound to both IPv6 and IPv4 addresses of the local host
+This is achieved by mapping correspondents' IPv4 to IPv6 addresses using the IPv4-mapped IPv6 address format - last 32 bits are of IPv4
+
+#### Socket from Operating system perspective
+
+Socket is just 2 buffers - one for sending and one for receiving.
+Sending buffer is necessary because if there is a backoff, the information needs to be stored somewhere
+Receive buffer is necessary because we could be receiving more data than the application can read. But there could be a buffer overflow - UDP does not do anything about this.
+
+At sending side OS sends the UDP datagram ASAP
+
+At receiving side OS reassembles UDP packets (if needed) and keeps them in buffer.
+
+### TCP
+
+Packets could be lost because of buffer overflow, physical layer errors, or reordered because of different paths
+
+UDP does nothing about that
+TCP does that at transport layer
+
+TCP guarantees that the data is delivered in order and without loss
+
+TCP does not do data fragmentation, it makes packets of the required MTU size
+
+#### TCP delivery guarantee
+
+Sender sends packet with seq a:b, receiver sends back ack with b. Ack is a cumulative ack which means that it has received everything up to that ack.
+There are also selective acks (sack) - that received a packet of x:y, such that retransmission would not include that one.
+
+TCP receiver uses a **receive buffer** = _re-sequencing buffer_ to store incoming packets before delivering them to application
+This is because:
+Application might not be able to take in the data
+pakcets might have arrived out-of-order but kept invisible to application
+
+#### Sliding window
+
+the receive buffer may overflow if one piece of data "hangs" (myltiple losses affect the same packet, so there are multiple out-of-order packets fill the buffer)
+The sliding window limits the number of data "on the fly" - not yet acknowledged
+
+How does it work:
+window size - 4000B, each segment - 1000B
+Only seq numbers that are in the window may be sent
+lower window edge = smallest non acknowledge sequence number
+upper window edge = lower edge + window size
+
+Fixed size window cannot prevent receive-buffer overflow, because the receiver application might not be fast enough to read the data.
+
+#### Flow control
+
+Adaptive window size is sent from the receiver to the sender to show how much space is currently in the receive buffer.
+Sender adapts source's sending rate to the receiver's buffer.
+
+it's not equal to congestion control.
+
+_What is a problem when a 0 window is sent:_
+We need to make sure that the sender is later unblocked. This can be done by sending the same ack but with different window. But this new ack can be lost.
+So TCP allows sender to send 1 byte to check whether the windown has changed (like probing)
+
+What is the minnimum window size required for sending at the maximum possible rate: RTT \* link capacity (bits/second)
+
+### TCP Connection and sockets
+
+I know SYN sequence and FIN sequence
+
+#### Sockets
+
+Difference from UDP - they need to open and close the connection
+
+TCP connection is identified by src IP, src port, dest IP, dest port
+
+From OS POV the buffers are re-sequencing buffers.
+
+#### MSS and segmentation
+
+TCP avoids to segments its data at IP layer so makes segments into maximum segment size (MSS).
+
+Default values are:
+
+- 536 bytes for IPv4 operation
+- 1220 bytes for IPv6 operation
+
+Otherwise negotionated in Options header field during connection setup
+
+TCP offers streaming service, which is not great for connections that do not immediately fill up the TCP block (HTTP/2, streaming video, etc)
