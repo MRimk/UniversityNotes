@@ -922,3 +922,84 @@ Bob while reserving step 2 on s2 sees that alice might have succeeded in step 1,
 
 e.g. 3 servers, 2 clients Alice and bob:
 Alice sends a proposal "reserve step 1" to each server, waits for answers. Gets 1 answer "yes" from s1, Bob sees that one server might have succeeded, and sends his reservation for step 2. Bob succeeds at s2 and s3, Bob sends record T', and then s3 records T'. And this depends on the majority that agrees to have the view of overwriting or saving alice's step.
+
+## Cryptography
+
+Cryptography is not reliable unless implemented properly, and unless used properly. And it is not a solution to all problems
+
+- Shared-algorithm cryptography
+- Symmetric-key cryptography
+- public-key cryptography (encrypt with pubkey, decrypt with privkey; sign with privkey, verify with pubkey)
+  - interactive key exchange (Diffie-Hellman key exchange)
+  - Elliptic curve key exchange (ECC)
+- Cryptographic hash functions
+- Key infrastructure
+- Threshold secret sharing
+
+#### Elliptic curve cryptography
+
+is based on the algebraic structure of elliptic surves over finite fileds.
+
+Hardness (trapdoor) - hard to determine n form Q = nP, given known Q and P, and a sufficiently large n. And computing Q is easy.
+
+Smaller keys for equivalent security than traditional crypto (e.g. 256-bit for ECC is comparable to 2048-bit RSA) -> faster operations, and smaller pubkeys -> smaller crypto
+
+It is used in Bitcoin to authenticate transactions and every Bitcoin address is a cryptographic hash of ECDSA pub key.
+Apple uses it for their services
+
+**Requirement** - Randomness for the ECC.
+Problem if it is not being used - security of private key could be compromised.
+In 2010 Sony used it but used a constant instead of randomness to sign software for PS3 and privkey was recovered
+In 2013 Android Bitcoin Wallet due to k being predictable
+
+#### Key distrivution
+
+for both symmetric and asymmetric crypto key distribution is necessary
+
+Exchange of secret keys requires confidentiality
+Exchange of public keys requires integrity
+
+Authorities trusted to provide secret/trusworthy keys (KDC./A)
+
+There is a hierarchy of trust - one of KDC/CA is not enough.
+Problem - this is centralized, therefore attacker could carry out MITM attacks.
+
+##### Web Of Trust (WOT)
+
+Creating the graph where I can trust someone who is trusted by someone I already trust.
+This works very well until there is a node who trusts a lot of malicious nodes.
+
+#### Threshold secret sharing
+
+Sharing a secrete without revealing it
+
+Any encrypted data is secured with a private key.
+
+- a private key is just information (a number)
+- if the key leaks, anyone can decrypt the data (regardless where it is stored)
+
+Privacy & accountabilitiy with secret-sharing, essential idea:
+
+- split the secret key among n parties
+- require only a _threshold_ t of n parties to use it.
+
+Distributed key generation (DKG) - allows the group of nodes to create their set of of public-private keys
+
+### drand: publc, verifiable randomness explained
+
+#### Secret randomness
+
+We always use secret randomness to generate cryptographic material (used in AES always)
+
+#### Public randomness
+
+E.g. Lottery
+It is simply a random value that is meant to be public.
+
+Its goal is often to increase the trust.
+
+#### Verifiable randomness
+
+public randomness is cool, but we usually wnat it to allow for public verifiability.
+
+This requires many complex verfiable generating functions.
