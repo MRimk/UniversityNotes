@@ -558,3 +558,59 @@ These groups have close implecation in political decsion-making process (pre-par
 Weakness of political parties and late/unachieved professionalisation of the Parliament (kind of "militia Parliament") - there was no way to have an earning by being a member as a professional parliamentarian <- this was for a very long time until 1990s. (now it's a semi-professional parliament)
 
 Close connections with political parties.
+
+## The Economy of Switzerland: The Rise of a "Small Economic Power"
+
+### Rise of "small economic power"
+
+Despite its smallness, Switzerland has become a medium size economic power: 0.012% of world population, but 1.8% world trade (2010).
+
+When did it become one of the wealthiest nations?
+It had a lot of emigration, and now immigration.
+
+The emergence of Swiss economic growth was initially in the second half of the 19th century and then in the first half (WW1 and 2) of the 20th century it grew very fast.
+
+Many Swiss left to the US and South America looking to earn better living - there was a lot of emigration.
+The change from emigration to imigration mainly happened in the second half of 19th century. Numerous swiss companies were created by immigrants. For example, Rolex was created by an English-German, Nestle by German man, ABB - founded by Brown (English) and Boveri (German), merged with Swedish Asea (it is an engineering firm)
+
+#### Brief history background
+
+Early-industrial revolution - (proto-industrialization) during 18th century (textile + watch industry)
+Second industrial revolution (end of 19th century) - machine and chemical industry (swatch, Schindler elevators, Shultze, Zurich insurance company)
+
+The Financial place started beginning of the 20th century (WW1) (also every canton has a publicly-owned bank)
+
+Few natural resources - import of raw materials transformed in high value-added products
+One of the natural resources - water - known as fountain of Europe (from which hidroelectric plants).
+
+At the begining Swiss industry didn't have any pattents in world technologies, so the companies relied on the immitation of German or English pattents. Once the companies became mature and experts in their fields, Switzerland introduced federal pattent law (to protect themselves) and then Switzerland became the inovation country.
+
+Looking through history:
+Manufacturing secotr was the biggest one from the end of 19th century to mid 20th, where it was overtaken by service sector and the agriculture declined to 2%.
+
+### Some major characteristics of the Swiss economy
+
+#### Diversified economic structure
+
+It is not only banks, mainy ecocnomic sectors:
+
+- industry:
+  - chemical-pharmaceuticals
+  - machines/engineering
+  - watchmatking (swatch, patec-philippe)
+- Services:
+  - banking
+  - insurance
+  - tourism
+
+It is regionally diversified economic structure:
+
+- textiles - north-east
+- banking and financial centres - Zurich, Geneva, Lugano
+- Watches and micromechanics - west - Jurax region
+- Machines and metallurgy - canton of Zurich, and north
+- Chemical and pharmaceuticals - Basel
+- Electricity generation and tourism - Alps
+- Life sciences and bio-medical - around Lausanne and lake Geneva
+
+Dual structure of the Swiss economy - export-oriented sectors
