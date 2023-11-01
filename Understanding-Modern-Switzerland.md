@@ -613,4 +613,38 @@ It is regionally diversified economic structure:
 - Electricity generation and tourism - Alps
 - Life sciences and bio-medical - around Lausanne and lake Geneva
 
-Dual structure of the Swiss economy - export-oriented sectors
+Dual structure of the Swiss economy:
+
+- export-oriented sectors (major industrial sectors + banking and insurance, among which large multinational companies) - it is one of the most internationalized countries in Europe - share of export in relation to GDP and share of international investments in relation to GDP
+- domestic oriented sectors (agriculture, construction, small and medium-sized companies)
+
+Until mid 1990s, Swiss was one of the most protective countries in agriculture.
+
+#### Export orientation of the swiss economy
+
+It is small domestic market - early export orientation and specialization in high-value added products - Swiss com
+
+Share of exports in relation to GDP - more than 50% of GDP
+
+Close trade relations with Europe (around 50% of total swiss exports)
+
+Sharp expansion of foreign direct investment (FDI) during the recent period and employees abroad.
+
+Potential conflict between export industry and banking industry - exports want to sell for lower price and banking industry want the franc to be strong.
+--> Solution - export industry is focusing on quality of the product, therefore the price does not really matter
+
+#### Labour market
+
+Low unemployment - dedicated workforce, and imported workforce with temporary work contracts (Italians, Spanish) until 1990s where they had more permanent contracts
+
+Collective agreements and peaceful labour movements - virtually no strikes since the 1950s
+
+High proportion of foreign workers (25% of active population)
+
+### Tentative explanations for economic success
+
+Cultural dimension - strong work ethic related to protestantism - high participation rate in labour market (plus an example of popular vote refusing 6 weeks of holidays)
+
+Political-institutional factors - institutions that promote the collaboration between economic actors and social stability (aprenticeship programs, bank-industry relation, social partnership)
+
+Early export oriented development - make export quality and strategic importance of neutrality during war time.
