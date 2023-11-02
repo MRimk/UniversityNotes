@@ -60,6 +60,17 @@
     - [TCP Connection and sockets](#tcp-connection-and-sockets)
       - [Sockets](#sockets)
       - [MSS and segmentation](#mss-and-segmentation)
+    - [More TCP details](#more-tcp-details)
+      - [TCP loss detection](#tcp-loss-detection)
+        - [Round trip time (RTT) estimation](#round-trip-time-rtt-estimation)
+      - [Fast Retransmit](#fast-retransmit)
+      - [SYN Cookies (= specific initial SEQ numbers)](#syn-cookies--specific-initial-seq-numbers)
+      - [TCP Fast Open (FTO)](#tcp-fast-open-fto)
+    - [Secure Transport](#secure-transport)
+        - [TLS 1.3](#tls-13)
+        - [TLS sockets](#tls-sockets)
+  - [IP Multicast](#ip-multicast)
+    - [SSM Example](#ssm-example)
 
 # TCP/IP Networking
 
@@ -617,6 +628,8 @@ This is because:
 Application might not be able to take in the data
 pakcets might have arrived out-of-order but kept invisible to application
 
+**Duplicate acks** - acknowledgement with the same ack number as before (could have a `sack` in addition)
+
 #### Sliding window
 
 the receive buffer may overflow if one piece of data "hangs" (myltiple losses affect the same packet, so there are multiple out-of-order packets fill the buffer)
@@ -667,3 +680,113 @@ Default values are:
 Otherwise negotionated in Options header field during connection setup
 
 TCP offers streaming service, which is not great for connections that do not immediately fill up the TCP block (HTTP/2, streaming video, etc)
+
+### More TCP details
+
+Corner cases - application writes 1 byte into the socket - should TCP send a packet or wait for more bytes to be written? (This is an overhead because header is 20 bytes). Also, should it only send in when the MSS is full?
+**Nagle's algorithm** prevents sending many small packets. This overhead makes TCP suffer only in WAN because LANs are fast. When we receive an ack (get RTT), then send all the data. If the RTT is small (network fast), the overhead does not make big impact.
+
+How to avoid silly window-increase advertisements by 1 byte?
+
+Window field is 16bits, hence the max throughput for RTT=1msec is approx. 524Mbps - can we increase this?
+**yes**, use _scaling factor_ fof the window during connection setup
+
+#### TCP loss detection
+
+**timer - retransmission timeouts (RTO)** - when one timer expires, it is interpreted as a severe loss in the channel (nothing can be delivered in the channel anymore). Then all timers are reset, all un-acked data is marked as needing retransmission.
+
+**duplicate ACK** - a TCP packet where the ACK value repeats a previously received ACK value. Means that the daat is out of order.
+
+##### Round trip time (RTT) estimation
+
+RTO must be set at a value larger than RTT, because otherwise we flood the network.
+How to estimate RTT - moving average with the last measured RTT, smoother RTT and RTT variability metric.
+
+RTO increases depending on the variability of RTT which is always absolute value. Therefore it can be quite inaccurate at sometimes. So, it could be better to look more at duplicate acks rather than wait for a complete timeout.
+
+#### Fast Retransmit
+
+Instead of waiting for one duplicate ACK, we wait for `n` duplicate ACKs, and then declare loss.
+
+However, it fails when one of the last segments of an application layer block is lost, fast retransmit does not detect it. Also, it may often fail due to packet re-ordering.
+It does not detect bursts of loss, if (forward or reverse) channel is broken, and isolated/single packets that are lost are not detected.
+
+2 counter measures for the retransmissions that were not lost but just reordered:
+
+- IP layer **per-flow load balancing**
+- **RACK (recent ACK)** instead of duplicate ACKs - it decides that packet p is lost if another out-of-order packet is acked and p has not been ACKed after the estimated RTT + configrable reordering (time) window. Bases retransmissions on timers not seq nums
+
+#### SYN Cookies (= specific initial SEQ numbers)
+
+To mitigate the impact of SYN flood attack - lots of bogus SYN packets from (spoofed) source addresses sent to a server.
+
+When server receives a SYN packet it allocates some space for the socket and enters SYN state. To control this, there was a limit for the sockets in SYN state, which allows the SYN flood attack, since server would not have more space for new requests.
+
+So instead of creating the SYN state, we create SYN cookie, which is a sequence number.
+SYN Cookie = (5 bits of a slow timer) mod 32 || (3 bits) MSS encoded in SYN || (24 bits) crypto hash of secret server key, timestamp and client IP address and port number, the server IP address and port number.
+
+This does not completely diminish the threat of DoS attack, by attacker sending ack=y+1
+However, now client should have the same amount of memory for states and the server needs to have to ack these syn-acks.
+
+With SYN Cookies it takes more time for server to send back the SYN-ACK due to the computation required for the cryptographic hash.
+So any damage that could happen from the attack is the loss of computation for the hashes.
+
+Also, this does not stop the DDoS
+
+#### TCP Fast Open (FTO)
+
+Avoid 3-way handshake when opening repeated connections.
+
+In the first SYN-ACK TCP client receives inside TCP options and caches a cookie that contains **authentication tag t = MAC(k,c)** (message authentication code) computer by server key with secret key k and client IP address c.
+
+In the next connection client can send data in SYN packet. When receiving SYN and tag t, sever already knows that this client is a real one that has connected before. And server can send data already in SYN-ACK.
+
+### Secure Transport
+
+TCP is not secure unless we use another sublayer on top - TLS.
+
+TLS adds to TCP:
+
+- Confidentiality - data is encrypted with symmetric encryption, which are created on the fly for this session (using privkeys)
+- Authentication - data is protected against forgery, and identity of end-system us authenticated.
+
+TLS before 1.3 used RSA key exchange with CA signed certificates.
+
+A digital certificate contains a public key of the server and the identity of the server. The public key of the the CA could be included in the certificate but it could have been tampered with so we should not use it.
+
+##### TLS 1.3
+
+Does not support RSA key exchange.
+
+In principle, it needs 1-RTT handshake before sending message.
+
+Communicating parties agree on cryptographic suites, and exchange crypto parameters to exchange session keys.
+
+##### TLS sockets
+
+are transformetd TCP sockets, which wrap the sockets with necessary crypto parameters after SYN sequence - server/client hello.
+
+2 RTTs are necessary for the data transfer (from TCP perspective). 1 RTT from TCP handshake, and 1 RTT from TLS handshake.
+
+## IP Multicast
+
+SLAAC uses the multicast to find the prefix of the network by sending the messages to nearby routers.
+
+Multicast is used to send to a group of destinations. (E.g. for the streaming the same stream on several devices)
+
+In multicast, there is a multiplication of the packets which means that using TCP on top of multicast would not make sense because of the sequence numbers.
+
+Multicast is done through specific address spaces - 223.0.0.0/4 and ff00::/8.
+
+An IP multicast address is used to identify a group:
+
+- Any source multicast (ASM): the group is identified by the multicast address, any source can send to this group
+- Source specific multicast (SSM): the group is defined by (s, m) where m is multicast address and s is the source address. Only s can send to this group.
+
+### SSM Example
+
+destinations subscribe via IGMP (internet group management protocol in IPv4) or MLD (Multicast Listener Discovery in IPv6), send join messages to their routers
+routers either build distribution tree via a **multicast routing protocol** (PIM) or use tunnels (BIER)
+
+source simply sends UDP packets to multiast address m
+**packet multiplication** is done by routers at the IP layer.
