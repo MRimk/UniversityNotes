@@ -1003,3 +1003,186 @@ Its goal is often to increase the trust.
 public randomness is cool, but we usually wnat it to allow for public verifiability.
 
 This requires many complex verfiable generating functions.
+
+## Anonymous Communication
+
+### Who has eyes to your internet usage?
+
+- ISP
+- Local network (employer's security solution)
+- Governments
+- Parental control
+- Ads - Google, Meta, etc.
+- Platforms - Amazon, Alphabet, Tencent, Alibaba,...
+- VPN servers, proxies
+- Spyware
+- Browsers - Google, Mirosoft, Mozilla, Apple
+- DNS servers
+
+(some snooping is not that bad - deprecation of certain features)
+
+**Hasn't TLS/encryption solved the problem?**
+
+Metadata says everything about somebody's life.
+
+How to determine the person on the metadata:
+Patterns of behaviour (this person's IP changes regularly), network traffic of bluetooth could reveal the medical condition and a specific brand device.
+
+**Why desire anonymity online?**
+
+- Privacy (individuals), Security (business, governments)
+- Freedom of speech / journalism / activists (escaping censorship, avoid speech being linked to oneself)
+- Avoid ad targeting, tracking
+- Bypass geo-blocking
+- Helps criminals stay out of jail
+- Helps cops investigate online crimes
+
+### Threat model
+
+Is out desire to remain anonymous a secret on its own?
+
+Who are we keepking our identity from?
+a website, advertisers, a platform (meta, google), a well-funded governments
+
+What are their capabilities?
+Cookies, "Supercookies", fingerprinting
+Semi-honest nodes ("honest but curious")
+Malicious nodes
+NSA - Xkeyscore, Quantum & FoxAcid (MITM, MOTS - Man On The Side attack)
+CAC (Cyber Administration of China) - Censorship, MOTS, control over platforms
+
+**How?**
+Client sends a packet to server, server responds, NSA takes the response packet from internet backbone, tells the router to drop the packet, and meanwhile sends the packet through Quantum system - TAO FOXACID which sends that packet to the client.
+
+### The goal
+
+- Server and receiver cannot be "linked" by a 3rd party
+- Server and receiver both remain anonymous, including to each other (within an _anonymity_ set)
+- Metadata must be unusable for traffic analysis
+  - padding hides the size of the data (how many files could be in the size range)
+  - only few people can talk with me
+- Ideally - censorship-resistant
+
+### How to achieve anonymity
+
+#### 1-hop approach
+
+1-hop approach - Proxy / Commercial VPN - ISP can see that you are communicating with the VPN, but they don't know what is the end communication
+
+Advantages:
+
+- shields user from website IP-based tracking
+- prevents geolocation
+
+Problems:
+
+- VPN knows incoming <-> outgoing mapping
+- Vulnerable to traffic analysis
+- Vulnerable to hacking / coercion
+- DNS might be leaking information (as a side channel because it is not forced to be under VPN)
+- Vulnerable to censorship
+
+#### 2-hop approach
+
+2-hop approach - Apple Private Relay
+
+There are 2 relays: you are talking to Apple, and they talk with 3rd party, which talks to Web.
+
+Advantages:
+
+- Shields user from website IP-based tracking
+- In theory, no single party sees both sender and receiver
+
+Problems:
+
+- Restricted to countries allowing it
+- Apple + 3rd party jurisdiction
+- Limited to user's geography - business of streaming media contracts
+
+#### Mix networks (e.g. Mixminion)
+
+Goal - anonymize e-mail / Usenet-like traffic
+
+Key intuition - get traffic, shuffle it and send it next step.
+Each node waits for certain time, mix the packets (order, identity of the voter from the encrypted ballot), and send it to the next node.
+Client splits message M in **uniform** chunks, **padded** as needed, and **encrypts** each chunk C for a path through the mix-net
+
+Randomness is in the message destinations, which is used to prevent repeat attacks or precomputed paths.
+
+Works with just 1 honest mixwrs
+
+Advantage
+provable (storng) anonymity
+may resist traffic analysis
+
+Problem:
+Very slow, high-latency (hours)
+Few users -> small anonymity set
+
+#### Tor (The Onion Router)
+
+Can we make mix-net work at interactive speeds?
+-> tradeoff with robustness to traffic analysis
+
+Each packet is 514 bytes
+
+How do we find Tor relays?
+There is a Guard node - which is public, and middle nodes are secret.
+There are Harcoded (10) directory servers
+
+New list of all known relays every hour - _how to agree on the list?_ -> **consensus**
+
+Advantages:
+
+- larger anonymity set
+- low-latency
+- usability, intercactive web
+- highly effective against weak adversaries
+
+Problems:
+
+- weak to traffic analysis attacks
+- web services may block tor
+- adversary may become global passive adversaries
+
+##### How can this system be attacked?
+
+Quantum system can intercept traffic in between client and guard node.
+
+Become a relay (lots of them) - if you can control the relays (esp. entry and exit nodes) you can do traffic analysis.
+Defence - reputation of the relay
+
+There are services inside the network which makes it harder to attack.
+
+#### Garlic routing
+
+Packaging together messages at router and disassemble at next one. So it has mix-net properties
+
+#### Dining Cryptographers (DC-net)
+
+Different - not relay-based, information coding
+
+Based on the secure multi-party computation.
+
+Idea: cryptographers are having dinner and a waiter tells them the bill has been paid. They want to find out if one of them paid OR if someone else (the NSA) did **without revealing who paid**
+
+Key element - secret that is shared between pairs of cryptographers. (coin flip)
+My value = Left $\xor$ Right $\xor$ (I paid)
+To check whether we paid - xor all of them and if it is 1, then we paid, otherwise not.
+
+Basic scenario - n^^2 messages
+
+This assumes some level of communication between the cryptographers.
+
+Advantages:
+
+- Provable, information theoretic anonymity
+- Security independent of relays
+
+Disadvantages:
+
+- Naive implementation is inefficent O(n^^2)
+- May optimixations exist and are needed
+
+Scaling by avoiding all-to-all communcation:
+small amount of servers (m << n), and a lot of clients. Clients communicate only with the servers.

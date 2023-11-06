@@ -120,7 +120,7 @@ processing NAPI:
 
 The normal interrupts are handled in the _Top-Half Processing_. This is ISRs (_Interrupt Service Routines_). This is very high importance but also very small processing. Mostly concerned with cleaning hardware registers and copying out pointers,
 
-**SKB - Socket Kernel Buffer** - one of the most important data types in Linux kernel. Represents a data packet in processing. Has headers, trailers, data, metadat, etc... 
+**SKB - Socket Kernel Buffer** - one of the most important data types in Linux kernel. Represents a data packet in processing. Has headers, trailers, data, metadat, etc...
 Logically it contains Link list pointers, which network device needs to be transmitted to, which socket it needs to go, place for headers/trailers ofr various protocols, various Linux-specific accounting and reference counting info.
 
 ### 2.1.2. Send Path
@@ -597,13 +597,13 @@ There are many mechanisms/protocols/
 
 Even worse, these mechanisms/protocols interact with each other - routing, addressing, access control, QoS
 
-Say there are 2 regions, which both have data centers and both have clients. And you want to block cross-region traffic (client connects to the local data centre). Connect to the local routing's Access Control List and insert the list for specific ports. 
-But say there is a link added to those closest routers to data centres, which actually breaks this traffic configuration, because there is a new path between the regions, thus ACLs need to be updated. 
+Say there are 2 regions, which both have data centers and both have clients. And you want to block cross-region traffic (client connects to the local data centre). Connect to the local routing's Access Control List and insert the list for specific ports.
+But say there is a link added to those closest routers to data centres, which actually breaks this traffic configuration, because there is a new path between the regions, thus ACLs need to be updated.
 This example shows that one improvement (connectivity) might break other mechanisms (ACL).
 
 _The ability to master complexity is valuable but not the same as the ability to extract simplicity_ - you want to hide the complexity through levels of abstractions.
 
-An example of this is programming. 
+An example of this is programming.
 Machine languages don't have abstractions, but high-level languages are abstractions of them.
 
 In networking the abstractions are layers. But this is just for data plane.
@@ -882,7 +882,7 @@ Adaptively select the bitrate for each segment in streaming for each user
 Ways of doing it are either built on UDP (live streaming) or TCP and on HTTP (video on-demand services).
 
 **RTP - real-time transport protocol**:
-primarily used for audio/video transport, widely used for real-time multimedia apps such as VoIP, audio over IP, WebRTC (BigBlueButton and Zoom (it is proprietary)) 
+primarily used for audio/video transport, widely used for real-time multimedia apps such as VoIP, audio over IP, WebRTC (BigBlueButton and Zoom (it is proprietary))
 It is built on top of UDP.
 
 If data is lost - it's fine, but if it is out of order, it's bad.

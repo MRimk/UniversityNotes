@@ -67,8 +67,8 @@
       - [SYN Cookies (= specific initial SEQ numbers)](#syn-cookies--specific-initial-seq-numbers)
       - [TCP Fast Open (FTO)](#tcp-fast-open-fto)
     - [Secure Transport](#secure-transport)
-        - [TLS 1.3](#tls-13)
-        - [TLS sockets](#tls-sockets)
+      - [TLS 1.3](#tls-13)
+      - [TLS sockets](#tls-sockets)
   - [IP Multicast](#ip-multicast)
     - [SSM Example](#ssm-example)
 
