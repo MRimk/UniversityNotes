@@ -2450,7 +2450,7 @@ What can you do to be able to accept single quotes in names and still have no pr
 You can always encode the data, so that special characters lose their special meaning. In SQL a literal single quote (’) can be encoded by prepending a backslash (\’).
 
 **Exercise 6.2**
-Consider the following code, taken from the Mitre Common Weakness Enumeration website (https://cwe.mitre.org). A web application has a function to run a backup of a database. The backup can be of type full or incremental. The type of backup is selected by the user and is sent to the server in the parameter named backuptype. The following code is used on the server:
+Consider the following code, taken from the Mitre Common Weakness Enumeration website ([https://cwe.mitre.org]). A web application has a function to run a backup of a database. The backup can be of type full or incremental. The type of backup is selected by the user and is sent to the server in the parameter named backuptype. The following code is used on the server:
 
 ```java
 ...
@@ -2516,3 +2516,244 @@ ASLR will place the memory page of the variables at a random location. They will
 The program will not work if the memory page is not writeable, The attack does not write any code into the memory. Marking the page non-executable will not prevent the attack.
 
 Finally, if the shipping address does not overflow more than the memory used for the price, it will not affect any canaries. Thus, non of these methods can prevent the attack.
+
+## Automated Testing
+
+#### Why testing
+
+Testing is the process of analuzing a program to find errors.
+
+To completely make it automated we need formal specification, but it's impossible to define these things completely.
+
+Error could be a violation of the underlying specification: functional requirements, operational requirements, and security requirements - we can try to have automated attacks or previous attacks (but if they don't succeed, we still don't know if it is secure), so we should try all possible input combinations (there are limitations such as for all characters up to length of n)
+
+#### Limitations of testing
+
+Testing can only show the presence of bugs, never their absence
+
+Bugs are everythere:
+There are giant code bases (chromium, linux kernel, gnome, etc.), millions of LoC => huge attack surface, milions of vulnerable hosts -> weaponizable
+Dependency inflation - recursive dependancies, single point-of-failure (e.g. log4j), redundant code, even bigger attack surface.
+System abstraction - developers unaware of underlying assumptions, ChatGPT-generated code
+Integration hell - 2 "bug-free" systems can still interact in a faulty manner
+
+#### Software testing and verification
+
+Manual testing:
+Code reviews
+Unit and regressions tests (JUnit, libcheck) are incomplete but sound, only code with tests is tested but any failed tests indicate an actual issue
+
+Semi-automated testing:
+Annotation (pre and post conditions) and proof enginers (F\* lang)
+Type checking and dependent types (Coq, F\*)
+Code byg pattern search (CodeQL) are as complete as annotations and sound (modulo mistakes)
+
+Automated testing:
+Static analysis (Facebook Infer, compiler checks) is incomplete and unsound due to lack of runtime information but remains an indicator of possible issues
+Dynamic analysis (fuzzing, symbolic execution) is incomplete but sound due to state explosion but any reported issues are true bugs
+
+### Manual testing
+
+#### Code reviews
+
+Formalized process of someone else looking at your code. Finding flaws and code smells.
+
+_Flaws_ - any violationsof the specification or bug.
+_Code smells_ - not per-se an issue but could become one (target to improve)
+
+Goals - improve code quality, find flaws, learning/knowledge transfer, foster ideas/alternate solutions, compliance to standards
+
+Code reviews can never find all flaws, but offer different thoroughness
+
+Most bugs are in most recent code.
+
+Types:
+
+- Inspection - group of reviewers goes through all code line-by-line to find flaws and to document any unexpected behavior. Does not scale well, and requires a lot of resources.
+- Walk-through - go through the finite set of changes - during a pull-request.
+- Audit - (external) group of reviewers spot-checks the code to find dlaws, often searching for patterns to find flaws/violations (does not look for specific flaws, but general quality of the code)
+
+#### Unit and regression tests
+
+**Unit** - small and individual tests for a fragment of code
+Developers should write these tests during the development alongside the code itself. _Positive_ tests - ensure correctly processes input, _negative_ tests - fails correctly.
+
+**Regression** - bug that was fixed some time ago, and due to code changes a bug reemerges. Unit tests help detect them after the changes.
+
+### Semi-automated testing
+
+#### Static analysis
+
+Syntax highlighting, compile-time warnings - goal is to highlight issues in code, give feedvack to developer.
+Should be fast (low overhead, simple analysis), myst have low false positives (warning fatigue - psychological constant where you start ignoring the question and using a default answer).
+
+```bash
+clang -Wall -Wextra -Wpedantic
+```
+
+`Wall` - enables basic set of warnings, mostly easy to fix; `Wextra` - exteends Wall, being a little more detailed (examples are empty function bodies, unused parameters or sign mismatches); `Wpedantic` - warns about anything that goes beyond strict C/C++, highlights areas of bad code style as well; `Weverything` - turn on every single warning that exists - creates noise
+
+> Static analysis reasons about code instead of executing it.
+> (Dynamic is a little bit different - it keeps track of concrete values during execution)
+
+Advantages:
+
+- Full coverage (no need for complete tests cases)
+- Complete (test cases may miss edge cases)
+- Abstract interpretation (no need for a runtime environment)
+
+Disadvantages:
+
+- Computation depends on data, resulting in undecidability
+- Over-approximation due to imprecision and aliasing leading to false positives
+
+#### Anotations
+
+Augment source code but are not part of the functional code itself
+
+Compilers may use annotations to test or check certain properties:
+Types in python, argument usage in C/C++, pre/postconditions for verfication
+
+#### CodeQL - static analysis framework to find bugs
+
+Pattern-based code analysis engine to automate security checks.
+Target code is parsed and analyzed based on patterns in the query language, starting from sources the patterns search for a path towards a sink.
+
+Discovered paths indicate security vulnerabilities.
+
+Same as fofther static analyses, may result in false positives.
+
+Quality of the reported bugs depends on the quality of the queries (heuristics).
+
+#### The 8 "Laws" of static analysis
+
+- Can’t check code you don’t see: must fit into build system
+- Can’t check code you can’t parse: must parse “real” code
+- Not everything is implemented in C: must handle other languages
+- Not a bug: developers will not fix any report
+- Not all bugs matter: developers must prioritize
+- False positives matter: reduce developer burden
+- False negatives matter: reduce developer burden
+- Annotations are extremely costly: reduce developer burden
+
+### Automated testing
+
+#### Formal verification - model checking/symbolic execution
+
+Formal verification is the act of proving or disproving the correctness of the code.
+
+Model checking - translate code into state machine, model checker analyzes state machine
+Symbolic execution - engine analyzes program by exploring paths
+
+##### (bounde) model checking
+
+Analyst translates the code and specification into a finite state machine.
+
+While this allows end-to-end verification it is highly labor intesive. Bounded model checking slices the program and checks the slices instead to scale a bit further.
+6000 lines program took 20+ years to verify.
+
+A bug was found in Formally Verified OS, how? - fault in state machine
+
+##### Symbolic execution
+
+SE is an abstract interpretation of code.
+Agnostic to concrete values (values become formulas)
+
+#### Fuzzing
+
+Automatic and dynamic software testing technique
+Key concept - fastest way to test a program is to run it
+
+Running the program many times, keeping the best inputs and retry.
+
+Obstacles (that hinder by control-flow and data-flow restrictions):
+
+- magic byte matching for the parsing
+- checksums
+- compression/encryption - e.g. crypto
+- dependencies
+- indirection
+
+Overcoming these obstacles is the subject of many research efforts.
+
+A fuzzer should explore the program - a bug cannot be found if its code is not executed
+
+A fuzzer should trigger bugs - executing buggy code does not necessarily mean a bug has been triggered
+
+A fuzzer should identify faults - a triggered fault that goes unidentified is wasted effort
+
+A fuzzer should be fast - speed is key to a fuzzer's efficiency, higher throughput = more inputs tested = higher chance of triggering a bug if it exists.
+
+Fuzzing executes 1000s of trials per second.
+
+##### Blackbox fuzzing
+
+create input, run program, see if it crashes
+
+give the input to the developer to reproduce the bug.
+
+This is not very clever, because the input is random and limited at the depth level.
+
+##### Greybox fuzzing
+
+Guided mutation - assign a quality to each input.
+
+Quality e.g. which part of the code has been covered? Covers more distinct code areas.
+
+This remains fast and it sacrifices only few CPU cycles for performance benefits.
+
+##### Input Generation
+
+Not all input are made equal
+Mutation-based generation
+
+- no specification needed
+- inputs are seen as binary blobs
+- mutators transform input (bit flips, int ops, clone, delete)
+- fast portable and scalable
+
+Grammar-based generation:
+
+- specification is needed for input structure (e.g. PNG files)
+- unputs are seen as parametric data
+- parameters are sampled, constraints are resolved to generate grammatically-valid inputs
+- may be slow, application-specific
+
+#### Sanitization - fault detection
+
+Makes bugs more explicit.
+
+Ideal sanitizer - detect bugs as soon as they occur.
+First approximation - CPU exceptions (segfault, timeouts, div by 0, int overflows)
+
+LLVM sanitizers by policy:
+
+- spatial and temporal memory safety
+  - address sanitizer
+  - memory sanitizer (uninitialized variables)
+- Language-specific behavior
+  - undefined behavior sanitizer (arithmetic overflows, div by 0, misaligned pointers, int sign mismatch)
+- Concurrency and ownership
+  - thread sanitizer (Data races)
+
+LLVM sanitizer can be applied to source code, at compile time.
+
+Operates as a priori instrumentation, but there are ones without that - Valgrind memcheck, QASan (QEMU- ased ASan), RetroWrite -- they all have overhead.
+
+We need model/abstraction/policy for expected behavior.
+How to model logic or semantic bugs? need specification
+
+#### Identifying faults
+
+Crashes are good indication but not all faults crash.
+Sanitizers implement fault detection by enforcing bounds.
+
+### Comparison of Analyses
+
+**Formal verification**: 100s lines of code, finds all bugs
+**Bounded model checking**: 1,000s lines of code, finds most bugs (scales formal verification by constraining loop bounds)
+**Symbolic execution**: 10,000s lines of code, finds all bugs (but may run into state explosion)
+**Concolic execution**: 50,000s lines of code, finds bugs close to provided concrete execution (focuses on single path to limit state explosion)
+**Fuzzing**: 1,000,000s lines of code, finds many bugs
+**Warnings/simple analyzers**: 100,000,000s lines of code, finds lots of interesting
+locations
