@@ -2757,3 +2757,27 @@ Sanitizers implement fault detection by enforcing bounds.
 **Fuzzing**: 1,000,000s lines of code, finds many bugs
 **Warnings/simple analyzers**: 100,000,000s lines of code, finds lots of interesting
 locations
+
+## Exercises 7
+
+**Exercise 7.1**
+What is coverage-guided fuzzing, and how does it differ from black-box fuzzing?
+
+**Exercise 7.2**
+Given the following program, how likely is it for a blackbox, greybox, or whitebox fuzzer to find the correct value for `user_input`?
+
+```C
+int foo ( uint32_t user_input ) {
+  /∗...∗/
+  if (user_input == CONSTANT) {
+    /∗...∗/
+    crash();
+    /∗...∗/
+  }
+  /∗...∗/
+  return 0;
+}
+```
+
+**Exercise 7.3**
+What is a sanitizer and why is it helpful in fuzzing? Why can certain bugs only be detected when using sanitizers?
