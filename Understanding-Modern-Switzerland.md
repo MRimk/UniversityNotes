@@ -648,3 +648,171 @@ Cultural dimension - strong work ethic related to protestantism - high participa
 Political-institutional factors - institutions that promote the collaboration between economic actors and social stability (aprenticeship programs, bank-industry relation, social partnership)
 
 Early export oriented development - make export quality and strategic importance of neutrality during war time.
+
+## Historical insights into the Swiss financial centre: banking and the banking elite
+
+### Swiss Financial Centre: Overview and Key figures
+
+Switzerland ranking by the Global Financial Centres Index (measures the competetiveness). Switzerland is present twice in the top 20 - Geneva and Zurich (10 and 18 respectively). In European perspective they are in top 6 (Geneva 2 and Zurich 6)
+
+Swiss financial centres have: banking - Geneva, financial firms (investment managements) - both, insurance companies - Geneva, professional services firms (professionals working around finance - lawyers, advisers, etc.) - Geneva, government regulatories in Zurich, FinTech - Zurich and Geneva.
+
+#### Key figures
+
+Value added = measure the additional value created by an economic activity - is 66.7 billion CHF in 2021 - 9.4% of the overall economy
+
+Two main sectors: insurance and banking.
+
+#### Banking
+
+235 banks in 2022 and 92k (FTE) jobs (40% **of all jobs** is women)
+
+Assets under management in 2022 in CHF is 7k billion (~10x GDP)
+
+Switzerland is the world leader in the manageement of cross-border capital
+And in 2018, Switzerland holds 27% of the global off-shore wealth
+
+Geneva - Private Banking (wealth management) and Trading (commodities)
+Zurich - Finance / Regulation, and Big Banks (UBS and Credit Suisse)
+
+Types of banks:
+
+- Big banks - represent ~50% of the balance sheet.
+- Cantonal banks - 24, publicly owned companies and it's usually limited to the canton where it is set.
+- Raiffeisein bamks and regional and savings banks - work locally and are private companies
+- Private banks (historically owned by families), stock exchange banks, foreign banks - you cannot open an account and get a card, but they manage your wealth.
+
+### A brief hitory of Swiss banking
+
+Balance sheet - total amount to measure the size of the sector
+
+Until WW1, there is a slight but minimal increase of the sector, related to the GDP growth as a whole.
+After the WW1 it grows until WW2, it grows but not something special.
+
+Starting from the end of WW2, there is a constant growth until 1973 (oil crisis) - "Golden Age of Banking", and then there is a constant growth until 1990.
+
+#### Golden agae (1945 - 1973)
+
+Why does the sector take off here?
+After WW2, the attractiveness of the Swiss financial center can be explined by these factors:
+
+- the neutrality of the country
+- infrastructures were preserved from the war
+- Strong Swiss Franc
+- Low level of inflation
+- Political regime favoring liberal policies and an accommodating taxation system (there was lower taxes in Switzerland than other countries)
+- Bank secrecy.
+
+**Bank secrecy** - it's not new at 1945, it was there from end of 19th century.
+Bank will not communicate to the tax authorities if a client opens an account.
+This became a law (article 47) in 1934 - there is a guarantee of conidentiality regarding bank accounts held by foreign clients; and that any individual working for a bank regulated by Swiss law who discloses confidential information about the financial information of a client will face criminal charges.
+
+This constructs the perception of Switzerland as a tax haven.
+
+Bank secrecy attracted major inflow of foreign capital shortly after WW2.
+Popular idea promoted by the Swiss Bankers association - that bank secrecy is aimed at protecting any citizen. Also there was a legend that this law was passed to protect jews.
+Actually, it was passed because French government pushed the Swiss government to know which French citizens have how much money.
+This law was very powerful until G20 in 2000s where countries started pushing Switzerland for the tax information. It is quoted as the end of Bank Secrecy.
+
+In this time there is a growing number of foreign banks - big growth ~1950s-1973, which is mainly due to bank secrecy and other factors. (more European banks)
+It was so much money coming in Switzerland, where the banks had a problem with inflow of money to Switzerland.
+
+Eventually, a law was passed for foreign banks to get a license to opperate in Switzerland.
+
+#### From Golden Age to Globalization (1973 - today)
+
+Regional banks were the dominant group of banks in the early 20th century. (had almost 50% of the balance sheet total in 1900)
+
+This group faced competition from cantonal baks, which are under public law, that became the dominant group after the 1930s. (Advantage: the presence of tthe state means that _all deposits were guaranteed_)
+
+The big banks took over in the 1960s. They started competing domestically with other banks, and internationally by opening branches abroad. These banks had to become big to compete with other banks internationally
+
+#### Globalization (1973 - today)
+
+A movement of deregulation, reducing state restrictions to access markets abroad, transformed the main financial centers
+
+The rise of big banks - A more aggressive approach to compete with international banks
+Big banks started to:
+
+- develop wealth management activities and investment banking
+- go international (In 1970, there were only 7 branches of Swiss banks abroad. In 2010, the number had risen to 144 )
+- Develop closer links with the insurance sector
+- Absorb smaller local/national banks in order to control the national market
+
+The banking concentration reshaped the structures of the Swiss financial centre.
+There were 421 regional baks in 1900 and 60 in 2022.
+Local financial centres almost disappeared
+
+625 banks in 1990 -> 239 in 2022.
+
+Big banks themselves are absorbed by others - 6 big banks in the early 20th century -> 1 in 2024.
+
+The concentration question has been discussed by FIDMA (banking authority) and competition authority says that Credit Suisse clients should not go to UBS and go to other banks.
+
+The rise of Credit Suisse and UBS thorugh multiple mergers and acquisitions.
+Acceleration of the internationalization of the big banks was in the 1990s.
+Credit Suisse for the last years was very much american and based in New York.
+And now Credit Suisse is merged into UBS.
+
+Bank Secrecy does not exist anymore officially.
+
+### The Swiss banking elite: Prosopographic analysis (1980-2020)
+
+Banking executives - they are diverse -> Cantonal bank might have a CEO without a degree and worked there entire life, big bank - an american who worked in many different big corporations.
+
+#### How to become a banking elite?
+
+There is a relationship between the forms of capitalism at a specific period and the profiles of the banking elites: family capitalism, coordinated market economy, global capitalism
+
+Banking elites - CEOs, Presidents and managing partners.
+
+#### Role of family
+
+Family belongingness is very high within private banks (family apitalism).
+There is a transmission of power from one generation to another through banking socialization.
+
+In the private banks there has always been importance of families (decreased from 85% to 50%), and in the commercial banks it disappeared over time in the commercial banks.
+
+#### Role of education
+
+Vocational education (VE) - apprenticeship - has 3 distinct phases.
+
+1890-1910 VE was a dominant pattern -> apprenticeship abroad was a common pattern among bankers
+
+1937-1980 Dual pattern - VE and University degree were half-half popular
+
+2000-2020 Strong decline of VE - due to globalization university degree became more popular.
+
+#### Role of the army
+
+There was a growth and decline of bankers holding a military rank corresponds to a period of milatarization - during Idiology of "Spiritual Defense" in the 1930s-1960s. This was as protection from foreign influences ("Alps fortress")
+
+Holding a military rank among elites from the coordinated national network was a sign of patriotism, and thus satisfying the ideology.
+
+As the netwrok and the ideology declined with the rise of glovalization, the military rank became an outdated characteristic of the Swiss bankers.
+
+#### Role of international education
+
+old tradition of cosmopolitanism taking two forms - studying and working abroad.
+
+1890-1937 there was an increasing number of bankers studying abroad
+1957-2000 after WW2 there was a decrease and stability
+2000-now increase imong private bankers
+
+#### Role of international experience
+
+First wave of globalization (up to 1937) - rise until 1937 with about 40% of bankers who have worked abroad for at least 2 years.
+
+Between 1937-2000: there was a decline in 1980s which was lowest at 20%; and then increase.
+
+From 2000 there was a second wave of the globalization.
+
+#### Conclusions
+
+Family matter
+
+Rise and decline of legitimacies:
+Holding a univeristy degree became progressively essential, VE died off
+Swiss army had a boom and then declined
+
+Continuity of cosmopolitanism: international education and experience is not new, it was popular already since 1930s.
