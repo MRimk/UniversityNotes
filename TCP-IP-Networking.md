@@ -70,7 +70,15 @@
       - [TLS 1.3](#tls-13)
       - [TLS sockets](#tls-sockets)
   - [IP Multicast](#ip-multicast)
-    - [SSM Example](#ssm-example)
+    - [SSM](#ssm)
+      - [PIM - Protocol Independent Multicast](#pim---protocol-independent-multicast)
+      - [BIER - Bit Index Explicit Replication](#bier---bit-index-explicit-replication)
+    - [Multicast ARP](#multicast-arp)
+    - [Multicast in MAC](#multicast-in-mac)
+    - [Security of IP Multicast](#security-of-ip-multicast)
+    - [Multicast in practice](#multicast-in-practice)
+  - [Link state routing](#link-state-routing)
+    - [Taxonomy of routing protocols](#taxonomy-of-routing-protocols)
 
 # TCP/IP Networking
 
@@ -781,12 +789,152 @@ Multicast is done through specific address spaces - 223.0.0.0/4 and ff00::/8.
 An IP multicast address is used to identify a group:
 
 - Any source multicast (ASM): the group is identified by the multicast address, any source can send to this group
-- Source specific multicast (SSM): the group is defined by (s, m) where m is multicast address and s is the source address. Only s can send to this group.
+- Source specific multicast (SSM): the group is defined by (s, m) where m is multicast address and s is the source address. Only s can send to this group. By default 232.0.0.0/8 and ff3x::/96 are SSM addresses
 
-### SSM Example
+### SSM
 
-destinations subscribe via IGMP (internet group management protocol in IPv4) or MLD (Multicast Listener Discovery in IPv6), send join messages to their routers
+destinations subscribe via IGMP (internet group management protocol in IPv4) or MLD (Multicast Listener Discovery in IPv6), send join messages to their gateway routers. These routers will keep this information in their cache, and also will notify other routers along the path to the source about dest joining the group.
 routers either build distribution tree via a **multicast routing protocol** (PIM) or use tunnels (BIER)
 
-source simply sends UDP packets to multiast address m
+If the clients are not subscribed to the group, the packet sent by the source will be dropped by the router.
+
+source simply sends **UDP** packets to multiast address m
 **packet multiplication** is done by routers at the IP layer.
+
+#### PIM - Protocol Independent Multicast
+
+most widespread multicast routing protocol, which supports ASM and SSM.
+
+two versions:
+
+- PIM-DM (Dense mode) - uses broadcast and therefore can be only used in small, controlled networks
+- PIM-SM (Sparse mode) - more reasonavle and is used for e.g. TV distribution. It uses reverse path forwarding - when ar outer needs to add a receiver, it sends a PIM/JOIN router message towards the source, using unicast routing - which creates the distribution tree _on the fly_.
+
+It is independent of the underlying protocol which populates the routing tables (manual but could also be automatic, e.g. OSPF).
+
+**Per-flow state**: router holds multicast state information:
+
+- (s,m) or (\*,m) - id of the group
+- valid incoming interfaces - for security
+- outgoing interfacses - the routing info
+- other information required by multicast routing protocol
+
+This per-flow (per-group) state cannot be aggregated based on the prefix - this causes scalability issues.
+Therefore this creates stress on backbone routers.
+
+#### BIER - Bit Index Explicit Replication
+
+Alternative to PIM, to not have to apply exact match
+
+BIER is aided by a centralized entity - multicast flow overlay (it can be video distribution control servers or Multicast VPN or SDN) - it essentially works like a DNS which relates clients to groups.
+
+So when the router gets BIER join message, it notifies the central entity.
+The same goes for routing of the packet - router asks central router who is a member of this group, and they get the edge routers who to send to (because the amount of edge routers is less than amount of clients).
+Source, when it sends a packet, appends the BIER header with the list of destinations (edge routers) to the IP header.
+
+_Edge router_ - last router before the LAN
+
+**Packet forwarding**:
+for every destination BFER, BIER router pre-computes )based on the IP forwarding table a "forwarding bit mask" that indicates the set of destination BFERs that are reached bu the same next-hop.
+
+Algorithm:
+Router sends a packet to 1st destination in the destination set S; packet has destination set = $S \cap S_1$ where $S_1$ is the forwarding bit mask of 1st destination.
+Then, if $S \backslash S_1 \ne \empty$, duplicate the packet but with destination $S \backslash S_1$ and goto 1; else break.
+
+The goal is to find how many times I have to duplicate the packet on the same path. I only need to duplicate the packet only if I send to different paths.
+
+BFERs - set of destinations is aencoded using a bitstring (for easier computations - intersection becomes logical and, difference becomes logical and with logical not)
+
+Example with 5 possible BFERs:
+Destination BFERs = {1,3,4} -> 0 1101
+Destiantion BFERs = {3,4} -> 0 1100
+Destination BFERs = {1} -> 0 0001
+
+If there are x edge routers, there will be x bits in hte bitstring.
+
+There is no per-flow state kept at the routers, but there is Bier Index Forwarding Table (derived from router's unicast IP forwarding table), which is **static**.
+
+### Multicast ARP
+
+There is no multicast MAC address is algorithmically derived from multicast IP address.
+IPv6: 33-33-XX-XX-XX-XX (last 32 bits from IP address)
+IPv4: 01-00-5e-YX-XX-XX (last 23 bits from IP address, 1st bit of Y hextet is 0)
+
+Multicast address depends only on multicast address m, not on source address s, even if m is an SSM address.
+Several multicast IP addresses may yield the same MAC adddres, so there could be collisions and packets may arrive there even if not inteded - then the OS would drop the packet.
+
+### Multicast in MAC
+
+non-smart switches forward the packet to all destinations.
+
+smart switches look into IGMP/MLD packets and remember the subscribers, and deliver only to intended recipients. They do not distinguish between SSM and ASM.
+
+### Security of IP Multicast
+
+IP multicast with or without BIER makes life easier for attackers (e.g. DoS, witty worm).
+To mitigate - control with access control in access lists.
+
+SSM is safer because routers can discard unwanted sources.
+
+IGMP/MLD are not secured and vulnerable to similar probles as ARP/NDP.
+
+Therefore multicast-capable networks must deploy extensive **filtering** and **monitoring**
+
+### Multicast in practice
+
+Multicast is used in:
+
+- EPFL and other academic networks (PIM-SM)
+- Data Center Virtualization Services (BIER)
+- Internet TV distribution (PIM-SM/BIER)
+- TV, sensor streaming, time sync, large videoconferences, etc.
+- industrial networks - smart grids, factory automation
+
+Works only with UDP
+
+## Link state routing
+
+Routing is at the Control plane
+Forwarding is at the Data plane.
+
+Forawrding tables can be set manually but it is time-consuming and error-prone
+
+A routing protocol or algorithm allows routers to compute automatically their forwarding tables, and resides in the control plane.
+
+It depends on scope:
+
+- Interior - intra-domain routing (OSPF)
+- Exterior - inter-domain routing (BGP)
+
+#### Taxonomy of routing protocols
+
+**Link State algorithms**:
+
+- all routers maintain a map of the entire topology (obtained by gossiping with other routers). Every link has a cost
+- routers compute shortest paths based on their maps to determine next hops (Dijkstra)
+- it is typically used for intra-domain routing (OSPF, IS-IS) and advanced bridging methods (TRILL, SPB Shortest Path Bridging)
+
+**Path vector**:
+every router knows only its neighbours and explicit paths to all destinations.
+It is used for inter-domain routing
+
+**Distance vector** (e.g. RIP - used for small networks):
+
+- there is no global map
+- initially, every router knows only about neighbours
+- then each router informs its neighbors about its estimated distances and learns new destinations and updates its vector of estimated distances to all destinations with the next hop (Bellman-Ford algorithm)
+- it converges to optimal paths
+- If a link fails, it takes time to make updates
+
+**Source routing** - "strict"
+
+- Paths computed by the source and put into packet headers
+- The path is the sequence of all intermediate hops
+- With IPv6, routing header is an extension header - contains intermediate hops and ultimate destination. When present, Destination Address is next intermediate hop.
+- Used in ad-hoc networks (DSR). And if you want to get a path to a destination, you flood the "explorer" packets in the network
+
+**Source routing** - "loose"
+specify some intermediate hops (the path to that intermediate hop is computed with other protocol).
+Reasons why it exists - it is the filtering router, or conducts packet inspection
+
+**Segment routing** - does source routing but also applies a function (screening or traffic separation). Used in data centers.
