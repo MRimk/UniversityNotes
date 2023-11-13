@@ -1186,3 +1186,164 @@ Disadvantages:
 
 Scaling by avoiding all-to-all communcation:
 small amount of servers (m << n), and a lot of clients. Clients communicate only with the servers.
+
+## Sybil attacks and defenses
+
+**What is it:** "Sybil" is study of a patient diagnosed with multiple personality disorder (1973).
+
+Anyone can have as many electronic personas as one has time and energy to create - The Sybil Attack
+
+Fake identities:
+
+- virtual nodes
+- Social media bot
+- Ballot stuffing
+- fake reviewers
+- Sockpuppets (participate in a forum with other fake personas who agree with you)
+- Astroturfing (practice for an entity of presenting themselves to give a different opinion - e.g. tabacco movement against public legislators or shell "working" on renewables)
+
+### Implications
+
+DHTs: eclipse attacks - censor nodes, censor key-value pairs
+
+Compromise threshold-based security (t-of-n):
+creeping compromise - slowly increase t, n
+
+Compromise consensus:
+force particular decisions
+rewrite history
+equivocate (multiple histories if i tell different people different stories - Byzantine attack)
+
+### Sybil defenses
+
+Permissioned systems - only select few nodes
+
+Strong identity
+
+Adding artificial costs
+
+Social network-based - relationship between the identities
+
+Proof of Personhood
+
+#### Stronger identities
+
+Sign up with phone number (e.g. WhatsApp) - buy phone numbers, buy burner phones
+Sign up with credit card - fake cards, fake passports
+Sign up with e-mail - me@gmail.com vs me+cs438@gmail.com
+ID verification - Regularory requirement (e.g. "Know your customer" - KYC); fake ID but derred by cost, jail, paper trail
+
+Biometrics - face, fingerprints, iris, DNA.
+Biggest biometric database - Aadhaar (India) - 1.38B. Mandatory database which stores an identification number tied to biometric.
+China - collects DNA, and has a database.
+Common Identity Repository (EU) - 350M - put all of the data together (problems with privacy)
+Dpt. of Homeland Security (US) - 270M (on average saw everyone 4 times)
+
+**Weaknesses**:
+
+- Privacy
+  - needs centralized database
+  - DB encoding: password will be stored as a hash, meanwhile biometric info needs to be stored in plain. Sybil resistance - verify that the new registered fingerprint does not exist in the database already.
+- Forgeability
+  - Fake "fingerprints" - from a photo it is possible to forge fingerprints
+  - Fake "iris"
+  - Biometric synthesis - synthesize realistic data, means trusting the ML model.
+
+#### Artificial costs
+
+Key idea - increase the cost to Sybil identities
+
+- Proof-of-work (bitcoin approach)
+- CAPTCHA (Turing tests)
+- Threshold validation
+- Proof-of-stake (put money on others' trust - if i am misbehaving i will lose this money)
+- Proof-of-space/storage
+
+##### Proof-of-work
+
+first used as anti-spam
+popularized by Bitcoin
+
+It is a crypto puzzle:
+$H(data, nonce) = 000...000xxxxxxxxx$ -> find the **nonce**
+0s are Proof-of-work threshold, and you need 2^^n hashes
+
+This does not prevent an attack, just increases its costs
+Also, it is not efficient and not environmentally friendly
+
+It is more than a 1000x worse than other ideas from energy perspective.
+
+##### Proof-of-stake
+
+Etherium
+
+Nodes must stake money to participate in consensus
+Randomized validators, likelyhood based on stake.
+If validators don't agree, if you misbehave, you get punished by loss of stake
+Plutocracy: more money - more stake (problem for small cryptocurrencies)
+
+##### Social/Trust network defenses
+
+- PDP "Web of Trust" model
+  - Alternate to PKI
+  - "Key signing" parties
+  - "Alice" -> Key A, "Bob" -> Key B
+- PKI/Client-side TLS certificates
+  - It could be company-managed in a IoT environment
+  - Email-challenge
+  - not great in Sybil denfense perspective
+- Generic
+  - SybilGuard
+  - SybilLimit
+  - SybilRank
+- App-specific
+  - SumUp...
+
+Assumptions that these systems are making:
+
+- Social graph
+- Edges denote "trust"
+- Honest region is well-connected
+- There exists a "Sybil region" scenario, which has only few edges to the honest region, therefore attack edges are expensive and attack edges are rare/few.
+
+SumUp idea:
+Random walk in the graph - chances that i go out of well-connected (honest) area is very low.
+Assign voting rights to the end node
+Repeat
+Majority of the voting rights stays in the honest region, even though there could be.
+
+**Weaknesses**:
+
+- basics: privacy, performance
+- re-thinking the "movie plot threat" - why go into these things, when they are so complicated
+  - crow-sourcing - get the majority through financial incentives, botnet
+  - sparse infiltration - every single region is 1 node
+  - small-scale attack
+
+##### Sybils on Facebook
+
+We're Facebook and trying to detect fake accounts:
+
+AI, look for usage patterns - IP could be an indication (uzbekistant IP but accutely interested in Swiss politics), volume of usage
+reporting - ineficient, not necessarily correct
+connectivity - 1) who contacted who - new account reaching out to a lot of people, 2) who are you connected to who - similar age/usage
+
+If these detections are public, the adversaries are just going to change approach so most of the time it is kept secret.
+
+##### Proof-of-Personhood
+
+Key intuition - link identity to "being a physical person"
+
+Goals:
+
+inclusion - low cost to participation (permissionless)
+equality- one person, one vote (strictly)
+security - against identity theft/loss and Sybils
+privacy - no ID, no biometrics, etc.
+
+Approaches:
+pseudonum parties
+Encointer - Co-located physical bodies - person can be at one place at one time.
+Idena - "Flip" tests (Turing tests) - make a story out of pictures that makes sense. And it also prepares a flip test for others
+Humanity DAO - DAO/curated list
+Many others - Upala, BrightID, Good
