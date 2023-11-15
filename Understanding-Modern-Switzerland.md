@@ -816,3 +816,61 @@ Holding a univeristy degree became progressively essential, VE died off
 Swiss army had a boom and then declined
 
 Continuity of cosmopolitanism: international education and experience is not new, it was popular already since 1930s.
+
+## IMMIGRATION AND IMMIGRATION POLICIES IN SWITZERLAND
+
+Switzerland's immigrant population is one of the biggest in Europe.
+
+In the last 60 years, 6 million migrants have entered Switzerland with a permit (4 out of 5 went back)
+
+Without any immigration after 1950, the Swiss population would be a third smaller (bigger proportion than US, AUS, CAN)
+
+Immigration is the main contribution to demographic growth (2.5 times more immigrations than births) -> most important drive behind growth
+
+### When economy meets direct democracy
+
+Economy has relied on the import of labour from mid-19th century.
+
+This economic engine relying on the immigration, has allowed to have xenophobic tensions that could be expressed politically (more and earlier than elsewhere) through direct democracy.
+
+### Historical evolution of immigration and immigration policy
+
+Switzerland was relatively poor country until mid-19th century and **emigration** was very prevalent (to Europe, US or South America)
+
+One of the big exports of Switzerland from 16th century onwards was mercenaries (pike fighters) - one of the forms of emigration, and was profitable (still exists as Swiss Guard of Vatican).
+Mid-19th century mercenaries was privatized because of the interference with neutrality.
+
+Quite a bit of people would emigrate to the US or South America. There are remnants of that - Berne in Indiana, and other colonies (Colonia Suiza in Uruguay). Due to farmers not wanting to move to the cities and they were leaving to other countries to farm.
+
+Until 1880s more people were leaving Switzerland than arriving.
+
+1850 onwards - economic takeoff -> labour was too scarce in Switzerland and weak uniions, weak mobility of peasants (they were leaving) and "import" of labour from Italy and Germany.
+
+The need for the workforce was from factories and big infrastructure projects (e.g. Gotthard tunnel which was built by Italian workers)
+
+Before WW1 there was already big proportion of immigrants, and then it decreases after it because of the closed off policies.
+From 1950s there is a very big economic growth and proportion of immigrants growth. It was driven by an increase in demand of Swiss products. There was also work permit structure which allowed a lot of immigrants to come and leave (but strict, yet flexible) - you come if you have a job, and you can stay only as long as you have a job.
+Source countries of the immigrant countries were further than initially - Italy, then Spain, Portugal, Yugoslavia (these were chosen only when seens as "culturally compatible").
+
+In 1960s there was an emergence of xenophobic groups after massive increase in immigration. Groups were using direct democracy to limit immigration.
+Government introduced a quota system because it was put under pressure
+
+In 1970s, during a recession, there was a big immigrant population decline because of the work permits flexibility - they had to leave if they were made redundant.
+Between 1973 and 1976 Switzerland lost 330,000 jobs and GDP declined by more than 7%.
+Unemployment increased by only 20,000, and 245,000 were immigrants who were forced to leave the country. And others were women who stopped their carreers.
+
+In 1991, unemployment couldn't be exported anymore because the work permits were made more permanent, and the social guarantees were introduced.
+Immigrants were harder hit by crisis because they were more often low-skilled -> unemployment.
+Also, there was an opening for EU workers, and pressure from EU to phase out the work permit system, and to be open for immigrant workers and free movement. Even though Switzerland wanted to keep the control of immigration.
+
+### Immigration and the labour market
+
+Currently the biggest share of immigrants are from European countries, whereas other countries have immigrants from African/South American countries.
+This is related to the "cultural compatability"
+
+There is a selectivity for the immigration - it's easy to come from Portugal due to free movement therefore there are way bigger proportion with lower education, whereas if a person is comming from outside the EU, it is very likely that the person is going to be high-skilled.
+
+Swiss people are clearly more probable to get higher salaries than immigrants even in the higher deciles.
+
+Comparison of income (controlled for age and education) - Swiss men earn more than foreign men, where Swiss women earn just marginally more than foreign women.
+If it is controlled for age and gender, there is no significant difference in the salaries.
