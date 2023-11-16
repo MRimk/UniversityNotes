@@ -67,8 +67,8 @@
       - [SYN Cookies (= specific initial SEQ numbers)](#syn-cookies--specific-initial-seq-numbers)
       - [TCP Fast Open (FTO)](#tcp-fast-open-fto)
     - [Secure Transport](#secure-transport)
-      - [TLS 1.3](#tls-13)
-      - [TLS sockets](#tls-sockets)
+        - [TLS 1.3](#tls-13)
+        - [TLS sockets](#tls-sockets)
   - [IP Multicast](#ip-multicast)
     - [SSM](#ssm)
       - [PIM - Protocol Independent Multicast](#pim---protocol-independent-multicast)
@@ -78,7 +78,18 @@
     - [Security of IP Multicast](#security-of-ip-multicast)
     - [Multicast in practice](#multicast-in-practice)
   - [Link state routing](#link-state-routing)
-    - [Taxonomy of routing protocols](#taxonomy-of-routing-protocols)
+      - [Taxonomy of routing protocols](#taxonomy-of-routing-protocols)
+    - [OSPF (Open Shortest Path First) with Single area](#ospf-open-shortest-path-first-with-single-area)
+      - [Link state database and LSAs](#link-state-database-and-lsas)
+      - [Topology graph](#topology-graph)
+      - [Path computation uses Dijkstra's algorithm](#path-computation-uses-dijkstras-algorithm)
+      - [Equal cost multipath](#equal-cost-multipath)
+      - [Changes to topology](#changes-to-topology)
+      - [Security of OSPF](#security-of-ospf)
+    - [OSPF with multiple areas](#ospf-with-multiple-areas)
+      - [Principles of OSPF multi-area operation](#principles-of-ospf-multi-area-operation)
+    - [Other uses of Link State Routing](#other-uses-of-link-state-routing)
+      - [Use - bridge VLANs across a campus](#use---bridge-vlans-across-a-campus)
 
 # TCP/IP Networking
 
@@ -938,3 +949,127 @@ specify some intermediate hops (the path to that intermediate hop is computed wi
 Reasons why it exists - it is the filtering router, or conducts packet inspection
 
 **Segment routing** - does source routing but also applies a function (screening or traffic separation). Used in data centers.
+
+### OSPF (Open Shortest Path First) with Single area
+
+Every router has:
+
+- interface database (physical connecitions - learnt by configuration)
+- adjacency database (neighbors' states - learnt by _hello_ prootcol)
+- link state database (network map (list of links) - learnt by flooding)
+
+_Hello_ protocol:
+ping-style, used to discover neighboring routers, and to detect failures (e.g. if neighbor did not respond after 3 times it is considered "dead")
+
+#### Link state database and LSAs
+
+Routers **synchronize** their link state databases when they become neighbors:
+if one router is new and copies what the other already knows
+otherwise, they merge/concatenate their databases
+
+After synchronization, a router sends and accepts **link state advertisements (LSAs)**:
+
+- every router sends one LSA describing its attached networks and neighboring routers
+- LSAs are flooded to the entire area and stored by all routers in their link state database
+- LSAs contain a **sequence number** and **age** - only messages with new sequence number are accepted and re-flooded to all neighbors. (sequence number prevents loops, age field is used to periodically resend LSA and to flush invalid LSAs)
+
+There is also a network LSA: it exists on ethernet topology with more than one routers, and it has a **Designated Router**.
+One of the ways to create a topology for this case is to create a mesh (but this complicates Dijkstra), so routers choose one Designated Router which creates the mapping. (risk - DR may fail all together - then they would need to rechoose DR again - detected by a missing "network LSA" part)
+
+#### Topology graph
+
+the link state database descibes an oriended graph with outgoing edge cost = cost given in LSA.
+
+Every router and every Ethernet network corresponds to one node in the graph
+(cost from network node to router node is 0 by default)
+
+OSPF packets are sent directly over **IP** (OSPF protocol = 89)
+Reliable transmission is managed by OSPF with OSPF **acks and timers**
+
+OSPFv2 supports IPv4 only
+OSPFv3 supports IPv6 and dual-stack networks
+
+#### Path computation uses Dijkstra's algorithm
+
+Performed at every router (based on link state database)
+
+Router computes one or several shortest paths to every destination from self.
+
+Paths are computed independently at every node because it computes shortest paths starting from itself, and synchronization of databases guarantees no persistent loops.
+
+Dijkstra's algorithm builds a tree of shortest paths from this node to all nodes.
+It adds one node at a time to the working set, by picking the node that is closest.
+
+If possible, there are multiple paths kept to the destination for redundancy
+
+After performing Dijkstra, router keeps **routing table** which stores the next-hop and the distance to every destination. This is built from the predecessor set of the first hop.
+
+To optimize the computation:
+
+- stub networks are removed before applying Dijkstra
+- then, Dijkstra is run and the routing table contains costs and next hop to routers
+- then, stub networks are added to the routing table one by one, using the information on how to reach the routers that lead to the stub networks.
+
+#### Equal cost multipath
+
+How should you forward paths?
+Use all the paths with equal probability because then there is load balancing.
+But because it may cause packer reordering, it's better to have **per-flow load balancing** which would be implemented with a hash function applied on the flow identifier (source and destination IP and port tuple)
+
+#### Changes to topology
+
+Links fail or routers reboot - changes to topology
+
+the routers detect failures through:
+
+- OSPF hello protocol
+- Bidirectional Forwarding Detection (BFD) protocol - hello protocol at the Ethernet level (directly - because there might be no power on the cable)
+
+If a router detects a change in the sate of a link or a neighboring router:
+
+1. it floods a new LSA - neighbors propagate the change to the entire OSPF area
+2. all routers update their link-state databse, recompute Dijkstra and routing tables with the new LSA
+
+#### Security of OSPF
+
+Attacks:
+send invalid routing information -> disrupt network operation
+send forged routing information -> change network paths
+DoS attack
+
+OSPF security protects against invalid and forged inforamtion with **authentication**
+
+OSPF Type 3 authentication:
+Secred shared keys - because it is under the same domain. Message is appended with MAC (message authentication code) - Crypto sequence number (in cleartext so that neighbor could also compute the hash and used to avoid replay attacks), and a digest.
+
+### OSPF with multiple areas
+
+LSA flooding does not scale in very large networks
+
+OSPF uses multiple areas and hierarchy of two routing levels: a backbone area (area 0) or several non-backbone areas
+
+All inter-area traffic goes through backbone area 0
+
+#### Principles of OSPF multi-area operation
+
+1. inside one area, link state is used. One Link Stae Database per area
+2. Area **border routers** belong to both areas and have 2 link state databases (for local area and for area 0)
+3. A border router injects **aggregated distance information** (using summary LSA) learnt from one area into other area
+
+All routers in area 0 compute their distances to networks outside the area using Bellman-Ford formula: $$d(self, n1) = \min\limits_{\text{BR} \in \text{Area0}} \{d(self, \text{BR}) + d(\text{BR}, n1)\}$$
+
+### Other uses of Link State Routing
+
+Links tate routing (OSPF or IS-IS) provides a complete view of area to every node.
+This can provide advanced functions:
+
+- multi-class routing - compute different routes for different types of services
+- explicit routes (with source routing) - an edge router computes the entire path, and writes it in the packet header. This avoids transiend loops/supports fast re-route after failre. Used in deterministic networks
+
+#### Use - bridge VLANs across a campus
+
+Routers can hear on the MAC layer and forward the MAC frames from one to the other.
+
+This can be implemented by routers overhearing what VLAN is active (tunnels - MAC in IP) on any oftheir ports and put this information in the link state database. (Cisco TRILL protocol)
+
+This does not require to connect all of these routers to be connected by switches. Trunk architecture requires a cable to connect all of them.
