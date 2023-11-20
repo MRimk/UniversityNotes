@@ -1347,3 +1347,106 @@ Encointer - Co-located physical bodies - person can be at one place at one time.
 Idena - "Flip" tests (Turing tests) - make a story out of pictures that makes sense. And it also prepares a flip test for others
 Humanity DAO - DAO/curated list
 Many others - Upala, BrightID, Good
+
+## Review of Consensus
+
+### Logical clocks
+
+Lamport clock - A caused B -> C(A) < C(B)
+Each message contains the logical time, receiving updates the local clock
+
+Vector clock - C(A) < C(B) -> A caused B
+Similar to G-Counter CRDT, one counter per node.
+
+Threshold logical clock - specialized for threshold applications
+
+#### Threshold logical clock
+
+When a consensus is reached -> broadcast logical clock advance.
+
+Then a threshold (quorum) of clock advances has been received -> move to the next box, even if we haven't witnessed the consensus
+
+## Byzantine problems
+
+### Byzantine generals problem
+
+Some generals surround the castle, and the goal is to take the castle. They will win if they coordinate correctly - either attack or retreat.
+
+Generals or messangers might be treacherous.
+
+**Failure model**:
+
+- arbitrary failures
+- general (=process) may be malicious
+- Generals may collude
+- Network may be malicoius
+- system may present conflicting info
+- computations may be incorrect
+
+**Fault**: underlying defect:
+
+- active - injects errors in the system
+- passive - latent
+
+**Failure**: system no producing the desired result -> 1 + fault(s) made the system useless
+
+**Fault-tolerance**: building reliability out of unreliable components
+
+**Redundancy**: fundamental principle to build fault-tolerant systems
+
+### Byzantine faults - Causes
+
+Malicious actors (hacking), software bug, hardware failure
+
+What kind of hardware failure -> network
+
+### BFT Consensus
+
+Key properties:
+Safety - all nodes agree on a (single) decision
+Liveness - eventually something is decided
+
+Paxos >= 2f + 1
+
+Why does it not work for BFT?:
+
+Byzantine model:
+Malicious node "X"
+Malicious network
+
+Delay the network long enough such that 2/3 acceptors receives proposal. Other proposer does the same, but only one acceptor node is overlapping. Then attack could be carried out by the overlapping node and break safety - 2 different values were agreed on.
+
+Therefore 2f + 1 is not strong enough.
+
+BFT: n >= 3f + 1
+No matter what there will be at least 1 honest node in the intersection.
+(even though there is no assumption about who's honest)
+
+How to decide on n? - cost analysis
+
+Sometimes people will accept Byzantine faults because the cost of the chance of introducing a bug with the implementation of BFT.
+
+## Permissionless consensus (Bitcoin and Proof-of-work)
+
+### Bitcoin - key ideas
+
+Proof-of-work:
+
+- "miners" solve computational puzzles (hash with N leading zeros) => Computational power = Hash rate (H/s)
+- Puzzle difficulty is adjusted to keep block rate (roughly) constant - around 10min. It compensates for changes in mining power.
+
+10min - ensures that everyone has received a block n, before there is a chance for anyone to mine block n+1.
+
+### Bitcoin assumptions
+
+Threshold assumption - majority of mining power is honest (you cannot corrupt more than 50%). This means it is independent fo the number of nodes
+
+Keep the heaviest chain (that has consumed the most computational power). This is because of the network partitions, give weight to the network that has done more work.
+transient safety violations - e.g. forks, reversed transactions are OK.
+Eventually forks will be resolved (based on the expended work) <- All of this is highly probabilistic
+
+Probabilistic finality - 6 blocks (1h) - instead of saying "we have the transaction, it's effective now"; Bitcoin waits for 6 blocks, which comes from probability of a fork happening.
+
+Economic incentive compatibility - bitcoin gives economic incetives to miners
+
+Safety assumption - assuming that messages arrive in very short time - **synchronicity**
