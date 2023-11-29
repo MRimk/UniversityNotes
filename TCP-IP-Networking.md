@@ -67,8 +67,8 @@
       - [SYN Cookies (= specific initial SEQ numbers)](#syn-cookies--specific-initial-seq-numbers)
       - [TCP Fast Open (FTO)](#tcp-fast-open-fto)
     - [Secure Transport](#secure-transport)
-        - [TLS 1.3](#tls-13)
-        - [TLS sockets](#tls-sockets)
+      - [TLS 1.3](#tls-13)
+      - [TLS sockets](#tls-sockets)
   - [IP Multicast](#ip-multicast)
     - [SSM](#ssm)
       - [PIM - Protocol Independent Multicast](#pim---protocol-independent-multicast)
@@ -78,7 +78,7 @@
     - [Security of IP Multicast](#security-of-ip-multicast)
     - [Multicast in practice](#multicast-in-practice)
   - [Link state routing](#link-state-routing)
-      - [Taxonomy of routing protocols](#taxonomy-of-routing-protocols)
+    - [Taxonomy of routing protocols](#taxonomy-of-routing-protocols)
     - [OSPF (Open Shortest Path First) with Single area](#ospf-open-shortest-path-first-with-single-area)
       - [Link state database and LSAs](#link-state-database-and-lsas)
       - [Topology graph](#topology-graph)
@@ -90,6 +90,8 @@
       - [Principles of OSPF multi-area operation](#principles-of-ospf-multi-area-operation)
     - [Other uses of Link State Routing](#other-uses-of-link-state-routing)
       - [Use - bridge VLANs across a campus](#use---bridge-vlans-across-a-campus)
+    - [Software defined networks](#software-defined-networks)
+      - [How SDN works](#how-sdn-works)
 
 # TCP/IP Networking
 
@@ -1073,3 +1075,18 @@ Routers can hear on the MAC layer and forward the MAC frames from one to the oth
 This can be implemented by routers overhearing what VLAN is active (tunnels - MAC in IP) on any oftheir ports and put this information in the link state database. (Cisco TRILL protocol)
 
 This does not require to connect all of these routers to be connected by switches. Trunk architecture requires a cable to connect all of them.
+
+### Software defined networks
+
+To get more control than just matching destination address with the longest prefix match, e.g.:
+handle mission critical traffic high priority, ban non-HTTP traffic, send suspicious/DoS traffic to a machine that does deep packet inspection
+
+#### How SDN works
+
+- **Deep packet inspection (DPI)** - look not only at IP headers, but also payload
+- **Per-flow forwarding** - when a packet is to be forwarded, the router:
+  - looks for a rule match in the list of ordered per-flow forarding rules (also called _flow table_)
+  - if one or several matches exist, follow the rule with the highest priority
+  - if no rule matches, go to the IP table to match on longest prefix
+
+(same can be done in switches)

@@ -874,3 +874,154 @@ Swiss people are clearly more probable to get higher salaries than immigrants ev
 
 Comparison of income (controlled for age and education) - Swiss men earn more than foreign men, where Swiss women earn just marginally more than foreign women.
 If it is controlled for age and gender, there is no significant difference in the salaries.
+
+## History of Swiss neutrality
+
+Swiss neutrality is the result of a complex historical process
+
+Process results from both _external pressures_ and construction of a _national identity_
+
+Swiss neutrality is very roughly defined and varies
+
+Neturality can be a "moral shield" used to dissimulate the "sword of trade"
+
+### Neutrality before 1815
+
+One origin of Swiss wealth is related to Swiss mercenaries
+
+**Myth** - Battle of Marignano(1515) led to the birth of Swiss neutrality.
+The battle led to temporary end of confederate expansionist policy and the mercenaries still continued to work.
+
+> **Neutrality** within the meaning of international law means no military participation in an armed conflict between other states.
+
+Since each canton remained sovereign in matters of foreign affairs - neutrality cannot be really considered common policy before 1848
+
+And far from being isolated, the old confederation was involved in the startedgies of European powers; it also offered its services to either side - which is not really a defininition of neutrality
+
+### 1815-WW1 - fragile construction of neutrality
+
+#### 1815
+
+Swiss neutrality was established in parallel to the emergence of Modern Switzerland.
+It was done so on the impulse of foreign powers (when the cantons collaborated)
+
+Major milestone - 1815 Vienna Congress:
+Napoleon was defeated in Battle of Waterloo, and Switzerland was one of the discussion points whether Switzerland will be still a vassal state of France.
+It was agreed that Switzerland's perpetual neutrality was "in the interests of the common good"
+Then the Paris Treaty was signed on November
+
+Consequences:
+
+- Permanent and armed neutrality: no temporary neutrality, and allowed to have an army for defence
+- Inviolability of Swiss territory is guaranteed
+- Voluntary neutrality (paradoxal because of the foreign powers, and Switzerland accepted that)
+- Switzerland's neutrality was recognised under international law for the first time
+
+> Very superficial (and ambiguous) definition of neutrality
+
+This still allowed the Switzerland's mercenary activity and trade of weapons of war.
+
+#### 1848 - neutrality introduced in the Swiss Constitution
+
+It is not in the fundamental articles
+
+And vague formulation of neutrality
+
+#### The Hague Conventions of Octorer 18, 1907
+
+Rights of neutral states - inviolability of a neutral state's territory
+
+Duties:
+
+- refrain from engaging in war
+- ensure equal treatment for belligerent states in respect of the exportation of war material (so both sides get the same treatment)
+- not supply mercenary troops to belligerent states
+- not allow belligerent staes to use its territory
+
+#### WW1
+
+Switzerland was surrounded by nations at war
+
+The neutrality was not very consensual among elites, and it was questioned what Switzerland should do.
+
+People in French side wanted Switzerland to go to war together with France and Italy
+People in German side wanted Switzerland to go to war together with Germany and Austria-Hungary
+Remaining - wanted neutrality
+
+It remained neutral.
+
+For the first time there was critisism (local and external) of Swiss neutrality
+
+Neutrality does not forbid to sell weapons but you have to do equal trading with both sides.
+
+Switzerland became major financial centre at that time due to neutrality.
+
+And after the war, Switzerland was intact and it became more obvious that it's good for the country to be neutral
+
+At that time it has emerged the image of Switzerland of humanitarian aid. It was kind of a propaganda aimed to foreign countries and local citizens (to put together the different opinions).
+This is related to the narative of Switzerland developing its own path (isolated and different from others), and narative of humanitarian aid.
+On the other side there was harsh criticism. Such as for Switzerland was selling ammunition to country at war and providing healing aid to the other side.
+
+#### Interwar period
+
+Treaty of Versailles (1919) - there was a ban on arms production in Germany
+
+Switzerland as a territory for offshore production -> German arm production was moved to Switzerland.
+During Interwar period there was no governmental control of production of war material.
+
+In 1920 Switzerland joined the League of Nations which created "differential neutrality"
+**Differential neutrality** - Switzerland was not complied to adopt military sanctions as a member of League of Nations, only the economic sanctions
+
+### WW2 and the rise of criticism against neutrality
+
+#### WW2
+
+**Myth** - Switzerland was not invated thanks to its strong army and its neutrality.
+
+Actually - Switzerland went back to integral neutrality in 1938, and in 1939 neutrality was recognized by Hitler.
+This was because Switzerland became useful to Nazi Germany during WW2, because it was the main hub for gold from Germany and the countries occupied by the Wehrmacht. Switzerland also exported 60% of produced weapons to Germany because of raw material such as gold.
+Why?:
+
+- This is because Reichsmark was not convertable anymore, and the Swiss frank was strong currency
+- Gold transactions were in 3 phases:
+  - First: the transactions were with commercial banks (1939-1941)
+  - Second: Swiss national banks were doing transactions - there was criticism from alies that Switzerland allowed Germany to trade and in 1942 Switzerland closed its borders to Jewish refugees. And that gold that was transacted was stolen by the Germans from other countries.
+  - Third - 1944-1945 was big decline of purchases, and increase of trade with other countries.
+
+By the 90s there was a big criticism and there was an independent commission to analyze the trades of Switzerland during the war (the experts even were allowed to bank archives)
+
+Federal Councillor Marcel Pilet-Golaz was forced to resign because he was very neutral to the Nazi Germany and fashist regime
+
+#### Consequences of WW2
+
+Collaboration with Axis was strongly criticized by the Allied powers.
+
+March 8 1945 - end of Swiss trade with Germany and seizure of German assets by the US. This was because Switzerland wanted to restore its image with allies and especially US.
+
+Switzerland was isolated on the international scene.
+
+### Cold war period
+
+Max Petitpierre (foreign minister from 1944 for 15 years) introduced the new doctrine of **"Neutrality, solidarity and universality"**
+
+#### Neutrality, solidarity and universality
+
+Political neutrality - non-adhesion to the UN (joined just only in 2002) or NATO
+
+Solidarity - good offices (means to serve as mediation during international conflicts), humanitarian aid and technical assistance to the "Third World"
+
+Universality - no discrimination among countries (not take into account the political systems of those conuntries)
+Reality - Switzerland was aligned with western and anti-communist countries.
+Also, there was a Washington agreement for Switzerland to repay the damages caused during WW2 to US
+
+Switzerland protective power mandates:
+as part of solidarity, Switzerland became an intermediary for Cuba conflicts, Suez crisis, Iran-Irack conflict, and fall of the Berlin wall.
+This was mainly prominent during 1950-2004, and it declined during 1990-2000s because of the end of the Cold War
+
+This overall worked to repair the image of Switzerland.
+
+#### Biafra war
+
+Nigeria became independent in 1960 and was divided in 3 sections. Biafra declared independence and the country evolved into the country.
+It was very mediatized war, and Switzerland decided to launch a big humanitarian campaign through Red Cross to help Biafra.
+However, there was a scandal when one Red Cross plain with aid was shot down by Nigeria, and the weapons to shoot down the plain were supplied by Switzerland.
