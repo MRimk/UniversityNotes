@@ -3951,3 +3951,583 @@ Explain to the developer what a republishing scheme is and why it is possible on
 Since you actually read (parts) of the research articles published with these prototypes, you chime in and explain that a CPU emulator alone is not enough to run these components. Come up with an argument to convince the security researcher.
 
 PartEmu and FirmWire need to implement all the peripherals (e.g., memory-mapped input/output) the TEE OS or the baseband firmware, respectively, are interacting with. These peripherals are private, and it requires a lot of reverse-engineering effort to implement an emulation layer that works sufficiently accurate.
+
+## Trusted Computing
+
+Why trust a computer?
+If you want to compute something, you may have to trust some other party (hw/sw)
+
+### Confidential computing
+
+Hardware and/or software techniques ensure your program runs without disclosing its secrets
+Not assurance that your code runs to completion (adversary may deny service)
+
+It ensures correctness but not liveness
+
+It gives the confidentiality and integrity, but does not give availability?
+This is because there can be other components that are not trusted (other processes, attacker could turn off the computer)
+
+In cloud, the platform provider must retain control over scheduling -> availability may suffer.
+
+Confidential computing implies higher overhead. And usually you optimize to use only the trusted core component.
+
+### What if we can trust the hardware
+
+Assume we can.
+
+Build a trusted core of the application and put it in the safe hardware, then nobody else can look inside or extract secrets.
+We can ensure that the hardware runs correctly with cryptographic primitives.
+
+#### Properties of trusted hardware
+
+- Attestation - hardware proves that it odes what you think it is doing
+- Sealing - hardware stores secrets in unprotected memory
+- Isolation - privileged and concurrent code cannot observe computation (this included protection against side-channel attacks)
+
+Examples of trusted hardware:
+IntelSGX is storing data as encrypted to the memory, and cache is unexcrypted. It assumes that chip cannot be broken/read out the cache or individual CPU pins.
+
+Examples of uses of trusted hardware
+
+### Trusted hardware
+
+Any hardware that has been certified to perform _according to a certain set of requirements under strong adversarial conditions_
+
+Because of the strong adversarial conditions, trusted hardware is often (but not always) _tamper resistant_
+
+Integrated Trusted Hardware - Intel SGX, TPM chip
+
+Trusted Hardware with physical isolation - Hardware security module - half-size server that you can put to server rack and they will do all the magic by if you open it, it destroys the data, Smart card (bank card, sim card, ID, camipro, keys, SwissPass, Insurance card)
+
+Tamper resistance up to a given attacker
+
+#### Trusted execution environments (TEE)
+
+isolated processing environment in which applications can be securely executed irrespective of the rest of the "system"
+
+**dedicated devices**
+
+- strong physical protections
+- protect against invasive adversaries
+- limited functionality, often optimized for cryptographic operations
+- act as root of trust for larger operations. e.g. support to secure boot of OS
+
+**Secure enclaves in shared devices**
+
+- protected regions of memory
+- confidentiality and integrity of running processes
+- verification of executable code before execution
+- enable processes to run while being protected from attacks perpetrated by the OS, hypervisor, firmware, drivers or remote attackers
+
+Intel tried to make money by adding a secure component on a chip, therefore hiding information from OS or hypervisor.
+ARM Trustzone does similar to IntelSJX
+
+TEE guarantees the environment in which code is being run
+
+#### Trusted Platform Module (TPM)
+
+Microcontroller atteched to bus or somewhere in the system can securely store artifacts such as keys or passwords, used to authenticate the platform. It can sign, encrypt data or verify hash.
+
+It can also provide and store measurements to ensure that the platform stays trustworthy.
+
+TPM gives the guarantee for the state and you can build a chain of trust.
+
+Example:
+TPM guards sensitive data in non-volatile storage
+
+1. Endorsement Key (EK) (2048bit RSA)
+   1. created at manufacturing time, signed by manufacturer, immutable
+   2. used for attestation
+2. Storage Root Key (SRK) (2048bit RSA)
+   1. used for encrypted storage (sealing) - created after running TPM_TakeOwnership
+   2. Can be cleared later with TPM_ForceClear from BIOS
+3. OwnerPassword (160bits) and persistent flags
+   1. EK, SRK, OwnerPwd are private and never leave the TPM
+
+It provides Platfrom Configuration Registers (PCR) which hold state (for checking)
+many per chip (>16), they contain 32-byte SHA-256 digest
+PCRs are initialized at boot time to default value
+
+They have two relevant operations:
+TPM_extend(n,D): PCR[n] <- SHA256(PCR[n] || D) <---- take existing value, and stream in data from D, continuously updating SHA sum
+TPM_PCRRead(n): returns PCR[n]
+
+It can be used for attestation, sealing, and isolation
+
+##### TPM Attestation
+
+Mechanism that allows a hardware module to prove that it is in a specific state to an authorized party
+
+Attest there is secure hardware : EK serves to prove the device is genuine (verify this by pubkey from device manufacturer -- trusting Intel, or others that the key management is correct)
+Attest the state of OS : after a series of instructions, the state of registers is as expected (part of the secure boot)
+Attest the state of the code : signature of the code (piping the code through the secure register)
+
+Examples of possible use cases:
+
+- bank allows money transfer if customer's machine runs "up-to-date" OS patches
+- Enterprise allows laptop to connect to its network only if laptop runs "authorized" software
+- gamers can join network only if their game client is unmodified
+
+Example:
+Game consoles, company laptops, and mobile phones <-- places where secure boot is used to verify the OS and that information was not stolen
+
+**Secure Boot:**
+On power-up TPM gets TPM_Initsignal from LPC bus
+
+1. BIOS boot block
+   1. TPM_Startup to initialized PCRs to 0
+   2. PCR_Extend(n, \<bios code\>)
+   3. then loads, checks, and runs BIOS post-boot code
+2. BIOS:
+   1. Calls PCR_Extend(n, \<MBR (master boot record) code\>)
+   2. Then loads, checks and runs MBR
+3. MBR (master boot record):
+   1. calls PCR_Extend(...)
+   2. Then loads, checks and runs OS loader, etc.
+
+Going beyond OS is hard because a lot of apps are running concurrently, so it cannot verify the state of the data.
+So then you give the parts of code to TPM to get the hash to verify that the code has not been tampered with.
+
+After full boot sequence, PCR contains hash chain of the booted software. Hash ensures no cheating.
+
+**Software attestation**
+
+Goal prove to server that application is untampered
+
+First step - create Attestation Identity Key (AIK)
+
+- private key only known to TPM
+- pubkey certified by an Authority if EK is valid
+- can be certified using EK directly or privately (Direct anonymous attestation)
+
+Server sends attestation request (PCRList, Nonce)
+Application goes to TPM to get Attestation = PCR state and signature, and sends to server, and establishes TLS channel
+Server validates signature and PCR state and communicates on secure channel
+
+This way the server can verify the application by checking individual bits and pieces of the application's memory
+
+**EXAMPLE - private contact discovery in Signal**
+Signal is a messaging application
+Signal has end-to-end encryption, keys astored on the device, (mostly) open source, independent
+
+They have private contact discovery:
+from list of contacts find the intersections who from those contacts is using signal.
+
+Solutions:
+give contact list to signal and it returs the users list (unsafe)
+or get all contacts from signal and intersect with your contacts list. (this would be 1.5TB of data)
+
+**Privacy**: Even if we trust signal, we don't want Signal to know who we are communicating to
+
+We cannot do _acccess control_, because Signal would need to have access control to signal servers, but it is the threat model
+
+We cannot do _cryptography_ because signal then would still know.
+We could do _Private Set Intersection_, which is crypto primitive, where the intersections is received back by the user. Problem is that PSI does not scale
+
+_Intel SGX solution_ - do the intersection computation in an enclave:
+signal sends pubkey of enclave
+user encrypts contact list with pubkey
+signal computes the intersection
+then the intersection is sent back
+
+We are still trusting Signal that they are running the enclave.
+Enclave is open source and the user can compute (and check) the hash used in attestation.
+
+Application verifies the state by sending a challenge to signal enclave.
+Then the enclave returns the pubkey with attestation.
+Then continues the contact exchange.
+
+We still need to trust Intel to faithfully implement SGX, and that it does not screw up the enclave, and that it is sufficiently hard to break into the enclave.
+
+##### TPM Sealing
+
+**Sealed storage** protects private information by binding it to platform configuration information including the software and hardware being used
+
+The device derives a key that is tied to its current status, e.g. Platform Configuration Registers (PCRs) and stores the encrypted data
+
+Data can only be decrypted by a device with the **same** status (same hw, sw, same state)
+
+Setup:
+
+1. Run TPM_TakeOwnership(OwnerPassword ...)
+   Creates 2048bit RSA Storage Root Key (SRK) on TPM
+   Cannot run TPM_TakeOwnership again without OwnerPassword
+   Done once by IT department or laptop owner (optional)
+2. Run TPM_CreateWrapKey/TPM_LoadKey
+   Create more RSA keys on TPM protected by SRK (identified by 32-bit keyhandle)
+
+Storing data:
+
+1. TPM_Seal(keyhandle, PCRValues, Data)
+   Encrypts data using key [keyhandle]
+   data up to 256 bits (e.g. an AES key)
+2. Securely store encrypted data in persistent memory
+
+Recovering data
+
+1. Recover data from secure storage
+2. Decrypt with TPM_Unseal()
+   Will only succeed if PCRValues are the same as twhen TPM_Seal was run (so changing MBR, OS Kernel, os App code means that data cannot be decrypted)
+
+Signal does the same thing to store the snapshot of the SGX enclave.
+
+Another example - Windows Bitlocker which purpose is to encrypt a full volume
+The Volume Master Key (VMK), that encrypts disk volume key, can be recovered only if you boot up with the correct state of the system
+
+They do not solve all security issues - because they have their own issues, trade-offs (limited throughput, limited storage)
+Intel SGX has a memory limit because you need to hash the data streams, otherwise there could be a replay attacks done.
+
+#### Trusted Hardware Key Properties - Isolation
+
+Mechanism to constrain who and what has access to programs and data
+
+Trusted hardware offers _one well-identified entry-point_ to interact with software
+
+- tamper resistance - hard to open
+- tamper evident - you can see if it has been opened
+- tamper responsive - delete keys when attacked
+- resistance to side-channel attacks and physical probing
+
+#### Hardware Secure Modules (HSMs)
+
+Hardened, tamper-resistant hw devices
+
+Cryptography oriented:
+generating keys, encrypting and decrypting data, and creating and verifying digital signatures
+
+Certified at vairous FIPS 140-2 (federal information processing standard) levels:
+approved security algorithms
+achieve evidence of tampering (e.g. coatings and seals) that must be broken to attain physical access to the plaintext crypto keys and critical security parameters
+
+There is an API defined by PKCS
+
+##### Use-case: secure iPhone backups
+
+we want users to be able to vackup their data to the cloud, and the user should be the only one that can recover their data
+
+We don't trust other users, cloud provider, Apple, external paries
+
+User should retain exclusive access
+
+Solution: access control; problem - apple and the cloud can still access the HSM;
+Even if Apple and cloud were trusted, access control for data just prevents other users and 3rd parties from accessing the data and this does not apply to 3rd parties with subpoenas
+
+Solution: cryptography - key is on the phone. Encrypt the data, and send it to the cloud. If the phone is lost, the data is lost.
+
+Solution: password that is sufficiently hard used to derive the key
+Problem - guessing the password. So limit the attempts, but people don't really remmeber long passwords
+
+HSM Pubkey is hardcoded into the device:
+
+1. Generate random symkey k
+2. encrypt phone data using k, and send it to the cloud
+3. send key k to the HSM, encrypted with pubkey (there is user password and k)
+
+After the login to iCloud, passcode is sent ot HSM and which retrieve the key k
+
+These HSMs run custom software. This software can be updated.
+To update, there are protect access keys - Apple's HSMs require smartcards to update, stored in sealed and tamper-evident bags while not used.
+Install software, destroy access cards
+
+Still need to trust Apple to install secure software in the first place
+
+#### Smartcards
+
+Plastic card with embedded integratecircuits which can process data and are often tamper resistant
+
+Two types:
+
+- memory cards
+- microprocessor cards
+
+Contain keys and certificates - authentication / digital signatures, confidentiality, key management protocols
+
+##### Use-case: Offline payments
+
+We want to signal to the bank to pay to a merchant without talking to the bank.
+
+Threats:
+other users
+merchant
+user themselves
+external parties
+
+The card is often authenticated with a PIN, and then the transaction is signed with the certificate in the card.
+Signature can be forged
+
+Dunamic data authentication - PIN OK can be faked
+So we can send it online to check, but this would be expensive process.
+But now a lot of devices can do the online transaction to check whether the funds are available.
+
+Problem: Relay attacks
+
+Attacker controls the payment terminal which is connected to a computer what transwerls the transaction to another computer, that is connected to a fake card, that uses the received PIN and fake card to pay for something else.
+
+There are approaches to limit the relay capabilities - distance bounding (time limiting for signals).
+Relay attacks have proven that the user might not be responsible for the fact how their card was used.
+
+### Side channels
+
+Using TPM in a nutshell: Do very secure operation, trusted hw execites the secure operation with secret information, you get the result of very secure operation
+
+**Side-channel attacks** - determine the secret key of a cryptographic device by measuring its execution time, its power consumption or its electromagnetic field.
+
+#### Types of side channels
+
+learn the system's secret by observing how different computations are
+
+**time** - how different computations take different time
+Extremely powerful because **isolation** doesn't help
+
+**power** - how different computations consume different power (mutliplication takes more power than addition)
+
+**electromagnetic** - how different computations have different emissions (multiplication will be different electromagnetic waves)
+
+#### Timing attack - Naive RSA
+
+RSA decryption - compute c^^d mod N
+Naive algo - square and multiply
+
+Here problem is that there is a check for a bit == 1, and if it is it multiplies (a lot longer signal through ALU), otherwise assign (short op)
+
+This could leak information during RSA computation
+
+timing depends on number of 1s in the channel
+
+To mitigate this - make the if branches equal timing wise - add bunch of operations to both sides, or add computation to the other side
+
+#### Power side channels
+
+Elliptic-curve crypto operation
+Power depends on key bits
+
+This often requires 1000x of tries but afterwards it can leak inforamtion
+
+#### Electromagnetic side channels
+
+same as power
+
+#### Countermeasures
+
+Goal - prevent secret inference from observable state
+
+**Hiding** - lowers signal to noise ratio
+noise generator, randomized execution order, async logic styles...
+
+**Masking** - split state in to shares; forces adversary to recombine
+Boolean or arithmetic masking, higher-order masking
+
+**Leakage resilience** - prevents leakage aggreagation by updating secret
+e.g. by shielding in a faraday cage
+
+#### Attacks against Intel SGX
+
+SGX is the prime technique on modern CPUs to run trusted computation
+Adversary runs side-by-side on the same CPU, either on a nearby thread or core
+
+Large amounts of side cahnnel to make protection of SGX hard
+
+It doesn't give full protection against NSA, but still is good against reasonable attackers
+
+Even the most modern SGX will leak some info, but will give some security guarantee.
+
+Attacks, while they are possible, the attacker is in a very constrained environment:
+they control hypervisor, CPU, and run it in almost single-step mode to get information
+
+### Microarchitectural side-channels
+
+#### Meltdown
+
+Allowed attackers to leak information of the kernel.
+Allowed to read all memory of the running processes
+
+AMD was resistant to meltdown (per chance), but Intel was not
+
+It exploits the race condition between **memory access** and **protection checks**.
+
+Ultimately exploits the microarchitectural nature of caches (something is left in the cache upon exception because the cache is not part of the architercural state)
+If the protection check fails, the CPU is rolling back the memory access execution but the check might have flushed the cache lines and from that you can infer what the value was stored.
+
+> Attacker executes a **forbidden access** and speculatively uses the result to obtain **non-architectural side-effects** that reveal the secrets **before** the forbidden access is squashed
+
+Most OSes mapped physical kernel memory pages into every user's virtual memory space
+Minimizes the cost of some exceptions
+Of course, **access is protected**, i.e. data can be read only in kernel mode
+But **everyone can address them**
+
+By accessing certain parts of the page we can infer how long it takes to access that part and infer where it is in the memory
+
+##### Meltdown steps
+
+Execute a forbidden access (pointer being dereferenced)
+
+Speculatively use the secret result - store it somewhere else.
+Before the exception is thrown by CPU
+
+Execute the memory access using the secret, there will be specific access to specific page (legitimate memory access). `array[secret * 4096]`
+This will remain even if the CPU unrolls the operation from before
+
+This allows to indirectly measure what the secret is
+
+Additionally we need to make sure that a secret the attacker cannot read leaves a trace before it is cancelled
+And then performa a **prime+probe** cache attack to learn the secret - attacker in a different process has a large array and goes through the whole array checking if the access to item is fast (in cache) or part of the array was flushed - slow. Then they know which cache addresses were flushed
+
+Affected all the processors except AMDx86
+
+##### Meltdown possible mitigations
+
+The obviouse proper solution is to change the processor degin:
+test the privilege level **before** making the result of a speculative access available (AMD did this already)
+
+OTher mitigation is to **isolate user space and kernel space** memory
+In Linux, Kernel page-table isolation (KPTI) and similar in other OSs - allows to see very small kernel space in user mode
+performance penalty in Linux is around 5-10\%, up to 30\%
+
+#### Spectre
+
+Another catastrophic attack making it possible toread all memory
+
+Addresses another shared resource - branch predictors (they are not unique per thread but shared among SMT threads)
+
+Exploits side effects of **(mispredicted) speculative execution**
+Mispeculation does not affect the architerural state but it may **affect microarchitectural structures** (E.g. caches)
+
+Attacker would redirect the brach predictor but the CPU can detect, and the same way still leave the trace
+
+Goal: get the victim to **speculatively** execute **leaky** code whose nonarchitectural side-effects reveal the secrets
+
+##### Spectre steps
+
+Have leaky code: `array1[x]` - with appropriate value of x we can read anything we want
+
+Speculatively execute controled branching (attacker controls x). We would train the branch predictor that x is always < array_size
+
+```bash
+if (x < array1_size)
+    array1[x]
+```
+
+If we can get the processor to mispredict the condition, the access will ebe speculatively performed (but the value will be removed from the ROB)
+
+And then in the branch we do the same thing as in meltdown - do the indirect memory access: `y = array2[array1[x] * 4096]`.
+We can use the side effect of the value of the execution to gain information.
+
+And then execute Prime+Probe cache attack to learn the secret.
+
+##### Spectre possible mitigations
+
+**Hardware**: disable speculative execution (give up 90% of CPU speed), separate branche predictors per process/thread
+
+**General Software** approaches: run only an application per processor
+
+**Partial and application-specific software** approaches: add serialization instructions between branches and loads; Make it impossible through JS in browsers.
+
+These are still vulnerable, and the kernel needs late-stage software microcode patches.
+
+Microcode patches: what is loaded into the CPU to execute complex instructions.
+
+#### Active mitigations
+
+New CPUs roll out mitigations in hw, older CPUs require microcode patches.
+Some issues need (costly) software mitigations
+
+## Exercises 10
+
+**Exercise 1**
+In the following scenarios explain whether you need isolation, attestation, or both. Explain what
+would happen if these properties were not met.
+
+1. A city government uses an HSM to sign updates to the population census.
+2. An IoT sensor signs a message authenticating itself to the central server that collects measurements.
+3. We use a TPM to ensure secure booting of a server located in an isolated room in the
+   basement of a bank.
+4. Intel SGX is used to perform biometric access control on a backend server in the cloud.
+
+Answer:
+
+1. Needs isolation. If an adversary can extract the secret key from the HSM, this adversary can sign any census update. Attestation is not absolutely needed. The city hall owns the trusted hardware on its premises, and therefore it need not prove that the trusted hardware is there (first attestation property). Regarding software run on the hardware, a signature (on the census, or anything else) can be verified externally given the public key. If the HSM performs any other operation, the signature would not pass the verification. (One could also argue that attestation is needed to ensure that the HSM signs once, and only once, a transaction and does not leak the secret key.)
+2. Needs isolation. An adversary that extracts the secret key from the IoT sensor can impersonate this sensor, effectively tampering with the measurements. Same considerations regarding attestation as in (1).
+3. Does not need isolation. The device is already in an isolated room. Needs attestation of hardware and code, as it is remote, we need to ensure the device is there when we are not in the room.
+4. One needs attestation. Since the application is run remotely on an untrusted environment (the Cloud), it is important that SGX ensures the client has run code that performs the correct access control. One could argue that, since no one has physical access to the cloud where SGX is installed, there is no need for isolation. On the other hand, it could be argued that the Cloud is adversarial, and SGX needs to be protected to avoid tampering attacks. Since biometrics are stored in the clear, we are not concerned with the cloud trying to breach their confidentiality (It already has read access the templates).
+
+**Exercise 2**
+In question 10.1(1) what would be a better security practice to avoid fraudulent transactions: giving the mayor of the city the right to execute the signature in the HSM, or have the HSM require the credentials of two census civil servants to permit the operation (justify your answer).
+
+The second option, two civil servants, is a better option. This configuration respects the separation of privilege principle. To avoid that a single action (the mayor is a malicious actor) can break the system, we require more than one actor to execute the operation, namely the census update.
+
+**Exercise 3**
+Alice runs a certificate authority, and needs a secure machine to store the CA keys and sign certificate requests. What are the challenges, advantages or disadvantages if Alice runs their signing infrastructure:
+
+1. General purpose CPU
+2. Enclave running on commercial processor
+3. Dedicated hardware security module (HSM)
+
+Alice needs to store her private signing keys where it cannot be accessed (read/write) by her employees.
+
+1. A general purpose CPU has no protection against major attack vectors: against a untrusted OS or against physical access to the system (including system RAM). However, if the physical environment can be secured otherwise (physical access controls), a general purpose CPU environment provides very high performance.
+2. An enclave on a commercial processor (ARM TrustZone or Intel SGX/TDX) will provide defence against untrusted OS, and in some cases even against physical access to the system. Depending on the enclave technology, there may be a residual atttack surface from physical attack (including system RAM swapping/rollback). However, these environments often come with greater performance overheads, or resource limitations (SGX limits enclaves to 128MB physical memory).
+3. Dedicated HSMs are built with an threat model including attackers with physical access, and contain intrusion protection mechanisms, and run their own software stack. However, HSMs come with some significant disadvantages. HSMs often have proprietary designs, and are expensive. The proprietary designs prevent external auditing and checks, and allows bugs to remain hidden. Performance and power cost might be higher than previous options. HSMs might be vulnerable to physical side-channels if no physical isolation is implemented. Development of software for HSMs can be challenging due to proprietary designs. Replication for fault tolerance can be challenging.
+
+**Exercise 4**
+What would go wrong if TPM_Startup(ST_CLEAR) could be called at any time after boot?
+
+A malicious OS could reset the PCRs post-boot and then set them to an invalid OS hash. PCRs would then look as if a valid OS loaded.
+
+**Exercise 5**
+During attestation of software, what could go wrong if the following steps of the protocol do not happen:
+
+1. The challenger does not send a Challenge (also known as Nonce)
+2. Application and challenger perform a key exchange to establish a secure channel.
+
+Answer:
+
+1. The signature can be replayed! Once the app has authenticated once, if the adversary captures the signature, they can reply it later even if the app has not loaded properly.
+2. The user / OS can reboot the machine after attestation and run arbitrary software pretending to be the application that performed the attestation. The key exchange ensures that only the application can communicate with the challenger.
+
+**Exercise 6**
+When using trusted hardware, should we care about covert channels?
+
+In general, no if the trusted hardware is isolated and implements attestation. In that case, the adversary cannot measure emissions from the hardware or run code on the hardware to establish covert channels.
+
+**Exercise 7**
+In Dynamic Data Authentication, would encrypting the PIN verification solve the YesCard problem? If yes, justify. If no, propose a solution.
+
+No, the problem is authentication, not confidentiality. A solution is to authenticate the PIN transmission, e.g., have the card sign the OK response.
+
+**Exercise 8**
+Is there any timing side-channel in the following code? If a timing side-channel exists, (1) explain how to exploit it. (2) change the code to prevent the attack (Hint: try to make time measurements useless for the adversary).
+
+```java
+//example a
+Bool CheckPin ( string check , string pin ) {
+    for ( int i = 0; i < 4; i ++)
+        if ( check [ i ] != passcode [ i ])
+            return false;
+    return true;
+}
+
+//example b
+// exp(sec, x) computes x**{sec} mod n
+const BigNumber n = [ A big number ];
+BigNumber exp (BigNumber sec, BigNumber x) {
+    BigNumber out = 1;
+    for (int i = 0; i < sec.size(); i++) {
+        if (sec [i] == 1)
+            out = (out * x) % n;
+            out = (out * out) % n;
+    }
+    return out;
+}
+
+
+//example c
+// This function computes the dot product of two vectors
+// The contents of the vectors are confidential
+int dotproduct ( int *veca , int *vecb , int len) {
+    int acc = 0;
+    for(int i = 0; i < len; i ++)
+        acc += (veca[i] + vecb[i]);
+    return sum ;
+}
+
+```

@@ -92,6 +92,21 @@
       - [Use - bridge VLANs across a campus](#use---bridge-vlans-across-a-campus)
     - [Software defined networks](#software-defined-networks)
       - [How SDN works](#how-sdn-works)
+  - [Congestion Control in Networks](#congestion-control-in-networks)
+    - [Congestion Collapse](#congestion-collapse)
+      - [How much can node _i_ send to its destination?](#how-much-can-node-i-send-to-its-destination)
+    - [Efficiency vs fairness](#efficiency-vs-fairness)
+      - [Pareto Efficiency](#pareto-efficiency)
+      - [Egalitarianism](#egalitarianism)
+      - [Max-Min fairness](#max-min-fairness)
+        - [Properties of max-min fairness](#properties-of-max-min-fairness)
+      - [Proportional Fairness](#proportional-fairness)
+        - [Properties of Proportional fairness](#properties-of-proportional-fairness)
+      - [Utility fairness](#utility-fairness)
+    - [Additive increase multiplicative decrease (AIMD)](#additive-increase-multiplicative-decrease-aimd)
+      - [Simple network model - Decnet](#simple-network-model---decnet)
+        - [Linear laws](#linear-laws)
+    - [Slow start](#slow-start)
 
 # TCP/IP Networking
 
@@ -1090,3 +1105,234 @@ handle mission critical traffic high priority, ban non-HTTP traffic, send suspic
   - if no rule matches, go to the IP table to match on longest prefix
 
 (same can be done in switches)
+
+## Congestion Control in Networks
+
+### Congestion Collapse
+
+```mermaid
+graph TD;
+S1 --> |C1 = 100Kb/s| R1
+S2 --> |C2 = 1000Kb/s| R1
+R1 --> |C3 = 110Kb/s| R2
+R2 --> |C4 = 100Kb/s| D1
+R2 --> |C5 = 10Kb/s| D2
+```
+
+Network may lose some packets
+and assume greedy sources (send as much as they want)
+assume loss is proportional to submitted traffic and links can be fully utilized
+
+So in this case **S1--D1** rate is 10Kb/s
+
+This is because:
+
+- Ratio of traffic that survives at R1--R2 is $\frac{110}{1000+100} = 10\%$
+- Ratio of traffic that survives at R2--D2 is 100%
+- Ratio of traffic that survives at R2--D3 is $\frac{10}{100} = 10\%$
+
+Therefore **Greedy sources may be inefficient**
+
+Better allocation is: S1 sending 100Kb/s and S2 sending 10Kb/s
+**Problem** - S2 sent too much and did not know about it
+
+#### How much can node _i_ send to its destination?
+
+```mermaid
+graph TB
+    IN[source i] --> |λ| A
+    A((node i)) --- |link i -- λ`| B((node i+1))
+    B --- |link i+1 -- λ``| C((C))
+    C --> |λ``| OUT[Dest]
+    C --- D((D))
+    D --- E((E))
+    E --- F((F))
+    F --- |link i-1| A
+```
+
+Source _i_ uses two links, all of same capacity c
+at every node there is a source - all sources at same rate
+assume any loss is proportional to submitted traffic and links can be fully utilized
+
+IF $\lambda < \frac{c}{2}$ there is no loss (in this model) and $\lambda'' = \lambda$
+
+IF $\lambda > \frac{c}{2}$ there is some loss (in this model)
+Ratio that survives at one node is $\frac{c}{\lambda + \lambda'}$ (capacity / submitted (incoming) traffic)
+Therefore:
+$\lambda' = \frac{c}{\lambda + \lambda'}\lambda$
+$\lambda'' = \frac{c}{\lambda + \lambda'}\lambda'$
+
+By solving these, for $\lambda > \frac{c}{2}$ we obtain:
+$$\lambda'' = c - \frac{\lambda}{2}(-1 + \sqrt{1+\frac{4c}{\lambda}})$$
+
+For **large** orffered traffic $\lambda$, the limit of useful work is 0 => **congestion collapse**
+
+> **Congestion collapse** takes place as the offered load increases, the total throughput decreases
+
+Sources should limit their rates to adapt it to the network condition, otherwise inefficiency or congestion collapse may occur
+
+### Efficiency vs fairness
+
+A network should be organize so as to aboid inefficiency
+However, being maximally efficient may be a problem
+
+```mermaid
+graph TB
+    A -- c=10Mb/s --- B -- c=10Mb/s--- C
+    x0((x0 in)) --> A
+    C -->|1 flow| x0out((x0 out))
+    x1((x1 in)) --> A
+    B -->|1 flow| x1out((x1 out))
+    x2((x2 in)) --> B
+    C --> |9 flows| x2out((x2 out))
+```
+
+This graph's maximum aggregate throughput is 20Mb/s
+
+Calculation:
+Total throughput is $\theta = x_0 + x_1 + 9x_2$
+Maximize $\theta = x_0 + x_1 + 9x_2$, where $x_0 + x_1 \le 10$ and $x_0 + 9x_2 \le 10$, and $x_0, x_1, x_2 \ge 10$
+$\theta = 20$
+
+The value of x0 when maximum throughput is 0, and x1 = 10, and x2 = 10/9
+
+#### Pareto Efficiency
+
+A feasible allocation of rates $\overrightarrow{x}$ is called **Pareto-efficient** iff increasing the rate of a flow must be at the expense of decreasing the rate of some other flow:
+
+i.e. $\overrightarrow{x}$ is Pareto-efficient iff:
+for any other feasible $\overrightarrow{x}', \exist i: x_i'>x_i \rightarrow \exist j: x_j' < x_j$
+
+or in other words: every flow has a **bottleneck** link (i.e. for every flow there exists a link, used by, which is saturated, i.e. the constraint of which is satisfied with equality)
+
+Allocation is called **not Pareto-efficient** iff it can be improved unilaterally.
+
+The example is Pareto-efficient because every flow has a bottleneck and cannot be increased unilaterally
+(the throughput maximizing allocation is always Pareto-efficient)
+
+Maximal efficiency means Pareto efficiency.
+MAximizing total throughput is Pareto effiient, but means shutting down flow; this is at the expense of **fairness**
+
+#### Egalitarianism
+
+Egalitarianism is not Pareto-efficient
+It allocaties as much as possible but same to all.
+
+It is inefficient since we could give more to one flow without hurting anyone.
+
+E.g. (example above) x0 = 1, x1 = 9, x2 = 1 is Pareto-efficient (Every resource has a bottlenect) and is "fair" since it gives to every one at least as much as egalitarianism.
+
+This is **max-min fair** allocation
+
+#### Max-Min fairness
+
+We say that a feasible allocation $\overrightarrow{x}$ is **max-min fair** iff for any other feasible allocation $\overrightarrow{x}', \exist i: x_i'>x_i \rightarrow \exist j: x_j \le x_i$
+
+Intuition - for every flow _i_, increasing its rate must force the rate of some other (not richer) flow _j_ to decrease
+
+##### Properties of max-min fairness
+
+Given a set of constraints for the rates:
+
+- if it exists, the max-min fair allocation is unique
+- there exists one max-min fair allocation, if the set of feasible allocations is convex (this is the case for networks)
+- the max-min fair allocation is Pareto-efficient
+
+For a set of feasible rates as in our case (sum of the rates on every link is upper bouded), the max-min fair allocation is obtained by **water-filling**:
+
+```{r, eval = FALSE}
+mark all flows as non frozen
+do
+  increase the rate of all non frozen flows to the largest possible common value
+  mark flows that use a saturated link as frozen
+until all flows are frozen
+```
+
+Example:
+
+- Step 1:
+  1. maximize t such that x0 = x1 = x2 = t and all constraints are satisfied; we find t = 1, hence x0 = x1 = x2 = 1
+  2. link 2 is saturated, is used by flows 0 and 2 => mark flows 0 and 2 as **frozen**
+- Step 2:
+  1. maximize t such that x1 = t, with x0 = 1 and x2 = 1 and all constraints are satisfied; we find t = 9, hence x1 = 9
+  2. link 1 is saturated, is used by sources 0 and 1 => mark flow 1 as frozen. All flows are frozen, STOP
+
+The max-min fair allocation is x0 = x2 = 1, x1 = 9
+
+#### Proportional Fairness
+
+A feasible allocation $\overrightarrow{x}$ is **proportionally fair** iff $\overrightarrow{x} > 0$ and for any other $\overrightarrow{x}', \sum_i \frac{x_i'-x_i}{x_i} \le 0$
+
+Intuition: an allocation is proportionally fair if for any other allocation, the total rate of change or relative change $\sum_i \frac{\delta x_i}{x_i} \le 0$
+
+An allocation is not proportionally fair iff there is some other allocation where the relative change is > 0
+
+The effects of it:
+sum of all rates of changes
+Relative changes matter, not absolute
+
+##### Properties of Proportional fairness
+
+1. A proportionally fair allocation is Pareto-efficient
+2. Given a set of constraints for the rates that is convex - the proportionally fair allocation exists and is unique
+3. It is obtained by maximizing $J(overrightarrow{x}) = \sum_i \log x_i$ over all feasible allocations
+
+#### Utility fairness
+
+One can interpret proportional fairness as the allocation that **maximizes a global utility** $\sum_i U_i(x_i) \text{with} U_i(x_i) = \log x_i$
+
+If we take some other utility funciton we have **utility fairness**
+It can be shown that max-min fairness is the limit of unitility fairness when the utility function fonverges to a step function (but max-min fairness cannot be expressed exactly as a utility fairness)
+
+### Additive increase multiplicative decrease (AIMD)
+
+How congestion control can be implemented:
+
+- Explicit (rate based) - tell every host how fast it can send (MPLS networks and Cellular networks)
+- Hop by hop = backpressure - STOP/GO signals sent upstream (Gigabit LAN switches)
+- Fair Queueing per Flow - one queue per flow/per user, served round robin (Cellular networks, industrial networks, in-vehicle networks)
+- End-to-end - hosts "taste the water" and increase or decrease their sending rate using a host congestion control algorithm (Internet)
+
+#### Simple network model - Decnet
+
+One bit is used called **congestion avoidance bit**, which is reset by source and set by routers if it is observed that the flow is causing overload.
+
+Network sends a one-bit feedback $y(t) = 0 \text{if} \sum_i x_i(t) \le c$ and $y(t) = 1 \text{if} \sum_i x_i(t) > c$
+
+Sources reduce rate $x_i(t+1) \text{if} y(t) = 1$, increase otherwise
+
+What increase/decrease we should pick?
+
+##### Linear laws
+
+Consider linear laws:
+$\text{if} y(t) = 1 \text{then} x_i(t+1) = u_1 \dot x_i(t) + v_i$
+$\text{if} y(t) = 0 \text{then} x_i(t+1) = u_0 \dot x_i(t) + v_0$
+
+We want to decrease when y(t) = 1, so $u_1 \le 1$ (multiplicative decrease factor) and $v_1 \le 0$ (additive decrease term) and at least one inequality must be strict
+
+We want to increase when y(t) = 0, so $u_1 \ge 1$ (multiplicative increase factor) and $v_1 \ge 0$ (additive increase term) and at least one inequality must be strict
+
+**Analysis**:
+We want to achieve efficiency and fairness
+WE could target either max-min fair or proportionally fair allocations (in the example with 1 link they are the same)
+
+Impact of each of the four coefficients:
+
+1. _Additive decrease_ worsens fairness (goes away from x1 = x2) and should be avoided => decrease should be mutiplicative
+2. _Additive increase_ is the only move that increases fairness and should be therefore included => increase should be additive
+
+**Why AIMD**
+Among linear controls, only additive increase - multiplicative decrease tends to bring the allocation towards fairness and efficienty
+
+This was first implemented in the internet after the first congestion collapses
+
+### Slow start
+
+AIMD convergence can be accelerated when the initial conditions are very different
+Slow start is an additional method, added to AIMD
+Used at the beginning of connection and at losses detected by a timeout
+
+1. **Increase the rate multiplicatively** until a target rate is reached or negative feedback is received.
+2. Apply multiplicative decrease to target rate if negative feedback is received.
+3. Exit slow start when the target rate is reached
