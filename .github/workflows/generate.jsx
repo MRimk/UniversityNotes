@@ -43,7 +43,8 @@ function Summary({ path }) {
   }
 
   pandocExec.push(
-    ...files.map((filename) =>
+    ...files.map((filename) => {
+      if (filename.includes("temp")) return true;
       Deno.run({
         cmd: [
           "pandoc",
@@ -60,8 +61,8 @@ function Summary({ path }) {
           // "--css",
           // "css/pandoc.css",
         ],
-      }).status()
-    )
+      }).status();
+    })
   );
 
   // special case: dont write to the top level index, that is written by <Summary /> itself
