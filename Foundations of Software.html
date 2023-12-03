@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Foundations of Software</title>
+  <style>
+    html {
+      line-height: 1.5;
+      font-family: Georgia, serif;
+      font-size: 20px;
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 1em;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+      font-size: 85%;
+      margin: 0;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <style>
+    html {
+      font-size: 100%;
+      overflow-y: scroll;
+      -webkit-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+    }
+    body {
+      color: #444;
+      font-family: Georgia, Palatino, "Palatino Linotype", Times,
+        "Times New Roman", serif;
+      font-size: 12px;
+      line-height: 1.7;
+      padding: 1em;
+      margin: auto;
+      max-width: 42em;
+      background: #fefefe;
+    }
+    a {
+      color: #0645ad;
+      text-decoration: none;
+    }
+    a:visited {
+      color: #0b0080;
+    }
+    a:hover {
+      color: #06e;
+    }
+    a:active {
+      color: #faa700;
+    }
+    a:focus {
+      outline: thin dotted;
+    }
+    ::-moz-selection {
+      background: rgba(255, 255, 0, 0.3);
+      color: #000;
+    }
+    ::selection {
+      background: rgba(255, 255, 0, 0.3);
+      color: #000;
+    }
+    a::-moz-selection {
+      background: rgba(255, 255, 0, 0.3);
+      color: #0645ad;
+    }
+    a::selection {
+      background: rgba(255, 255, 0, 0.3);
+      color: #0645ad;
+    }
+    p {
+      margin: 1em 0;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      color: #111;
+      line-height: 125%;
+      margin-top: 2em;
+      font-weight: 400;
+    }
+    h4,
+    h5,
+    h6 {
+      font-weight: 700;
+    }
+    h1 {
+      font-size: 2.5em;
+    }
+    h2 {
+      font-size: 2em;
+    }
+    h3 {
+      font-size: 1.5em;
+    }
+    h4 {
+      font-size: 1.2em;
+    }
+    h5 {
+      font-size: 1em;
+    }
+    h6 {
+      font-size: 0.9em;
+    }
+    blockquote {
+      color: #666;
+      margin: 0;
+      padding-left: 3em;
+      border-left: 0.5em #eee solid;
+    }
+    hr {
+      display: block;
+      height: 2px;
+      border: 0;
+      border-top: 1px solid #aaa;
+      border-bottom: 1px solid #eee;
+      margin: 1em 0;
+      padding: 0;
+    }
+    code,
+    kbd,
+    pre,
+    samp {
+      color: #000;
+      font-family: monospace, monospace;
+      font-size: 0.98em;
+    }
+    pre {
+      white-space: pre;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+    b,
+    strong {
+      font-weight: 700;
+    }
+    dfn {
+      font-style: italic;
+    }
+    ins {
+      background: #ff9;
+      color: #000;
+      text-decoration: none;
+    }
+    mark {
+      background: #ff0;
+      color: #000;
+      font-style: italic;
+      font-weight: 700;
+    }
+    sub,
+    sup {
+      font-size: 75%;
+      line-height: 0;
+      position: relative;
+      vertical-align: baseline;
+    }
+    sup {
+      top: -0.5em;
+    }
+    sub {
+      bottom: -0.25em;
+    }
+    ol,
+    ul {
+      margin: 1em 0;
+      padding: 0 0 0 2em;
+    }
+    li p:last-child {
+      margin-bottom: 0;
+    }
+    ol ol,
+    ul ul {
+      margin: 0.3em 0;
+    }
+    dl {
+      margin-bottom: 1em;
+    }
+    dt {
+      font-weight: 700;
+      margin-bottom: 0.8em;
+    }
+    dd {
+      margin: 0 0 0.8em 2em;
+    }
+    dd:last-child {
+      margin-bottom: 0;
+    }
+    img {
+      border: 0;
+      -ms-interpolation-mode: bicubic;
+      vertical-align: middle;
+    }
+    figure {
+      display: block;
+      text-align: center;
+      margin: 1em 0;
+    }
+    figure img {
+      border: none;
+      margin: 0 auto;
+    }
+    figcaption {
+      font-size: 0.8em;
+      font-style: italic;
+      margin: 0 0 0.8em;
+    }
+    table {
+      margin-bottom: 2em;
+      border-bottom: 1px solid #ddd;
+      border-right: 1px solid #ddd;
+      border-spacing: 0;
+      border-collapse: collapse;
+    }
+    table th {
+      padding: 0.2em 1em;
+      background-color: #eee;
+      border-top: 1px solid #ddd;
+      border-left: 1px solid #ddd;
+    }
+    table td {
+      padding: 0.2em 1em;
+      border-top: 1px solid #ddd;
+      border-left: 1px solid #ddd;
+      vertical-align: top;
+    }
+    .author {
+      font-size: 1.2em;
+      text-align: center;
+    }
+    @media only screen and (min-width: 480px) {
+      body {
+        font-size: 14px;
+      }
+    }
+    @media only screen and (min-width: 768px) {
+      body {
+        font-size: 16px;
+      }
+    }
+    @media print {
+      * {
+        background: 0 0 !important;
+        color: #000 !important;
+        filter: none !important;
+        -ms-filter: none !important;
+      }
+      body {
+        font-size: 12pt;
+        max-width: 100%;
+      }
+      a,
+      a:visited {
+        text-decoration: underline;
+      }
+      hr {
+        height: 1px;
+        border: 0;
+        border-bottom: 1px solid #000;
+      }
+      a[href]:after {
+        content: " (" attr(href) ")";
+      }
+      abbr[title]:after {
+        content: " (" attr(title) ")";
+      }
+      .ir a:after,
+      a[href^="#"]:after,
+      a[href^="javascript:"]:after {
+        content: "";
+      }
+      blockquote,
+      pre {
+        border: 1px solid #999;
+        padding-right: 1em;
+        page-break-inside: avoid;
+      }
+      img,
+      tr {
+        page-break-inside: avoid;
+      }
+      img {
+        max-width: 100% !important;
+      }
+      @page :left {
+        margin: 15mm 20mm 15mm 10mm;
+      }
+      @page :right {
+        margin: 15mm 10mm 15mm 20mm;
+      }
+      h2,
+      h3,
+      p {
+        orphans: 3;
+        widows: 3;
+      }
+      h2,
+      h3 {
+        page-break-after: avoid;
+      }
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/darkreader@4.7.15/darkreader.min.js"></script>
+  <script>
+    DarkReader.enable({
+      brightness: 100,
+      contrast: 90,
+      sepia: 10
+    });
+  </script>
+  <link
+    rel="icon"
+    type="image/png"
+    href="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTJg97A-Sa8mxjkRCmjR51WjHATLvq2aF89Z1CprR2WcQ60qYZC"
+  />
+  <meta name="theme-color" content="#252525" />
+  <script defer=""
+  src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <link rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<!-- markdownlint-disable MD010 MD041 MD001 MD036 MD029-->
+<h1 data-number="1" id="foundations-of-software"><span
+class="header-section-number">1</span> Foundations of Software</h1>
+<h2 data-number="1.1" id="models"><span
+class="header-section-number">1.1</span> Models</h2>
+<h3 data-number="1.1.1" id="induction"><span
+class="header-section-number">1.1.1</span> Induction</h3>
+<p>Principle of <em>complete induction</em> on natural numbers. It
+states that if it holds for n, it holds for all numbers i where i &lt;
+n.</p>
+<p>An example of it is theorem: Every natural n &gt; 1 is the product of
+(one or more) prime numbers.</p>
+<p><em>Proof</em>: By complete induction on n. IH: Every natural 1 &lt;
+m &lt; n is the product of prime numbers. If n is a prime number, then
+it is the product of itself.</p>
+<p>Otherwise:</p>
+<ul>
+<li>By definition, there exist 1 &lt; m1, m2 &lt; n such that n =
+m1m2</li>
+<li>By the IH, m1 and m2 are both product of prime numbers</li>
+<li>Therefore, n = m1m2 is also a product of prime numbers.</li>
+</ul>
+<p>This works because the implied begining is an empty set of natural
+numbers. And then we expand, so really we don’t have a base case. If we
+want to have a base case, we get the empty set from n=2, because there
+are no numbers between 1 and 2.</p>
+<p>Ordinary and complete induction is <em>interderivable</em> – assuming
+one, we can prove the other.</p>
+<p>Complete induction can be done on other mathematical objects,
+e.g. integers and strings of characters, rationals, because they can be
+bijectively mapped to naturals. Reals cannot have complete induction,
+because there is not a finite number of decreasing steps to reach a base
+case.</p>
+<h3 data-number="1.1.2" id="syntax"><span
+class="header-section-number">1.1.2</span> Syntax</h3>
+<p>Programs will be represented as trees of syntax.</p>
+<p>N.B. Parenthesis don’t matter.</p>
+<p>Evaluation relation is a smallest step we can take to get from one
+configuration to another. Notation t1 –&gt; t2.</p>
+<h2 data-number="1.2" id="structural-induction-on-syntax"><span
+class="header-section-number">1.2</span> Structural induction on
+syntax</h2>
+<p><em>Depth</em> of a term t is the smallest i such that t is in <span
+class="math inline">S_i</span></p>
+<p>From the defimition of <span class="math inline">S</span> it is clear
+that if a term <span class="math inline">t</span> is in <span
+class="math inline">S_i</span>, then all of its immediate subterms must
+be in <span class="math inline">S_{i-1}</span>, i.e. they must have
+strictly smaller depths.</p>
+<p>This observation justifies the <em>principle of induction on
+terms</em>,</p>
+<p>The set of constants appearing in a term t, written Consts(t), is
+defined as follows. It is a function because:</p>
+<p>By structural induction on terms: Base case true, false, 0 (because
+the IH are empty sets) Case <span class="math inline">succ\ t_1</span>.
+IH - <span class="math inline">Const(t_1)</span> has only one result.
+Case <span class="math inline">if\ t_1\ then\ t_2\ else\ t_3</span>: IH1
+- <span class="math inline">Const(t_1)</span> has only one result, IH2 -
+<span class="math inline">Const(t_2)</span> has only one result, IH3 -
+<span class="math inline">Const(t_3)</span> has only one result.</p>
+<p>Bad definition : BadConsts. Since it dose not have a definition for
+if case and it has 2 different definitions for 0, it is not well-founded
+and total.</p>
+<p><strong>Theorem</strong> The number of disting constants in a term is
+at most the size of the term. <span class="math inline">|Consts(t)| \le
+size(t)</span> <strong>Proof</strong>: By structural induction on terms.
+Case analysis on t:</p>
+<ol type="1">
+<li>Case true. <span class="math inline">|\{true\}| \le 1</span></li>
+<li>Case <span class="math inline">if\ t_1\ then\ t_2\ else\ t_3</span>.
+<ol type="1">
+<li>IH1 <span class="math inline">|Consts(t_1)| \le
+size(t_1)</span></li>
+<li>IH2 <span class="math inline">|Consts(t_2)| \le
+size(t_2)</span></li>
+<li>IH3 <span class="math inline">|Consts(t_3)| \le
+size(t_3)</span></li>
+<li>Prove <span class="math inline">|Consts(t_1) \cup Consts(t_2) \cup
+Consts(t_3)| \le size(t_1) + size(t_2) + size(t_3) + 1</span></li>
+<li>apply each IH once to conclude a simple algebra relation</li>
+</ol></li>
+</ol>
+<h3 data-number="1.2.1" id="abstract-machines"><span
+class="header-section-number">1.2.1</span> Abstract Machines</h3>
+<p><strong>Abstract machine</strong> consists of a set of states and a
+transition relation on states, written <span
+class="math inline">\rightarrow</span></p>
+<h3 data-number="1.2.2" id="induction-on-derivations"><span
+class="header-section-number">1.2.2</span> Induction on Derivations</h3>
+<p>Side note: Derivation tree means that the statement at the bottom is
+derivable.</p>
+<p>Given an arbitrary derivation D with conclusion <span
+class="math inline">t \rightarrow t&#39;</span> we assume the desired
+result for its immediate sub-derivation (if any) and proceed by a case
+analysis (using the previous lemma) of the final evaluation rule used in
+constructing the derivation tree.</p>
+<p>Prove: If <span class="math inline">t \rightarrow t&#39;</span>, then
+<span class="math inline">size(t&#39;) &lt; size(t)</span> Proof by
+induction on the derivation tree for <span class="math inline">t
+\rightarrow t&#39;</span> Case analysis on evaluation rules.</p>
+<ol type="1">
+<li>Case E-If True.
+<ol type="1">
+<li>We know that <span class="math inline">t = if\ true\ then\ t_2\
+else\ t_3</span>, and <span class="math inline">t&#39; = t_2</span></li>
+<li><span class="math inline">size(t_2) &lt; size(true) + size(t_2) +
+size(t_3) + 1</span> - which is always true since size is naturals and
+simplify <span class="math inline">size(t_2)</span> in both sides</li>
+</ol></li>
+<li>Case E-If False.
+<ol type="1">
+<li>Same as above</li>
+</ol></li>
+<li>Case E-If.
+<ol type="1">
+<li>We know that <span class="math inline">t = if\ t_1\ then\ t_2\ else\
+t_3</span>; <span class="math inline">t_1 \rightarrow t_1&#39;</span>;
+and <span class="math inline">t&#39; = if\ t_1&#39;\ else\ t_2\ then\
+t_3</span></li>
+<li>IH: <span class="math inline">size(t_1&#39;) &lt;
+size(t_1)</span></li>
+<li>algebraic simplification</li>
+</ol></li>
+</ol>
+<p>The process is, since there exists a derivation tree for <span
+class="math inline">t \rightarrow t&#39;</span>, we can do a case
+analysis on the last rule in the derivation tree. And for each case we
+learn things for free and we can apply theses things each time to
+formulate induction hypotheses.</p>
+<h3 data-number="1.2.3" id="normal-forms"><span
+class="header-section-number">1.2.3</span> Normal forms</h3>
+<p><strong>Normal form</strong> - the term that cannot be evaluated any
+further. I.e. a term t is in normal form if and only if there is no t’
+such that <span class="math inline">t \rightarrow t&#39;</span></p>
+<p>Values should be in normal form, since it is the final result of the
+computation.</p>
+<p><strong>Stuck term</strong> is a term that is in normal form but is
+not a value (e.g. succ false)</p>
+<p>Stuck terms model run-time errors.</p>
+<h3 data-number="1.2.4" id="multi-step-evaluation"><span
+class="header-section-number">1.2.4</span> Multi-step evaluation</h3>
+<p>The <strong>multi-step evaluation</strong> relation <span
+class="math inline">\rightarrow^*</span> is the reflexve, transitive
+closure of single-step evaluation.</p>
+<h2 data-number="1.3" id="untyped-lambda-calculus"><span
+class="header-section-number">1.3</span> Untyped Lambda calculus</h2>
+<p>Example where call-by-name does not evaluate to call-by-value in one
+step: Call-by-value: <span class="math display">(\lambda x.x)((\lambda
+y.y)(\lambda z.z)) \rightarrow^{value}(\lambda x.x)(\lambda
+z.z)</span></p>
+<p>Call-by-name: <span class="math display">(\lambda x.x)((\lambda
+y.y)(\lambda z.z)) \rightarrow^{name} (\lambda y.y)(\lambda
+z.z)</span></p>
+<h4 data-number="1.3.0.1" id="termination-of-evaluation"><span
+class="header-section-number">1.3.0.1</span> Termination of
+evaluation</h4>
+<p><strong>Theorem</strong> - termination of evaluation - for every
+<span class="math inline">t</span> there is some normal form <span
+class="math inline">t&#39;</span> such that <span class="math inline">t
+\rightarrow^* t&#39;</span></p>
+<p>This is not a Turing-complete then.</p>
+<p>Lambda calculus does not terminate because of the <span
+class="math inline">\Omega</span> term.</p>
+<h4 data-number="1.3.0.2" id="lambda-calculus-puzzles"><span
+class="header-section-number">1.3.0.2</span> Lambda calculus
+puzzles</h4>
+<p>Q: one-step evaluation of <span class="math inline">t = (\lambda x.\
+\lambda y.y\ x)(\lambda z.z)</span> A: <span class="math inline">t&#39;
+= \lambda y.y\ (\lambda z.z)</span> This showcases that <span
+class="math inline">\lambda</span> extends as far to the right as
+possible (in this case, as far as the parenthesis allow)</p>
+<p>Q: one-step evaluation of <span class="math inline">t = (\lambda x.\
+\lambda y. x)(\lambda z. y\ z)</span> A: <span
+class="math inline">t&#39; = \lambda y&#39;. (\lambda z. y\
+z)</span></p>
+<p>Q: one-step evaluation of <span class="math inline">t = ((\lambda
+x.x) y)((\lambda z.z)(\lambda w.w))</span> A: <span
+class="math inline">t&#39; = ((\lambda x.x) y)((\lambda z.z)(\lambda
+w.w))</span> This is because y is not a value to apply E-APPABS rule,
+and we cannot reduce the right side because for E-APP2 because left side
+is not a value. If it was <strong>call-by-name</strong>, then we could
+apply E-APPABS and E-APP1 to get <span class="math inline">y((\lambda
+z.z)(\lambda w.w))</span></p>
+<h4 data-number="1.3.0.3" id="rules"><span
+class="header-section-number">1.3.0.3</span> Rules</h4>
+<p><strong>E-APP1</strong> <span class="math inline">t_1 \rightarrow
+t_1&#39; \rArr t_1t_2 \rightarrow t_1&#39; t_2</span></p>
+<p><strong>E-APP2</strong> <span class="math inline">t_2 \rightarrow
+t_2&#39; \rArr v_1t_2 \rightarrow v_1 t_2&#39;</span></p>
+<p><strong>E-APPABS</strong> <span class="math inline">(\lambda x.
+t_{12})v_2\rightarrow [x \rightarrowtail v_2] t_{12}</span></p>
+<h3 data-number="1.3.1" id="recursion-in-lambda-calculus"><span
+class="header-section-number">1.3.1</span> Recursion in Lambda
+calculus</h3>
+<p>Recursion and divergence are intertwined, so we need to consider
+divergent terms.</p>
+<p><span class="math display">\Omega = (\lambda x.xx) (\lambda x.
+xx)</span></p>
+<p><span class="math inline">\Omega</span> evaluates in one step to
+itself. Therefore it never reaches a normal form - it
+<em>diverges</em>.</p>
+<h4 data-number="1.3.1.1" id="iterated-application"><span
+class="header-section-number">1.3.1.1</span> Iterated application</h4>
+<p>Suppose f is some <span
+class="math inline">\lambda</span>-abstraction, and consider the
+following variant of omega:</p>
+<p><span class="math display">Y_f = (\lambda x. f (x x))(\lambda x.
+f(xx))</span></p>
+<p>This creates a “pattern of divergence”: <span
+class="math display">Y_f = (\lambda x. f (x x))(\lambda x. f(xx))
+\rightarrow f(\lambda x. f (x x))(\lambda x. f(xx)) \rightarrow
+f(f(\lambda x. f (x x))(\lambda x. f(xx))) ...</span> This is a problem
+because it never reaches anything, only diverges.</p>
+<h4 data-number="1.3.1.2" id="delaying-divergence"><span
+class="header-section-number">1.3.1.2</span> Delaying divergence</h4>
+<p><strong>poisonpill = <span class="math inline">\lambda</span>y.
+omega</strong></p>
+<p><strong>poisonpill</strong> is a value. It delays the explosion of
+omega</p>
+<p><strong>Delayed variant of omega</strong> omegav = <span
+class="math inline">\lambda y. (\lambda x. (\lambda y. x x y))(\lambda
+x. (\lambda y. x x y))y</span>.</p>
+<p>omegav is a normal form, however if we apply the argument v too many
+times, it diverges.</p>
+<p><strong>Another variant</strong>:</p>
+<p><span class="math inline">z_f = \lambda y. (\lambda x. f(\lambda y. x
+x y))(\lambda x. f(\lambda y. x x y))y</span></p>
+<p>And if we apply <span class="math inline">z_f</span> to an argument
+v, we get this:</p>
+<p><span class="math display">z_f\ v = (\lambda y. (\lambda x. f(\lambda
+y. x x y))(\lambda x. f(\lambda y. x x y))y)\ v \rightarrow (\lambda x.
+f(\lambda y. x x y))(\lambda x. f(\lambda y. x x y))v</span></p>
+<p><span class="math display">\rightarrow f\ (\lambda y. (\lambda x.
+f(\lambda y. x x y))(\lambda x. f(\lambda y. x x y))y)\ v = f\ z_f\
+v</span></p>
+<p>Since <span class="math inline">z_f</span> and v are both values, the
+next computation step will be the reduction of f <span
+class="math inline">z_f</span></p>
+<p>Example: f = <span class="math inline">\lambda fct.\ \lambda a.\ if\
+n=0\ then\ 1\ else\ n\times\ (fct(pred\ n))</span></p>
+<p><span class="math display">z_f\ 3 \rightarrow^* f\ z_f\ 3 = (\lambda
+fct.\ \lambda n.\ ...) \rightarrow^* 3\times(z_f\ 2)...</span></p>
+<p><strong>Define z = <span class="math inline">\lambda f.
+z_f</span></strong></p>
+<p>READ: chapter 8.</p>
+<h4 data-number="1.3.1.3" id="delaying-evaluation-in-ite"><span
+class="header-section-number">1.3.1.3</span> Delaying evaluation in
+ite</h4>
+<p>We delay the evaluation of the branches of the if then else, we add
+an identity function afterwards to first evaluate the boolean
+evaluation. And we add dummy lamba wrappers for the branches Test
+already has the unit. (sometimes)</p>
+<h4 data-number="1.3.1.4" id="church-numerals"><span
+class="header-section-number">1.3.1.4</span> Church numerals</h4>
+<p>There can be different representations of the same number which means
+that equality is under question.</p>
+<p>If we enrich the pure lambda calculus with “regular numbers”, we can
+display church numberal by converting them to regular numbers: realnat =
+<span class="math inline">\lambda</span>n. n (<span
+class="math inline">\lambda</span>m. succ m) 0</p>
+<h3 data-number="1.3.2"
+id="inductive-proofs-about-the-lambda-calculus"><span
+class="header-section-number">1.3.2</span> Inductive proofs about the
+lambda calculus</h3>
+<p><strong>Exercise</strong>: If t -&gt; t’, then FV(t) <span
+class="math inline">\supseteq</span> FV(t’).</p>
+<p><strong>Proof</strong>: Proof by induction on the derivation tree of
+t -&gt; t’. Case analysis on the last rule used to derive t-&gt; t’</p>
+<p>Case E-App1: from the case we get: t = t1 t2, t’ = t1’ t2, t1 -&gt;
+t1’, and IH: FV(t1) <span class="math inline">\supseteq</span> FV(t1’)
+FV(t1 t2) ?<span class="math inline">\supseteq</span> FV(t1’ t2) FV(t1
+t2) = FV(t1) <span class="math inline">\cup</span> FV(t2) FV(t1’ t2) =
+FV(t1’) <span class="math inline">\cup</span> FV(t2) From IH and set
+theory: FV(t1) <span class="math inline">\cup</span> FV(t2) <span
+class="math inline">\supseteq</span> FV(t1’) <span
+class="math inline">\cup</span> FV(t2)</p>
+<p>Case E-App2: Similar (use this in the exam)</p>
+<p>Case E-AppAbs: t = (<span class="math inline">\lambda</span>x t12)
+v2, t’ = [x -&gt; v2]t12 FV((<span class="math inline">\lambda</span>x
+t12) v2) ?<span class="math inline">\supseteq</span> FV([x -&gt; v2]t12)
+FV((<span class="math inline">\lambda</span>x t12) v2) = FV(<span
+class="math inline">\lambda</span>x t12) <span
+class="math inline">\cup</span> FV(v2) FV(<span
+class="math inline">\lambda</span>x t12 \ {x}) <span
+class="math inline">\cup</span> FV(v2) ?<span
+class="math inline">\supseteq</span> FV([x -&gt; v2]t12)</p>
+<p><em>Lemma 1</em>: FV([x -&gt; t2]t1) <span
+class="math inline">\subseteq</span> FV(<span
+class="math inline">\lambda</span>x t1) \ {x} <span
+class="math inline">\cup</span> FV(t2) <em>Proof</em>: By induction of
+the structure of t1. Case t1 = x: FV([x -&gt; t2]t1) ?<span
+class="math inline">\subseteq</span> FV(x) \ {x} <span
+class="math inline">\cup</span> FV(t2) FV(x) \ {x} <span
+class="math inline">\cup</span> FV(t2) = {x} \ {x} <span
+class="math inline">\cup</span> FV(t2) FV([x -&gt; t2]t1) = FV(t2) Case
+t1 = y, y <span class="math inline">\ne</span> x: Case t1 = t11 t12, y
+<span class="math inline">\ne</span> x: Case t1 = (<span
+class="math inline">\lambda</span>y t12), y <span
+class="math inline">\notin</span> FV(t2) (if y is in FV(t2), then we
+rename alpha rename (<span class="math inline">\lambda</span>y t12)):
+<strong>exercise!!!!</strong></p>
+<p>The most important theorem is that “if t is closed and t -&gt; t’,
+then t’ is closed”</p>
+<p>Understanding this: If t is closed, then: either t is a value or
+<span class="math inline">\exist</span>t’, t -&gt; t’ -
+<strong>progress</strong></p>
+<p>If t -&gt; t’, and t is closed, then t’ is closed -
+<strong>preservation</strong></p>
+<p>Progress + preservation = <strong>safety/soundness</strong></p>
+<h3 data-number="1.3.3" id="progress"><span
+class="header-section-number">1.3.3</span> Progress</h3>
+<p><strong>Theorem:</strong> If t is closed (FV(t) = {}), then t is a
+value or t -&gt; t’ <strong>Proof</strong>: Proof by induction on the
+structure of t Case analysis on the structure of t</p>
+<p>Case t = x: FV(t) = {x}, contradiction</p>
+<p>Case t = <span class="math inline">\lambda</span>x. t1 - it is a
+value</p>
+<p>Case t = t1 t2: FV(t) = FV(t1) <span class="math inline">\cup</span>
+FV(t2) = {} =&gt; therefore t1 and t2 are closed By IH, t1 is a value or
+t1 -&gt; t1’ By IH, t2 is a value or t2 -&gt; t2’</p>
+<p>If t1 -&gt; t1’, then E-App1 applies; otherwise t1 is a value: If t2
+-&gt; t2’, then E-App2 applies; otherwise t2 is a value, then t = v1 v2,
+and v1 = <span class="math inline">\lambda</span>x. t12, then t= (<span
+class="math inline">\lambda</span>x. t12) v2, which means E-AppAbs
+applies</p>
+<p>test</p>
+<h2 data-number="1.4" id="skipped-typed-lambda-calculus"><span
+class="header-section-number">1.4</span> Skipped Typed Lambda
+Calculus</h2>
+<h3 data-number="1.4.1" id="proof-of-preservation"><span
+class="header-section-number">1.4.1</span> Proof of preservation</h3>
+<p>Preservation: if {}/ |- t.T and t -&gt; t’, then {}/ |- t’.T</p>
+<p>By induction on derivation of {}/ |- t.T</p>
+<p>Case analysis of {}/ |- t.T</p>
+<p>1 Case T-Var and T-Abs, cannot happen because t-&gt;/</p>
+<p>2 Case T-App t = t1t2 {}/ |- t1, T2 -&gt;T {}/ |- t2, T2 IH1: If t1
+-&gt; t1’, {}/ |- t1.T2-&gt;T IH1: If t2 -&gt; t2’, {}/ |- t2.T2</p>
+<p>Subcase E-App1 t1 -&gt; t1’ t’ = t1’t2 From IH1: {}/ |- t1’.T2 -&gt;
+T By T-App. {}/ |- ….</p>
+<p>Subcase E-App2 - similar</p>
+<p>Subcase E-AppAbs t1 =.Tx.t12 t2 = v2 t’ = [x -&gt; v2]t12 To prove:
+{}/ |- [x -&gt; v2]t12.T</p>
+<p>case analysis of [x -&gt; v2]t12</p>
+<p>Case t12 = x [x -&gt; v2]t12 = v2 we need to prove that {}/ |- v2.T
+(from empty environment v2 has type T)</p>
+<h3 data-number="1.4.2" id="erasure"><span
+class="header-section-number">1.4.2</span> Erasure</h3>
+<p>Takes the term from STLC, and takes it to the untyped lambda
+calculus</p>
+<p>erase(x) = x erase(:T1. t2) = . erase(t2) erase(t1 t2) = erase(t1)
+erase(t2)</p>
+<p>We need to have both true: first erase and then take a step in
+untyped lambda calculus or first take a step in STLC and then erase.</p>
+<h3 data-number="1.4.3"
+id="the-curry-howard-correspondence---comes-up-in-the-exam-often"><span
+class="header-section-number">1.4.3</span> The Curry-Howard
+Correspondence - comes up in the exam often</h3>
+<p>In constructive logics, a proof of P must provide evidence for P (law
+of excluded middle is not recognized - so <span class="math inline">P
+\lor \neg P</span> could be false)</p>
+<p>A proof of <span class="math inline">P \land Q</span> is a
+<em>pair</em> of evidence for P and evidence for Q.</p>
+<p>A proof of <span class="math inline">P \supset Q</span> is a
+<em>procedure</em> for transforming evidence for P into evidence for
+Q</p>
+<p>Given the logic formula <span class="math inline">(A \land B )\supset
+A</span> Prove that it is true by giving a well-typed term of the
+approprate type. \(a*b).a</p>
+<p>Given the logic formula <span class="math inline">((A \land B
+)\supset C) \supset (A \supset (B \supset C))</span></p>
+<table>
+<thead>
+<tr class="header">
+<th>Logic</th>
+<th>Programming languages</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>propositions</td>
+<td>types</td>
+</tr>
+<tr class="even">
+<td>proposition <span class="math inline">P \supset Q</span></td>
+<td>type <span class="math inline">P \rightarrow Q</span></td>
+</tr>
+<tr class="odd">
+<td>proposition <span class="math inline">P \land Q</span></td>
+<td>type <span class="math inline">P \times Q</span></td>
+</tr>
+<tr class="even">
+<td>proof of proposition P</td>
+<td>term t of type P</td>
+</tr>
+<tr class="odd">
+<td>proposition P is provable</td>
+<td>type P is inhabited (by some term)</td>
+</tr>
+</tbody>
+</table>
+<h2 data-number="1.5" id="extensions-to-stlc"><span
+class="header-section-number">1.5</span> Extensions to STLC</h2>
+</body>
+</html>

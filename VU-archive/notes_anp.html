@@ -1,0 +1,1664 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>notes_anp</title>
+  <style>
+    html {
+      line-height: 1.5;
+      font-family: Georgia, serif;
+      font-size: 20px;
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 1em;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+      font-size: 85%;
+      margin: 0;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <style>
+    html {
+      font-size: 100%;
+      overflow-y: scroll;
+      -webkit-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+    }
+    body {
+      color: #444;
+      font-family: Georgia, Palatino, "Palatino Linotype", Times,
+        "Times New Roman", serif;
+      font-size: 12px;
+      line-height: 1.7;
+      padding: 1em;
+      margin: auto;
+      max-width: 42em;
+      background: #fefefe;
+    }
+    a {
+      color: #0645ad;
+      text-decoration: none;
+    }
+    a:visited {
+      color: #0b0080;
+    }
+    a:hover {
+      color: #06e;
+    }
+    a:active {
+      color: #faa700;
+    }
+    a:focus {
+      outline: thin dotted;
+    }
+    ::-moz-selection {
+      background: rgba(255, 255, 0, 0.3);
+      color: #000;
+    }
+    ::selection {
+      background: rgba(255, 255, 0, 0.3);
+      color: #000;
+    }
+    a::-moz-selection {
+      background: rgba(255, 255, 0, 0.3);
+      color: #0645ad;
+    }
+    a::selection {
+      background: rgba(255, 255, 0, 0.3);
+      color: #0645ad;
+    }
+    p {
+      margin: 1em 0;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      color: #111;
+      line-height: 125%;
+      margin-top: 2em;
+      font-weight: 400;
+    }
+    h4,
+    h5,
+    h6 {
+      font-weight: 700;
+    }
+    h1 {
+      font-size: 2.5em;
+    }
+    h2 {
+      font-size: 2em;
+    }
+    h3 {
+      font-size: 1.5em;
+    }
+    h4 {
+      font-size: 1.2em;
+    }
+    h5 {
+      font-size: 1em;
+    }
+    h6 {
+      font-size: 0.9em;
+    }
+    blockquote {
+      color: #666;
+      margin: 0;
+      padding-left: 3em;
+      border-left: 0.5em #eee solid;
+    }
+    hr {
+      display: block;
+      height: 2px;
+      border: 0;
+      border-top: 1px solid #aaa;
+      border-bottom: 1px solid #eee;
+      margin: 1em 0;
+      padding: 0;
+    }
+    code,
+    kbd,
+    pre,
+    samp {
+      color: #000;
+      font-family: monospace, monospace;
+      font-size: 0.98em;
+    }
+    pre {
+      white-space: pre;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+    b,
+    strong {
+      font-weight: 700;
+    }
+    dfn {
+      font-style: italic;
+    }
+    ins {
+      background: #ff9;
+      color: #000;
+      text-decoration: none;
+    }
+    mark {
+      background: #ff0;
+      color: #000;
+      font-style: italic;
+      font-weight: 700;
+    }
+    sub,
+    sup {
+      font-size: 75%;
+      line-height: 0;
+      position: relative;
+      vertical-align: baseline;
+    }
+    sup {
+      top: -0.5em;
+    }
+    sub {
+      bottom: -0.25em;
+    }
+    ol,
+    ul {
+      margin: 1em 0;
+      padding: 0 0 0 2em;
+    }
+    li p:last-child {
+      margin-bottom: 0;
+    }
+    ol ol,
+    ul ul {
+      margin: 0.3em 0;
+    }
+    dl {
+      margin-bottom: 1em;
+    }
+    dt {
+      font-weight: 700;
+      margin-bottom: 0.8em;
+    }
+    dd {
+      margin: 0 0 0.8em 2em;
+    }
+    dd:last-child {
+      margin-bottom: 0;
+    }
+    img {
+      border: 0;
+      -ms-interpolation-mode: bicubic;
+      vertical-align: middle;
+    }
+    figure {
+      display: block;
+      text-align: center;
+      margin: 1em 0;
+    }
+    figure img {
+      border: none;
+      margin: 0 auto;
+    }
+    figcaption {
+      font-size: 0.8em;
+      font-style: italic;
+      margin: 0 0 0.8em;
+    }
+    table {
+      margin-bottom: 2em;
+      border-bottom: 1px solid #ddd;
+      border-right: 1px solid #ddd;
+      border-spacing: 0;
+      border-collapse: collapse;
+    }
+    table th {
+      padding: 0.2em 1em;
+      background-color: #eee;
+      border-top: 1px solid #ddd;
+      border-left: 1px solid #ddd;
+    }
+    table td {
+      padding: 0.2em 1em;
+      border-top: 1px solid #ddd;
+      border-left: 1px solid #ddd;
+      vertical-align: top;
+    }
+    .author {
+      font-size: 1.2em;
+      text-align: center;
+    }
+    @media only screen and (min-width: 480px) {
+      body {
+        font-size: 14px;
+      }
+    }
+    @media only screen and (min-width: 768px) {
+      body {
+        font-size: 16px;
+      }
+    }
+    @media print {
+      * {
+        background: 0 0 !important;
+        color: #000 !important;
+        filter: none !important;
+        -ms-filter: none !important;
+      }
+      body {
+        font-size: 12pt;
+        max-width: 100%;
+      }
+      a,
+      a:visited {
+        text-decoration: underline;
+      }
+      hr {
+        height: 1px;
+        border: 0;
+        border-bottom: 1px solid #000;
+      }
+      a[href]:after {
+        content: " (" attr(href) ")";
+      }
+      abbr[title]:after {
+        content: " (" attr(title) ")";
+      }
+      .ir a:after,
+      a[href^="#"]:after,
+      a[href^="javascript:"]:after {
+        content: "";
+      }
+      blockquote,
+      pre {
+        border: 1px solid #999;
+        padding-right: 1em;
+        page-break-inside: avoid;
+      }
+      img,
+      tr {
+        page-break-inside: avoid;
+      }
+      img {
+        max-width: 100% !important;
+      }
+      @page :left {
+        margin: 15mm 20mm 15mm 10mm;
+      }
+      @page :right {
+        margin: 15mm 10mm 15mm 20mm;
+      }
+      h2,
+      h3,
+      p {
+        orphans: 3;
+        widows: 3;
+      }
+      h2,
+      h3 {
+        page-break-after: avoid;
+      }
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/darkreader@4.7.15/darkreader.min.js"></script>
+  <script>
+    DarkReader.enable({
+      brightness: 100,
+      contrast: 90,
+      sepia: 10
+    });
+  </script>
+  <link
+    rel="icon"
+    type="image/png"
+    href="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTJg97A-Sa8mxjkRCmjR51WjHATLvq2aF89Z1CprR2WcQ60qYZC"
+  />
+  <meta name="theme-color" content="#252525" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<!-- markdownlint-disable MD010 MD041 MD001 MD036 MD029-->
+<h1 data-number="1" id="lecture-2"><span
+class="header-section-number">1</span> 1. Lecture 2</h1>
+<h2 data-number="1.1"
+id="transferring-data-between-nic-and-end-host"><span
+class="header-section-number">1.1</span> 1.1. Transferring data between
+NIC and end-host</h2>
+<p>To transfer data:</p>
+<p>Strategy 1:</p>
+<ul>
+<li>CPU does polling of I/O controller (PIO: Special Instructions - cpu
+has to specifically issue special instructions or Memory-mapped IO -
+aliases are mapped to memory directly, and cpu does not know that it
+is)</li>
+<li>CPU does data copy</li>
+</ul>
+<p>Cons: waste of cpu cycles, ..</p>
+<p>Strategy 2:</p>
+<ul>
+<li>DMA - direct memory access (program - data transfer happens there,
+data copy)</li>
+<li>Interrupts (notify)</li>
+</ul>
+<p>Cons: —-</p>
+<p>Interrupt: —-</p>
+<ol type="1">
+<li>devices raises interrup req</li>
+<li>processor interrupts program in execution</li>
+<li>interrupts are disabled</li>
+<li>device is informed of acceptance and, as a consequence, lowers
+interrupt</li>
+<li>……</li>
+<li>………</li>
+<li>………</li>
+</ol>
+<p>There are a ton of interrupts (interrupt per packet). That is why
+there can be <em>interrupt storms/livelocks</em>, where there are more
+interrupts than progress can be made. (interrupt -&gt; cpu starts
+processing -&gt; another interrupt comes -&gt; …)</p>
+<p>How to mitigate Interrupt storms:</p>
+<ol type="1">
+<li>Interrupt coalescing - don’t generate interrupt on every packet, but
+on n packets; or choose a typical value</li>
+<li>Polling - disable interrupts, and use cpy polling to check for new
+packet arrivals</li>
+<li>do a hybrid - e.g. interrupts -&gt; polling -&gt; interrupts.
+(ethtool -c)</li>
+</ol>
+<h3 data-number="1.1.1"
+id="building-packets-with-headers-and-trailers"><span
+class="header-section-number">1.1.1</span> 1.1.1. Building packets with
+headers and trailers</h3>
+<p>We do not know the header sizes e.g. TCP layer does does not know IP
+layer packet size. So it is hard to know what memory to allocate since
+it has to be contiguos with our memory.</p>
+<p>Scatter Gather I/O: instead of one address, one length, pass a list
+of addresses if length to the DMA engine.</p>
+<h3 data-number="1.1.2" id="unit-of-processing"><span
+class="header-section-number">1.1.2</span> 1.1.2. Unit of
+processing</h3>
+<p>Application –send() max 2^(64-1) bytes allowed–&gt;</p>
+<p>Networking Stack -&gt; 1GB/1500 = ~64k packets or 1GB/64KB = ~16K
+packets with large TCP/IP packets.</p>
+<p>Network Interface Controller (NIC) -&gt; packet (2^16 Bytes) in IP
+-&gt; Frames (576 Bytes MTU - maximum transmition unit)</p>
+<p>Small MTU:</p>
+<ul>
+<li>more multiplexing, fine graned transmission</li>
+<li>BUT inefficiency</li>
+</ul>
+<p>Big MTU:</p>
+<ul>
+<li>……..</li>
+<li>…….</li>
+</ul>
+<p>Ethernet MTU: 1500 Bytes Preable 7 + SFD 1 + Ethernet Frame up to
+1518 + Inter packet gap (12)</p>
+<p>Preamble - is a like a marker that the shared medium is being
+used.</p>
+<p>Ethernet Frame: dst mac 6 + src mac 6 + type 2 + Payload 1500 + crc
+4</p>
+<p>Payload: IP hdr 20 + TCP hdr 20 + payload 1460</p>
+<p>Ethernet is a shared medium, which means that if packets collide,
+both are lost.</p>
+<p>max efficiency 94.93%, thus max bandwidth 949.3 Mbps on 1Gps link</p>
+<p>JUMBO frames. Most common 9000 bytes. so with this 99.14% efficiency.
+(slide 38). <em>9000 MTU is common in data centers, whereas 1500 is
+common on Internet. Because there has to be memory to buffer these
+frames.</em></p>
+<p>IP does fragmentation</p>
+<p>TCP does segmentation because it has sequence numbers and it is even
+easier to do that.</p>
+<p>After TCP packet segmentation NIC, chops it up to MTUs.</p>
+<p>TCP offloading: con - together with socket TCP offloading cannot do
+stateless, which means NIC has to keep the state of seqs and
+packets.</p>
+<h1 data-number="2" id="lecture-3---linux-networking"><span
+class="header-section-number">2</span> 2. Lecture 3 - Linux
+Networking</h1>
+<h2 data-number="2.1" id="device-interfaces"><span
+class="header-section-number">2.1</span> 2.1. Device interfaces</h2>
+<p>Between NIC &lt;-&gt; Device Driver - producer/consumer
+communication. The implementation is circular queues/rings of memory
+buffers. Producer (NIC does DMA) will add new buffers and consumer
+(Network stack) processes those buffers and unlinks them.</p>
+<h3 data-number="2.1.1" id="receive-path"><span
+class="header-section-number">2.1.1</span> 2.1.1. Receive path</h3>
+<ol type="1">
+<li>packet received (network card)</li>
+<li>DMA to memory using ring buffer addresses</li>
+<li>raise an interrupt from (network card)</li>
+<li>run IRQ handler</li>
+<li>network device handler</li>
+<li>NAPI (new API) schedule</li>
+</ol>
+<p><strong>NAPI</strong>: is the implementation of interrup mitigation
+technique. How it works: it will check if NAPI is already scheduled.
+NAPI processing: interrupts on NIC are disabled; process certain number
+of packets in one go; poll the device drivcer to check if there are more
+packets ready for processing; if not enough packets are available, then
+yield.</p>
+<p>Software IRQ (interupt request)</p>
+<p>processing NAPI:</p>
+<ul>
+<li>interrupt handling is a high priority work</li>
+<li>all further interrupts are disabled (which means that more coming
+packets will be missed and if the ring overflows - the packets are
+dropped)</li>
+<li>many long events in the incoming packets Because of this, there are
+<strong>SoftIRQs</strong> in Linux kernel (<em>Bottom-Half
+Processing</em>). This allows most of the protocol processing while
+having interrupts enabled, thus can preempt other kernel threads, user
+processing.</li>
+</ul>
+<p>The normal interrupts are handled in the <em>Top-Half
+Processing</em>. This is ISRs (<em>Interrupt Service Routines</em>).
+This is very high importance but also very small processing. Mostly
+concerned with cleaning hardware registers and copying out pointers,</p>
+<p><strong>SKB - Socket Kernel Buffer</strong> - one of the most
+important data types in Linux kernel. Represents a data packet in
+processing. Has headers, trailers, data, metadat, etc… Logically it
+contains Link list pointers, which network device needs to be
+transmitted to, which socket it needs to go, place for headers/trailers
+ofr various protocols, various Linux-specific accounting and reference
+counting info.</p>
+<h3 data-number="2.1.2" id="send-path"><span
+class="header-section-number">2.1.2</span> 2.1.2. Send Path</h3>
+<p>Sending is synchronous so there is more control over it, rather than
+receiving side, which is asynchronous and is not controlled when the
+reception of the packet, interrupts, timeouts happen.</p>
+<ol type="1">
+<li>Queue data when application calls send()</li>
+<li>Perform data packet building (TCP header, IP header, which
+device)</li>
+<li>Tell the device driver to transmit the packet</li>
+<li>Packet is transmitted on the network</li>
+</ol>
+<p><strong>Stateless Offloading</strong> - there is not state that a
+processing element needs to remember, each packet can be processed
+independently.</p>
+<ul>
+<li>checksum offloading, TSO offloading (LRO, GRO offloading)</li>
+<li>stateless offloading in hardware (or in driver software also
+possible)</li>
+<li>often is a performance optimization <strong>Stateful
+offloading</strong> - what you do with the current packet depends on
+some state that needs to be maintained.</li>
+<li>it is a correctness issue</li>
+</ul>
+<h3 data-number="2.1.3" id="overheads"><span
+class="header-section-number">2.1.3</span> 2.1.3.
+<strong>Overheads</strong></h3>
+<p><strong>Per-packet operations</strong></p>
+<ul>
+<li>generation of TCP/IP packets</li>
+<li>allocation of SKB structure</li>
+<li>TCP state machine transition</li>
+<li>ACK generation</li>
+<li>Queue management</li>
+</ul>
+<p>Optimization examples: Jumbo packets, TCP segmentation offloading
+(TSO), Large Receive Offload (LRO)</p>
+<p><strong>Per-byte operations</strong></p>
+<ul>
+<li>data copies</li>
+<li>checksum generation</li>
+<li>DMA</li>
+<li>IPSec (encrypt/decrypt)</li>
+</ul>
+<p>Optimization can be offloading, scatter-gather IO capabilities.</p>
+<h1 data-number="3" id="lecture-4---multicore-scalability"><span
+class="header-section-number">3</span> 3. Lecture 4 - Multicore
+Scalability</h1>
+<p>Dennard Scaling - observation that as the the transistor area
+decreases, frequency can increase, but there is a limitation in leakage
+current. This means that Moore’s law stalled, and that is why multicore
+era started.</p>
+<p>Ethernet speeds area still growing exponentially.</p>
+<p>Multicore problem: if interrupt comes, there are multiple CPUs that
+are contending and locking each other out of the packet.
+<em>Solution</em> could be using counters for each CPU, such that they
+can have read lock to these counters and get separate write locks.
+<strong>Problem</strong>: invalidation of cache lines - if the writes
+are close together, the caches will be invalidated. Also this is known
+as <em>cache ping-pong</em>. (Cache line is 64bytes long in x86).
+<em>Solution</em> - padding caches, but this is not ideal that usually
+closely written things are accessed together (e.g. TCP packet)</p>
+<ol type="1">
+<li>Which of the CPU should get the intrrupt? Typically the cpu0 is what
+gets all the interrupts. The reason for this is because cpu0 is an
+important role which, for example, wakes all other CPUs on boot.</li>
+</ol>
+<p>Interrupt balancing <em>irqbalance</em> - it will assign the
+interrupt to different cores such that the load is balanced. There can
+be specific mappings, such as static vs dynamic, affinity, !affinity, or
+manual pinning.</p>
+<p>This idea is not ideal, because even if the load is balanced, it does
+not necessarily mean that you are keeping the connection state, last
+information, etc.</p>
+<ol start="2" type="1">
+<li><p>Which of the interrupts should receive on a single queue?
+Interrupts are usually associated with an action (send/receive)
+<em>Solution</em> - Multi-queue NIC, which can have multiple RX/TX
+rings, which ideally would be per CPU.</p></li>
+<li><p>Which packet go to which queue (in the NIC)? Distribute by the
+part of the header, for example, by the port number.</p></li>
+</ol>
+<p>Strategy 1: Random assignment. But packets from different connections
+will end up in different CPUs. Pros - simple and easy to implement, load
+balanced at the packet-level. Cons: cache polution and no connection
+management</p>
+<p>Strategy 2: Receive Side Scaling (RSS) - CPU will have a connection
+that it is taking care of. This strategy is based on source ip, port,
+etc. This design raises a question if this does not invalidate the
+multicore processing, since the connection per CPU. However, even though
+UDP processing is possible parallelized, TCP is very hard because of
+sequence numbers, acks, and connection state. This is stateless offload
+because it does not depend on the previous packet. The hash is ip
+addresses + port numbers % number of queues.</p>
+<p>RSS advantages:</p>
+<ul>
+<li>early decision on which cpu processing should be - early
+multiplexing</li>
+<li>cache locality</li>
+<li>…</li>
+</ul>
+<p>If you don’t have this kind of NIC hardware, this can be done in the
+interrupt handler with softirqs. - this is <strong>Receive Packet
+Steering (RPS)</strong></p>
+<ol start="4" type="1">
+<li>Application processing - applications can be scheduled on any core
+whre they call recv(), they can be moved around as well.
+<em>Solution</em> - Receive Flow Steering (RFS) - it will move around
+the connections and lookup the flow table for the active
+connections.</li>
+</ol>
+<p>Transmit Packet Steering (XPS) - answers which trabsnut queue to
+choose to transmit a packet. often it is preferable to have RX queue
+with TX queue together on the same core, especially for TCP. This makes
+it easier for packet processing.</p>
+<h1 data-number="4" id="lecture-5---userspace-networking-stacks"><span
+class="header-section-number">4</span> 4. Lecture 5 - Userspace
+Networking Stacks</h1>
+<p><em>What is packet processing?</em> - it is a separate applications,
+middleware that work on raw network packets. E.g. firewall, routers,
+forwarding, load-balancers. These devices are not considered
+programmable, since they are concerned to run a single protocol very
+fast.</p>
+<p>Key problem - Getting fast Access to Packets: typical solutions:</p>
+<ol type="1">
+<li>Raw sockets (AF_PACKETS) - but they have high overheads, packet
+copies, per packet sys . (they are fine for thousands, but not for
+millions packets per sec)</li>
+<li>Packet filter hooks (eBPF)- but it is complex, in the kernel (does
+not give full-fledged access to the whole packet), limited changes.</li>
+<li>Direct buffer access - but is run in the kernel, and PF_RINGS - data
+copies and shared metadata overheads.</li>
+</ol>
+<p><strong>The root cause of high overheads</strong></p>
+<ol type="1">
+<li>Packet representations are very general, thus cause overheads</li>
+<li>System calls are not cheap - they trap into the kernel, disrupt
+ongoing processing, processing ring switch, security checks.</li>
+</ol>
+<h2 data-number="4.1" id="netmap-optimizations"><span
+class="header-section-number">4.1</span> 4.1. Netmap optimizations</h2>
+<ol type="1">
+<li>Better packet buffer management: all uniform packet - fixed size to
+2KB a pool of them are initialized at the boot time and shared between
+NIC and application multiple queue NICs - per core mapping, where each
+queue has its own file descriptor and memory</li>
+<li>Give direct and safe access to NICs TX and RX queues:</li>
+<li>Batched syscall processing:</li>
+</ol>
+<p>It uses zero-copy stack, which is designed such that raw packets are
+built and transmitted directly from the user space. This is memory
+mapped IO, therefore NICs must be modified to support this.</p>
+<p>What has netmap changed:</p>
+<ul>
+<li>brought attention to per-packet processing</li>
+<li>shown benefit of a) pre-allocating number of buffers, b) doing
+system call batching c) flexible user space packet processing
+implementation</li>
+</ul>
+<p>User space - <em>why</em>:</p>
+<ul>
+<li>modern OS kernels are very complex, so it hard to add something or
+to maintain.</li>
+<li>kernel is very strictly regulated (Tannebaum-Torvalds debate which
+is better - micro-kernel or monolithic design).</li>
+<li>kernel has to reliably run anything from micro-controllers, cameras,
+etc</li>
+<li>no security leaks, multiple users,</li>
+<li>any processor or memory architecture for the next 10-30 years.</li>
+</ul>
+<p>User space application don’t necessarily need kernel permissions.
+E.g.: tunneling, VPN, tethering, encryption, TORing; cloud-computing,
+content distribution networks.</p>
+<p>Netmap challenges: it is still integrated in linux kernel so needs to
+support ioct calls, polling etc needs to support many different NICs</p>
+<p>DPDK framework - Data Plance Development Kit (started by Intel)</p>
+<ul>
+<li>Data path - code path where the actual work is done (try to make it
+straight forward, no blocking callsm everything is ready to go,
+everything is amortized)</li>
+<li>control path - code where the resources are managed</li>
+<li>fast path - common case execution (typically few branches, very
+simple code) - e.g. the next TCP packet is a data packet in estimated
+state in order, no special flags</li>
+<li>slow path - more sanity checks (more branches, so poorer
+performance) - e.g. TCP packet with URG and PSH flag set</li>
+</ul>
+<p>Architecture: direct user space packket processing - completely
+eliminating the kernel. This is done by mapping the driver, IO, etc,
+completely in uspace. No device modifications are needed, and this is
+completely set up on polling, so no interrupts.</p>
+<p>Key ideas:</p>
+<ol type="1">
+<li>No syscalls or interrupts - all polling</li>
+<li>no kernel overheads in the data path</li>
+<li>Multiple libraries and mechanisms supporting multicore affinity,
+buffer management, etc.</li>
+</ol>
+<p>Why polling is the only option when hybrid is the best? - They can
+only do polling, because interrupts are not possible. The packets have
+to be in the design of DPDK.</p>
+<p>Practical scenario - switching; use in the datacenters, where the
+overhead in the networking stack. I.e. scenario where it is expected to
+push the boundaries of the processing power.</p>
+<h3 data-number="4.1.1" id="mtcp-scalable-user-space-tcp-stack"><span
+class="header-section-number">4.1.1</span> 4.1.1. mTCP: Scalable User
+Space TCP Stack</h3>
+<p>It is highly scalable uspace stack. Comaprison to megapipe: it has to
+do multicore scalability; new radical API (limit of megapipe); no kernel
+modification <em>Why user space?</em> - Expensive syscall; Metadata/data
+copies; Kernel environment; Generality vs specialization arguments</p>
+<p>What is it solving?:</p>
+<ul>
+<li>locality - split processing among cores</li>
+<li>shared fd space - decouple fds</li>
+<li>inefficient packet processing (netmap)</li>
+<li>syscall overheads (batching)</li>
+</ul>
+<p>mTCP ideas:</p>
+<ol type="1">
+<li>TCP stack implementation in uspace (flexibility and easy of
+development and use, specialization of TCP - common option and fast
+path)</li>
+<li>Leverage packet processing frameworks</li>
+<li>Multi core scalability - per application thread desing and
+transparent batching of events and packet IO</li>
+</ol>
+<p>mTCP:</p>
+<ol type="1">
+<li>can there there be zero-thread TCP model? - no, because there cannot
+be no active threads in the TCP.</li>
+<li>Unique way they did TCP - they have 3 separate queues for control,
+ACK and data packet transfers. And had priority to the control
+(SYN/SYNACK) packets for transmission order.</li>
+</ol>
+<p>They optimized fast lanes such that they fall in the same cache
+lines, thus reducing latency.</p>
+<p>Significant performance improvements over previous efforts. Milestone
+work - proof of concept of an efficient TCP stack in uspace.</p>
+<h1 data-number="5" id="rdma-networking"><span
+class="header-section-number">5</span> 5. RDMA Networking</h1>
+<p>Latencies</p>
+<p>This was not important when the Moore’s law was improving all the
+systems.</p>
+<p>However, it became important, when the speeds in the network are
+still growing, but the improvement in processing slowed down.</p>
+<p>There is infiniBand networking stack, which is a full alternative to
+Eth/IP/TCP stack, which latencies are in 600nanoseconds sizes.</p>
+<p>In 2011 paper <em>It’s Time For Low Latency</em> it shows how little
+improvement RTT (Round trip time) has compared to other improvements
+(Net Bandwithc, CPU to disk, etc)</p>
+<p>Things to consider with latencies (to improve to 1us):</p>
+<ul>
+<li>Speed of light (rule of thumb is 5ns/m) (so it makes the square of
+14x14m)</li>
+<li>Density of computation, power delivery, cooling (packing the server
+into the small square)</li>
+<li>Computation diameter</li>
+<li>Amount of data you can access</li>
+</ul>
+<p><strong>Latency imprortance</strong>:</p>
+<ul>
+<li>Micro services are important - 100-200 requests per page load for
+Amazon</li>
+<li>Latency sensitive workloads - big data processing, graph processing,
+streaming</li>
+<li>scientific workloads - high performance computing - weather
+simultation, genomics; and small caluclations + data access (this
+discussion was started by RAMclouds)</li>
+</ul>
+<p>It looks quite bad, because switch (1us) + NIC (1us) + OS processing
+(5-6us) + speed of light (5-6ns) - makes it ~76% fault of OS.</p>
+<p>How does socket contribute to it:</p>
+<ul>
+<li>socket is an application-level interface</li>
+<li>its simplistic design restricts many optimization opportunities
+<ul>
+<li>it is tied to the OS process abstraction with the file address
+space</li>
+<li>OS decides on behalf of process when to write to DMA, when to copy,
+etc</li>
+</ul></li>
+<li>hard API integration</li>
+</ul>
+<h2 data-number="5.1" id="rdma"><span
+class="header-section-number">5.1</span> 5.1. RDMA</h2>
+<p>It is a networking ….. (slide 15)</p>
+<p><strong>Idea 1 - User-space networking</strong> - Let the process
+manage its networking</p>
+<p><strong>Idea 2 - Kernel Bypass</strong> - Access hardware/NIC
+resources directly</p>
+<p>New abstraction - data transmition (data operation) is not checked by
+the kernel (after the first time, because the first time it does check),
+which is a big optimization.</p>
+<p>For control operations, there is a kernel check. Example - allocate
+needed memory, manage buffer, schedule process if necessary…</p>
+<p>Together:</p>
+<ol type="1">
+<li>Allocate memory buffers (through kernel)</li>
+<li>Allocate data and control queues (through kernel)</li>
+<li>recv a message (directly)</li>
+<li>get completion notification (directly) - this is not an interrupt
+because it would go through OS, so it is done with polling. For polling
+the app needs to be scheduled, and usually it is still scheduled because
+packets come in in order of us, where scheduling is around ms.</li>
+<li>close (through kernel)</li>
+</ol>
+<p>New RDMA Objects:</p>
+<ul>
+<li>Memory buffers</li>
+<li>Connection send/receive queues</li>
+<li>Control queues</li>
+</ul>
+<p>Network IO happens by posting work requests (WRs) in the QP it
+contains - buffer, length and it processes …. (slide 28)</p>
+<p>RDMA architectural view:</p>
+<ol type="1">
+<li>CLient: READ remote memory address raddr to local address laddr</li>
+<li>Client: posts READ request</li>
+<li>Server: read local raddr - local DMA operation</li>
+<li>Server: TX data back to client NIC</li>
+<li>Client: local DMA to laddr buffer in DRAM</li>
+<li>……….</li>
+</ol>
+<p>it is a very powerful idea - no remote application/os/cpu involvement
+in data transfer.</p>
+<p>Once you have capability to access remote memory from network you can
+imagin doing a lot of things like atomics or transactions Not limited
+just to sustem DRAM, think of DRAM in the GPU or even directly storage.
+- This is kinf of pretending that the memory is from your machine, not
+from network.</p>
+<p>This was exactly what was done in Berkely, Stanford, etc even in the
+80s-90s</p>
+<h2 data-number="5.2" id="challenges-with-rdma"><span
+class="header-section-number">5.2</span> 5.2. Challenges with RDMA</h2>
+<ul>
+<li>Debugging
+<ul>
+<li>operation failed, connection down, what went wrong?</li>
+<li>logging and introspection can be hard</li>
+</ul></li>
+<li>Performance
+<ul>
+<li>Takes a while to get used to the new way of writing code - event
+driven, lots of resources</li>
+<li>performance isolation</li>
+</ul></li>
+<li>Fragility
+<ul>
+<li>in the cloud</li>
+<li>correctness and verification</li>
+</ul></li>
+<li>Scalability
+<ul>
+<li>how many concurrent socket connections can you support in your
+server?</li>
+<li>how many memory buffers an RNIC can remember?</li>
+</ul></li>
+</ul>
+<h1 data-number="6" id="network-infrastructure"><span
+class="header-section-number">6</span> 6. Network infrastructure</h1>
+<p>Handling connections:</p>
+<ul>
+<li>Circuit switching - each connection has its own circuit</li>
+<li>Packet switching - single circuit and data is built up of many
+smaller packets</li>
+</ul>
+<p>Connecting two hosts - put data into frames (in link layer), send it
+over the digital signals, and take the data from frames.</p>
+<h2 data-number="6.1" id="link-layer"><span
+class="header-section-number">6.1</span> 6.1. Link layer**</h2>
+<p>It is responsible over framing, error detection and medium access
+control (to avoid or detect connections).</p>
+<p>Network node - any device that runs over the network (switch, pc,
+etc)</p>
+<h3 data-number="6.1.1" id="framing"><span
+class="header-section-number">6.1.1</span> 6.1.1. Framing</h3>
+<p>Byte oriented protocols (each frame as a collection of bytes). Widely
+used point-to-point protocol</p>
+<p>Bit oriented protocols (each frame as a collection of bits). High
+level data link control protocol. Has bit-stuffing - sender inserts a 0
+after seeing 5 1s.</p>
+<p>Clock-based framing - synchronous optical network (SONET). Synce uses
+the first 2 bytes (with a pattern) in the overhead, look for pattern
+every 810 bytes, no bit stuffing.</p>
+<h3 data-number="6.1.2" id="error-detection"><span
+class="header-section-number">6.1.2</span> 6.1.2. Error detection</h3>
+<p>Detect errors in frames using redundant bits and discard the frame if
+an error is found.</p>
+<p>Ways to check for errors:</p>
+<ul>
+<li>Parity checks (does not detect even amount of errors if in line,
+does not detect rectangles if 2d array)</li>
+<li>Checksums (adds all data, does 1s-complement, adds to the header,
+sends it; when received sums everything, and if it is 0, no errors are
+detected)</li>
+<li>Cyclic Redundancy Checks (CRC) - used by ethernet. Polynomial
+calculation</li>
+</ul>
+<p><strong>End-to-end argument</strong> - if the system is incorrectly
+implemented, there can be faults anywhere inside, therefore only the end
+points are the ones that can know if the communication was successful.
+This is the reason why in each layer there is some kind of error
+detection.</p>
+<h3 data-number="6.1.3" id="collisions"><span
+class="header-section-number">6.1.3</span> 6.1.3. Collisions</h3>
+<p>If there are more than two computers connected to the bus, there is a
+high risk to have collisions of packets.</p>
+<p><strong>Multiple access protocol</strong> - its principles are work
+conserving, fairness, decentralized, simple.</p>
+<h2 data-number="6.2" id="ethernet"><span
+class="header-section-number">6.2</span> 6.2. Ethernet</h2>
+<p>At first it was hubs which just repeat the signal to all ports except
+the source, and needed the collision detection, because there can be
+multiple senders to one end point.</p>
+<p>Now, in switches, the collision detection is not used because switch
+multiplexes and buffers signals in itself.</p>
+<p>MAC addresses. Switches do not need the MAC address because it is
+transparent to all devices.</p>
+<p>Ethernet frame structure:</p>
+<ul>
+<li>Destination MAc (6 bytes)</li>
+<li>Source MAC (6 bytes)</li>
+<li>Ethenet Type (2 bytes) - is decided by MTU</li>
+<li>Frame check sequence</li>
+</ul>
+<p>Ethernet efficiency calculation: Protocol overhead = (packet size -
+payload size )/ payload size Protocol efficiency = payload size / packet
+size Ethernet efficiency = 1500 (or 1460 excl TCP/IP headers) / (1500 +
+7 + 1 + .. +12) = 97.53%</p>
+<p>Link layer switches - they forward/broadcast/drop frames based on the
+switch table and operate transparantly. It uses self-learning - every
+time a new device sends something, the switch saves the MAC address to
+the table. If the dest address is not found in the table, the data is
+broadcasted.</p>
+<p>Types of switches:</p>
+<ul>
+<li>store-and-forward - everytime packet is passed through, it is
+buffered and only full is forwarded to the dest</li>
+<li>once the lookup is done, packet receiving and sending happen at the
+same time (pro: fast, con: if there are errors in the packet, CRC
+calculation cannot happen until it is fully received)</li>
+</ul>
+<p>How to obtain the dest MAC address? Broadcast and get back their
+address.</p>
+<p>A network of switches problems: the packets can loop; initial
+broadcasts will produce a big unnecessary load on the network.</p>
+<ul>
+<li>Flooding the network with loops - <em>solution</em>: build a
+topology without loops (tree topology). In practice, this is done with
+distributed spanning tree protocol.</li>
+<li>Traffic isolation - <em>solution</em>: VLAN - all the ports in the
+same VLAN will be broadcasted to, while ports on different VLANs are
+routed through an internal router within the switch. This adds
+additional 4 bytes in the eth hdr, which is for Tag Protocol Identifier
+(2 bytes), and Tag Control Information</li>
+</ul>
+<p>Problems with switched Internet:</p>
+<ul>
+<li>broadcast storm - ARP requests, MAC addresses that have not been
+learned</li>
+<li>limited switch forwarding table</li>
+<li>limited isolation with VLAN (max 4096)</li>
+<li>security issues - packet sniffing, ARP spoofing attack, MAC flooding
+attack.</li>
+</ul>
+<h2 data-number="6.3" id="network-layer-and-routing"><span
+class="header-section-number">6.3</span> 6.3. Network layer and
+routing</h2>
+<p>Router connects different networks.</p>
+<p><strong>Control plane</strong>: running protocols to figure out the
+path between one end to another end.</p>
+<p><strong>Data plane</strong>: packet forwarding with the match-action
+model (match on IP prefix table and do respective action)</p>
+<p>Network layer addresses - IPv4/v6 (it is built from network
+identifier (IP prefix) + host identifier or network identifier + subnet
+identifier + host identifier)</p>
+<p>IPv4 packet format (important parts):</p>
+<ul>
+<li>TOS - type of service, 2 bits reserved for Explicit Congestion
+Notification</li>
+<li>total length (typically bounded by MTU)</li>
+<li>Time to Live - avoid the loops in the network (each hop -1)</li>
+</ul>
+<p>Journey of a packet:</p>
+<ol type="1">
+<li>check the dest IP address in the routing table (same subnet send a
+frame containing the packet to the dest IP with MAC; not same - send to
+the router with the gateway MAC)</li>
+<li>in the router check the Ethernet MAC, lookup the IP prefix and take
+the correct action to the correct route.</li>
+<li>forward the same process in the next.</li>
+</ol>
+<p>All the routers need some processing to complete the routing
+algorithm protocols such that they complete the tables.</p>
+<h3 data-number="6.3.1" id="router-architecture"><span
+class="header-section-number">6.3.1</span> 6.3.1. Router
+architecture</h3>
+<p>Two general functions:</p>
+<ul>
+<li>Routing - run routing protocols/algortithms to generate forwarding
+tables</li>
+<li>forwarding - make decision according to the packet data</li>
+</ul>
+<p>For input port, There is a special hardware for the prefix matching -
+<strong>TCAM (ternary matching)</strong></p>
+<p>Switching fabric needs to be as fast as possible, and different ways
+of doing it are: memory bus (limited throughput), memory (memory
+bandwitch limits it), crossbar (non-blocking performance).</p>
+<p>Head Of Line blocking - the one behind some other packets that are
+waiting is being blocked if they can just go. <em>Solution</em> -
+virtual packet queue</p>
+<p>Output port - it needs to buffer the packets such that it makes the
+frames with full information, and needs to do scheduling (FIFO queue,
+weighted fair queues, priority queues).</p>
+<h1 data-number="7" id="congestion-control"><span
+class="header-section-number">7</span> 7. Congestion control</h1>
+<p>TCP guarantees reliability:</p>
+<p><em>stop-and-wait reliability</em> - it is not really efficient
+because packets need to wait for a while</p>
+<p><em>unACKed data - packets in flight</em> - this is more efficient;
+(this needs to track what packet is in-flight). Window in this case is a
+window of sequence numbers that have not been ack’ed. In this case if a
+segment has been received, the window can slide further and send out
+next packet.</p>
+<p>Identifying dropped packets - suppose 4 packets are sent and one of
+them is dropped. What does the receiver do?</p>
+<p>Strategies:</p>
+<ol type="1">
+<li>Go back N - don’t ACK subsequent segments</li>
+<li>Cumulative ACK - ACK subsequent segments and put last packet seq in
+order</li>
+<li>Selective ACK - does ACK and puts the seq ranges that went
+there</li>
+</ol>
+<p>TCP is trying to have connection as fast as possible but not faster.
+The idea is to allocate resources evenly and fully, but it is hard to do
+so in a decentralized manner. To do so, it can use packet conservation -
+keep the maximal packet amount in the network, and no new packet goes in
+until the old packet leaves the window. To do this, you can find the
+slowest bottleneck in the connection, which can be done with send and
+recv, and then send packets spaced out based on the slowest link. Then
+the equilibrium is reached.</p>
+<p>How to reach the equilibrium quickly - TCP idea: <em>slow
+start</em></p>
+<p>How to adapt to the available space in the path accordingly -
+<em>sliding window mechanism</em></p>
+<h3 data-number="7.0.1" id="tcp-slow-start"><span
+class="header-section-number">7.0.1</span> 7.0.1. TCP slow start</h3>
+<p>for every ACK you get, you send as many as the ACKs you got. (exp
+growth - 1, 2, 4, 8…) the window size is min(congestion windown and recv
+window) do that until packets start dropping - then restart and remember
+the max window size, and half of max.</p>
+<p>how long does it take to reach a window of size W with slow-start -
+R*logW</p>
+<p>TCP AIMD - in the begining TCP does slow-start and then after first
+reset, do slow-start until half of the max congestion window and then do
+additive increase until the max. optimization of this is making the
+reset just to half of max cwindow and then doing additive increase from
+there (do not re-enter slow-start).</p>
+<p>Problems with this:</p>
+<ol type="1">
+<li>will the queue always drain if we half the sending rate? - not
+guaranteed, because it is dependant on buffer and bandwith control
+protocol</li>
+<li>How long does it take to ramp up?</li>
+</ol>
+<p>why the packet could be dropped: buffer, bandwith delay pockets</p>
+<h1 data-number="8"
+id="half-of-the-lecture-was-missed-go-back-to-slides"><span
+class="header-section-number">8</span> 8. HALF OF THE LECTURE WAS
+MISSED, GO BACK TO SLIDES</h1>
+<h1 data-number="9" id="software-defined-netowrking"><span
+class="header-section-number">9</span> 9. Software defined
+netowrking</h1>
+<p>There are a lot of artifacts because networking is complex.</p>
+<p>Networks run in a distributed and autonomous way and scalability is
+important. With more functionalities (for different layers) together add
+complexity, and even though there are existing innovations, they are
+poorly adopted (e.g. IPv6).</p>
+<p>Take a different look into network: There are two planes:</p>
+<ul>
+<li>Control plane - like a brain which runs distributed protocols how to
+do routing</li>
+<li>Data plane - like a set of rules for the scenatio (match-action
+table).</li>
+</ul>
+<p>Netork planes on routers:</p>
+<ul>
+<li>Data plane is in line card and switch</li>
+<li>control plane is the processor in the router</li>
+</ul>
+<p><strong>Complexity in the control plane</strong>:</p>
+<p>Control plane needs to achieve goals such as connectivity,
+inter-domain policy, isolation, access control, etc.</p>
+<p>There are many mechanisms/protocols/</p>
+<ul>
+<li>globaly distributed - routing algos</li>
+<li>manual/scripted config - access control lists, VLANs</li>
+<li>Centralized computation: traffic engineering (indirect control)</li>
+</ul>
+<p>Even worse, these mechanisms/protocols interact with each other -
+routing, addressing, access control, QoS</p>
+<p>Say there are 2 regions, which both have data centers and both have
+clients. And you want to block cross-region traffic (client connects to
+the local data centre). Connect to the local routing’s Access Control
+List and insert the list for specific ports. But say there is a link
+added to those closest routers to data centres, which actually breaks
+this traffic configuration, because there is a new path between the
+regions, thus ACLs need to be updated. This example shows that one
+improvement (connectivity) might break other mechanisms (ACL).</p>
+<p><em>The ability to master complexity is valuable but not the same as
+the ability to extract simplicity</em> - you want to hide the complexity
+through levels of abstractions.</p>
+<p>An example of this is programming. Machine languages don’t have
+abstractions, but high-level languages are abstractions of them.</p>
+<p>In networking the abstractions are layers. But this is just for data
+plane.</p>
+<p>Abstractions for the control plane don’t exist. There is no
+modularity that can be reused in other mechanisms, therefore networking
+seems like it is mainly about artifacts/engineering.</p>
+<p>Goal is to program the network like the computers.</p>
+<h2 data-number="9.1" id="sdn-ideas-and-abstractions"><span
+class="header-section-number">9.1</span> 9.1. SDN ideas and
+abstractions</h2>
+<p>Some history: First attempt to make networks programmable was
+demultiplexing packets to software programs (active networking). This
+was done by inserting a snipet of code into the packet header, router
+would extract it and would apply the behaviour. Or the other way is to
+inject some code into the router before the packet. Evolution from that
+was separation of control/data planes. Example: Ethane - flow-based
+switching with centralized control for enterprise.</p>
+<p><strong>Software defined network</strong> - take the control plane
+and separate it from the data plane. Also centralize the control plane
+that would control several forwarding devices.</p>
+<p>With this concept there can be a network arch, where data plane has
+boxes that is taking care only of data plane, but they have control
+channels to the centralized control network OS running control
+programs.</p>
+<p>To realize this we need:</p>
+<ol type="1">
+<li>Abstraction for general forwarding model - for the communication
+between data plane boxes</li>
+<li>Abstraction for network state - network OS should see a state or a
+representation rather than seeing those physical devices (running
+dijkstra on graph, not asking each box to compute their representation
+each)</li>
+<li>Abstraction that simplifies configuration - not knowing the details
+of the topology, just knowing features of the traffic/topology. Does not
+care about the implementation, but about functionality</li>
+</ol>
+<p><strong>Abs#1</strong> Interface between forwarding blocks and
+network OS. This does not care about the way the match+action is
+implemented, but cares that it works. ” OpenFlow is current proposal for
+forwarding: standardized interface to switch, configuration in terms of
+flow entries, and no hardware modifications needed. Specifies how the
+OpenFlow switches communicate with network OS and vice versa.
+Match+action is great because by specifying any type of header to match
+on, any actions (that are supported) can be taken Benefits of this -
+switches are much cheaper, and no vendor lock-in</p>
+<p><strong>Abs#2</strong> Gives global network view - annotated network
+graph provided through an API. Control program: Configuration =
+Function(View) Implementation: “Network Operating Systems”. Runs on
+servers in networks as controllers. Replicated for reliability.
+Information flows both ways - information from routers/switches to for
+the view and the configurations to routers/switches to control
+forwarding.</p>
+<p><strong>Abs#3</strong> Control mechanism expresses the desired
+behaviour. (e.g. isolation, access control, QoS) It should not be
+responsible for implementing that behaviour on physical network
+infrastructure - this requires configuring the forwarding tables in each
+switch. Proposed abs - abstract view of the network.</p>
+<p>So far it is assumed that all the nodes are under the same authority.
+In between the authorities the BGP algo is run.</p>
+<h2 data-number="9.2" id="sdn-use-case---network-slicing"><span
+class="header-section-number">9.2</span> 9.2. SDN use case - network
+slicing</h2>
+<p><strong>Network testing</strong> - it is an interesting problem
+because it is hard to show that the new solution works. Solutions for
+that is to have a hardware testbed (but it is expensive and small scale
+because of NetFPGA), software testbed (can be large-scale (emulation),
+but performance is slow (CPU-based), no realistic topology and hard to
+maintain, wild test it on the internet (convincing network operators to
+try something new is very hard)). Therefore network testing is very
+problematic.</p>
+<p>One <em>solution</em> - <strong>network slicing</strong>.</p>
+<p>Divide the production network into logical slices - one for
+production traffic and one for testing. Each slice/service controls its
+own packet forwarding (one is traditional and one is testing something
+new) And let users tot choose witch slice controls their traffic (this
+gives testing possibility and lets users experience something new)
+Existing services run on their slice as backup</p>
+<p>There has to be a strong isolation between slices!</p>
+<p>Allow the logical testbed to mirror the production network.</p>
+<p><em>Problem</em> - in order to create slicing, you need to modify
+each and every router/switch to support one or another slice.</p>
+<p>However OpenFlow interfaces has control mechanisms abstractions such
+that you don’t need to modify switch, but add a FlowVisor intermediate
+entity which decides on slicing logic and then forward the control
+instructions from respective controller.</p>
+<p>Slicing policies - each slicing policy can specifiy the resource
+limit for each slice: link bandwtich, max number of forwarding rules,
+topology, fraction of switch/router CPU. Also needs to have FlowSpaces -
+which packet does the slice control? - maps packets to slices according
+to their “classes” defined by the packet header fields.</p>
+<p>Real user traffic - opt in Bob’s experimental slice: all HTTP traffic
+to/from users who opted in (allow: tcp_port=80 and ip=user_ip) Alice’s
+production slice: complementary to Bob’s slice (Deny: (everything that
+Bob allows)) Monitoring slice that analyses all the traffic</p>
+<p>FlowVisor packet handling:</p>
+<ol type="1">
+<li>packet-in exception from router to FlowVisor</li>
+<li>Forward rules to the controller according to the packet</li>
+<li>Generate the rules and check if the rules are exactly
+applicable</li>
+</ol>
+<h2 data-number="9.3" id="data-plane"><span
+class="header-section-number">9.3</span> 9.3. Data plane</h2>
+<p>OpenFlow - uses match+action abstraction - set of header match fields
+and forwarding actions. There is a list for all possible matches and
+possible actions. However, most hardware switches only support limited
+match/action set. And also it does not have everything to match on, thus
+the switch can only process protocols that it knows and it will ignore
+this header.</p>
+<p>To have your own packet detected, ASIC (hardware) needs to be
+modified. But this takes years before the hardware gets delivered.</p>
+<p>The main problem with this idea (new header not supported) is the
+<strong>bottom-up mentality</strong>.</p>
+<p>However, there is a possiblity - make ASIC programmable and let new
+features be supported. To achieve this, there needs to be
+programmability supported on the CPU.</p>
+<h3 data-number="9.3.1" id="programmability"><span
+class="header-section-number">9.3.1</span> 9.3.1. Programmability</h3>
+<p>Thus in networking there is a language created <strong>P4</strong>,
+which has its own data plane abstraction - <strong>RMT</strong>.</p>
+<p>RMT is a RISC-inspired reconfigurable match tables model.</p>
+<p>P4 is a domain-specific language for programming protocol-independent
+packet processors.</p>
+<p><strong>RMT</strong>: when packet comes in, it goes through “filter”
+like process to get the packet headers. These filters will need to
+specify what to match on and which action to take. After going through
+all the matches, packet is reassembled and sent out.</p>
+<p>Applications of this: congestion control or in-network computing.</p>
+<h1 data-number="10" id="data-centers"><span
+class="header-section-number">10</span> 10. Data centers</h1>
+<h2 data-number="10.1" id="data-center-network-arch"><span
+class="header-section-number">10.1</span> 10.1. Data center network
+arch</h2>
+<p>How to connect servers in a data center so that it has best
+throughput and performance?</p>
+<ol type="1">
+<li>have a giant switch, but has problems
+<ol type="1">
+<li>Switch would get overloaded (throughput), ie would interrupt signals
+and block</li>
+<li>single point of failure</li>
+<li>every time switch does not know where to send the packet, it will
+broadcast and thus network will be flooded</li>
+<li>even having found the ip addresses, there still need to be ARP
+packets sent</li>
+<li>isolating the traffic is hard</li>
+<li>limitted port density (there can be thousands of servers but no such
+switch)</li>
+</ol></li>
+<li>Multiple switches and interconnecting them. (topologies can be line,
+bus, mesh, fully connected, tree, start, etc). Different topologies
+offer different trade-offs. The goal is to have a good connectivity but
+also lower complexity. Thus tree seems like it has a good connectivity
+and not that hard to build.</li>
+</ol>
+<h3 data-number="10.1.1" id="tree-based-data-center-network"><span
+class="header-section-number">10.1.1</span> 10.1.1. Tree-based data
+center network</h3>
+<p>Tree (but multi-rooted) is good to have such that it would have a
+good connectivity and low complexity. Multiple roots allow to avoid a
+single point of failure and better connectivity. Going from bottom to
+up, there need to be better (higher bandwith) switches installed,
+because there is more traffic. Problem of this design is that you cannot
+evolve the switches in a natural way, because of the hierarchical
+structure (upgrade lower layers, and then the upper layers need to be
+updated).</p>
+<h3 data-number="10.1.2" id="network-performance-metrics"><span
+class="header-section-number">10.1.2</span> 10.1.2. Network performance
+metrics</h3>
+<p>Bisection width: minimum number of links to cut to divide the network
+into two halves</p>
+<p>Bisection bandwith: the minimum bandwidth of the links that divide
+the network into two halves</p>
+<p>Full bisection bandwidth: nodes in one half can communicate to the
+other half in this bandwidth (?)</p>
+<h3 data-number="10.1.3" id="oversubscription-ratio"><span
+class="header-section-number">10.1.3</span> 10.1.3. Oversubscription
+ratio</h3>
+<p>Ratio of worst-case required aggregate bandwidth to the total uplink
+bandwidth of a network device. - Ability of hosts to fully utilize its
+uplink capabilities.</p>
+<p>Oversubscription ratio 1:1 means that all hosts can use full uplink
+capacity.</p>
+<h2 data-number="10.2"
+id="factors-behind-data-center-network-designs"><span
+class="header-section-number">10.2</span> 10.2. Factors behind data
+center network designs</h2>
+<p>Commoditication in the data center: inexpensive, commodity servers
+and storage devices the network is still highly specialized (using
+large-fanout proprietary switches)</p>
+<p>Data center is not a “small internet” One admin domain, no firewall,
+limited policy routing, etc</p>
+<p>Bandwidth is often a bottleneck Data-intesinve workloads (big-data,
+graph processing, etc) Low traffic locality, and the goal is to have
+flat high bandwith (pick random pair in the server, and the goal is to
+keep the same bandwidth between any nodes)</p>
+<h3 data-number="10.2.1" id="fat-tree"><span
+class="header-section-number">10.2.1</span> 10.2.1. Fat-tree</h3>
+<p>to accomodate these factors - expand the tree topology to “fat-tree”,
+which is a normal tree network, but has more linkst to the higher layers
+to improve the connectivity.</p>
+<p>Goal is to achieve equal bandwith, and to do that use a <em>Clos
+topology</em>, which is like a switch but expanded over a several
+switches. This allows to have full bandwidth available for each server
+pair. Fat-tree is a special instance of Clos topology, where there are
+several Clos topologies as lower/middle layers and then they are
+well-connected to the roots.</p>
+<p>Fat-tree allows to have full bisection bandwidth, which is created by
+the clos-topologies linked through the inter-connected root nodes.</p>
+<p>Fat-tree scalability -</p>
+<p>Challenges with fat-tree:</p>
+<ul>
+<li>routing algorithms (such as OSPF) will naively choose a single
+shortest path to use between subnets (even though there are plenty of
+other minimal paths). this leads to bottleneck quickly, in theory
+(k/2)<sup>2</sup> shortest paths available but only one will be
+used</li>
+<li>complex writing to lack of high-speed ports</li>
+</ul>
+<p><strong>Addressing in fat-tree</strong></p>
+<p>Pod switches: 10.pod.switch.1 (pod and switch between [0, k-1] based
+on the position) Core switches Hosts</p>
+<p>With the addressing, there can be fowarding - two-level lookup table.
+Prefix matching on pod traffic, suffix matching on inter pod
+matching</p>
+<p>Each host-to-host communication has a single static path. - this
+introduces a problem that a single path can be overutilized, and the
+rest can be underutilized.</p>
+<p>This is colled flow collision.</p>
+<p><em>Solution</em> to flow collisions:</p>
+<ul>
+<li>Equal-cost multi-path - hash flows to different equal-length paths,
+so instead static path between end-hosts it will be static path for each
+flow</li>
+<li>Flow scheduling - havev a centralized scheduler to assign flows to
+paths (leveraging SDN)</li>
+</ul>
+<h2 data-number="10.3" id="data-center-network-congestion-control"><span
+class="header-section-number">10.3</span> 10.3. Data center network
+congestion control</h2>
+<p>ususally in TCP AIMD, we do slowstart and then do timeout, again
+slowstart and do additive increase later</p>
+<p><strong>TCP incast problem</strong> - data center application runs on
+multiple servers, and they use a scatter-gather work pattern (scatter -
+a client sends a request to a bunch of servers for data, gather- all
+servers respond to the client). More broadly, a client-facing query
+might have to collect data to many servers.</p>
+<p>From switch POV: first, the scatter will send the request to
+different servers then the workers they will send the results back to
+the client (each of them will have very little data - few packets)
+however, the buffer in the switch will be filled because all of them are
+trying to send. workers will try to retransmit at the same time, because
+a lot of packets are lost, and the same conflict happens - this is
+called <strong>TCP global synchronisation problem</strong>.</p>
+<p>TCP incast: packet drops due to the capacity overrun at shared
+commodify switches. - this leads to TCP global sync. Solutions:</p>
+<ul>
+<li>use lower timeout - can lead to spurious timeouts,</li>
+<li>use fake timeouts</li>
+<li><sub>someting</sub></li>
+</ul>
+<p>what can we do to do better: in essence you don’t want to
+overenginneer the system, and make limitted solutions.</p>
+<h3 data-number="10.3.1" id="what-if-we-avoid-packet-drops"><span
+class="header-section-number">10.3.1</span> 10.3.1. What if we avoid
+packet drops?</h3>
+<p>Ethernet flow control:</p>
+<ul>
+<li>Pause frame
+<ul>
+<li>and overwhelmed ethernet receiver/NIC can send a “PAUSE” ethernet
+frame to the sender to stop transmission for some time</li>
+<li>limitations: designed for NICs, not switches, and blocks all
+transmission at the ethernet-level (port-level, not flow-level) - very
+coarse grained</li>
+</ul></li>
+<li>priority-based flow control
+<ul>
+<li>enhancement over PAUSE frames, 8 virtual traffic lanes and one can
+be selectively stoped and the timeout is configurable</li>
+<li>limitations: only 8 lanes, possible deadlock in large networks (with
+PAUSE frames in the lanes)</li>
+</ul></li>
+</ul>
+<p>Data Center TCP: pass the information about switch queue buildup to
+senders. Sender can slow down if the queue is almost full, or speed up
+if it is empty.</p>
+<p>ECN: packet is marked in ACK, such that there is information that
+there was congestion</p>
+<p>DCTCP ECN: marks only ACKs that are marked by ECN</p>
+<p>DCTCP calculations: F = #ACKs marked by ECN / #total ACKs</p>
+<h1 data-number="11" id="streaming"><span
+class="header-section-number">11</span> 11. Streaming</h1>
+<p>before it was downloading the video and watching it</p>
+<p>now it is streaming - downloading chunk by chunk</p>
+<p><strong>Challenges</strong>:</p>
+<ul>
+<li>a lot of data to process</li>
+<li>smt else</li>
+</ul>
+<h2 data-number="11.1" id="video-compression"><span
+class="header-section-number">11.1</span> 11.1. Video compression</h2>
+<ol type="1">
+<li>send a smaller frame</li>
+<li>send a delta between the frames</li>
+</ol>
+<p><strong>Smaller frame-level compression - JPEG compression</strong>:
+Going grom RGB (each having its own byte) - each pixel 3 bytes. So JPEG
+focuses not on the chrominess (colourfulness), but on the luminence
+(indicates brightness), because humans are more sensitive to ligth than
+colour. (two other channels in the jpeg are blue and red). Thus it uses
+less bits per pixel, and the quality is not as affected from human eye
+perspective. Compression: initially 8 bits per each part/pixel, and
+after you have 1 part of 8bits, and 2 parts of 2bits. thus it is x * 3 *
+8 / x * (8 + 2 * 2) = 2</p>
+<p><strong>Video-level compression - H.264</strong>: Compare two blocks
+and then check the delta where the block changed. Store only the delta.
+However it is highly depepndant on the content. There are I (intracoded)
+frames, e.g. JPEG frames, that are self-sustained. P (predictive) frames
+- that looks back to the I and P frames for prediction B (bidirectional)
+frames - looks forward and backward to other frames. I frames are the
+biggest, P are smaller, B are smallest</p>
+<p><strong>Bitrate</strong>: measures data size per unit time. It
+affects the file size and the quality of the video. So when it is
+streamed, it affect the bandwidth it uses.</p>
+<p><strong>Constant Bitrate</strong>: Constant bitrate -&gt; constant
+compression ratio -&gt; varying quality In H.264, quality is worse when
+the motion is higher due to the larger deltas. This allows also to have
+a constant number how much data is needed to compute. However there is a
+lot of data loss.</p>
+<p><strong>Variable bitrate</strong>: This goal is to have smooth out of
+the quality. It makes sure that for each time unit, you ensure that you
+have enough data space. Achieving this is a bit hard and it requires two
+passes - to get the average bitrate and then next pass to vary the
+bitrate over the peaks and lows.</p>
+<p>Video streaming with CBR - constant bandwidth, so it is suitable for
+video streaming, because you can guarantee minimum bandwidth to have. In
+reality it is hard to have a constant bitrate for multiple users.
+<em>Solution</em> - have multiple constant bitrates, thus it becomes
+switching between bandwidths.</p>
+<p><strong>Adaptive bitrate</strong>: Main idea - chop the video into
+small segements (chunks) and encode the segments with different bitrates
+Adaptively select the bitrate for each segment in streaming for each
+user</p>
+<h2 data-number="11.2" id="video-streaming-protocols"><span
+class="header-section-number">11.2</span> 11.2. Video streaming
+protocols</h2>
+<p>Ways of doing it are either built on UDP (live streaming) or TCP and
+on HTTP (video on-demand services).</p>
+<p><strong>RTP - real-time transport protocol</strong>: primarily used
+for audio/video transport, widely used for real-time multimedia apps
+such as VoIP, audio over IP, WebRTC (BigBlueButton and Zoom (it is
+proprietary)) It is built on top of UDP.</p>
+<p>If data is lost - it’s fine, but if it is out of order, it’s bad. So
+the header has a sequence number (to have in-order), timestamp (play the
+video at exactly the time it should be played).</p>
+<p>To have control in RTP, the receiver contantly measures transmission
+quality. And exchanges information between senders and receivers.
+However, this does not support varying/adaptive bitrate.</p>
+<p><strong>Video streaming protocols based on HTTP</strong>: Major
+players are: Microsoft Soft Streaming, Adobe HTTP Dynamic Streaming,
+Apple HTTP Live Streaming. Each has a proprietary format Bad for the
+industry such as CDN (Content Delivery Network) providers - like cache
+middleware between sender and receiver. They have to support all these
+different codecs.</p>
+<p>Why HTTP? because it supports progressive download. (useful in
+web-based media delivery for video share sites). Progressive means that
+playback begins while download is still in progress.</p>
+<p>Another standard - MPEG DASH (dynamic adaptive ….): this model is not
+specification of implementation, but more about model, data formats. It
+is ISO standard. DASH data model - has a media presentation description
+- segments of periods that can be accessed individually. Between those
+segments there can be adds. In the period there can be adaptation set,
+which have specifications (in manifest file) of segments (basically
+packets of tcp).</p>
+<h2 data-number="11.3" id="abr-algorithms"><span
+class="header-section-number">11.3</span> 11.3. ABR algorithms</h2>
+<p><strong>Birate selection in ABR</strong> you want to have the bitrate
+depending on the data and the bandwidth. The bandwidth can vary A LOT,
+especially in mobile environments, so to estimate the bandwidth do an
+average over certain time, or rolling average to smooth it out. Problem
+is when there are sudden drastic changes.</p>
+<p><strong>Buffer-based algorithm</strong>: If there is a buffer full of
+video content, you can relax, and there is much lower risk of
+rebuffering. Motivation - avoid bandwith estimation, since it containts
+implicit information about the bandwidth. We define a function BBA,
+which takes in the buffer (which output is constant (size in video
+seconds)), which also has buffer occupancy. So if the input rate
+C(t)/R(t) - bandwidth / bitrate &gt; 1 then the buffer occupancy grows.
+Thus it is safe to increase R(t) to improve quality. If C(t)/R(t) &lt;
+1, buffer is draining. Thus the function B(t) = f(R(t)) has to decide
+what is the best bitrate for that time. Goal 1: no unnecessary
+rebuffering (as long as C(t) &gt; Rmin for all t and we adapt f(B)-&gt;
+Rmin as B-&gt;0, we will never unnecessarily rebuffer because the buffer
+will start to grow before it runs out) Goal 2: average video rate
+maximisation (as long as f(B) is increasing and eventually reaches Rmax,
+the average video rate will match the average capacity when Rmin &lt;
+C(t) &lt; Rmax for all t&lt;0)</p>
+<p>BBA in practice: usually f(B) is shifted to the right such that it
+chooses a little bit lower bitrate rather than max, such that the
+function would have cushioning</p>
+<p><strong>deep reimforcement learning</strong> train the deep learning
+model, and use the trained agent to make decisions. It is also possible
+to replace video codecs with machine learning.</p>
+<h2 data-number="11.4" id="netflix-video-serving"><span
+class="header-section-number">11.4</span> 11.4. Netflix video
+serving</h2>
+<p>workloads: serve only static media files, which are pre-encoded for
+all codecs/bitrates</p>
+<p>Video serving stack:</p>
+<ul>
+<li>Free-BSD-current</li>
+<li>NGINX web server HTTP</li>
+<li>video served via async sendfile() and encrypted using kTLS
+(offloaded to NICs)</li>
+<li>since 2020, 200Gpbs of TLS encryypted video traffic from a single
+server, aiming for 400+ Gbps now</li>
+</ul>
+<p>Sendfile directs the kernel to send data from a fd to a TCP
+socket.</p>
+<p>Data flow: data in disks -&gt; put it in the memory. To encrypt it,
+it needs to be passed by the cpu, and put it back to the memory. then
+send it to the NIC. Thus mempru bandwidth is a bottleneck.
+<em>Optimisation</em> - to achieve 400Gbps bandwidth, it would need to
+have 50GB/s PCI bandwidth, so to do that encryption is done at the
+NIC.</p>
+<h2 data-number="11.5" id="video-stream-analytics"><span
+class="header-section-number">11.5</span> 11.5. Video stream
+analytics</h2>
+<p>usually streaming is server -&gt; client, but now it is also client
+-&gt; cloud server.</p>
+<p>There is a very large volume of traffic, in the wide area
+network.</p>
+<p>WAN has scarce, expensive and variable bandwidth. So it is very hard
+to measure these things.</p>
+</body>
+</html>

@@ -1,0 +1,1790 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>notes-ISP</title>
+  <style>
+    html {
+      line-height: 1.5;
+      font-family: Georgia, serif;
+      font-size: 20px;
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 1em;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+      font-size: 85%;
+      margin: 0;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <style>
+    html {
+      font-size: 100%;
+      overflow-y: scroll;
+      -webkit-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+    }
+    body {
+      color: #444;
+      font-family: Georgia, Palatino, "Palatino Linotype", Times,
+        "Times New Roman", serif;
+      font-size: 12px;
+      line-height: 1.7;
+      padding: 1em;
+      margin: auto;
+      max-width: 42em;
+      background: #fefefe;
+    }
+    a {
+      color: #0645ad;
+      text-decoration: none;
+    }
+    a:visited {
+      color: #0b0080;
+    }
+    a:hover {
+      color: #06e;
+    }
+    a:active {
+      color: #faa700;
+    }
+    a:focus {
+      outline: thin dotted;
+    }
+    ::-moz-selection {
+      background: rgba(255, 255, 0, 0.3);
+      color: #000;
+    }
+    ::selection {
+      background: rgba(255, 255, 0, 0.3);
+      color: #000;
+    }
+    a::-moz-selection {
+      background: rgba(255, 255, 0, 0.3);
+      color: #0645ad;
+    }
+    a::selection {
+      background: rgba(255, 255, 0, 0.3);
+      color: #0645ad;
+    }
+    p {
+      margin: 1em 0;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      color: #111;
+      line-height: 125%;
+      margin-top: 2em;
+      font-weight: 400;
+    }
+    h4,
+    h5,
+    h6 {
+      font-weight: 700;
+    }
+    h1 {
+      font-size: 2.5em;
+    }
+    h2 {
+      font-size: 2em;
+    }
+    h3 {
+      font-size: 1.5em;
+    }
+    h4 {
+      font-size: 1.2em;
+    }
+    h5 {
+      font-size: 1em;
+    }
+    h6 {
+      font-size: 0.9em;
+    }
+    blockquote {
+      color: #666;
+      margin: 0;
+      padding-left: 3em;
+      border-left: 0.5em #eee solid;
+    }
+    hr {
+      display: block;
+      height: 2px;
+      border: 0;
+      border-top: 1px solid #aaa;
+      border-bottom: 1px solid #eee;
+      margin: 1em 0;
+      padding: 0;
+    }
+    code,
+    kbd,
+    pre,
+    samp {
+      color: #000;
+      font-family: monospace, monospace;
+      font-size: 0.98em;
+    }
+    pre {
+      white-space: pre;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+    b,
+    strong {
+      font-weight: 700;
+    }
+    dfn {
+      font-style: italic;
+    }
+    ins {
+      background: #ff9;
+      color: #000;
+      text-decoration: none;
+    }
+    mark {
+      background: #ff0;
+      color: #000;
+      font-style: italic;
+      font-weight: 700;
+    }
+    sub,
+    sup {
+      font-size: 75%;
+      line-height: 0;
+      position: relative;
+      vertical-align: baseline;
+    }
+    sup {
+      top: -0.5em;
+    }
+    sub {
+      bottom: -0.25em;
+    }
+    ol,
+    ul {
+      margin: 1em 0;
+      padding: 0 0 0 2em;
+    }
+    li p:last-child {
+      margin-bottom: 0;
+    }
+    ol ol,
+    ul ul {
+      margin: 0.3em 0;
+    }
+    dl {
+      margin-bottom: 1em;
+    }
+    dt {
+      font-weight: 700;
+      margin-bottom: 0.8em;
+    }
+    dd {
+      margin: 0 0 0.8em 2em;
+    }
+    dd:last-child {
+      margin-bottom: 0;
+    }
+    img {
+      border: 0;
+      -ms-interpolation-mode: bicubic;
+      vertical-align: middle;
+    }
+    figure {
+      display: block;
+      text-align: center;
+      margin: 1em 0;
+    }
+    figure img {
+      border: none;
+      margin: 0 auto;
+    }
+    figcaption {
+      font-size: 0.8em;
+      font-style: italic;
+      margin: 0 0 0.8em;
+    }
+    table {
+      margin-bottom: 2em;
+      border-bottom: 1px solid #ddd;
+      border-right: 1px solid #ddd;
+      border-spacing: 0;
+      border-collapse: collapse;
+    }
+    table th {
+      padding: 0.2em 1em;
+      background-color: #eee;
+      border-top: 1px solid #ddd;
+      border-left: 1px solid #ddd;
+    }
+    table td {
+      padding: 0.2em 1em;
+      border-top: 1px solid #ddd;
+      border-left: 1px solid #ddd;
+      vertical-align: top;
+    }
+    .author {
+      font-size: 1.2em;
+      text-align: center;
+    }
+    @media only screen and (min-width: 480px) {
+      body {
+        font-size: 14px;
+      }
+    }
+    @media only screen and (min-width: 768px) {
+      body {
+        font-size: 16px;
+      }
+    }
+    @media print {
+      * {
+        background: 0 0 !important;
+        color: #000 !important;
+        filter: none !important;
+        -ms-filter: none !important;
+      }
+      body {
+        font-size: 12pt;
+        max-width: 100%;
+      }
+      a,
+      a:visited {
+        text-decoration: underline;
+      }
+      hr {
+        height: 1px;
+        border: 0;
+        border-bottom: 1px solid #000;
+      }
+      a[href]:after {
+        content: " (" attr(href) ")";
+      }
+      abbr[title]:after {
+        content: " (" attr(title) ")";
+      }
+      .ir a:after,
+      a[href^="#"]:after,
+      a[href^="javascript:"]:after {
+        content: "";
+      }
+      blockquote,
+      pre {
+        border: 1px solid #999;
+        padding-right: 1em;
+        page-break-inside: avoid;
+      }
+      img,
+      tr {
+        page-break-inside: avoid;
+      }
+      img {
+        max-width: 100% !important;
+      }
+      @page :left {
+        margin: 15mm 20mm 15mm 10mm;
+      }
+      @page :right {
+        margin: 15mm 10mm 15mm 20mm;
+      }
+      h2,
+      h3,
+      p {
+        orphans: 3;
+        widows: 3;
+      }
+      h2,
+      h3 {
+        page-break-after: avoid;
+      }
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/darkreader@4.7.15/darkreader.min.js"></script>
+  <script>
+    DarkReader.enable({
+      brightness: 100,
+      contrast: 90,
+      sepia: 10
+    });
+  </script>
+  <link
+    rel="icon"
+    type="image/png"
+    href="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTJg97A-Sa8mxjkRCmjR51WjHATLvq2aF89Z1CprR2WcQ60qYZC"
+  />
+  <meta name="theme-color" content="#252525" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<!-- markdownlint-disable MD010 MD041 MD001 MD036-->
+<h1 data-number="1" id="introduction"><span
+class="header-section-number">1</span> Introduction</h1>
+<p>Confidentiality - you don’t leak any confidential information
+Integrity - information remains untouched Availability - system has to
+remain available even if attacker tries to stop it</p>
+<p>You cannot tell if system is secure or not without the threat
+model</p>
+<p>ILOVEYOU script security problems:</p>
+<ul>
+<li>curiosity is easily abused</li>
+<li>no warning that attachment can be executed</li>
+<li>program from untrusted source can do sensitive operations threat
+model: script kiddies - everyone could write this</li>
+</ul>
+<p>Heartbleed:</p>
+<ul>
+<li>short message (“HAT”), but is requesting long message (“500
+characters”)</li>
+<li>this is why it sends information next to the message. That next
+message was part of logs, which stored keys and other sensitive
+information.</li>
+<li>also it cannot be known if this happens, thus it cannot be known if
+and how many times it was done security problem: C is unsafe</li>
+<li>relies on programmer to check bounds</li>
+<li>programmers make mistakes impact: loss of confidentiality threat
+model: skilled hacker</li>
+</ul>
+<p>DDos attack security (through botnet) - many embedded devices have
+default passwords, and it is hard to distinguish legitimate and
+malicious requests impact: loss of availability threat model - script
+kiddie - once you have botnet, attack is trivial; botnet nodes can be
+rented on black market</p>
+<p>stuxnet - malware</p>
+<ul>
+<li>abused several previously unknown windows bugs (zero day - too late
+to fix)</li>
+<li>spread over the internet and through usb devices as well (that is
+how it reached the airgaped devices)</li>
+<li>spreads to industrial devices</li>
+<li>hides itself from OS (rootkit) it was harmless on most of the
+computers purpose: targeted nuclear program in Iran (spread to countries
+starting with I), and specifically uranium enrichment devices it would
+not stand out and in time would damage these devices because of the
+knowledge and sophistication it implies US and/or Israeli secret service
+and/or Dutch example or cyberwarfare security problems:</li>
+<li>bugs and insecure configs in Windows and other software</li>
+<li>giving control over certificate signing key</li>
+<li>hard to install updates on industrial conrol systems impact: loss of
+availability threat model: advanced persistent threat</li>
+</ul>
+<p>Threat model: defines what an attacker can and cannot do e.g.:
+technical ability? log in to system? intercept connections? physically
+control the hardware? insert backdoors ahead of time? (- supply chain
+attack - backdoor inserted during supply chain)</p>
+<p>A system is secure if CIA properties cannot be violeted within the
+threat model Well defined threat model helps to define weaknesses and
+develop a plan how to fix them</p>
+<p>Why is security hard?:<br />
+Asymmetry: hacker need to find one weakness but developer needs to find
+all weaknesses Hard to convince managers: since it can increase cost,
+can decrease user friendliness and hard to measure, since it could be
+invisible until attacked Many levels: hardware, OS, applications,
+frameworks, ….</p>
+<h1 data-number="2" id="lecture-3"><span
+class="header-section-number">2</span> Lecture 3</h1>
+<h2 data-number="2.1" id="revision"><span
+class="header-section-number">2.1</span> Revision</h2>
+<h3 data-number="2.1.1" id="example"><span
+class="header-section-number">2.1.1</span> Example</h3>
+<div class="sourceCode" id="cb1"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">(</span><span class="dt">int</span> argc<span class="op">,</span> <span class="dt">char</span> <span class="op">**</span>argv<span class="op">){</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">char</span> buf<span class="op">[</span><span class="dv">64</span><span class="op">];</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> len <span class="op">=</span> atoi<span class="op">(</span>argv<span class="op">[</span><span class="dv">1</span><span class="op">]);</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    read<span class="op">(</span>STDIN_FILENO<span class="op">,</span> buf<span class="op">,</span> len<span class="op">);</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    write<span class="op">(</span>STDOUT_FILENO<span class="op">,</span> buf<span class="op">,</span> len<span class="op">);</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<ul>
+<li><strong>Fault</strong> - No check for the size of the input in
+bounds</li>
+<li><strong>Error</strong> - If the length larger than buffer, it can
+overwrite the stack behind the buffer</li>
+<li><strong>Vulnerability</strong> - buffer overflow; missing length
+check</li>
+<li><strong>Exploit</strong> - if the length is &gt; 64 (this is because
+read/write works with binary data, so no null byte), it can go over the
+buffer</li>
+<li><strong>Impact</strong> - integrity, availability; confidentiality -
+depends on the context, ie if there is a chance for privelage
+escalation. If there is a chance - there is a chance for arbitrary code
+execution</li>
+<li>how to <strong>fix</strong> it - add a missing check.</li>
+</ul>
+<h3 data-number="2.1.2" id="types-of-memory"><span
+class="header-section-number">2.1.2</span> Types of memory</h3>
+<ul>
+<li>parameter - in stack or a register (deallocation when the function
+returns). Since it is a function parameter, multiple of these can happen
+when 1) multithreaded part, 2) it is recursive.</li>
+<li>size_t variable - in stack -||-</li>
+<li>(char *) varialbe - in stack, but points to the heap. There can be
+multiple of these just if the function is called multiple times and not
+freed, since it is on the heap.</li>
+<li>dereferenced (char *) - in the heap. Deallocated when free is
+called. Is it a bug if it is not freed in the same function? - Depends
+on the context, since heap vars can be deallocated later.</li>
+</ul>
+<h2 data-number="2.2" id="programming-languages"><span
+class="header-section-number">2.2</span> Programming languages</h2>
+<p>Choosing the right programming language is important first step</p>
+<p>Programming languages are ofthen classified as:</p>
+<ul>
+<li>unsafe languages trust programmer to know what they are doing
+(e.g. assembly, C, C++, older languages)</li>
+<li>safe languages reduce the impact of programmer mistakes (e.g. C#,
+Java, Javascript, PHP, Python, Rust, etc.)</li>
+</ul>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 17%" />
+<col style="width: 49%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th style="text-align: center;">Unsafe</th>
+<th>Safe</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Deallocation</td>
+<td style="text-align: center;">manual</td>
+<td>garbage collected</td>
+</tr>
+<tr class="even">
+<td>Integer overflow</td>
+<td style="text-align: center;">wraps around</td>
+<td>exception</td>
+</tr>
+<tr class="odd">
+<td>Out-of-bound access</td>
+<td style="text-align: center;">undefined</td>
+<td>exception</td>
+</tr>
+<tr class="even">
+<td>Pointers</td>
+<td style="text-align: center;">allowed</td>
+<td>only references</td>
+</tr>
+<tr class="odd">
+<td>Unsafe typecasts</td>
+<td style="text-align: center;">allowed</td>
+<td>disallowed or automatic conversion</td>
+</tr>
+<tr class="even">
+<td>Variable initialization</td>
+<td style="text-align: center;">optional</td>
+<td>enforced or automatic</td>
+</tr>
+</tbody>
+</table>
+<p>Usually you should use safe languages, but other uses that are these
+are not suitable for:</p>
+<ul>
+<li>performance-critical code</li>
+<li>low-level code (direct interaction with OS or hardware) - (it is
+becoming more possible with Rust)</li>
+<li>Resource-constrained embedded systems</li>
+<li>Real-time systems (performance less predictable with safe languages.
+E.g. with older Java there could be a situation when garbage collection
+would take few seconds)</li>
+<li>There is already a lot of legacy code</li>
+</ul>
+<p>Sometimes it is possible to combine both. E.g. NumPy library that is
+written in C for Python. Then it is just important that library
+interfaces are safe.</p>
+<p>C++ is unsafe but has features associated with safe langs</p>
+<p>C# is safe but allows specifically marked unsafe code</p>
+<p>Safe languages can be interpreted (Python/PHP), just-in-time compiled
+(Java/C#), or native compiled (Rust)</p>
+<p>Formal verification: idea is to have a formal proof of security. This
+requires complete and correct specification; program written in a
+suitable language (typically functional), and lots of time. It is very
+impractical.</p>
+<p>It provides strong guarantees but because of its requirements, not
+widely used. Most suitable when:</p>
+<ul>
+<li>system is very simple</li>
+<li>system is mass-produced on large scale to spread cost</li>
+<li>security is critical, esp if a matter of life and death (pacemaker,
+insulin pumps)</li>
+<li>hardware critical</li>
+</ul>
+<h2 data-number="2.3" id="secure-software-design"><span
+class="header-section-number">2.3</span> Secure software design</h2>
+<p>Many design decision related to security should be taken in to
+account before writing the first line of code.</p>
+<p>Number of bugs generally is proportional to complexity. Even in
+mature software. Thus, less code means more security.</p>
+<p>Add only features that are certain to be necessary. 1) Fewer features
+means less opportunity for erros. 2) Rarely used features will be poorly
+tested.</p>
+<p>Also this is known as KISS (Keep It Simple, Stupid)</p>
+<p><strong>Program is most vulnerable where untrusted data is
+processed.</strong> This is known as “attack surface”. Program defense
+is more effective with small attack surface.</p>
+<p>How to reduce the surface:</p>
+<ul>
+<li>few interfaces, as simple as possible</li>
+<li>early validation of untrusted data</li>
+<li>keep messages similar adn use same code to handle all cases (Do not
+copy paste code)</li>
+<li>Restrict interfaces to authorized users.</li>
+</ul>
+<p>Compartmentalization:</p>
+<p>Applications often naturally consist of compartments (client, server,
+db). Usually attacker aims for the most data-ful compartment, but all
+compartments should be secured.</p>
+<p>Processes cannot access each other’s memory</p>
+<p>Vulnerabilities only cross process throygh explicit interfaces
+(networking, files, inter-process communication)</p>
+<p><strong>Principle of least privilege (POLP)</strong></p>
+<p><em>Every program and every privileged user of the system should
+operate using the least amount of privilege necessary to complete the
+job</em></p>
+<p>If a web-server is compromised. Solution is to drop privileges.</p>
+<p>Databases - if a program can execute arbitrary SQL queries on the db,
+it does not serve as a separate component.</p>
+<p>Solution: separate database user dor each component accessing db;
+Assign permissions per table (or even column) and user</p>
+<p>Better: forbid arbitrary SQL queries entirely; create stored
+procedures and control access to them</p>
+<p>Android security: while on Windows/Linux programs are allowed to do
+everything the user that started then can do; On Androind, each app only
+get specifically assigned permissions</p>
+<p>Make sure the defaults are as secure as possible. E.g. ubuntu forbids
+logging in as root user by default, creating only a user account with
+sudo access.</p>
+<h2 data-number="2.4" id="entropy"><span
+class="header-section-number">2.4</span> Entropy</h2>
+<p>4 letters, one of which uppercase + 4 numbers: log2(26^4 * 4 * 10^4)
+possibilities 3 words in 8192 word dictionary: (2<sup>13)</sup>3
+possibilities</p>
+<h1 data-number="3" id="cryptography"><span
+class="header-section-number">3</span> Cryptography</h1>
+<h2 data-number="3.1" id="cryptography-goals"><span
+class="header-section-number">3.1</span> Cryptography goals</h2>
+<ol type="1">
+<li>Confidentiality - Eve cannot read Alice’s message</li>
+<li>Integrity - Mallory cannot alter Alice’s message without Bob finding
+out</li>
+<li>Authentification - Mallory cannot convince Bob she is Alice</li>
+<li>Non-repudiation - Mallory cannot deny she was the one who sent a
+message to Bob</li>
+</ol>
+<p>Terms:</p>
+<ul>
+<li>Plaintext - the readable text to be transmitted</li>
+<li>ciphertext - the unreadable text actually sent</li>
+<li>encryption - plain -&gt; cypher</li>
+<li>decryption - cypher -&gt; plain</li>
+</ul>
+<p><strong>Kerckhoffs’ principle:</strong> when doing encryption,
+separate the algorithm from the key. Use public key.</p>
+<h2 data-number="3.2" id="attacks"><span
+class="header-section-number">3.2</span> Attacks</h2>
+<p><strong>Brute Force</strong>:<br />
+attempt to decryot the message with every possible key.
+<em>Solution</em>: Larger Key Space (e.g. instead of shifting alphabet,
+we create a random mapping).</p>
+<p><strong>Frequency Analysis</strong>:<br />
+find the most common letter (probably e), find the second most common
+letter (probably a)…. Eventually find plaintext and a key.</p>
+<p>Cyptanalysis:</p>
+<ul>
+<li>known ciphertext is used to determine the key</li>
+<li>known plaintext is used to determine the key</li>
+<li>chosen plaintext is used to determine the key (strongest
+attacker)</li>
+</ul>
+<p>Modern Encryption:<br />
+Cyphers are insecure these days. they can be used for obfuscation.<br />
+Now block encodings are used widely.</p>
+<p><strong>Confidentiality</strong>:<br />
+Ideal approach is <em>end-to-end encryption</em>. This is such that only
+sender and the receiver can have the key and the plaintext.</p>
+<p><strong>Integrity</strong>:<br />
+Solution is <em>digital signatures</em>. Sequence of bits that are
+linked to the message and the sender. Only the sender is able to produce
+the same sequence of bits.</p>
+<p><strong>Authentication</strong>:<br />
+Both confidentiality and integrity is useless if this is not done. We
+need to know who produced the data<br />
+<em>Man-in-the-middle attack</em> is if connection can be intercepted.
+If Mallory intercepts login and uses the same password and communicates
+with the</p>
+<p><strong>Non-repudaition</strong>:<br />
+Solution - <em>asymmetric digital signatures</em>. There are different
+keys to sign and verify. If these are symmetric keys, the other end can
+sign it, so Bob cannot prove that Alice signed it to someone else,
+because he can sign it himself, not only verify it.</p>
+<h2 data-number="3.3" id="cryptographic-hashes"><span
+class="header-section-number">3.3</span> Cryptographic hashes</h2>
+<p>Hash function maps the message to hash. This has to be a one-way
+function, so there is no way to get back the original message. That is
+why it is hard to reverse.<br />
+Hash is a secure way to verify a message.</p>
+<p><strong>Properties</strong></p>
+<ul>
+<li>pre-image resistance - it is hard to find message m such that hash
+(m) = h</li>
+<li>srcond pre-image resistance - given a message m1 is ti s hard to
+find another message m2 such that hash m1 = hash m2. Prevents attacker
+from creating a message with same signature as signed message</li>
+<li>collision resistance - it is hard to find two different messages m1
+and m2 such that hash m1 = hash m2.</li>
+</ul>
+<p>Well known hashes: SHA-2, SHA-3, MD5</p>
+<h2 data-number="3.4" id="random-numbers"><span
+class="header-section-number">3.4</span> Random numbers</h2>
+<p>Many crypto algorithms need random numbers. Problem is that CPU is
+deterministic and it is hard to produce random data. So it should use
+information from the environment.</p>
+<p>That is why pseudorandom number generator is used. It uses a seed
+which is updated with each new number.</p>
+<p>However sequence is often predictable. that is why it is necessary to
+use cryptographically secure PRNG</p>
+<h2 data-number="3.5" id="symmetric-cryptography"><span
+class="header-section-number">3.5</span> Symmetric cryptography</h2>
+<p>Alice and Bob know the key, Mallory does not.</p>
+<p><strong>One Time pad:</strong><br />
+This is a key that is xor’ed with a message and then the message is once
+again xor’ed with a key to decrypt (works because encm xor k = m xor k
+xor k = m xor 0 = m)</p>
+<p><strong>Stream cipher</strong>:<br />
+One time pad rarely practival - huge key size and no key reuse.</p>
+<p>Solution: use a pseudorandom number generator to generate key.
+Initial seed now becomes the real key, and it is simple and
+efficient.</p>
+<p><strong>Block ciphers</strong> Idea: divide data in blocks, perform
+computation using key to map each plain block into a cipher block,
+reverse computation possible with the same key.<br />
+It is widely used.</p>
+<p><strong>Cipher Block Chaining (CBC)</strong>:<br />
+Block-by-block encryption is Electronic Codebook. It reveals
+repetitions, and allows reordering blocks.<br />
+<em>Solution</em> - make each block indedepend on the previous one. For
+the first block use initialization vector (IV) instead (this should not
+be reused, doesn’t have to be a secret).</p>
+<p>How it works:</p>
+<ul>
+<li>it xors IV with plaintext, and apply the key. That is how we get
+ciphertext.</li>
+<li>then use the ciphertext to xor the next plaintext. etc etc</li>
+</ul>
+<p>There is a need of padding. Can be fillers with numbers (07 07 07 …
+07)</p>
+<p><strong>Padding Oracle Attack</strong>:<br />
+Assumptions:</p>
+<ol type="1">
+<li>Attacker can send encrypted message to server</li>
+<li>Server decrypts message, returning that there is an error message in
+the last block or not, depending on the padding.</li>
+<li><strong>Missed it</strong><br />
+This means that we can decrypt the last block. Then we send the message
+one block shorter, and we decrypt 2nd to last block. This will make it
+that we decrypt almost the whole message.</li>
+</ol>
+<p><em>Solution</em>: make an error indistinguishable to other data.
+Such that attacker would not know that they can exploit it.</p>
+<h2 data-number="3.6" id="symmetric-signatures"><span
+class="header-section-number">3.6</span> Symmetric signatures</h2>
+<p>Message authentication code (MAC) is signature for message. - If
+message is altered, MAC is no longer valid. Key is needed to generate
+valid MAC, and same key is needed to validate MAC.<br />
+Typical example: Hash MAC<br />
+Signing: Alice combines key with message, then applies hash function.
+Verification: Bob …….</p>
+<h1 data-number="4" id="asymmetric-cryptography"><span
+class="header-section-number">4</span> Asymmetric Cryptography</h1>
+<p>Asymmetric crypto uses two keys, this is used to verify with a public
+key who signed it</p>
+<h2 data-number="4.1" id="rsa"><span
+class="header-section-number">4.1</span> RSA</h2>
+<p>Bob creates his own key - public + private keys. Public key does not
+need to be hidde, but private key has to be hidden.</p>
+<p>Encryption function is designed in such a way that Epr(Epu(m))=m. Key
+property - pr is not derivable from pu.<br />
+RSA is based on the modular arithmetic. It is exponentiation and then
+mod.<br />
+Due to complex math, computing pr from pu with message requeires writing
+message as a product of prime numbers.</p>
+<ol type="1">
+<li>Alice determines Bob’s public key e. This needs to be received from
+Bob personally or received from trusted third party who verified Bob’s
+identity. This is critical from man-in-the-middle attack.</li>
+<li>Alice enrypts message with e.</li>
+<li>Sends message</li>
+<li>Bob decrypts with his private key.</li>
+</ol>
+<p>Messages require padding, because if message is short it is not
+mathematically difficult to decrypt. Padding is random padding, but this
+is handled by the algortihm itself.</p>
+<p>Important notes:</p>
+<ul>
+<li>random padding is critical so the ciphertext is different each
+time</li>
+<li>RSA only works for data that fits inside the key size, not multiple
+blocks</li>
+</ul>
+<p>Typical use:</p>
+<ul>
+<li>generate symmetric key</li>
+<li>RSA encrypts only symmetric key</li>
+<li>actual data encrypted with symmetric key</li>
+</ul>
+<p>RSA digital signatures.<br />
+Signing: Alice computes hash(m), encrypts it with her private key d,
+Alice sends m and Ed(hash(m)) to Bob.<br />
+Verification: Bob determines Alice’s pub key, ………</p>
+<p>Integrity protected:</p>
+<ul>
+<li>if Mallory modifies m, the hash is no longer correct</li>
+<li>…..</li>
+</ul>
+<p>RSA depends on inability to factor large primes efficiently. Problem
+arises when there is <strong>Quantum-Computing</strong>.</p>
+<p>Post-Quantum Crypto - for now it is relatively small field, but it is
+a big reasearch topic.</p>
+<p><strong>Quantum Crypto</strong>:<br />
+future computers may communicate in ways that are physically impossible
+to intercept. It would not rely on maths but on physics.</p>
+<h2 data-number="4.2" id="key-management"><span
+class="header-section-number">4.2</span> Key management</h2>
+<p>We have to be confident that the key is correct person’s key.</p>
+<p>Ways to solve this:</p>
+<ul>
+<li>have a separate trusted channel (usb key - Bob gives it to
+Alice)</li>
+<li>use trusted third party to authenticate keys</li>
+</ul>
+<p><strong>Key Distribution Centre - KDC</strong><br />
+Have a trusted party T:</p>
+<ul>
+<li>It shares symmetric keys with all others</li>
+<li>verifies identities of key owners</li>
+</ul>
+<p>E.g.: Alice wants to Bob, so it gets the key from KDC.</p>
+<p>Kat/Kbt - key shared between Alice with T/Bob with T<br />
+Kab - temporary key between Alice and Bob<br />
+N - random number that is not reused (nonce)</p>
+<p>Communication is encrypted with Kab.</p>
+<p>Process of setup:</p>
+<ol type="1">
+<li>A -&gt; T, to send message to Bob (A,B)</li>
+<li>T -&gt; A, encrypted message that contains Kab, and encrypted
+message (Alice, Kab), encrypted with Bob’s shared key.</li>
+<li>A -&gt; B, encypted message with Bob’s shared key, that they want to
+talk</li>
+<li>B -&gt; A, N encypted with Kab</li>
+<li>A -&gt; B, N-1 encrypted with Kab (to prove that Alice really has
+Kab)</li>
+</ol>
+<p>This is not an existing protocol, just simplification. In reality it
+is needed to have more nonces and shared keys, so that replay attack
+would be prevented. Needham-Shroeder protocol. And on top of this
+Kerberos protocol is built which is widely used in Windows and Unix.</p>
+<p>Kerberos drawbacks:</p>
+<ul>
+<li>needs constant access to KDC</li>
+<li>Single point of failure: availability or all keys can be compromised
+by an attack</li>
+<li>strict timeouts due to replay attacks: which means that clocks must
+be in sync, and need to get new key frequently.</li>
+</ul>
+<p><strong>Public Key Infrastructure - PKI</strong><br />
+KDC used symmetric crypto, but this could be asymmetric crypto.</p>
+<p>Certification Authoritites: - issue certificates and keeps
+<em>revocation list</em> of certificates that may be compromised. (IT
+DOES NOT TOUCH PRIVATE KEYS - that is why it is a bit safer).<br />
+We need to trust these companies if we want to use this. We do this
+usually because OSes choose it.</p>
+<p>Compromised CA allow forged certificates.</p>
+<p><strong>X5.09 Certificates</strong><br />
+these are used to prove identity was verified.<br />
+They contain</p>
+<ul>
+<li>identity of holder</li>
+<li>domain name of holder</li>
+<li>pub key of holder</li>
+<li>expiration date</li>
+<li>signature from CA</li>
+</ul>
+<p>Getting a Certificate:</p>
+<ol type="1">
+<li>Bob creates key pair</li>
+<li>Bob creates a certificate signing request including data to be
+signed (especially the pub key)</li>
+<li>CA verifies Bob’s identity</li>
+<li>CA creates certificate using CSR and signs with its private key</li>
+<li>Bob can now use certificate to prove public key is his</li>
+</ol>
+<p>Self-Signed Certificates:<br />
+it is signed with its own private key.</p>
+<p>Can be made by anyone, since it saves money but is not trusted by
+default (doesn’t mean it is insecure).<br />
+Programs can be configured to trust specific certificates. It is usefull
+if pub key can be verified personally.<br />
+Example of this could be in SSL.</p>
+<p>Checking certificate:</p>
+<ol type="1">
+<li>server address must match the certificate</li>
+<li>servers must demonstrate knowledge of private key matching the pub
+key (e.g decrypt data encrypted with pub key or create signature valid
+with pub key)</li>
+<li>certificate must not be expired</li>
+<li>signature from CA must be valid</li>
+<li>CA must be trusted byt the user</li>
+<li>check if it is not revoked</li>
+</ol>
+<p><strong>Symmetric encryption key establishment</strong><br />
+With symmetric encryption, we must first agree on a key.<br />
+It is possible to find a shared key over the network without sending any
+info from which that key can be derived</p>
+<p>Diffie-Hellman Key Exchange: this is a setup of a two keys (from both
+sides) that cannot be decrypted by anyone else. This is because it is
+hard to undo exponentiation.<br />
+Key part of this is that Alice has key g^a mod m, Bob has g^b mod m,
+then they exchange these, and both now have a key g^(a*b) mod m.<br />
+It still cannot be used alone, because this is still vulnerable to
+man-in-the-middle attack.</p>
+<p>We need ecryption on the Web.<br />
+There can be anyone eavesdropping on HTTP. In ISPs, hackers,
+governments, etc.</p>
+<p>Secure Socket Layer (SSL) ensures cryptographic protection for a
+network connection on top of TCP.<br />
+Any TCP protocol can be modified to support SSL. That is why we use
+HTTPS.</p>
+<p>SSL goals:</p>
+<ul>
+<li>end-to-end encryption that ensures only browser and server can
+read.</li>
+<li>typically authenticates the server using X5.09 certificate.</li>
+<li>Typically does not authenticate the client. Since the server can to
+this in the application layer. (when the keys are setup we already know
+that we are talking with the server).</li>
+</ul>
+<h2 data-number="4.3" id="passwords"><span
+class="header-section-number">4.3</span> Passwords</h2>
+<p>How to check certificate validity?:</p>
+<ul>
+<li>server address must match the certificate</li>
+<li>server must demostrate knowledge of private key matching public
+key</li>
+<li>Certificates must not be expired</li>
+<li>signature from CA must be valid</li>
+<li>CA must be trusted by the user</li>
+<li>certificate must not be on revocation list</li>
+</ul>
+<h1 data-number="5" id="conservative-programming"><span
+class="header-section-number">5</span> Conservative Programming</h1>
+<p>Trying to prevent vulnerabilities.</p>
+<h2 data-number="5.1" id="handling-user-input"><span
+class="header-section-number">5.1</span> Handling user input</h2>
+<p>URL is a user input, thus has to be careful - never trust the
+parameters from user input blindly and verify the user authority for
+such input.<br />
+This is risky when handling direct user input, but after storing a
+message in db, and retrieving it, it still is risky.<br />
+<em>Solution</em> - sanitization (if something that shouldn’t be there,
+drop/remove), escaping (e.g. SQL input), authorization (only certain
+user can access such parameters).</p>
+<p><strong>Sanitization</strong>: it is for the things that are
+illegitimate</p>
+<ul>
+<li>verify that data follows the expected structure</li>
+<li>verify that any values are within reasonable range</li>
+</ul>
+<p>Be careful with error messages, such that attacker shouldn’t have
+anything to exploit from information.</p>
+<p>Name should not probably be of length 1000, or empty strings can
+cause troubles as well</p>
+<p>Name should probably not contain &lt; &gt;</p>
+<p>Verify numbers to be in a reasonable range</p>
+<p>Some input may only take values from a specific set</p>
+<p><strong>USE REGEXES</strong> for allowlisting</p>
+<p><strong>Escaping</strong></p>
+<p>characters that have special meanings, this is replaced such that
+they lose special meaning</p>
+<h2 data-number="5.2" id="intrusion-detection"><span
+class="header-section-number">5.2</span> Intrusion detection</h2>
+<p>Validation might not be sufficient to detect intrusion, because
+e.g. there can be spam emails.</p>
+<p>The heuristics depend on the context of the system.</p>
+<h1 data-number="6" id="questions"><span
+class="header-section-number">6</span> Questions</h1>
+<p>1000000 begning files 5000 malicious files sys A: 5% false positives,
+10% false negatives. (false positive - non malicious marked as
+malicious, false negative - malicious not marked as malicious)<br />
+sys B: 4% false positives, 50% false negatives.</p>
+<p>Which is more safe? System B.</p>
+<p>Why choose another system?<br />
+Depends on the context - in some cases false positives are important,
+but if system is vulnerable false negatives could be quite bad.</p>
+<p>What should the server verify before trusting data sent by the client
+for:</p>
+<ul>
+<li>data to be stored/processed by the server - validation/escaping in
+the client, but client should be considered untrusted, so it should be
+on the server.</li>
+<li>secrets between the client and the server - use trusted third party
+to verify the secret to prevent the man-in-the-middle attack. Also
+prevent others to forge the secret.</li>
+<li>Requested page address - verify if that user is allowed to access
+that page (knowing the url is not sufficient)</li>
+</ul>
+<h1 data-number="7" id="checking-assumptions"><span
+class="header-section-number">7</span> Checking assumptions</h1>
+<h2 data-number="7.1" id="smart-car-key-example"><span
+class="header-section-number">7.1</span> Smart car key example</h2>
+<p>If key is close to the car, car automatically unlocks. So if the key
+is far away but the signal is amplified, the car still can be unlocked.
+Assumption is that the key, thus the owner is close.</p>
+<p>There are a lot of programming assumptions. Such as: person’s age
+fits in three characters, string holds the path to a file we are allowed
+to read, the object has not been freed yet (this is common for
+use-after-free vulnerabilities)</p>
+<p><strong>Use assert for the assumption that you make</strong></p>
+<p>If the assumption is violated, there is no need to keep the program
+running, because the program is no longer safe.</p>
+<p>It is also important to document the assumptions, and also check it.
+It also helps to debug the program.</p>
+<p>The assertions can be disabled with -DNDEBUG flag to increase
+performance, and it is usually done during deployment, but for security
+purposes it is better to keep them in.</p>
+<p><strong>Don’t make assumptions on:</strong></p>
+<ul>
+<li>User input</li>
+<li>data read from disk</li>
+<li>data received from the network</li>
+</ul>
+<p>Order of Operations is a common source of bad assumptions. This is
+why threading might cause issues:<br />
+This is because user may give commands in unexpected sequence;
+Environment may change right after check; thread interleaving can be
+unexpected; signal may get delivered at bad time (just before blocking
+call);</p>
+<p>To avoid this - always verify whether system is in expected state
+before executing command, and fail if it is not.<br />
+Any interaction with the file system, network, etc, might see different
+state than the orevious one.</p>
+<h1 data-number="8" id="handling-errors"><span
+class="header-section-number">8</span> Handling Errors</h1>
+<p>There are a lot of way for program to have errors. Almost all calls
+can fail, usually in multiple ways.</p>
+<p>System calls is a part of the system, that is out of hour control,
+therefore it is generally expected that anything can fail.</p>
+<h2 data-number="8.1" id="error-handling-goals"><span
+class="header-section-number">8.1</span> Error handling goals</h2>
+<p>Even if an error happens we should ensure:</p>
+<ul>
+<li>Any resources (memory, open files, mutexes, etc..) are still
+released.</li>
+<li>Persistent state (files/databases) remains consistent</li>
+<li>Program continues to work (if possible)</li>
+<li>Program remains secure (does not give a chance to bypass
+authentication)</li>
+<li>Program state remains consistent</li>
+</ul>
+<p>Usually is it also desirable to inform the user and/or log the error
+for later analysis or debugging. But it might cause some
+vulnerabilities.</p>
+<h2 data-number="8.2" id="how-not-to-do-error-handling"><span
+class="header-section-number">8.2</span> How not to do error
+handling</h2>
+<p>Terminating immediately leaves no way to clean up resources and
+persistent state</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode php"><code class="sourceCode php"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="va">$handle</span> <span class="op">=</span> <span class="fu">fopen</span>(<span class="st">&#39;myfile.txt&#39;</span><span class="ot">,</span> <span class="st">&#39;r&#39;</span>) <span class="op">or</span> <span class="cf">die</span>(<span class="st">&#39;open failed&#39;</span>)<span class="ot">;</span></span></code></pre></div>
+<p>Ignoring is easy in C but means state will be inconsistent with
+expectations, which may threaten security</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="dt">FILE</span> <span class="op">*</span>file <span class="op">=</span> fopen<span class="op">(</span><span class="st">&quot;myfile.txt&quot;</span><span class="op">,</span> <span class="st">&quot;r&quot;</span><span class="op">);</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>fread<span class="op">(</span>buf<span class="op">,</span> <span class="kw">sizeof</span><span class="op">(</span>buf<span class="op">),</span> <span class="dv">1</span><span class="op">,</span> file<span class="op">);</span> <span class="co">// buf uninitialized</span></span></code></pre></div>
+<p>Bash is one of the languages that ignores errors and continues
+execution, which might lead to some big problems</p>
+<p>Functions report errors by: return value (C, PHP, UNIX API, Windows
+API); Excpetion (C++, C#, Java, Javascript, Python); Error code in
+memory (many third-party libraries)</p>
+<p>Handling errors is hard:</p>
+<ul>
+<li>always check for errors</li>
+<li>number of error handling paths grows quickly with number of calls
+that may fail</li>
+<li>each path produces a different path which might complicate
+cleanup</li>
+</ul>
+<p>Example of unnoticed problem:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="op">*</span>pwd_p <span class="op">=</span> <span class="op">(</span><span class="dt">char</span> <span class="op">*)</span>sqlite3_column_text<span class="op">(</span>stmt<span class="op">,</span> <span class="dv">0</span><span class="op">);</span></span></code></pre></div>
+<p>This points to some memory in sqlite, ie statement object owns memory
+buffer storing string. This might get deallocated before use (use after
+free problem).</p>
+<p>To solve this we should make a copyt of the string:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="op">*</span>pwd_p <span class="op">=</span> strdup<span class="op">((</span><span class="dt">char</span> <span class="op">*)</span>sqlite3_column_text<span class="op">(</span>stmt<span class="op">,</span> <span class="dv">0</span><span class="op">));</span></span></code></pre></div>
+<p><strong>State consistency</strong><br />
+Initializing reference parameters is one example of more general
+problem: consistency of state.<br />
+State is inconsistent when values are not what code expects them to be;
+Example - count inconsistent with number of entries in the list;</p>
+<p>Before returning error code</p>
+<ul>
+<li>Think of all changes you made that affect program’s state</li>
+<li>Reverse those changes to keep the state.</li>
+</ul>
+<h2 data-number="8.3" id="exceptions"><span
+class="header-section-number">8.3</span> Exceptions</h2>
+<p>handling error codes gets messy quickly.</p>
+<p><strong>Exceptions</strong> provide a better alternative in most
+languages</p>
+<p><strong>Exception handling</strong></p>
+<p>Whenever an exception is thrown, execution continues at the exception
+handler of the most recent open try block</p>
+<ul>
+<li>try block may be in another function</li>
+<li>code between exception throw and exception handler might not be
+executed</li>
+</ul>
+<p>Cleanup is easier when handling exceptions because of catch blocks,
+or finally calls. It is nicer to have RAII practice in C++ (return call
+calls the destructor of an object)</p>
+<p>Exceptions can alter control flow on any call</p>
+<h1 data-number="9" id="memory-management"><span
+class="header-section-number">9</span> Memory management</h1>
+<p>Low-level languages allow and mostly require programmer to manage
+memory.</p>
+<p>Types of memory:</p>
+<ul>
+<li>global</li>
+<li>stack</li>
+<li>heap (explicitly allocated - hard to manage)</li>
+</ul>
+<p>Struct size can have padding to have alignement with the memory page
+size, thus one cannot rely on the direct calculation when doing
+malloc</p>
+<p>Main issues is to allocate the right amount of heap memory
+(independent of the system)<br />
+Advice could be to use stack over heap if possible<br />
+In c++ advantages is new instead of malloc:</p>
+<ul>
+<li>new can fail and it would return NULL ptr</li>
+<li>new calls a contructor</li>
+</ul>
+<p>Always use sizeof to compute size for malloc<br />
+When storing string in array, allocate extra element for
+terminator<br />
+Check whether malloc succeeds; it returns NULL in out-of-memory
+conditions, which attacker may be able to trigger</p>
+<p>strcpy is bad, use strncpy<br />
+strncpy can lose a null terminator, so use snprintf<br />
+the problem that arises is that we might lose data after n bytes, so use
+strdup and free that temporary buffer later.</p>
+<p>avoid functions that do not check buffer boundaries</p>
+<p>verify allocation size is consisten with actual content</p>
+<p>both reading and writing out-of-bounds unsafe (it might leak
+information that make attacks easier or might read code pointer and
+divert the execution)</p>
+<p><strong>Memory initialization</strong></p>
+<ul>
+<li>global memory is automatically initialized</li>
+<li>stack memory not automatically initialized</li>
+<li>heap memory not initialized by malloc, but calloc does that</li>
+</ul>
+<p>low-level languages do not automatically initialize memory (reading
+memory before writing to it can be abused by attackers to leak info or
+basis to corrupt memory)</p>
+<p><em>advice</em>: initialize everything at allocation time</p>
+<p>C++ automiatically calls object constructors<br />
+Default constructor automatically initialize some fields but not all</p>
+<p>In C++ it is important which class inherits which. (e.g. ClassB and
+ClassC inherits ClassA. ClassB is passed as ClassA obj, ClassC static
+casts as ClassA, but inside it is ClassB)</p>
+<p>Memory access is type-unsafe if the value is read as another type
+than it was written<br />
+This usually happens due to incorrect typecasts.<br />
+In C there are no checking for typecasts. In C++ there is a dynamiccast
+(it is slow) which ensures type safety.<br />
+<em>Advice</em> don’t use casts if possible, and prefer dynamicCasts</p>
+<p><strong>Object lifetime</strong></p>
+<p>Incorrectly managed object lifetime results in memory leaks or
+use-after-free errors</p>
+<p><em>Advice</em>:</p>
+<ul>
+<li>use stack when possible</li>
+<li>never return pointer to static variable and never store it in data
+structures that survieve the functions</li>
+<li>in c++ use RAII</li>
+<li>c++ offers smart pointers that help manage heap memory</li>
+<li>after free/delete, set deallocated pointers to NULL</li>
+</ul>
+<p>Smart pointers - are classes that look like pointers.<br />
+std::unique_ptr - prevents copying the pointer; frees object when
+pointer lifetime ends; full protection against UAF and memory leaks, but
+not always possible. Does not help too much but prevents vulnerable
+code<br />
+std::shared_ptr - everytime it is copied, it keeps track how many copies
+there are. When the smart ptr goes after scope, it decreases the count,
+and when count is 0, it is deallocated. Memory leaks can be possible
+(e.g. circular referencing)<br />
+std::weak_ptr - similar to shared_ptr but can go to NULL when shared_ptr
+count goes to 0</p>
+<p><strong>Integer overflows</strong></p>
+<p>when integers exceed range of type they are stored in result is
+incorrect - usually it wraps around.</p>
+<p>It is an important type of attacks and can be used to bypass checks
+or overflow the buffer.</p>
+<p>Handling numbers:</p>
+<ul>
+<li>validate numbers that come in, keep only the sensible amount</li>
+<li>choose types based on these ranges</li>
+<li>verify whether each input range before converting/storing it</li>
+</ul>
+<p>Checking for overflow in arithmetic is hard in standard C/C++,
+because result of overflow is undefined.<br />
+Safe/efficient overflow checks as common extension
+(e.g. __builtin_add_overflow)</p>
+<h1 data-number="10" id="secure-programming-development-tools"><span
+class="header-section-number">10</span> Secure Programming Development
+Tools</h1>
+<p>Compiler - detect and try to prevent possible vulnerabilites<br />
+Source control - prevent bugs due to group work and ensure bugs stay
+fixed</p>
+<p>there are many testing tools as well</p>
+<p><strong>Compiler</strong></p>
+<p>Does static analysis.</p>
+<p>It tracks control flow and fata flow through the program without
+actually executing it. (sometimes it is hard to do that esp with
+pointers)<br />
+It tries to understand what is happening but does not try to give false
+positives - it is conservative in reporting errors.</p>
+<p><em>Advice</em>:</p>
+<ul>
+<li>use -Wall and -Werror</li>
+<li>compiler warns about possible bugs found with static analysis</li>
+<li>e.g. can find uninitialized vars</li>
+</ul>
+<p>Clang has more static analysis</p>
+<p>Dangling pointer that is not detected by the compiler:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> <span class="op">*</span>foo<span class="op">(</span><span class="dt">void</span><span class="op">)</span> <span class="op">{</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> a<span class="op">,</span> <span class="op">*</span>b <span class="op">=</span> <span class="op">&amp;</span>a<span class="op">;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> b<span class="op">;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Secure Programming LINT - splint</p>
+<p>but even with this, it can miss, for example, out-of-bounds error</p>
+<p><strong>Dynamic Analysis</strong></p>
+<p>attempts to find bugs at runtime - looks for undefined behaviour and
+kills the program</p>
+<p>this is inconvenient since you need explicit test cases</p>
+<h1 data-number="11" id="testing"><span
+class="header-section-number">11</span> Testing</h1>
+<h2 data-number="11.1" id="designing-tests"><span
+class="header-section-number">11.1</span> Designing tests</h2>
+<p>TEsting is critical for both correctness and security</p>
+<p>Testing is mainly to cover the edge cases or the implicit/explicit
+assumptions.</p>
+<p>Regression tests ensure program changes do not introduce new bugs -
+same test reused after changes such that checks if old bugs were not
+reintroduced</p>
+<p>Usually tests would be derived from requirements.</p>
+<p>Unit testing - many error/boundary conditions are hard to reach with
+just regular inputs (this is for testing specific parts, and this is
+because input is parsed/sanitized and it is different)</p>
+<p>To design effective tests, look further than expected inputs.</p>
+<p>It is good to have meaningful errors.</p>
+<p>Generate random inputs (following a pattern) to increase diversity in
+the ways the code is pushed to the limit.<br />
+It is step towards <em>fuzz testing</em></p>
+<h2 data-number="11.2" id="coverage"><span
+class="header-section-number">11.2</span> Coverage</h2>
+<p>the goal is always to find all the bugs.</p>
+<p>To solve that - find test cases that execute as much program code as
+possible.</p>
+<p><strong>How to get full line coverage?</strong> - try to get every
+line to execute with minimal amount of tests. So single if check will
+always be executed, but if-else might need different checks.</p>
+<p><strong>How to get full statement coverage?</strong> - it is kind of
+the same as line coverage but deeper. To get amount how many tests you
+need is number of return statements.</p>
+<p>Decision coverage - look for different conditional branches (if,
+else, while) and cover both true and false cases.</p>
+<p><strong>How to get full Decision coverage?</strong> - look for all
+cases and for each case come up with a test, and look if that case suits
+the other cases.<br />
+There can be optimizations in the compiler or expands the if statements.
+This is important for checks as well.<br />
+Example in code:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(*</span>s <span class="op">&gt;=</span> <span class="ch">&#39;0&#39;</span> <span class="op">&amp;&amp;</span> <span class="op">*</span>s <span class="op">&lt;=</span> <span class="ch">&#39;9&#39;</span><span class="op">){</span><span class="co">/*Do inside if */</span><span class="op">}</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span></span></code></pre></div>
+<p>becomes</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(*</span>s <span class="op">&lt;</span> <span class="ch">&#39;0&#39;</span><span class="op">)</span> <span class="cf">goto</span> else_stmt<span class="op">;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span><span class="op">(*</span>s <span class="op">&gt;</span> <span class="ch">&#39;9&#39;</span><span class="op">)</span> <span class="cf">goto</span> else_stmt<span class="op">;</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co">/*Do inside if */</span></span></code></pre></div>
+<p>Condition coverage - since decision coverage does not cover all
+inside cases, so condition coverage is good to have. Example -
+decoupling all if statements.</p>
+<p>Example code that is being analyzed:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> parseint<span class="op">(</span><span class="dt">const</span> <span class="dt">char</span> <span class="op">*</span>s<span class="op">){</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> value <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span><span class="op">(!</span>s<span class="op">)</span> <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span><span class="op">(!</span>s<span class="op">){</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span><span class="op">(*</span>s <span class="op">&gt;=</span> <span class="ch">&#39;0&#39;</span> <span class="op">&amp;&amp;</span> <span class="op">*</span>s <span class="op">&lt;=</span> <span class="ch">&#39;9&#39;</span><span class="op">)</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>            value <span class="op">=</span> value <span class="op">*</span> <span class="dv">10</span> <span class="op">+</span> <span class="op">*</span>s <span class="op">-</span> <span class="ch">&#39;0&#39;</span><span class="op">;</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>        s<span class="op">++;</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> value<span class="op">;</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>Control Flow Graph (CFG) - represents how to go through the program.
+Block is either executed or not. Basic block is a sequences of
+statements and are executed sequentially in the direction of the
+graph.</p>
+<p>It can have branch coverage, path coverage (used by fuzzing)</p>
+<p><em>gcov</em> is a nice tool to get line coverage</p>
+<h2 data-number="11.3" id="fuzz-testing"><span
+class="header-section-number">11.3</span> Fuzz testing</h2>
+<p>Testing with random inputs</p>
+<p>Correctness is no longer a goal, security is.</p>
+<p>Goal: to crash the program.</p>
+<p>Usually also tracks coverage to reach as much code as possible.</p>
+<p><strong>Generational Fuzzing</strong> - specify a grammar for the
+program to fuzz.<br />
+Generate random inputs according to the grammar (for each rule, we pick
+a random option). This helps to have plausible inputs and generate a lot
+of sets of tests.</p>
+<p><strong>Mutational Fuzzing</strong> - no grammar, any byte sequence
+can be tried.<br />
+Genetic algorithm - select most promising inputs (that increase the
+coverage), and slightly cange promising inputs and retry.<br />
+Mutations are simple randomized operations</p>
+<p>How to detect a promising input?</p>
+<ol type="1">
+<li>at first use the seed inputs (normal inputs that become abnormal
+ones)</li>
+<li>those improving coverage</li>
+<li>execution time should be short, such that it would be good in big
+set as well as quickly crashing and not stalling</li>
+<li>changing some interesting variable</li>
+<li>getting closer to an interesting code location</li>
+</ol>
+<p><strong>Blackbox</strong> fuzzers get no feedback<br />
+works on systems the fuzzer has no control over<br />
+can execture program many times<br />
+needs to try many inputs to improving coverage</p>
+<p><strong>Greybox/whitebox</strong> fuzzers get feedback from tested
+program<br />
+typically recompile program with special compiler<br />
+track information at runtime<br />
+Slower executuions due to intrumentation<br />
+Select better unput cases</p>
+<p>Goal: improve coverage:<br />
+<em>Solution</em> - need to flip branches</p>
+<p>Use dynamic taint analysis - mark user input as tainted. Then
+propagate taint and track how it works.</p>
+<p><strong>Dynamic taint analysis</strong></p>
+<p>Benefits<br />
+targeted mutations, fewer attempts needed to flip branch</p>
+<p>Drawbacks<br />
+large runtime overhead<br />
+some taint is hard to track (implicit data flow) - it will miss
+particular cases, because it does not realize that there is a taint two
+steps deeper.</p>
+<p>Greybox fuzzers observe program behaviour, but does not attempt to
+understand it.</p>
+<p>Whitebox fuzzers analyze the input.</p>
+<p>Symbolic execution:<br />
+Goal: find an input to trigger buffer overflow<br />
+To do os, we mark inputs as symbolic (they do not take a concrete value,
+and we remember operations)<br />
+Reason about the constraints from the program.</p>
+<p>If you want to use advanced analysis techniques (taint tracking or
+symbolic inputs), normal CPUs don’t understand them, and there is a need
+for virtualization/hypervisor (eg QEMU)</p>
+<p>American Fuzzy Lop - practical fuzzer (basis for AFL++). Has a
+modified compiler to identify the path.</p>
+<h2 data-number="11.4" id="investingating-bugs"><span
+class="header-section-number">11.4</span> Investingating Bugs</h2>
+<p>Assert statements</p>
+<p>Address sanitizer adds instrumentation in c/c++ code to detect memory
+errors. (program crashes if it encounters its bug).</p>
+<p>Undefined behaviour sanitizer.</p>
+<p>Valgrind - detects memory errors on uninstrumented binaries
+(comparable to address sanitizer). Has detection for uninintialized
+reads and memory leaks.</p>
+<h3 data-number="11.4.1"
+id="if-the-crashing-input-is-found-what-to-do"><span
+class="header-section-number">11.4.1</span> If the crashing input is
+found what to do?</h3>
+<p>Run debugger, example, gdb.<br />
+In the debugger there are plenty of nice features - run program with
+breakpoints, watchpoints, stepping, obtain stack trace.</p>
+<h2 data-number="11.5" id="penetration-testing"><span
+class="header-section-number">11.5</span> Penetration Testing</h2>
+<p>either pay a hacker to attempt to break into your system.</p>
+<p>there are companies that pay for pen testers to find vulnerabilities
+- it is deliberate by the developer.</p>
+<h1 data-number="12" id="exploitation"><span
+class="header-section-number">12</span> Exploitation</h1>
+<p>Example - if the program actually run with elevated privileges, how
+do we get the privileges exactly.</p>
+<p>Actually doing the attack requires low-level insights:</p>
+<ul>
+<li>how to find where the return address is stored?</li>
+<li>where to return to?</li>
+<li>how to actually perfore the attack with this information?</li>
+</ul>
+<h2 data-number="12.1" id="stack-layout"><span
+class="header-section-number">12.1</span> Stack layout</h2>
+<p>to understand the stack layout, it is possible to compile the program
+to assembly.</p>
+<p>Usually the return address is %rbp+8</p>
+<h2 data-number="12.2" id="question-about-fuzzing"><span
+class="header-section-number">12.2</span> Question about fuzzing</h2>
+<div class="sourceCode" id="cb10"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">(...){</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">long</span> i<span class="op">,</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">,</span> value<span class="op">;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">char</span> input<span class="op">[</span><span class="dv">256</span><span class="op">];</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span><span class="op">(</span>read<span class="op">(</span><span class="dv">0</span><span class="op">,</span> input<span class="op">,</span> <span class="dv">256</span><span class="op">)</span> <span class="op">!=</span> <span class="dv">256</span><span class="op">)</span> <span class="cf">return</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    memcpy<span class="op">(&amp;</span>value<span class="op">,</span> input <span class="op">+</span> <span class="dv">11</span><span class="op">,</span> <span class="dv">8</span><span class="op">);</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span><span class="op">(</span>i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> value<span class="op">;</span> i<span class="op">++)</span> j<span class="op">+=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span><span class="op">(</span>j <span class="op">==</span> <span class="dv">42</span><span class="op">)</span> vuln<span class="op">();</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><strong>Q</strong>: Does DTA find this fulnerability?<br />
+<em>Answer</em> - no, because even though taint is tracked through read,
+memcpy, but because the branch (vuln()) is reached through for loop, it
+is not possible to track the taint in the i or j from the value. This is
+not possible because there are too many possibilities that the system
+would need to detect, so thus it is not detected.</p>
+<h2 data-number="12.3" id="question-on-assembly"><span
+class="header-section-number">12.3</span> Question on assembly</h2>
+<p><strong>INSERT ASSEMBLY AND C CODE</strong></p>
+<p><strong>Q</strong>: where is the return value?<br />
+<em>Answer</em> - it is on %rbp + 8</p>
+<p><strong>Q</strong>: where does the user input end up?<br />
+<em>Answer</em> - first start with the callq statements and then trace
+the return values (are stored in %eax/%rax registers) and then trace
+where it goes afterwards.<br />
+There is a scalar that is stored in %rdx, that is shifted at first by 4,
+which means multiplying by 16 to accommodate for the struct.<br />
+The buffer is stored in -0x230(%rbp), so to overwrite the return address
+we do (%rbp + 0x8) - (%rbp - 0x230) = 0x230. We write 0x23 (35base10)
+structs (0x230 / 0x16) and add 0x8 to have the offset inside the
+struct.</p>
+<p><strong>Q</strong>: what input do we give?<br />
+<em>Answer</em> - we give 35 to have 35 structs and then provide
+shellcode: Args: <em>35 0 0 shellcode</em></p>
+<h2 data-number="12.4" id="attacker-goal"><span
+class="header-section-number">12.4</span> Attacker goal</h2>
+<p>Assume the attacker found the vulnerability to overwrite the return
+address and how to reach that address.</p>
+<p>Where to we point the return address to? - keep in mind that we can
+only execute code in the same process.</p>
+<p>There are two options:</p>
+<ul>
+<li>Injecting code (in modern systems impossible)</li>
+<li>Reusing code</li>
+</ul>
+<p>x86 CPUs do not distinguish code and data, so if memory permissions
+allow we can read program code as data and we can execute data as if
+program code.</p>
+<p>To inject:</p>
+<ul>
+<li>specify as a parameter</li>
+<li>specify as an env variable</li>
+<li>get it from the memory</li>
+</ul>
+<p>Injected code must: work regardless of where it is stored in the
+memory, not depend on any external code such as libraries and not
+contain NULL bytes, thus it has to be assembly. And do something that
+gives attacker control of the system.</p>
+<p><strong>Goal</strong> - start a shell under these constraints.</p>
+<p>To do this, we need to use a system call to start a shell.</p>
+<p>We do the execve call (load a program in a current process).
+(execve(“/bin/sh”, argv, NULL) and char[] argv = {“/bin/sh”, NULL}. This
+is necessary to have 2 times “/bin/sh” to get correct result).</p>
+<p>How to do this without shared libraries (libc)?<br />
+Get the assembly code from the objdump. It can be seen that syscall does
+not take any new parameters to find the name of the program, but the
+parameter registers are the same as execve call.</p>
+<p><strong>INSERT ASSEMBLY CODE FROM THE SLIDES OF EXECVE</strong></p>
+<p>Shellcode needs the following:</p>
+<ul>
+<li>have a string “/bin/sh” in memory</li>
+<li>an array in memory, containing a pointer to “/bin/sh” and a NULL
+ptr</li>
+<li>a ptr to the string in %rdi (program name)</li>
+<li>a ptr to argv</li>
+<li>a syscall</li>
+</ul>
+<p>How the shellcode works:<br />
+leaq to get a location of the string in the shellcode relative to the
+%rip, because we cannot have a static address. Then manually put the
+null terminator to the end of the string. Set argv[0] to “AAAAA” and
+argv[1] to “BBBBB”. Set argv. set envp. set syscall number and go to
+kernel (no return).</p>
+<p>There still are problems with the shellcode:</p>
+<ul>
+<li>it still contains null bytes $0 when we do movq $0 to create argv
+parts</li>
+<li>%rax is 64 bytes and %eax has null bytes at the start when converted
+for the syscall</li>
+<li>leaq has only 32 bit arguments, thus %rip will be converted with
+some null bytes.</li>
+</ul>
+<p>To fix this - we move string to be before the shellcode (address is
+negative). Then have xorl %eax with itself to add a new byte in %rax
+thus making zeroes in the first part. We use %rax (zeroed out part) to
+put null bytes in the args. Then we use only %al to have the argument
+for syscall.</p>
+<p>Injecting shellcode<br />
+since environment is predictable, it is nice to inject code through
+it.<br />
+in dumping the program it is possible to notice that there is null bytes
+padding before the stack begins.<br />
+So to get the injection - skip 8 bytes (-8), skip program name length
+and skip the shellcode length.<br />
+To get the correct address we need to get it is needed to do static cast
+to the pointer as long ptr. (with an offset 24 to get to the executable
+part).</p>
+<p><strong>another example</strong><br />
+Problem there lies in the fact that strlen does not account for the null
+byte, so there can be 48 chars but the null byte would be 49th, thus not
+being copied by strcpy.</p>
+<p>Pointer is just an integer storing a memory address.<br />
+the x86_64 arch stores pointers as 64bit integers. However it uses only
+48 least significant bits are actually used. The 16 msb are null bytes
+(warning).<br />
+However x86_64 arch is little endian - lsb is stored first (looks
+reversed). This means the null bytes of the pointer are stored at the
+end, which is good.</p>
+<h2 data-number="12.5" id="questions-web-security"><span
+class="header-section-number">12.5</span> Questions (Web security)</h2>
+<p>Q1: You add security checks to ensure user-submitted content can only
+be retrieced by the same user that submitted it. This completely
+mitigates stored XSS attacks - True. If we submit the content ourselves,
+it will be stored for us and only sent back to use. Hence, we cannot
+unject js in other users’ sessions, and there is no point in doing so in
+our own.</p>
+<p>Fine-grained CFI is the strictest we can do statically. It is better
+for the forward-edge.</p>
+<p>Shadow stack is not static, since it traces the dynamic part. However
+it cannot do indirect calls.</p>
+<p>For user input there should be full validation. Malloc should also be
+handled if it does not return correctly, we may not have a working exit,
+but it should show an error message.</p>
+<p>Q2: when a user creates a session, you store the remote IP address in
+your database. On any subsequent requests, you create a new session if
+the IP address does not match the value stored for the session. Q: what
+attack does this mitigate? - Session fixation attack<br />
+Q: which drawbacks does it have? - breaks on mobile devices that switch
+between conns; cannot distinguish systems on the same external IP
+address (NAT)<br />
+Q: can it be bypassed? - only within a network with a common ext IP
+address, or if we can spoof the IP address</p>
+<h2 data-number="12.6" id="sql-injections"><span
+class="header-section-number">12.6</span> SQL Injections</h2>
+<p>Adding “’ OR 1=1;–” is a common way to do an SQL injection. Or doing
+a UNION to retrieve the data from other tables.</p>
+<p>It is often blind - client does not know the output for every
+input.</p>
+<p><strong>Mitigation</strong> - do not trust any input SQL code. There
+can be a second order SQL queries, so to mitigate, use prepared
+statements and procedures.</p>
+<h2 data-number="12.7" id="cross-site-request-forgery-csrf"><span
+class="header-section-number">12.7</span> Cross-site request forgery
+(CSRF)</h2>
+<p><em>Generally the stuff that is not shown, it is assumed that is
+secure</em></p>
+<p>Stored CSRF attack is a way to attack user data through browser
+unintentionally makes a request of logged in user.</p>
+<p>It is hard to prevent even with proper escaping</p>
+<p>Reqs: attacker can get target to visit a URL. Visiting URL is
+sufficient to change persistent state (leaks are not posssible)</p>
+<p>There is a possibility to have a non-stored CSRF - cookie is sent
+based on requested URL and very hard to prevent</p>
+<p>CSRF is an example of confused deputy type of attack.</p>
+<p><strong>Mitigation</strong> - requuire HTTP POST requests for each
+operation that can change state. This is so that it is harder to change
+information with CSRF.<br />
+Add a random token to each state changing operation and check it -
+forged reqs will not have correct token. Attackers will not be able to
+forge this token.</p>
+<h2 data-number="12.8" id="unrestricted-file-uploads"><span
+class="header-section-number">12.8</span> Unrestricted file uploads</h2>
+<p>in improperly configured server you can upload a file with a wrong
+extension (e.g. .php), and then exploited by running it.</p>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode php"><code class="sourceCode php"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;</span>html<span class="op">&gt;&lt;</span>body<span class="op">&gt;&lt;</span>php<span class="op">&gt;</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="va">$php</span>(<span class="fu">shell_exec</span>(<span class="cn">GET</span>[<span class="st">&#39;cmd&#39;</span>]))<span class="ot">;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;/</span>php<span class="op">&gt;&lt;/</span>body<span class="op">&gt;&lt;/</span>html<span class="op">&gt;</span></span></code></pre></div>
+<p>File extension determines how the file is interpreted.</p>
+<p><em>Mitigation</em>: sanitize file names - only allow expected file
+extensions (allowlist), also we have to be careful with path
+traversal.</p>
+<p>Defence in depth:<br />
+web server config: allow only specific dirs for script execution, and
+disallow writes to script dirs.<br />
+Apply principle of least privilege using operating system: configure
+system to use only executable,</p>
+<h2 data-number="12.9" id="deserialization-of-untrusted-data"><span
+class="header-section-number">12.9</span> Deserialization of untrusted
+data</h2>
+<p>Serialization: take object and convert it into data. The idea is to
+store the object on the disk or use a stored procedure.</p>
+<p>Many languages offer serialization out-of-the-box</p>
+<p>Representation of Serialized Objects: JSON, SOAP (based on XML), YAML
+(superset of JSON); Language-specific: Python-Pickle, Java Object
+Serialization</p>
+<p>Deserialization danger: call the subprocess constructor and provide
+the program (e.g. Python “subprocess.POpen”), thus executing the
+program.</p>
+<p>Encryption could help in a sense that it ensures that it comes from a
+trusted source.</p>
+<p>This allows arbitrary code execution.</p>
+<h2 data-number="12.10" id="ssrf"><span
+class="header-section-number">12.10</span> SSRF</h2>
+<p>server downloads content that is in the url, therefore SSRF
+vulnerability is there iff there is urls submitted.</p>
+<h1 data-number="13" id="exam"><span
+class="header-section-number">13</span> Exam</h1>
+<p><strong>Q1</strong><br />
+a) addition is to compute the entropy, multiplication is to compute the
+combinations<br />
+b) No, because it depends on the backward-edge or forward-edge necessity
+in particular context.<br />
+c)<br />
+d) Second pre-image resistance - . (NOT CONFUSE WITH COLLISION
+RESISTANCE). And then specify why it matters to the signatures<br />
+e) What is known plaintext attack. What is known cyphertext attack. f)
+What is XSS. If <code>&lt;script&gt;</code> tags are prohibitted, what
+are the possibilities for XSS.</p>
+<p><strong>Q2</strong><br />
+there is a simple program, find all the issues (vulnerabilities and
+not)<br />
+All the parts that are not shown, are assumed to be safe.<br />
+Points are calculated: 3pts for correct problem, -1pt for incorrect, 0pt
+for duplicate</p>
+<p><strong>Q3</strong><br />
+a) stack layout - function properties, variables.<br />
+b) if shellcode is runnable, specify the payload.<br />
+c) one of the defences that were discussed: explain how this mitigates
+the exploit and if it is possible to change it to still work.</p>
+<p><strong>Q4</strong><br />
+answer contains the parameters that cover some code that others
+can’t.</p>
+<p><strong>Q5</strong><br />
+encryption - detect and decrypt, and have the final answer.</p>
+<p><strong>Q6</strong><br />
+with small information talk about the web security vulnerabilities.</p>
+</body>
+</html>

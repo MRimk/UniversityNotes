@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>notes_coco</title>
+  <style>
+    html {
+      line-height: 1.5;
+      font-family: Georgia, serif;
+      font-size: 20px;
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 1em;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+      font-size: 85%;
+      margin: 0;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <style>
+    html {
+      font-size: 100%;
+      overflow-y: scroll;
+      -webkit-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+    }
+    body {
+      color: #444;
+      font-family: Georgia, Palatino, "Palatino Linotype", Times,
+        "Times New Roman", serif;
+      font-size: 12px;
+      line-height: 1.7;
+      padding: 1em;
+      margin: auto;
+      max-width: 42em;
+      background: #fefefe;
+    }
+    a {
+      color: #0645ad;
+      text-decoration: none;
+    }
+    a:visited {
+      color: #0b0080;
+    }
+    a:hover {
+      color: #06e;
+    }
+    a:active {
+      color: #faa700;
+    }
+    a:focus {
+      outline: thin dotted;
+    }
+    ::-moz-selection {
+      background: rgba(255, 255, 0, 0.3);
+      color: #000;
+    }
+    ::selection {
+      background: rgba(255, 255, 0, 0.3);
+      color: #000;
+    }
+    a::-moz-selection {
+      background: rgba(255, 255, 0, 0.3);
+      color: #0645ad;
+    }
+    a::selection {
+      background: rgba(255, 255, 0, 0.3);
+      color: #0645ad;
+    }
+    p {
+      margin: 1em 0;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      color: #111;
+      line-height: 125%;
+      margin-top: 2em;
+      font-weight: 400;
+    }
+    h4,
+    h5,
+    h6 {
+      font-weight: 700;
+    }
+    h1 {
+      font-size: 2.5em;
+    }
+    h2 {
+      font-size: 2em;
+    }
+    h3 {
+      font-size: 1.5em;
+    }
+    h4 {
+      font-size: 1.2em;
+    }
+    h5 {
+      font-size: 1em;
+    }
+    h6 {
+      font-size: 0.9em;
+    }
+    blockquote {
+      color: #666;
+      margin: 0;
+      padding-left: 3em;
+      border-left: 0.5em #eee solid;
+    }
+    hr {
+      display: block;
+      height: 2px;
+      border: 0;
+      border-top: 1px solid #aaa;
+      border-bottom: 1px solid #eee;
+      margin: 1em 0;
+      padding: 0;
+    }
+    code,
+    kbd,
+    pre,
+    samp {
+      color: #000;
+      font-family: monospace, monospace;
+      font-size: 0.98em;
+    }
+    pre {
+      white-space: pre;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+    b,
+    strong {
+      font-weight: 700;
+    }
+    dfn {
+      font-style: italic;
+    }
+    ins {
+      background: #ff9;
+      color: #000;
+      text-decoration: none;
+    }
+    mark {
+      background: #ff0;
+      color: #000;
+      font-style: italic;
+      font-weight: 700;
+    }
+    sub,
+    sup {
+      font-size: 75%;
+      line-height: 0;
+      position: relative;
+      vertical-align: baseline;
+    }
+    sup {
+      top: -0.5em;
+    }
+    sub {
+      bottom: -0.25em;
+    }
+    ol,
+    ul {
+      margin: 1em 0;
+      padding: 0 0 0 2em;
+    }
+    li p:last-child {
+      margin-bottom: 0;
+    }
+    ol ol,
+    ul ul {
+      margin: 0.3em 0;
+    }
+    dl {
+      margin-bottom: 1em;
+    }
+    dt {
+      font-weight: 700;
+      margin-bottom: 0.8em;
+    }
+    dd {
+      margin: 0 0 0.8em 2em;
+    }
+    dd:last-child {
+      margin-bottom: 0;
+    }
+    img {
+      border: 0;
+      -ms-interpolation-mode: bicubic;
+      vertical-align: middle;
+    }
+    figure {
+      display: block;
+      text-align: center;
+      margin: 1em 0;
+    }
+    figure img {
+      border: none;
+      margin: 0 auto;
+    }
+    figcaption {
+      font-size: 0.8em;
+      font-style: italic;
+      margin: 0 0 0.8em;
+    }
+    table {
+      margin-bottom: 2em;
+      border-bottom: 1px solid #ddd;
+      border-right: 1px solid #ddd;
+      border-spacing: 0;
+      border-collapse: collapse;
+    }
+    table th {
+      padding: 0.2em 1em;
+      background-color: #eee;
+      border-top: 1px solid #ddd;
+      border-left: 1px solid #ddd;
+    }
+    table td {
+      padding: 0.2em 1em;
+      border-top: 1px solid #ddd;
+      border-left: 1px solid #ddd;
+      vertical-align: top;
+    }
+    .author {
+      font-size: 1.2em;
+      text-align: center;
+    }
+    @media only screen and (min-width: 480px) {
+      body {
+        font-size: 14px;
+      }
+    }
+    @media only screen and (min-width: 768px) {
+      body {
+        font-size: 16px;
+      }
+    }
+    @media print {
+      * {
+        background: 0 0 !important;
+        color: #000 !important;
+        filter: none !important;
+        -ms-filter: none !important;
+      }
+      body {
+        font-size: 12pt;
+        max-width: 100%;
+      }
+      a,
+      a:visited {
+        text-decoration: underline;
+      }
+      hr {
+        height: 1px;
+        border: 0;
+        border-bottom: 1px solid #000;
+      }
+      a[href]:after {
+        content: " (" attr(href) ")";
+      }
+      abbr[title]:after {
+        content: " (" attr(title) ")";
+      }
+      .ir a:after,
+      a[href^="#"]:after,
+      a[href^="javascript:"]:after {
+        content: "";
+      }
+      blockquote,
+      pre {
+        border: 1px solid #999;
+        padding-right: 1em;
+        page-break-inside: avoid;
+      }
+      img,
+      tr {
+        page-break-inside: avoid;
+      }
+      img {
+        max-width: 100% !important;
+      }
+      @page :left {
+        margin: 15mm 20mm 15mm 10mm;
+      }
+      @page :right {
+        margin: 15mm 10mm 15mm 20mm;
+      }
+      h2,
+      h3,
+      p {
+        orphans: 3;
+        widows: 3;
+      }
+      h2,
+      h3 {
+        page-break-after: avoid;
+      }
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/darkreader@4.7.15/darkreader.min.js"></script>
+  <script>
+    DarkReader.enable({
+      brightness: 100,
+      contrast: 90,
+      sepia: 10
+    });
+  </script>
+  <link
+    rel="icon"
+    type="image/png"
+    href="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTJg97A-Sa8mxjkRCmjR51WjHATLvq2aF89Z1CprR2WcQ60qYZC"
+  />
+  <meta name="theme-color" content="#252525" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<!-- markdownlint-disable MD010 MD041 MD001 MD036 MD029 MD007-->
+<h1 data-number="1" id="compiler-construction"><span
+class="header-section-number">1</span> Compiler Construction</h1>
+<h2 data-number="1.1" id="lecture-1"><span
+class="header-section-number">1.1</span> Lecture 1</h2>
+<p>There are compilers that translate one language to another (C to
+assembly), language to bytecode (Java to JVM bytecode), language to
+itself (C to C, to make it faster, or smaller or smt else)</p>
+<p>Uses of compiler technology:</p>
+<ol type="1">
+<li>Translate a program in a highlevel language to machine code</li>
+<li>Optimization</li>
+<li>Text formatters (TeX to dvi)</li>
+<li>Interpreters (on-the-fly translation)</li>
+<li>Automatic parallelization or vectorization</li>
+<li>Performance instrumentation</li>
+<li>Security (e.g. Address Sanitizer)</li>
+<li>etc</li>
+</ol>
+<p>Key point: extract properties of a program and transform it (analysis
+and synthesis)</p>
+<p>Possible optimizations:</p>
+<ul>
+<li>if a variable is not used, <em>eliminate dead code</em></li>
+<li>if a variable is not reassigned, move it out of the loop, i.e. do
+<em>loop invariant code motion</em></li>
+<li>if a loop variable is not used much, substitute it by the one that
+is used, i.e. <em>induction variable substitution</em></li>
+<li>if two expressions have the same part (e.g. x * y), assign it to a
+separate var, i.e. <em>common subexpression elimination</em></li>
+</ul>
+<p>Compiler typically produces machine code (processes source codew, and
+produces target machine specific target code; result - fast
+execution)</p>
+<p>Intepreter executes source code (generates intermediate
+representation, software interpretation of the code, result - slow
+execution)</p>
+<p>Compiler stages:</p>
+<ol type="1">
+<li>Front-end for analysis (transform a string to what can be
+understood)</li>
+<li>Semantic representation and processing</li>
+<li>Back-end for synthesis</li>
+</ol>
+<p>If the analysis and synthesis are separated, there has to be L * M
+compilers</p>
+<p>Intermediate code can be abstract syntax tree (AST) which is
+constructed from the grammar.</p>
+<h3 data-number="1.1.1" id="parsers-purpose"><span
+class="header-section-number">1.1.1</span> Parser’s purpose</h3>
+<p>To produce AST:</p>
+<ol type="1">
+<li>Lexical analysis (‘a’ -&gt; Letter)</li>
+<li>Syntax analysis</li>
+<li>Context handling (we will ignore it)</li>
+</ol>
+<p>To have a parser, usually use Recursive Descent Parsing. This uses
+one procedure per construct, and descends deeper. First Scanner turns
+input string to a list of tokens and then parser converts this list to
+the tree-like structure to represent how tokens fit together and
+interact with each other.</p>
+<p>First parser gets the next token and parses a single expression. When
+getting the next token, assign the type and value to the created
+token.</p>
+<h3 data-number="1.1.2" id="backend-part"><span
+class="header-section-number">1.1.2</span> Backend part</h3>
+<p>To create simple machine code, have a recursive switch statement,
+which traverses the AST.</p>
+<p>To interpret, it is the same process, except when in the switch
+cases, don’t create code, but execute instructions of the
+expressions.</p>
+<h2 data-number="1.2" id="lecture-2"><span
+class="header-section-number">1.2</span> Lecture 2</h2>
+<h3 data-number="1.2.1" id="languages"><span
+class="header-section-number">1.2.1</span> Languages</h3>
+<p>Alphabeth Sigma (that can be characters, digits, operators) Sigma *
+is a set of finite sequences And thus language L is a subset of Sigma
+*</p>
+<p><strong>Context-free grammars</strong> describe how languages are
+being formed. There are rules to generate the language. And these rules
+consist of productions (head -&gt; body). These elements are derivations
+- made by substituting head by body. There can be terminal or
+non-terminal symbols. However, if it is context-free grammar - head is a
+single non-terminal symbol.</p>
+<p><strong>Language</strong> consists of:</p>
+<ul>
+<li>sentinel forms (intermediate strings that are derived from the
+initial string)</li>
+<li>sentences (sentinel forms that only consist of terminal symbols
+(final sentinel form))</li>
+<li>L(G) (language that grammar produces) is a set of all sentences that
+we can derive from the start S via productions</li>
+</ul>
+<p><strong>Notation</strong>:<br />
+instead of A -&gt; aBc and A -&gt; D can be A -&gt; aBc | D</p>
+<p><strong>Properties</strong> of context-free grammar:</p>
+<ul>
+<li>it is left recursive if A -&gt; A x</li>
+<li>it is right recursive if A -&gt; x A</li>
+<li>grammar is ambiguous if there are several derivations for the same
+sentence</li>
+</ul>
+<p><strong>Recognizer</strong>: given sentence S and grammar G,
+recognizer will return “yes” if s c L(G), and “no” if it is not</p>
+<p><strong>Lexer</strong> removes whitespace or comments and transforms
+the string into a sequence of tokens</p>
+<p><strong>Parser</strong> decides if tokens are in the language by
+building the derivation</p>
+<h3 data-number="1.2.2" id="lexer"><span
+class="header-section-number">1.2.2</span> Lexer</h3>
+<p>token: &lt; name, value &gt; pattern: describes how the token looks.
+lexeme: string that matches the pattern</p>
+<p>Example: pos = init + r * 60 =&gt; &lt; id, pos &gt; &lt; = &gt; &lt;
+id, init &gt; &lt; + &gt; &lt; id, r &gt; &lt; * &gt; &lt; 60 &gt;</p>
+<h3 data-number="1.2.3" id="parser"><span
+class="header-section-number">1.2.3</span> Parser</h3>
+<p>Goal: translate tokens to AST</p>
+<p>Example:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span><span class="op">(</span>a <span class="op">!=</span> <span class="dv">0</span><span class="op">){</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    printf<span class="op">(</span><span class="st">&quot;%d&quot;</span><span class="op">,</span>a<span class="op">);</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    a <span class="op">=</span> a <span class="op">-</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>AST:</p>
+<ul>
+<li>while
+<ul>
+<li>!=
+<ul>
+<li>var a</li>
+<li>const 0</li>
+</ul></li>
+<li>block
+<ul>
+<li>call
+<ul>
+<li>printf…</li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+<p>Steps:</p>
+<ol type="1">
+<li>Given a CFG for the language</li>
+<li>for some string s construct a derivation of s</li>
+<li>from derivation construct AST</li>
+</ol>
+<p>Example: s -&gt; e + s | e e -&gt; number | (s) Derive (1 + 2 + (3 +
+4)) + 5</p>
+<p>s -&gt; e + s -&gt; (s) + s -&gt; (e + s) + s -&gt; (1 + s) + 5 -&gt;
+(1 + e + s) + 5 -&gt; (1 + 2 + (s)) + 5 -&gt; (1 + 2 + (e + s)) + 5
+-&gt; (1 + 2 + (3 + 4)) + 5</p>
+<p>What is a derivation:</p>
+<ol type="1">
+<li>start from s</li>
+<li>apply productions until we get sentence</li>
+<li>For arbitrary alpha, beta, gamma and production A -&gt; beta, a
+single derivation step subtitutes <em>alpha A gamma</em> with <em>alpha
+beta gamma</em></li>
+</ol>
+<h3 data-number="1.2.4" id="parse-tree"><span
+class="header-section-number">1.2.4</span> Parse tree</h3>
+<ul>
+<li>leaves are terminals</li>
+<li>inner nodes are non-terminals</li>
+<li>no information about the derivation order</li>
+</ul>
+<p>Rules:</p>
+<ul>
+<li>Grammar G = (N, Sigma, P, S)</li>
+<li>root labeled with S</li>
+<li>leaf is labeled with a c Sigma</li>
+<li>interior nodes are labeld with a c N</li>
+<li>if interior node is labeled with A and children Beta1, …, Betan then
+(A -&gt; Beta1 … Betan) is a production</li>
+<li>string formed by leaves is called yield</li>
+</ul>
+<h3 data-number="1.2.5" id="parse-tree-vs-ast"><span
+class="header-section-number">1.2.5</span> Parse tree vs AST</h3>
+<p>Parse tree is concrete syntax tree, whereas AST is abstract syntax
+tree</p>
+<p>Compute AST by deleting information from parse tree</p>
+<h3 data-number="1.2.6" id="derivation-order"><span
+class="header-section-number">1.2.6</span> Derivation order</h3>
+<p>for production A -&gt; B, replace alpha A gamma by alpha beta
+gamma</p>
+<p>there are different orders: leftmost, rightmost</p>
+<p>Usually the parse tree will be the same if grammar is not
+ambiguous.</p>
+<p>A grammar G is <strong>ambiguous</strong> if for some s c L(G), there
+are two diffrent parse-trees.</p>
+<p>Eliminating ambiguity: disambiguate by adding more non terminals</p>
+<p>Example: 1 + 2 * 3 it was: s -&gt; s + s | s * s | number</p>
+<p>Now: s -&gt; s + t | t t -&gt; t * num | num</p>
+<p>Example of ambiguous grammar: S -&gt; if(E) S S -&gt; if(E) S else
+S</p>
+<p>statement: if(E1) if(E2) S1 else S2, we don’t know to which if we
+have to match.</p>
+<p>unambiguated:</p>
+<ul>
+<li>split into matched and unmatched statement: S -&gt; matched |
+unmatched</li>
+<li>and no unmatched grammar between if … else</li>
+</ul>
+<h3 data-number="1.2.7" id="questions"><span
+class="header-section-number">1.2.7</span> Questions</h3>
+<p>Grammar G: A -&gt; (B) | ! B -&gt; A | AB | empty</p>
+<p><em>Q1</em>: <em>is G ambiguous?</em> Yes, because there can be two
+different parse trees. Argument: (()). Derivation 1: A -&gt; (B) -&gt;
+(A) -&gt; ((B)) -&gt; (()) Derivation 2: A -&gt; (B) -&gt; (AB) -&gt;
+((B)B) -&gt; (()B) -&gt; (()) If there are transitions that give choice
+(in this case B -&gt; A or B -&gt; AB (where B is empty)), it leads to
+ambiguity.</p>
+<p><em>Q2</em>: <em>Why are ambiguous grammars bad?</em> If the grammar
+is ambiguous, and it might change the order of execution from what is
+intended. And because the parsers become non-deterministic</p>
+<p><em>Q3</em>: <em>What happens, if we use a recursive descent parser
+in G?</em> Because the grammar is ambiguous, it will pick the first
+match (A), thus does not cover the other case (AB). But if the grammar
+is commuted B -&gt; AB | A | empty</p>
+<p><em>Q4</em>: <em>What are First(A), First(B), Follow(A),
+Follow(B)?</em> First(A) = {!, (} First(B) = {!, (, empty} Follow(A) =
+{EOF, !, (, empty, )} Follow(B) = {EOF, !, (, )}</p>
+<p><em>Q5</em>: <em>What are these sets good for?</em> First(A) is a set
+of elements that A is responsible in the string. In the LL(1), it looks
+ahead to see what is each derivation responsible for in the string.</p>
+<p><em>Q6</em>: <em>Is G in LL(1)?</em> LL(1) means that there is a
+top-down symbol and the leftmost symbol will be expanded first, and
+there is only <strong>1</strong> lookahead.</p>
+<h2 data-number="1.3" id="lecture-3"><span
+class="header-section-number">1.3</span> Lecture 3</h2>
+<h2 data-number="1.4" id="lecture-5"><span
+class="header-section-number">1.4</span> Lecture 5</h2>
+<h3 data-number="1.4.1" id="llvm-ir"><span
+class="header-section-number">1.4.1</span> LLVM IR</h3>
+<p>LLVM combines low-level control (like assembly) and high-level
+information such as types.</p>
+<p><em>Q</em>: <em>How is LLVM different/similar to assembly?</em>
+Assembly does not have static single assignment, unlimited registers.
+Low-level aspects: it depends on the assembly. If assembly is RISC ISA,
+then there is RISC-like address codes; simple, low-level control flow
+structs.</p>
+<p><em>Q</em>: <em>How is LLVM different/similar to C?</em> Types,
+etc.</p>
+<p><em>Q</em>: <em>what is the difference between a LLVM register and a
+LLVM “variable”?</em> All registers are understood as variables, thus
+typically they are the same, but sometimes there it was meant to be
+global variable, instead of just a variable.</p>
+<p><em>Q</em>: <em>can compilation on different targets result in
+different LLVM IR outputs?</em> LLVM IR is, in theory, target
+independent, so no. This can be interpreted that the syntax is language
+and target independent. However, target-specific optimization can still
+be in the middle-end, since it is sometimes easier to do that rather
+than doing it in the backend. Target-dependent libraries or inline code
+(as in if x86 arch do this, if ARM do this) also means that there can be
+different resulting outputs. Inline assembly can affect the resulting
+code. The frontend could do target-specific things, such as integers can
+be unspecified length, and if the system, for example, is not 64bit i64
+could not be used.</p>
+<p><em>Q</em>: <em>how are arrays and structs different than C?</em>
+Explicit 0 initializer in global variables. Pointers and arrays in LLVM
+are different things, because LLVM cares about explicit types. And array
+in LLVM is not an integer, thus not a pointer. Structs are similar to C,
+but field names are not preserved. If a C union is complied with LLVM
+IR, then frontend would need to specifically cast each time, the union
+part if accessed.</p>
+<p>Module in LLVM: it depends. (C module is like a file with .c or a
+header file). However, in LLVM at compile time module is the individual
+C files, and in LLVM link time module takes the necessary modules and
+make a single module that is made out of those, thus representing the
+whole program.</p>
+<p><em>Q</em>: <em>How many times a typical GEP instruction access
+memory?</em> it does not. (getelementptr is doing type element-aware
+pointer arithmetic)</p>
+<h2 data-number="1.5" id="optimizations"><span
+class="header-section-number">1.5</span> Optimizations</h2>
+<p>Most optimizations are at IR level, but some can be in the
+frontend.</p>
+<p>Regular LLVM does not have High and Low IR for now.</p>
+<p>Optimization - code transformation where space and/or time are
+improved.</p>
+<p>Code optimizations must be safe - they preserve the meaning of the
+program, and must be left unoptimized if cannot prove correctness.</p>
+<p>Ultimate goal - optimize program hot spots, which is mostly loops,
+functions, etc.</p>
+<p><em>Q</em> <em>how does inlining work in presence of recursion? And
+in presence of indirect calls?</em> If the depth is known then it can be
+unwrapped, but usually just give up. For the indirect calls, if the
+function pointer is constant, ie we can know that the pointer points to
+a function, then we can do inlining. It is possible to have indirect
+call that does indirect call promotion, such that indirect call is
+translated to multiple direct calls, where it can jump to correct
+inlined code according to the pointer value.</p>
+<p>Function cloning - function can be cloned and a special edition is
+created for the use.</p>
+<p><em>Q</em> - <em>Cloning and inlining similarities/differences?</em>
+Similarities: duplicating code and specializing the code sides, such
+that later those parts are optimized. Difference: with cloning the call
+is still there, with cloning the code can increase more than inlining
+(but it can be otherwise still; usually cloning produces smaller code
+than inlining only because we clone iff it is known that there is
+advantage for the optimization).</p>
+<p><em>Q</em> <em>what optimization passes are needed to optimize the
+following code away (assume x and y are dead at the end of the
+snippet)?</em></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> x <span class="op">=</span> INT_MAX <span class="op">-</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> y <span class="op">=</span> x<span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="op">(</span>y <span class="op">&lt;</span> <span class="dv">0</span><span class="op">)</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  printf<span class="op">(</span><span class="st">&quot;Oops!&quot;</span><span class="op">)</span></span></code></pre></div>
+<ol type="1">
+<li>Constant folding - calculate INT_MAX - 1</li>
+<li>Constant propagation on x =&gt; y = INT_MAX - 1</li>
+<li>Constant propagation on y (to if condition)</li>
+<li>Arithmetic simplication into false (INT_MAX - 1 is not &lt; 0)</li>
+<li>Unreachable code elim (inside of if)</li>
+<li>Dead code elimination (x and y are dead)</li>
+</ol>
+<p><strong>Loop-invariant code elimination</strong> - if the result of
+statement/expression does not change during the loop and there are no
+externally visible side effects, it can be moved out of the loop</p>
+<p><strong>Induction variable elimination</strong> - eliminate other
+variable to leave just one induction variable that is used</p>
+<p><strong>Loop unrolling</strong> - execute loop body multiple times at
+each iteration. It faces the same problem like inlining, since what is
+the limit of how many lines is good amount of lines.</p>
+<p><em>Q: which of the loop optimizations considered can benefit from a
+profile-guided optimization strategy?</em> After getting the profiling,
+there is a profile-guided strategy. Loop-invariant code motion benefits
+if the fast-path (indirect code promotion) and then uses the invariant
+code, otherwise does not use invariant code. Induction Variable
+Elimination - we just use speculative optimizations, ie if therer is
+some uncertainty that cannot be resolved by static analysis, based on
+speculation, there can be a decision made. Loop unrolling - profiling
+helps to get a better estimation of the unrolling cost. Find the amount
+of times the loop runs (trip count), and find the optimal number that
+can be unrolled. Find if there are other loops elsewhere in the code, ie
+find whether it is a hotspot or not (thus if it needs to be bloated or
+not).</p>
+<p>Statically trip count can be found if it is constant, constant
+variable, or after the constant propagation, or there is an invariant.
+When the exact value is known, the loop can be removed and the loop body
+is copy pasted. However, this is dependant if the trip count is not too
+big.</p>
+<p>Liveness idea: we want to know what is dead in the future such that
+we do not have it now.</p>
+<p><em>Q it takes many scanse to reach convergence with oir fixed-point
+algorithm, can we make the infividual scans more efficient?</em> Skip
+applying formulas for every point.</p>
+<h3 data-number="1.5.1" id="copy-propagation"><span
+class="header-section-number">1.5.1</span> Copy propagation</h3>
+<p>Goal - determine copies available at each program point</p>
+<p><em>Q why is the pre-order used for the fixed point analysis rather
+than post-order like in liveness?</em> Here the order does not matter
+since convergence is not affected and is still correct, but speed is
+affected. This is different to the liveness analysis, where order is
+important since we are looking into the future if it is used</p>
+<h3 data-number="1.5.2" id="data-flow-analysis"><span
+class="header-section-number">1.5.2</span> Data-flow analysis</h3>
+<p>Structured framework to have these analysis passes. They would have
+transfer functuons, where forward and backward analysis is transfered
+to/from in/out.</p>
+<p><em>Q Can we replace PHI Nodes with Select instructions?</em> We can
+insert additional information in the blocks to say from which block we
+came from. We can cheat SSA by passing register SSA by storing
+information in memory and then loading the var. Assuming we don’t want
+to cheat SSA with memory. We can do that by extracting the variable from
+the condition and assigning the value of select. This is what happens in
+LLVM compiler where if assignments get flattened to selects. However,
+this replacement can work for simple if statements, for example, in the
+for loops, which we cannot unwrap, we have to use the PHI nodes.</p>
+<h2 data-number="1.6" id="llvm-passes"><span
+class="header-section-number">1.6</span> LLVM Passes</h2>
+<p>Hierarchy: Module -&gt; Functions -&gt; BasicBlocks -&gt;
+Intructions</p>
+<p>Types of passes: (we get more points if we pick correct pass - most
+restrictive that works)</p>
+<ol type="1">
+<li>ModulePass - least restrictive pass</li>
+<li>FunctionPass - cannot create or remove functions</li>
+<li>LoopPass - calls pass for every loop</li>
+</ol>
+</body>
+</html>
