@@ -592,9 +592,43 @@
 <header id="title-block-header">
 <h1 class="title">Compiler Construction</h1>
 </header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#lecture-1" id="toc-lecture-1">Lecture 1</a>
+<ul>
+<li><a href="#parsers-purpose" id="toc-parsers-purpose">Parser’s
+purpose</a></li>
+<li><a href="#backend-part" id="toc-backend-part">Backend part</a></li>
+</ul></li>
+<li><a href="#lecture-2" id="toc-lecture-2">Lecture 2</a>
+<ul>
+<li><a href="#languages" id="toc-languages">Languages</a></li>
+<li><a href="#lexer" id="toc-lexer">Lexer</a></li>
+<li><a href="#parser" id="toc-parser">Parser</a></li>
+<li><a href="#parse-tree" id="toc-parse-tree">Parse tree</a></li>
+<li><a href="#parse-tree-vs-ast" id="toc-parse-tree-vs-ast">Parse tree
+vs AST</a></li>
+<li><a href="#derivation-order" id="toc-derivation-order">Derivation
+order</a></li>
+<li><a href="#questions" id="toc-questions">Questions</a></li>
+</ul></li>
+<li><a href="#lecture-3" id="toc-lecture-3">Lecture 3</a></li>
+<li><a href="#lecture-5" id="toc-lecture-5">Lecture 5</a>
+<ul>
+<li><a href="#llvm-ir" id="toc-llvm-ir">LLVM IR</a></li>
+</ul></li>
+<li><a href="#optimizations" id="toc-optimizations">Optimizations</a>
+<ul>
+<li><a href="#copy-propagation" id="toc-copy-propagation">Copy
+propagation</a></li>
+<li><a href="#data-flow-analysis" id="toc-data-flow-analysis">Data-flow
+analysis</a></li>
+</ul></li>
+<li><a href="#llvm-passes" id="toc-llvm-passes">LLVM Passes</a></li>
+</ul>
+</nav>
 <!-- markdownlint-disable MD010 MD041 MD001 MD036 MD029 MD007-->
-<h2 data-number="0.1" id="lecture-1"><span
-class="header-section-number">0.1</span> Lecture 1</h2>
+<h2 id="lecture-1">Lecture 1</h2>
 <p>There are compilers that translate one language to another (C to
 assembly), language to bytecode (Java to JVM bytecode), language to
 itself (C to C, to make it faster, or smaller or smt else)</p>
@@ -638,8 +672,7 @@ understood)</li>
 compilers</p>
 <p>Intermediate code can be abstract syntax tree (AST) which is
 constructed from the grammar.</p>
-<h3 data-number="0.1.1" id="parsers-purpose"><span
-class="header-section-number">0.1.1</span> Parser’s purpose</h3>
+<h3 id="parsers-purpose">Parser’s purpose</h3>
 <p>To produce AST:</p>
 <ol type="1">
 <li>Lexical analysis (‘a’ -&gt; Letter)</li>
@@ -654,17 +687,14 @@ interact with each other.</p>
 <p>First parser gets the next token and parses a single expression. When
 getting the next token, assign the type and value to the created
 token.</p>
-<h3 data-number="0.1.2" id="backend-part"><span
-class="header-section-number">0.1.2</span> Backend part</h3>
+<h3 id="backend-part">Backend part</h3>
 <p>To create simple machine code, have a recursive switch statement,
 which traverses the AST.</p>
 <p>To interpret, it is the same process, except when in the switch
 cases, don’t create code, but execute instructions of the
 expressions.</p>
-<h2 data-number="0.2" id="lecture-2"><span
-class="header-section-number">0.2</span> Lecture 2</h2>
-<h3 data-number="0.2.1" id="languages"><span
-class="header-section-number">0.2.1</span> Languages</h3>
+<h2 id="lecture-2">Lecture 2</h2>
+<h3 id="languages">Languages</h3>
 <p>Alphabeth Sigma (that can be characters, digits, operators) Sigma *
 is a set of finite sequences And thus language L is a subset of Sigma
 *</p>
@@ -698,14 +728,12 @@ recognizer will return “yes” if s c L(G), and “no” if it is not</p>
 the string into a sequence of tokens</p>
 <p><strong>Parser</strong> decides if tokens are in the language by
 building the derivation</p>
-<h3 data-number="0.2.2" id="lexer"><span
-class="header-section-number">0.2.2</span> Lexer</h3>
+<h3 id="lexer">Lexer</h3>
 <p>token: &lt; name, value &gt; pattern: describes how the token looks.
 lexeme: string that matches the pattern</p>
 <p>Example: pos = init + r * 60 =&gt; &lt; id, pos &gt; &lt; = &gt; &lt;
 id, init &gt; &lt; + &gt; &lt; id, r &gt; &lt; * &gt; &lt; 60 &gt;</p>
-<h3 data-number="0.2.3" id="parser"><span
-class="header-section-number">0.2.3</span> Parser</h3>
+<h3 id="parser">Parser</h3>
 <p>Goal: translate tokens to AST</p>
 <p>Example:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span><span class="op">(</span>a <span class="op">!=</span> <span class="dv">0</span><span class="op">){</span></span>
@@ -749,8 +777,7 @@ class="header-section-number">0.2.3</span> Parser</h3>
 single derivation step subtitutes <em>alpha A gamma</em> with <em>alpha
 beta gamma</em></li>
 </ol>
-<h3 data-number="0.2.4" id="parse-tree"><span
-class="header-section-number">0.2.4</span> Parse tree</h3>
+<h3 id="parse-tree">Parse tree</h3>
 <ul>
 <li>leaves are terminals</li>
 <li>inner nodes are non-terminals</li>
@@ -766,13 +793,11 @@ class="header-section-number">0.2.4</span> Parse tree</h3>
 (A -&gt; Beta1 … Betan) is a production</li>
 <li>string formed by leaves is called yield</li>
 </ul>
-<h3 data-number="0.2.5" id="parse-tree-vs-ast"><span
-class="header-section-number">0.2.5</span> Parse tree vs AST</h3>
+<h3 id="parse-tree-vs-ast">Parse tree vs AST</h3>
 <p>Parse tree is concrete syntax tree, whereas AST is abstract syntax
 tree</p>
 <p>Compute AST by deleting information from parse tree</p>
-<h3 data-number="0.2.6" id="derivation-order"><span
-class="header-section-number">0.2.6</span> Derivation order</h3>
+<h3 id="derivation-order">Derivation order</h3>
 <p>for production A -&gt; B, replace alpha A gamma by alpha beta
 gamma</p>
 <p>there are different orders: leftmost, rightmost</p>
@@ -793,8 +818,7 @@ have to match.</p>
 unmatched</li>
 <li>and no unmatched grammar between if … else</li>
 </ul>
-<h3 data-number="0.2.7" id="questions"><span
-class="header-section-number">0.2.7</span> Questions</h3>
+<h3 id="questions">Questions</h3>
 <p>Grammar G: A -&gt; (B) | ! B -&gt; A | AB | empty</p>
 <p><em>Q1</em>: <em>is G ambiguous?</em> Yes, because there can be two
 different parse trees. Argument: (()). Derivation 1: A -&gt; (B) -&gt;
@@ -818,12 +842,9 @@ ahead to see what is each derivation responsible for in the string.</p>
 <p><em>Q6</em>: <em>Is G in LL(1)?</em> LL(1) means that there is a
 top-down symbol and the leftmost symbol will be expanded first, and
 there is only <strong>1</strong> lookahead.</p>
-<h2 data-number="0.3" id="lecture-3"><span
-class="header-section-number">0.3</span> Lecture 3</h2>
-<h2 data-number="0.4" id="lecture-5"><span
-class="header-section-number">0.4</span> Lecture 5</h2>
-<h3 data-number="0.4.1" id="llvm-ir"><span
-class="header-section-number">0.4.1</span> LLVM IR</h3>
+<h2 id="lecture-3">Lecture 3</h2>
+<h2 id="lecture-5">Lecture 5</h2>
+<h3 id="llvm-ir">LLVM IR</h3>
 <p>LLVM combines low-level control (like assembly) and high-level
 information such as types.</p>
 <p><em>Q</em>: <em>How is LLVM different/similar to assembly?</em>
@@ -863,8 +884,7 @@ whole program.</p>
 <p><em>Q</em>: <em>How many times a typical GEP instruction access
 memory?</em> it does not. (getelementptr is doing type element-aware
 pointer arithmetic)</p>
-<h2 data-number="0.5" id="optimizations"><span
-class="header-section-number">0.5</span> Optimizations</h2>
+<h2 id="optimizations">Optimizations</h2>
 <p>Most optimizations are at IR level, but some can be in the
 frontend.</p>
 <p>Regular LLVM does not have High and Low IR for now.</p>
@@ -937,16 +957,14 @@ we do not have it now.</p>
 <p><em>Q it takes many scanse to reach convergence with oir fixed-point
 algorithm, can we make the infividual scans more efficient?</em> Skip
 applying formulas for every point.</p>
-<h3 data-number="0.5.1" id="copy-propagation"><span
-class="header-section-number">0.5.1</span> Copy propagation</h3>
+<h3 id="copy-propagation">Copy propagation</h3>
 <p>Goal - determine copies available at each program point</p>
 <p><em>Q why is the pre-order used for the fixed point analysis rather
 than post-order like in liveness?</em> Here the order does not matter
 since convergence is not affected and is still correct, but speed is
 affected. This is different to the liveness analysis, where order is
 important since we are looking into the future if it is used</p>
-<h3 data-number="0.5.2" id="data-flow-analysis"><span
-class="header-section-number">0.5.2</span> Data-flow analysis</h3>
+<h3 id="data-flow-analysis">Data-flow analysis</h3>
 <p>Structured framework to have these analysis passes. They would have
 transfer functuons, where forward and backward analysis is transfered
 to/from in/out.</p>
@@ -959,8 +977,7 @@ the condition and assigning the value of select. This is what happens in
 LLVM compiler where if assignments get flattened to selects. However,
 this replacement can work for simple if statements, for example, in the
 for loops, which we cannot unwrap, we have to use the PHI nodes.</p>
-<h2 data-number="0.6" id="llvm-passes"><span
-class="header-section-number">0.6</span> LLVM Passes</h2>
+<h2 id="llvm-passes">LLVM Passes</h2>
 <p>Hierarchy: Module -&gt; Functions -&gt; BasicBlocks -&gt;
 Intructions</p>
 <p>Types of passes: (we get more points if we pick correct pass - most

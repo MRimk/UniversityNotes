@@ -593,10 +593,39 @@
 <h1 class="title">Assignment 2 - Vulnerabilities - Martynas
 Rimkevicius</h1>
 </header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#vulnerability-1-program-1"
+id="toc-vulnerability-1-program-1">Vulnerability 1 (program 1)</a></li>
+<li><a href="#vulnerability-2-program-2"
+id="toc-vulnerability-2-program-2">Vulnerability 2 (program 2)</a></li>
+<li><a href="#vulnerability-3-program-2"
+id="toc-vulnerability-3-program-2">Vulnerability 3 (program 2)</a></li>
+<li><a href="#vulnerability-4-program-6"
+id="toc-vulnerability-4-program-6">Vulnerability 4 (program 6)</a></li>
+<li><a href="#vulnerability-5-program-5"
+id="toc-vulnerability-5-program-5">Vulnerability 5 (program 5)</a></li>
+<li><a href="#vulnerability-6-program-2"
+id="toc-vulnerability-6-program-2">Vulnerability 6 (program 2)</a></li>
+<li><a href="#vulnerability-7-program-2"
+id="toc-vulnerability-7-program-2">Vulnerability 7 (program 2)</a></li>
+<li><a href="#vulnerability-8-program-4"
+id="toc-vulnerability-8-program-4">Vulnerability 8 (program 4)</a></li>
+<li><a href="#vulnerability-9-program-6"
+id="toc-vulnerability-9-program-6">Vulnerability 9 (program 6)</a></li>
+<li><a href="#vulnerability-10-program-5"
+id="toc-vulnerability-10-program-5">Vulnerability 10 (program
+5)</a></li>
+<li><a href="#vulnerability-11-program-1"
+id="toc-vulnerability-11-program-1">Vulnerability 11 (program
+1)</a></li>
+<li><a href="#vulnerability-12-program-5"
+id="toc-vulnerability-12-program-5">Vulnerability 12 (program
+5)</a></li>
+</ul>
+</nav>
 <!-- markdownlint-disable MD010 MD041 MD001 MD036-->
-<h2 data-number="0.1" id="vulnerability-1-program-1"><span
-class="header-section-number">0.1</span> Vulnerability 1 (program
-1)</h2>
+<h2 id="vulnerability-1-program-1">Vulnerability 1 (program 1)</h2>
 <p>Type: authentication error</p>
 <p>Impact: Loss of availability - users cannot see that the user, who is
 still online, is online</p>
@@ -629,9 +658,7 @@ to continue test if the user was still connected. Which was not the
 case, proven by opening the database to check whether the value
 representing the “logged in” condition was not set to true for user
 <em>gahsd</em>.</p>
-<h2 data-number="0.2" id="vulnerability-2-program-2"><span
-class="header-section-number">0.2</span> Vulnerability 2 (program
-2)</h2>
+<h2 id="vulnerability-2-program-2">Vulnerability 2 (program 2)</h2>
 <p>Type: cryptography used incorrectly</p>
 <p>Impact: Data leak</p>
 <p>Cause: Mallory can brute force other user’s password and leak their
@@ -646,9 +673,7 @@ guessed over time.</p>
 hash, thus this raised a suspicion that salt might not be used and once
 the hashing part of the code was located, it could be seen that it is
 not used.</p>
-<h2 data-number="0.3" id="vulnerability-3-program-2"><span
-class="header-section-number">0.3</span> Vulnerability 3 (program
-2)</h2>
+<h2 id="vulnerability-3-program-2">Vulnerability 3 (program 2)</h2>
 <p>Type: Incorrect error handling</p>
 <p>Impact: Data leak</p>
 <p>Cause: Users can see partial password of a new user if their created
@@ -672,9 +697,7 @@ class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="
 read buffer from stdin, therefore I wanted to try a long password input
 to see how it is handled. Therefore I generated 256 character string and
 saw that it was not handled correctly.</p>
-<h2 data-number="0.4" id="vulnerability-4-program-6"><span
-class="header-section-number">0.4</span> Vulnerability 4 (program
-6)</h2>
+<h2 id="vulnerability-4-program-6">Vulnerability 4 (program 6)</h2>
 <p>Type: other - new users are not able to register</p>
 <p>Impact: Loss of availability</p>
 <p>Cause: user is unable to relogin or register after there are a lot of
@@ -714,9 +737,7 @@ user <em>test4</em> tried to register, received the message
 “registration succeeded”, and the client crashed.</p>
 <p>Found: It was found during stress testing - sending random messages
 with initially 2 users and then adding the 3rd one.</p>
-<h2 data-number="0.5" id="vulnerability-5-program-5"><span
-class="header-section-number">0.5</span> Vulnerability 5 (program
-5)</h2>
+<h2 id="vulnerability-5-program-5">Vulnerability 5 (program 5)</h2>
 <p>Type: cryptography missing where required - missing message
 signatures</p>
 <p>Impact: data corruption</p>
@@ -733,9 +754,7 @@ not able to do.</p>
 <p>Found: manual code inspection - it was found while looking through
 the client sending a message function, where the goal was to find how
 the message is safeguarded from being read while on the network.</p>
-<h2 data-number="0.6" id="vulnerability-6-program-2"><span
-class="header-section-number">0.6</span> Vulnerability 6 (program
-2)</h2>
+<h2 id="vulnerability-6-program-2">Vulnerability 6 (program 2)</h2>
 <p>Type: command injection</p>
 <p>Impact: Data leak - , and data corruption -</p>
 <p>Cause: server unknowingly can send its data to Mallory and server can
@@ -772,9 +791,7 @@ traverse the path back to unexpected directories, I was not able to do
 so because of the check for alphanumeric characters. However, this check
 is on the client side only, thus, after having modified the client to be
 malicious, I was able to traverse directories on the server side.</p>
-<h2 data-number="0.7" id="vulnerability-7-program-2"><span
-class="header-section-number">0.7</span> Vulnerability 7 (program
-2)</h2>
+<h2 id="vulnerability-7-program-2">Vulnerability 7 (program 2)</h2>
 <p>Type: SQL injection</p>
 <p>Impact: Loss of availability and data corruption</p>
 <p>Cause: It is possible to manipulate the tables, such that the server
@@ -806,9 +823,7 @@ were inserted. Since after each SQL injection server crashes, I
 restarted it, relogged in and found the inserted messages. Also this was
 checked with sqlite itself - opening chat.db file and confirming that
 the messages were inserted.</p>
-<h2 data-number="0.8" id="vulnerability-8-program-4"><span
-class="header-section-number">0.8</span> Vulnerability 8 (program
-4)</h2>
+<h2 id="vulnerability-8-program-4">Vulnerability 8 (program 4)</h2>
 <p>Type: cryptography missing where required</p>
 <p>Impact: Data leak</p>
 <p>Cause: according to the threat model Mallory could read the data sent
@@ -823,9 +838,7 @@ not able to do.</p>
 <p>Found: It was found while looking through the client sending a
 message function, where the goal was to find how the message is modified
 before it is written to the socket.</p>
-<h2 data-number="0.9" id="vulnerability-9-program-6"><span
-class="header-section-number">0.9</span> Vulnerability 9 (program
-6)</h2>
+<h2 id="vulnerability-9-program-6">Vulnerability 9 (program 6)</h2>
 <p>Type: Malloc error</p>
 <p>Impact: Loss of availability (crash)</p>
 <p>Cause: in api.c api_recv_packet() function, in line 377
@@ -842,9 +855,7 @@ semper id erat vel vestibulu” (248 bytes).<br />
 Output either in the server or the client:
 <code>malloc(): invalid next size (unsorted)</code></p>
 <p>Found: manual testing with the mentioned input.</p>
-<h2 data-number="0.10" id="vulnerability-10-program-5"><span
-class="header-section-number">0.10</span> Vulnerability 10 (program
-5)</h2>
+<h2 id="vulnerability-10-program-5">Vulnerability 10 (program 5)</h2>
 <p>Type: Incorrect error handling</p>
 <p>Impact: Loss of availability (broken connection)</p>
 <p>Cause: after this error not being handled client can think it is
@@ -859,9 +870,7 @@ justo scelerisque, semper nunc in, semper augue. Nullam in egestas
 libero, sit amet ultrices arcu. Morbi euismod vel urna sed consequat.
 Nulla ex leo, semper id erat vel vestibulu” (248 bytes)</p>
 <p>Found: manual testing with the mentioned input.</p>
-<h2 data-number="0.11" id="vulnerability-11-program-1"><span
-class="header-section-number">0.11</span> Vulnerability 11 (program
-1)</h2>
+<h2 id="vulnerability-11-program-1">Vulnerability 11 (program 1)</h2>
 <p>Type: Use-after-free (Double free)</p>
 <p>Impact: Loss of availability (connection crash)</p>
 <p>Cause: after this error client is not connected to the server
@@ -885,9 +894,7 @@ Etiam pulvinar accumsan velit a viverra. Maecenas aliquam.” (the
 shortest message to reach this vulnerability is 608 bytes)</p>
 <p>Found: manual testing with the mentioned input to see what happens
 with long inputs.</p>
-<h2 data-number="0.12" id="vulnerability-12-program-5"><span
-class="header-section-number">0.12</span> Vulnerability 12 (program
-5)</h2>
+<h2 id="vulnerability-12-program-5">Vulnerability 12 (program 5)</h2>
 <p>Type: cryptography is not used correctly</p>
 <p>Impact: data leak - according to the threat model Mallory could
 hijack the network connection, and having the RSA key-pair could read

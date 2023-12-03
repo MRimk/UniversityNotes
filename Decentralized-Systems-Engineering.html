@@ -610,15 +610,152 @@
 <header id="title-block-header">
 <h1 class="title">Decentralized Systems Engineering</h1>
 </header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#definitions" id="toc-definitions">Definitions</a></li>
+<li><a href="#examples" id="toc-examples">Examples</a></li>
+<li><a href="#cap-theorem" id="toc-cap-theorem">CAP theorem</a></li>
+<li><a href="#why-build-theses-systems"
+id="toc-why-build-theses-systems">Why build theses systems</a></li>
+<li><a href="#major-topics-and-applications"
+id="toc-major-topics-and-applications">Major topics and
+applications</a></li>
+<li><a href="#recurrent-issues-and-themes"
+id="toc-recurrent-issues-and-themes">Recurrent issues and
+themes</a></li>
+<li><a href="#why-we-might-prefer-centralized-systems"
+id="toc-why-we-might-prefer-centralized-systems">Why we might prefer
+centralized systems?</a></li>
+<li><a href="#usenet-and-gossip" id="toc-usenet-and-gossip">Usenet and
+Gossip</a>
+<ul>
+<li><a href="#usenet" id="toc-usenet">Usenet</a></li>
+</ul></li>
+<li><a href="#beyond-usenet-gossip-efficiency"
+id="toc-beyond-usenet-gossip-efficiency">Beyond Usenet: Gossip
+efficiency</a>
+<ul>
+<li><a href="#improved-gossiping" id="toc-improved-gossiping">Improved
+Gossiping</a></li>
+</ul></li>
+<li><a href="#finding-data-among-many-unknown-peers"
+id="toc-finding-data-among-many-unknown-peers">Finding data among (many,
+unknown) peers</a>
+<ul>
+<li><a href="#distributed-search-algorithms"
+id="toc-distributed-search-algorithms">Distributed Search
+algorithms</a></li>
+</ul></li>
+<li><a href="#ad-hoc-routing-protocols"
+id="toc-ad-hoc-routing-protocols">Ad-hoc Routing Protocols</a>
+<ul>
+<li><a href="#naive-routing-dont-do-this"
+id="toc-naive-routing-dont-do-this">Naive routing (don’t do
+this)</a></li>
+<li><a href="#reaching-arbitrary-peers-in-a-network-aodv"
+id="toc-reaching-arbitrary-peers-in-a-network-aodv">Reaching arbitrary
+peers in a network : AODV</a></li>
+<li><a href="#dsdv" id="toc-dsdv">DSDV</a></li>
+<li><a href="#quality-factors-in-ad-hoc-routing"
+id="toc-quality-factors-in-ad-hoc-routing">Quality factors in ad-hoc
+routing</a></li>
+</ul></li>
+<li><a href="#compact-routing-and-structured-search"
+id="toc-compact-routing-and-structured-search">Compact routing and
+structured search</a>
+<ul>
+<li><a href="#general-approach" id="toc-general-approach">General
+approach</a></li>
+<li><a href="#distributed-hash-table"
+id="toc-distributed-hash-table">Distributed Hash Table</a></li>
+</ul></li>
+<li><a href="#decentralized-storage-distribution"
+id="toc-decentralized-storage-distribution">Decentralized Storage &amp;
+Distribution</a>
+<ul>
+<li><a href="#storing-data-reliably"
+id="toc-storing-data-reliably">Storing data (reliably)</a></li>
+<li><a href="#cap-theorem---reminder"
+id="toc-cap-theorem---reminder">CAP theorem - reminder</a></li>
+<li><a href="#goals-and-challenges" id="toc-goals-and-challenges">Goals
+and Challenges</a></li>
+<li><a href="#building-bittorrent" id="toc-building-bittorrent">Building
+BitTorrent</a></li>
+<li><a href="#ipfs---inter-planetary-file-system"
+id="toc-ipfs---inter-planetary-file-system">IPFS - Inter-Planetary File
+System</a></li>
+<li><a href="#shifting-paradigm---local-first-software"
+id="toc-shifting-paradigm---local-first-software">Shifting paradigm -
+Local-First Software</a></li>
+<li><a href="#conflict-free-replicate-data-types-crdts"
+id="toc-conflict-free-replicate-data-types-crdts">Conflict-Free
+Replicate Data Types (CRDTs)</a></li>
+</ul></li>
+<li><a href="#replication-of-consensus"
+id="toc-replication-of-consensus">Replication of Consensus</a>
+<ul>
+<li><a href="#replication" id="toc-replication">Replication</a></li>
+<li><a href="#agreement-or-consensus"
+id="toc-agreement-or-consensus">Agreement or Consensus</a></li>
+</ul></li>
+<li><a href="#cryptography" id="toc-cryptography">Cryptography</a>
+<ul>
+<li><a href="#drand-publc-verifiable-randomness-explained"
+id="toc-drand-publc-verifiable-randomness-explained">drand: publc,
+verifiable randomness explained</a></li>
+</ul></li>
+<li><a href="#anonymous-communication"
+id="toc-anonymous-communication">Anonymous Communication</a>
+<ul>
+<li><a href="#who-has-eyes-to-your-internet-usage"
+id="toc-who-has-eyes-to-your-internet-usage">Who has eyes to your
+internet usage?</a></li>
+<li><a href="#threat-model" id="toc-threat-model">Threat model</a></li>
+<li><a href="#the-goal" id="toc-the-goal">The goal</a></li>
+<li><a href="#how-to-achieve-anonymity"
+id="toc-how-to-achieve-anonymity">How to achieve anonymity</a></li>
+</ul></li>
+<li><a href="#sybil-attacks-and-defenses"
+id="toc-sybil-attacks-and-defenses">Sybil attacks and defenses</a>
+<ul>
+<li><a href="#implications" id="toc-implications">Implications</a></li>
+<li><a href="#sybil-defenses" id="toc-sybil-defenses">Sybil
+defenses</a></li>
+</ul></li>
+<li><a href="#review-of-consensus" id="toc-review-of-consensus">Review
+of Consensus</a>
+<ul>
+<li><a href="#logical-clocks" id="toc-logical-clocks">Logical
+clocks</a></li>
+</ul></li>
+<li><a href="#byzantine-problems" id="toc-byzantine-problems">Byzantine
+problems</a>
+<ul>
+<li><a href="#byzantine-generals-problem"
+id="toc-byzantine-generals-problem">Byzantine generals problem</a></li>
+<li><a href="#byzantine-faults---causes"
+id="toc-byzantine-faults---causes">Byzantine faults - Causes</a></li>
+<li><a href="#bft-consensus" id="toc-bft-consensus">BFT
+Consensus</a></li>
+</ul></li>
+<li><a href="#permissionless-consensus-bitcoin-and-proof-of-work"
+id="toc-permissionless-consensus-bitcoin-and-proof-of-work">Permissionless
+consensus (Bitcoin and Proof-of-work)</a>
+<ul>
+<li><a href="#bitcoin---key-ideas" id="toc-bitcoin---key-ideas">Bitcoin
+- key ideas</a></li>
+<li><a href="#bitcoin-assumptions" id="toc-bitcoin-assumptions">Bitcoin
+assumptions</a></li>
+</ul></li>
+</ul>
+</nav>
 <!-- markdownlint-disable MD010 MD041 MD001 MD036 MD029 MD034-->
-<h2 data-number="0.1" id="definitions"><span
-class="header-section-number">0.1</span> Definitions</h2>
+<h2 id="definitions">Definitions</h2>
 <p><strong>Distributed system</strong> - system whose components are
 located on different networked computers</p>
 <p><strong>Decentralized system</strong> - system without a single
 authority</p>
-<h2 data-number="0.2" id="examples"><span
-class="header-section-number">0.2</span> Examples</h2>
+<h2 id="examples">Examples</h2>
 <p>Centralized distributed:</p>
 <ul>
 <li>Google</li>
@@ -637,8 +774,7 @@ class="header-section-number">0.2</span> Examples</h2>
 <li>Avionics, control systems in airplains</li>
 <li>E-Voting</li>
 </ul>
-<h2 data-number="0.3" id="cap-theorem"><span
-class="header-section-number">0.3</span> CAP theorem</h2>
+<h2 id="cap-theorem">CAP theorem</h2>
 <p>In distributed systems you can get <strong>Consistency</strong>
 (Every read receives the most recent write or an error),
 <strong>Availability</strong> (Every request receives a (non-error)
@@ -647,16 +783,14 @@ response, without the guarantee that it contains the most recent write),
 despite an arbitrary number of messages being dropped (or delayed) by
 the network between nodes) - and you can only choose 2 of them because
 it’s not perfect.</p>
-<h2 data-number="0.4" id="why-build-theses-systems"><span
-class="header-section-number">0.4</span> Why build theses systems</h2>
+<h2 id="why-build-theses-systems">Why build theses systems</h2>
 <p>Sometimes a basic requirement</p>
 <p>Availability, reliability and safety</p>
 <p>Lower resource usage (in specific scenarios - e.g. Windows
 update)</p>
 <p>Enabler for resilient ecosystems</p>
 <p>Nature has shown they can work incredibly well.</p>
-<h2 data-number="0.5" id="major-topics-and-applications"><span
-class="header-section-number">0.5</span> Major topics and
+<h2 id="major-topics-and-applications">Major topics and
 applications</h2>
 <p>Communication: messaging, chat, voice/video</p>
 <p>Data: storing, sharing, searching and mining</p>
@@ -667,17 +801,14 @@ fairness and correctness)</p>
 <p>Blockchains, cryptocurrencies and smart contract systems</p>
 <p>And more (decenctralized control systems, intelligent agents,
 military and civilian ad-hoc networks (MANET, VANET, FANET, etc))</p>
-<h2 data-number="0.6" id="recurrent-issues-and-themes"><span
-class="header-section-number">0.6</span> Recurrent issues and
-themes</h2>
+<h2 id="recurrent-issues-and-themes">Recurrent issues and themes</h2>
 <p>Identity (real, sybil) versus location</p>
 <p>Information integrity and privacy</p>
 <p>Behaviour accountability (moderation)</p>
 <p>Denial-of-service attacks</p>
 <p>Protocol efficiency, in the normal case and under load or attack</p>
-<h2 data-number="0.7" id="why-we-might-prefer-centralized-systems"><span
-class="header-section-number">0.7</span> Why we might prefer centralized
-systems?</h2>
+<h2 id="why-we-might-prefer-centralized-systems">Why we might prefer
+centralized systems?</h2>
 <ul>
 <li><p>moderation</p></li>
 <li><p>policy control (banks)</p></li>
@@ -698,13 +829,11 @@ systems?</h2>
 <li><p>Performance / Efficiency</p></li>
 <li><p>Cost</p></li>
 </ul>
-<h2 data-number="0.8" id="usenet-and-gossip"><span
-class="header-section-number">0.8</span> Usenet and Gossip</h2>
+<h2 id="usenet-and-gossip">Usenet and Gossip</h2>
 <p><strong>Gossip idea</strong> - family of protocols that are also
 called <em>epidemic</em> protocols. Information spread over other
 devices.</p>
-<h3 data-number="0.8.1" id="usenet"><span
-class="header-section-number">0.8.1</span> Usenet</h3>
+<h3 id="usenet">Usenet</h3>
 <p><strong>Usenet</strong> - User’s network; worldwide, distributed
 discussion system (like reddit before reddit)</p>
 <p>It had hierarchical organization of topics where it went from root to
@@ -730,10 +859,8 @@ bytes/message, per-message pricing (~2CHF/MB)</p>
 still relevant.</p>
 <p>And there is churn - the change of systems while some are down
 (e.g. change the batteries)</p>
-<h4 data-number="0.8.1.1"
-id="specifications---todo-take-from-slides"><span
-class="header-section-number">0.8.1.1</span> Specifications - TODO: take
-from slides</h4>
+<h4 id="specifications---todo-take-from-slides">Specifications - TODO:
+take from slides</h4>
 <ul>
 <li>Worldwide, distributed discussion system</li>
 <li>Hierarchical organization of topics / newsgroups</li>
@@ -761,8 +888,7 @@ date)</li>
 <li><em>there are more optional fields</em></li>
 </ul></li>
 </ul>
-<h4 data-number="0.8.1.2" id="message-transmission"><span
-class="header-section-number">0.8.1.2</span> Message transmission</h4>
+<h4 id="message-transmission">Message transmission</h4>
 <p>Basic version could be <em>Naive Broadcast</em> - send to all known
 nodes, and then receiver sends to all nodes except the sender. Problem
 with this is exponential flooding of network with the same message, and
@@ -770,8 +896,7 @@ it is too costly to operate.</p>
 <p>Ways to fix it: recognizing the message, converting the graph into
 the tree (it is extremely hard to do because of churn and adaptiveness
 to change, but possible - e.g. ethernet)</p>
-<h4 data-number="0.8.1.3" id="recognizing-messages-with-ids"><span
-class="header-section-number">0.8.1.3</span> Recognizing messages with
+<h4 id="recognizing-messages-with-ids">Recognizing messages with
 IDs</h4>
 <p>One way to do it is to create <em>big random number</em>
 (e.g. 256bits) - even though it is big number, there is no integrity
@@ -787,8 +912,7 @@ number&gt;@&lt;node&gt;</p>
 node is always represented in the path. If I receive a message, e.g. the
 path is E!MT!user, and then E!MV!user, both users see that the message
 passed through E. Therefore, E cannot deny being involved.</p>
-<h4 data-number="0.8.1.4" id="fixing-the-broadcast"><span
-class="header-section-number">0.8.1.4</span> Fixing the broadcast</h4>
+<h4 id="fixing-the-broadcast">Fixing the broadcast</h4>
 <p>if message is known - ignore else - send message to all peers except
 sender.</p>
 <p><strong>Limitations</strong>:</p>
@@ -810,9 +934,7 @@ will be long. <em>Solution</em> - A stores the history of messages sent
 to B. (but what if the B is a new node, so then there is a tradeoff how
 many messages to send, so then send some amount of the latest
 messages)</p>
-<h4 data-number="0.8.1.5" id="message-ids---trade-offs"><span
-class="header-section-number">0.8.1.5</span> Message IDs - Trade
-offs</h4>
+<h4 id="message-ids---trade-offs">Message IDs - Trade offs</h4>
 <p>How long to store the message IDs?</p>
 <p>What happens if …</p>
 <ul>
@@ -821,8 +943,7 @@ new messages</li>
 <li>you don’t store them long enough? - message could come back into
 circulation and loop around if some nodes are slow.</li>
 </ul>
-<h4 data-number="0.8.1.6" id="life-of-usenet"><span
-class="header-section-number">0.8.1.6</span> Life of Usenet</h4>
+<h4 id="life-of-usenet">Life of Usenet</h4>
 <p>Why was it so successful? It worked. Engineering simplicity.
 Decentralized - anyone can set it up. It was seen as “democratizing” -
 resistant to censorship.</p>
@@ -831,14 +952,12 @@ too heavy Number 1 reason - spam! Because there was no censorship, spam
 was not stopped (first spam was “Global alert for all: Jesus is Coming
 Soon”, and then people found a way to make money in it) Other causes -
 better alternatives, slow evolution because it was decentralized.</p>
-<h2 data-number="0.9" id="beyond-usenet-gossip-efficiency"><span
-class="header-section-number">0.9</span> Beyond Usenet: Gossip
+<h2 id="beyond-usenet-gossip-efficiency">Beyond Usenet: Gossip
 efficiency</h2>
 <p>What if we wanted to further minimize traffic?</p>
 <p>with ihave/sendme: pro - message content is only sent once per node,
 con - we still need P2P communication broadcast</p>
-<h3 data-number="0.9.1" id="improved-gossiping"><span
-class="header-section-number">0.9.1</span> Improved Gossiping</h3>
+<h3 id="improved-gossiping">Improved Gossiping</h3>
 <p>From people we can learn <strong>Rumour mongering</strong> - checking
 whether a person knows the rumour or not.</p>
 <p>Algorithm:</p>
@@ -857,10 +976,8 @@ whether a person knows the rumour or not.</p>
 progression expected value)</p>
 <p>Problems: Rumour might die. Pros: very fast and spreads to
 <em>most</em> nodes</p>
-<h4 data-number="0.9.1.1"
-id="how-to-make-sure-messages-reach-every-node"><span
-class="header-section-number">0.9.1.1</span> How to make sure messages
-reach every node?</h4>
+<h4 id="how-to-make-sure-messages-reach-every-node">How to make sure
+messages reach every node?</h4>
 <p>Using <strong>anti-entropy</strong> - pull-gossiping</p>
 <p>Algorithm:</p>
 <ul>
@@ -876,9 +993,7 @@ slow because the rumour is new</p>
 <p>Expected time to cover the whole network - 1 or 2 (timer) cycles.</p>
 <p>In general: works slowly but ensure complete coverage, at O(n) per
 period.</p>
-<h4 data-number="0.9.1.2" id="gossip-quality-measures"><span
-class="header-section-number">0.9.1.2</span> Gossip Quality
-Measures</h4>
+<h4 id="gossip-quality-measures">Gossip Quality Measures</h4>
 <p>Is your protocol any good? How can you tell?</p>
 <ul>
 <li>Traffic <span class="math inline">\frac{total\ traffic}{number\ of\
@@ -897,9 +1012,7 @@ that, good in average time and traffic, but residue is not always good.
 Anti-entropu: good in residue, not great in traffic, bad at average time
 but good at reaching the last node. So combination of anti-entropy and
 rumour mongering works very well.</p>
-<h4 data-number="0.9.1.3" id="how-can-we-delete-rumours"><span
-class="header-section-number">0.9.1.3</span> How can we “delete”
-rumours?</h4>
+<h4 id="how-can-we-delete-rumours">How can we “delete” rumours?</h4>
 <p>Instead of propagating the data in the database, we want to delete
 it.</p>
 <p>To delete it, we can spread the rumour to delete it. But the problem
@@ -907,22 +1020,18 @@ is that we keep the original rumour and the death certificate (“delete
 this”) rumour. Also, rumour can get resurrected - because it is
 decentralized system, so someone has to keep the death certificate
 alive.</p>
-<h4 data-number="0.9.1.4" id="few-applications-of-gossip"><span
-class="header-section-number">0.9.1.4</span> Few applications of
-Gossip</h4>
+<h4 id="few-applications-of-gossip">Few applications of Gossip</h4>
 <p>Metadata propagation</p>
 <p>Failure detection</p>
 <p>Group membership</p>
 <p><span class="math inline">\uarr</span> databases uses gossip to
 spread metadata, but the data itself is spread normally.</p>
 <p>E.g. Apache Cassandra, CockroachDB, Consul</p>
-<h4 data-number="0.9.1.5" id="failure-detection"><span
-class="header-section-number">0.9.1.5</span> Failure detection</h4>
+<h4 id="failure-detection">Failure detection</h4>
 <p>Adding a heartbeat bits to each message sent by the node with a
 counter. Later anyone can check when was the last time it was heard from
 that node.</p>
-<h2 data-number="0.10" id="finding-data-among-many-unknown-peers"><span
-class="header-section-number">0.10</span> Finding data among (many,
+<h2 id="finding-data-among-many-unknown-peers">Finding data among (many,
 unknown) peers</h2>
 <p>May open questions:</p>
 <ul>
@@ -935,8 +1044,7 @@ unknown) peers</h2>
 <ul>
 <li>What can we assume about the peers and the network?</li>
 </ul>
-<h3 data-number="0.10.1" id="distributed-search-algorithms"><span
-class="header-section-number">0.10.1</span> Distributed Search
+<h3 id="distributed-search-algorithms">Distributed Search
 algorithms</h3>
 <p>Two families:</p>
 <ul>
@@ -949,8 +1057,7 @@ algorithms</h3>
 <li>Much more efficient many more problems</li>
 </ul></li>
 </ul>
-<h4 data-number="0.10.1.1" id="building-gnutella"><span
-class="header-section-number">0.10.1.1</span> Building Gnutella</h4>
+<h4 id="building-gnutella">Building Gnutella</h4>
 <p>Context (1999-2008): No spotify, no Netflix No BitTorrent People
 still want entertainment</p>
 <p>Specifications:</p>
@@ -994,11 +1101,8 @@ churn Tunable parameters Extremely robust/resilient - therefore it can
 be applied in different systems, not only search</p>
 <p><strong>Unrealistic assumption</strong> - so far we said that the
 node can just reply to the source, but that’s not possible.</p>
-<h2 data-number="0.11" id="ad-hoc-routing-protocols"><span
-class="header-section-number">0.11</span> Ad-hoc Routing Protocols</h2>
-<h4 data-number="0.11.0.1"
-id="p2p-example---home-and-epfl-networks"><span
-class="header-section-number">0.11.0.1</span> P2P Example - home and
+<h2 id="ad-hoc-routing-protocols">Ad-hoc Routing Protocols</h2>
+<h4 id="p2p-example---home-and-epfl-networks">P2P Example - home and
 EPFL networks</h4>
 <p>EPFL Network &lt;- EPFL Firewall &lt;- Public internet -&gt; ISP
 -&gt; home router + NAT -&gt; IP address</p>
@@ -1008,18 +1112,14 @@ cannot because it does not have an IP address (if there is no port
 forwarding)</p>
 <p>Problem: even in the wired state of routing, you will not be able to
 connect to everyone simply.</p>
-<h4 data-number="0.11.0.2"
-id="p2p-example---ad-hoc-networks---drones"><span
-class="header-section-number">0.11.0.2</span> P2P Example - ad-hoc
+<h4 id="p2p-example---ad-hoc-networks---drones">P2P Example - ad-hoc
 networks - drones</h4>
 <p>Drones can go out of range.</p>
 <p>Bob sent out a lot of drones and wants to communicate with all of
 them. Drones find each other and set up links. However, drones move
 around which causes the reconfiguration of the network. (similar to
 this, a person moves with their device in EPFL)</p>
-<h4 data-number="0.11.0.3" id="p2p-example---analysis"><span
-class="header-section-number">0.11.0.3</span> P2P Example -
-analysis</h4>
+<h4 id="p2p-example---analysis">P2P Example - analysis</h4>
 <ul>
 <li>peers may not be directly accessible</li>
 <li>peers may join or leave the network at arbitrary times</li>
@@ -1032,18 +1132,14 @@ analysis</h4>
 <li>Bandwidth</li>
 <li>Protocols / Physical layer / etc.</li>
 </ul>
-<h3 data-number="0.11.1" id="naive-routing-dont-do-this"><span
-class="header-section-number">0.11.1</span> Naive routing (don’t do
-this)</h3>
+<h3 id="naive-routing-dont-do-this">Naive routing (don’t do this)</h3>
 <p>Nodes advertise a distance to other nodes.</p>
 <p>E.g.: B -&gt; D = 1 A -&gt; D = 2 (through B or C) c -&gt; D = 1</p>
 <p>If D loses connectivity to B and C. B updates to B -&gt; D = 2
 (through C) C updates to C -&gt; D = 3 (through B) …. it goes on and on
 This is because B and C are making decision on outdated information.</p>
-<h3 data-number="0.11.2"
-id="reaching-arbitrary-peers-in-a-network-aodv"><span
-class="header-section-number">0.11.2</span> Reaching arbitrary peers in
-a network : AODV</h3>
+<h3 id="reaching-arbitrary-peers-in-a-network-aodv">Reaching arbitrary
+peers in a network : AODV</h3>
 <p>Ad-hoc On-demand Distance Vector</p>
 <p>Key idea: Flooding search for a node (e.g. E) - when we know that a
 node exists. Nodes remember where the search came from. (Remember only
@@ -1055,8 +1151,7 @@ A&lt;-B&lt;-D&lt;-E</p>
 remember for a long time.</p>
 <p>It has the same problems as flooding.</p>
 <p>Zigbee wireless protocol uses this.</p>
-<h3 data-number="0.11.3" id="dsdv"><span
-class="header-section-number">0.11.3</span> DSDV</h3>
+<h3 id="dsdv">DSDV</h3>
 <p>Destination-Sequenced Distance Vector</p>
 <p>Key idea:</p>
 <ul>
@@ -1068,8 +1163,7 @@ with increasing sequence numebrs (we know which version of this flood we
 are getting).</p>
 <p>O(n^2) traffic, superseeded by newer protocols.
 <strong>versioning</strong> idea is still on</p>
-<h3 data-number="0.11.4" id="quality-factors-in-ad-hoc-routing"><span
-class="header-section-number">0.11.4</span> Quality factors in ad-hoc
+<h3 id="quality-factors-in-ad-hoc-routing">Quality factors in ad-hoc
 routing</h3>
 <ul>
 <li>amount of traffic during updates/creation</li>
@@ -1078,11 +1172,9 @@ routing</h3>
 <li>speed of convergence - the routing could be temporarily broken</li>
 <li>guarantee of being loop-free</li>
 </ul>
-<h2 data-number="0.12" id="compact-routing-and-structured-search"><span
-class="header-section-number">0.12</span> Compact routing and structured
-search</h2>
-<h3 data-number="0.12.1" id="general-approach"><span
-class="header-section-number">0.12.1</span> General approach</h3>
+<h2 id="compact-routing-and-structured-search">Compact routing and
+structured search</h2>
+<h3 id="general-approach">General approach</h3>
 <p>Build a structured <em>overlay network</em> (like a virtual LAN) It
 enables significant efficiency gains</p>
 <p>The price paid:</p>
@@ -1093,8 +1185,7 @@ when nodes disappear)</li>
 <li>constant fight against churn</li>
 <li>loss of generality</li>
 </ul>
-<h3 data-number="0.12.2" id="distributed-hash-table"><span
-class="header-section-number">0.12.2</span> Distributed Hash Table</h3>
+<h3 id="distributed-hash-table">Distributed Hash Table</h3>
 <p>Local hash tables need:</p>
 <ul>
 <li>“good” hashing function</li>
@@ -1117,8 +1208,7 @@ distributed (because it will be big system)</li>
 <li>random access memory</li>
 </ul></li>
 </ul>
-<h4 data-number="0.12.2.1" id="chord-dht"><span
-class="header-section-number">0.12.2.1</span> Chord DHT</h4>
+<h4 id="chord-dht">Chord DHT</h4>
 <p>Hash into a collection of RAMs To do that we will use circular hash
 ID space (e.g. SHA-256)</p>
 <p>Each node has a pseudo-random hash ID (it enables us to put the nodes
@@ -1175,11 +1265,9 @@ etc</strong>)</li>
 <li>split correctness and performance (tolerate some incorrectness)</li>
 <li>transient failures can be retried</li>
 </ul>
-<h2 data-number="0.13" id="decentralized-storage-distribution"><span
-class="header-section-number">0.13</span> Decentralized Storage &amp;
+<h2 id="decentralized-storage-distribution">Decentralized Storage &amp;
 Distribution</h2>
-<h3 data-number="0.13.1" id="storing-data-reliably"><span
-class="header-section-number">0.13.1</span> Storing data (reliably)</h3>
+<h3 id="storing-data-reliably">Storing data (reliably)</h3>
 <p>On local machine: Storing in redundancy (RAID - redundant array of
 independent discs, FEC/ECC/erasure codes) - encode the data and some
 additional data such that we don’t lose it.</p>
@@ -1188,8 +1276,7 @@ AWS S3) - different levels of abstraction Redundancy - should all 1000
 computers have a copy - no, but more than one copy Concurrency control -
 locking does not scale well but is easy Sharding - keeping a subset of
 the data in one place</p>
-<h3 data-number="0.13.2" id="cap-theorem---reminder"><span
-class="header-section-number">0.13.2</span> CAP theorem - reminder</h3>
+<h3 id="cap-theorem---reminder">CAP theorem - reminder</h3>
 <p>Definitions:</p>
 <ul>
 <li>Consistency - anyone reading will read the last write (or
@@ -1202,8 +1289,7 @@ error)</li>
 consistency (how much am i willing to wait to be consistent or how
 consistent do i need to be if i want to wait little time) -&gt; eventual
 consistency (at some point i will be consistent)</p>
-<h3 data-number="0.13.3" id="goals-and-challenges"><span
-class="header-section-number">0.13.3</span> Goals and Challenges</h3>
+<h3 id="goals-and-challenges">Goals and Challenges</h3>
 <p>Availability - robust to churn, individual node failures, etc
 (durability could also be included but also independent - how robust are
 we to losing data)</p>
@@ -1220,10 +1306,8 @@ access control, logging, accountability</p>
 <p>(Logical) data organization - “flat”? files? directories? databases?
 graph?</p>
 <p>(Physical) data location - where should it be stored?</p>
-<h3 data-number="0.13.4" id="building-bittorrent"><span
-class="header-section-number">0.13.4</span> Building BitTorrent</h3>
-<h4 data-number="0.13.4.1" id="specificaiton"><span
-class="header-section-number">0.13.4.1</span> Specificaiton</h4>
+<h3 id="building-bittorrent">Building BitTorrent</h3>
+<h4 id="specificaiton">Specificaiton</h4>
 <p>Distribute a large, static (immutable) files:</p>
 <ul>
 <li>from a source node with limited bandwidth</li>
@@ -1234,14 +1318,12 @@ class="header-section-number">0.13.4.1</span> Specificaiton</h4>
 <p>Assume users are self-interested = don’t assume they want to help</p>
 <p>How to build this? Core intuition? - turn downloaders into
 uploaders</p>
-<h4 data-number="0.13.4.2" id="distribution"><span
-class="header-section-number">0.13.4.2</span> Distribution</h4>
+<h4 id="distribution">Distribution</h4>
 <p>Source has 6 chunks of data. At any point it is uploading at most to
 2 nodes. Distribute chunks to the nodes in different steps, and when all
 the chunks are in the network, all nodes eventually get the full
 data.</p>
-<h4 data-number="0.13.4.3" id="sub-problems"><span
-class="header-section-number">0.13.4.3</span> Sub-problems</h4>
+<h4 id="sub-problems">Sub-problems</h4>
 <ul>
 <li>Advertising a file</li>
 <li>how to find peers to download from</li>
@@ -1250,18 +1332,14 @@ virus</li>
 <li>optimizing performance</li>
 <li>aligning incentives (downloaders vs uploaders)</li>
 </ul>
-<h5 data-number="0.13.4.3.1"
-id="distribution-and-integrity-of-large-files"><span
-class="header-section-number">0.13.4.3.1</span> Distribution and
+<h5 id="distribution-and-integrity-of-large-files">Distribution and
 integrity of (large) files</h5>
 <p>A client should be able to verify: parts of file, as they are
 downloaded the whole file (after download)</p>
 <p>Solution: part 1 - compute hashes for parts (chunking) part 2 - hash
 tree (merkle tree) - hash over the hashes building a tree (otherwise
 ineficient to transfer data ie all hashes)</p>
-<h5 data-number="0.13.4.3.2" id="finding-peers-bootstrapping"><span
-class="header-section-number">0.13.4.3.2</span> Finding peers /
-bootstrapping</h5>
+<h5 id="finding-peers-bootstrapping">Finding peers / bootstrapping</h5>
 <p>Two options:</p>
 <ul>
 <li>Trackers - server whose role is to send peers to other peers who
@@ -1270,17 +1348,13 @@ have the files</li>
 value is the list of peers who are working on that file.</li>
 </ul>
 <p>Join the swarm and connect to ~80 peers.</p>
-<h5 data-number="0.13.4.3.3" id="publishing-new-content"><span
-class="header-section-number">0.13.4.3.3</span> Publishing new
-content</h5>
+<h5 id="publishing-new-content">Publishing new content</h5>
 <ol type="1">
 <li>“Prepare” the file (chunks and build Merkle tree)</li>
 <li>Register with a “tracker”</li>
 <li>Publish a .torrent file or magnet (DHT) link</li>
 </ol>
-<h5 data-number="0.13.4.3.4" id="performance-and-incentives"><span
-class="header-section-number">0.13.4.3.4</span> Performance and
-Incentives</h5>
+<h5 id="performance-and-incentives">Performance and Incentives</h5>
 <p>One of the key ideas is to download rarest data blocks (“chunks”)
 first - entropy maximization</p>
 <p>Use Tit-For-Tat strategy (“choking” protocol) - if you’re mean to me
@@ -1294,8 +1368,7 @@ I am mean to you, if you’re good to me I am good to you.</p>
 peer.</p>
 <p>BitTorrent does not take into account where (location-wise) your
 peers are. And the download and upload speed are not symmetrical.</p>
-<h4 data-number="0.13.4.4" id="bittorrent-inspired-solutions"><span
-class="header-section-number">0.13.4.4</span> BitTorrent-inspired
+<h4 id="bittorrent-inspired-solutions">BitTorrent-inspired
 solutions</h4>
 <p>Servers:</p>
 <ul>
@@ -1313,8 +1386,7 @@ deployment)</li>
 <li>Windows Update</li>
 <li>others have tried - “DebTorrent”</li>
 </ul>
-<h4 data-number="0.13.4.5" id="bittorrent-limits"><span
-class="header-section-number">0.13.4.5</span> BitTorrent limits</h4>
+<h4 id="bittorrent-limits">BitTorrent limits</h4>
 <p>Why did DebTorrent fail to materialize?</p>
 <ul>
 <li>Not suited for small files (overhead)</li>
@@ -1325,8 +1397,7 @@ torrents)</li>
 </ul>
 <p>For DebTorrent, both “1 huge torrent” or “1M+ small ones” =
 inneficient</p>
-<h3 data-number="0.13.5" id="ipfs---inter-planetary-file-system"><span
-class="header-section-number">0.13.5</span> IPFS - Inter-Planetary File
+<h3 id="ipfs---inter-planetary-file-system">IPFS - Inter-Planetary File
 System</h3>
 <p>Protocol for P2P distributed file system, fully decentralized</p>
 <p>Designed to address (perceived) flaws in HTTP - why do i need to
@@ -1340,9 +1411,8 @@ weekly users, 100+ PiB stored</p>
 <li>Git versioning</li>
 <li>Self-certifying filesystems</li>
 </ul>
-<h4 data-number="0.13.5.1" id="representing-a-filesystem-in-a-dht"><span
-class="header-section-number">0.13.5.1</span> Representing a filesystem
-in a DHT</h4>
+<h4 id="representing-a-filesystem-in-a-dht">Representing a filesystem in
+a DHT</h4>
 <p>Everything is immutable</p>
 <p>All objects are self-certifying (files, links, folders, changes) -
 prevents websites being exact copies of each other; the hash of data
@@ -1362,21 +1432,14 @@ different places. ID is computed based on object’s hash</p>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  Hash Multihash    <span class="co">//... hash</span></span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  Size <span class="dt">int</span>          <span class="co">// ... size</span></span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
-<h5 data-number="0.13.5.1.1" id="representig-a-file-256kb"><span
-class="header-section-number">0.13.5.1.1</span> Representig a file &lt;
-256kB</h5>
+<h5 id="representig-a-file-256kb">Representig a file &lt; 256kB</h5>
 <p>It is a blob, and representation looks like git</p>
-<h5 data-number="0.13.5.1.2" id="representing-a-file-256kb"><span
-class="header-section-number">0.13.5.1.2</span> Representing a file &gt;
-256kB</h5>
+<h5 id="representing-a-file-256kb">Representing a file &gt; 256kB</h5>
 <p>Split it in chunks - list of smaller files</p>
-<h5 data-number="0.13.5.1.3" id="representing-a-directory"><span
-class="header-section-number">0.13.5.1.3</span> Representing a
-directory</h5>
+<h5 id="representing-a-directory">Representing a directory</h5>
 <p>Object that has links to files, to subdirectories. This is a directed
 acyclic graph.</p>
-<h5 data-number="0.13.5.1.4" id="versioning"><span
-class="header-section-number">0.13.5.1.4</span> Versioning</h5>
+<h5 id="versioning">Versioning</h5>
 <ul>
 <li>Git-like</li>
 <li>Build a mMrkle DAG</li>
@@ -1385,9 +1448,7 @@ class="header-section-number">0.13.5.1.4</span> Versioning</h5>
 <li>Creates a Git-like log of versions</li>
 </ul>
 <p>Problems: How do we know the latest version? merge problems</p>
-<h5 data-number="0.13.5.1.5" id="naming-mutable-data"><span
-class="header-section-number">0.13.5.1.5</span> Naming (mutable)
-data</h5>
+<h5 id="naming-mutable-data">Naming (mutable) data</h5>
 <p>Objects are immutable so:</p>
 <ul>
 <li>use a separate namespace for mutable data</li>
@@ -1400,9 +1461,7 @@ time)</li>
 <p>These are independent of the file system.</p>
 <p>For naming we will use an extension that is IP Naming System: use
 public key to make sure that no one else is using it</p>
-<h3 data-number="0.13.6"
-id="shifting-paradigm---local-first-software"><span
-class="header-section-number">0.13.6</span> Shifting paradigm -
+<h3 id="shifting-paradigm---local-first-software">Shifting paradigm -
 Local-First Software</h3>
 <p>Git, Google Docs, Apple Notes - work offline and you (nearly) get the
 full experience</p>
@@ -1417,10 +1476,8 @@ that forked?</p>
 </ul>
 <p>What tool - Conflic-Free Replicate Data Types (Data structure +
 Algorithm + Protocol)</p>
-<h3 data-number="0.13.7"
-id="conflict-free-replicate-data-types-crdts"><span
-class="header-section-number">0.13.7</span> Conflict-Free Replicate Data
-Types (CRDTs)</h3>
+<h3 id="conflict-free-replicate-data-types-crdts">Conflict-Free
+Replicate Data Types (CRDTs)</h3>
 <p>Various types:</p>
 <ul>
 <li>Values (simples approach - last write wins)</li>
@@ -1430,8 +1487,7 @@ Types (CRDTs)</h3>
 </ul>
 <p>Categories: Operation-based - commutative replicated data types
 (CmRDTs) State-based - convergent replicative data types (CvRDTs)</p>
-<h4 data-number="0.13.7.1" id="g-counter-crdt"><span
-class="header-section-number">0.13.7.1</span> G-Counter CRDT</h4>
+<h4 id="g-counter-crdt">G-Counter CRDT</h4>
 <p>Grow-only counter - replicated across N machines</p>
 <p>Add(x) - updates our local counter</p>
 <p>Query() - returns the value</p>
@@ -1453,19 +1509,14 @@ class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a hr
 <span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="kw">def</span> merge(<span class="va">self</span>, other):</span>
 <span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    zipped <span class="op">=</span> <span class="bu">zip</span>(<span class="va">self</span>.xs, other.xs)</span>
 <span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.xs <span class="op">=</span> [<span class="bu">max</span>(x, y) <span class="cf">for</span> (x, y) <span class="kw">in</span> zipped]</span></code></pre></div>
-<h4 data-number="0.13.7.2"
-id="local-first-software---simpler-backends"><span
-class="header-section-number">0.13.7.2</span> Local-First Software -
+<h4 id="local-first-software---simpler-backends">Local-First Software -
 simpler backends</h4>
 <p>Application becomes sequence of messages storage and sync, and
 therefore it becomes way easier to deploy.</p>
-<h2 data-number="0.14" id="replication-of-consensus"><span
-class="header-section-number">0.14</span> Replication of Consensus</h2>
-<h3 data-number="0.14.1" id="replication"><span
-class="header-section-number">0.14.1</span> Replication</h3>
+<h2 id="replication-of-consensus">Replication of Consensus</h2>
+<h3 id="replication">Replication</h3>
 <p>Replicating storage or nodes in a distributed system</p>
-<h4 data-number="0.14.1.1" id="storage-replication"><span
-class="header-section-number">0.14.1.1</span> Storage Replication</h4>
+<h4 id="storage-replication">Storage Replication</h4>
 <p>Storage-specific replication techniques assume that node stays alive,
 and there is a focus on making sure that disk failures are
 supported.</p>
@@ -1483,8 +1534,7 @@ disk failure</li>
 <p>Replication of distributed <em>Nodes</em> - we want to replicate any
 node such that when one fails, the system can work.
 <strong>Problem</strong> - there is no “authority”</p>
-<h3 data-number="0.14.2" id="agreement-or-consensus"><span
-class="header-section-number">0.14.2</span> Agreement or Consensus</h3>
+<h3 id="agreement-or-consensus">Agreement or Consensus</h3>
 <p>There are several (n) nodes agreeing on one state (value).</p>
 <p>One way to categorize consensus protocols broadly: permissioned or
 permissionless (since 2008)</p>
@@ -1504,9 +1554,7 @@ consistent?</p>
 <li>Eventual consistency - nodes may disagree for a while but eventually
 come to agreement</li>
 </ul>
-<h4 data-number="0.14.2.1" id="paxos-consensus-algorithm"><span
-class="header-section-number">0.14.2.1</span> Paxos consensus
-algorithm</h4>
+<h4 id="paxos-consensus-algorithm">Paxos consensus algorithm</h4>
 <p>Assume that there is a set of state nodes - Acceptors. For now have 2
 of them. (s1, s2) And there are clients which drive the agreement -
 Proposers (alice, bob)</p>
@@ -1543,9 +1591,7 @@ majority and got 1 yes answer, i might have succeeded. e.g. if I got f
 yeses, then i might have failed. =&gt; “I don’t know”</p>
 <p>if i got 0 yes, definitely failed; if i got f+1 yes, “looks like” i
 succeeded.</p>
-<h5 data-number="0.14.2.1.1" id="fundamental-challenges"><span
-class="header-section-number">0.14.2.1.1</span> Fundamental
-challenges</h5>
+<h5 id="fundamental-challenges">Fundamental challenges</h5>
 <ol type="1">
 <li>Be able to <em>try again</em> on failure.</li>
 <li>If agreement might have happened, the future tries have to be
@@ -1588,8 +1634,7 @@ from s1, Bob sees that one server might have succeeded, and sends his
 reservation for step 2. Bob succeeds at s2 and s3, Bob sends record T’,
 and then s3 records T’. And this depends on the majority that agrees to
 have the view of overwriting or saving alice’s step.</p>
-<h2 data-number="0.15" id="cryptography"><span
-class="header-section-number">0.15</span> Cryptography</h2>
+<h2 id="cryptography">Cryptography</h2>
 <p>Cryptography is not reliable unless implemented properly, and unless
 used properly. And it is not a solution to all problems</p>
 <ul>
@@ -1605,9 +1650,7 @@ sign with privkey, verify with pubkey)
 <li>Key infrastructure</li>
 <li>Threshold secret sharing</li>
 </ul>
-<h4 data-number="0.15.0.1" id="elliptic-curve-cryptography"><span
-class="header-section-number">0.15.0.1</span> Elliptic curve
-cryptography</h4>
+<h4 id="elliptic-curve-cryptography">Elliptic curve cryptography</h4>
 <p>is based on the algebraic structure of elliptic surves over finite
 fileds.</p>
 <p>Hardness (trapdoor) - hard to determine n form Q = nP, given known Q
@@ -1623,8 +1666,7 @@ is not being used - security of private key could be compromised. In
 2010 Sony used it but used a constant instead of randomness to sign
 software for PS3 and privkey was recovered In 2013 Android Bitcoin
 Wallet due to k being predictable</p>
-<h4 data-number="0.15.0.2" id="key-distrivution"><span
-class="header-section-number">0.15.0.2</span> Key distrivution</h4>
+<h4 id="key-distrivution">Key distrivution</h4>
 <p>for both symmetric and asymmetric crypto key distribution is
 necessary</p>
 <p>Exchange of secret keys requires confidentiality Exchange of public
@@ -1633,14 +1675,11 @@ keys requires integrity</p>
 <p>There is a hierarchy of trust - one of KDC/CA is not enough. Problem
 - this is centralized, therefore attacker could carry out MITM
 attacks.</p>
-<h5 data-number="0.15.0.2.1" id="web-of-trust-wot"><span
-class="header-section-number">0.15.0.2.1</span> Web Of Trust (WOT)</h5>
+<h5 id="web-of-trust-wot">Web Of Trust (WOT)</h5>
 <p>Creating the graph where I can trust someone who is trusted by
 someone I already trust. This works very well until there is a node who
 trusts a lot of malicious nodes.</p>
-<h4 data-number="0.15.0.3" id="threshold-secret-sharing"><span
-class="header-section-number">0.15.0.3</span> Threshold secret
-sharing</h4>
+<h4 id="threshold-secret-sharing">Threshold secret sharing</h4>
 <p>Sharing a secrete without revealing it</p>
 <p>Any encrypted data is secured with a private key.</p>
 <ul>
@@ -1656,28 +1695,21 @@ idea:</p>
 </ul>
 <p>Distributed key generation (DKG) - allows the group of nodes to
 create their set of of public-private keys</p>
-<h3 data-number="0.15.1"
-id="drand-publc-verifiable-randomness-explained"><span
-class="header-section-number">0.15.1</span> drand: publc, verifiable
-randomness explained</h3>
-<h4 data-number="0.15.1.1" id="secret-randomness"><span
-class="header-section-number">0.15.1.1</span> Secret randomness</h4>
+<h3 id="drand-publc-verifiable-randomness-explained">drand: publc,
+verifiable randomness explained</h3>
+<h4 id="secret-randomness">Secret randomness</h4>
 <p>We always use secret randomness to generate cryptographic material
 (used in AES always)</p>
-<h4 data-number="0.15.1.2" id="public-randomness"><span
-class="header-section-number">0.15.1.2</span> Public randomness</h4>
+<h4 id="public-randomness">Public randomness</h4>
 <p>E.g. Lottery It is simply a random value that is meant to be
 public.</p>
 <p>Its goal is often to increase the trust.</p>
-<h4 data-number="0.15.1.3" id="verifiable-randomness"><span
-class="header-section-number">0.15.1.3</span> Verifiable randomness</h4>
+<h4 id="verifiable-randomness">Verifiable randomness</h4>
 <p>public randomness is cool, but we usually wnat it to allow for public
 verifiability.</p>
 <p>This requires many complex verfiable generating functions.</p>
-<h2 data-number="0.16" id="anonymous-communication"><span
-class="header-section-number">0.16</span> Anonymous Communication</h2>
-<h3 data-number="0.16.1" id="who-has-eyes-to-your-internet-usage"><span
-class="header-section-number">0.16.1</span> Who has eyes to your
+<h2 id="anonymous-communication">Anonymous Communication</h2>
+<h3 id="who-has-eyes-to-your-internet-usage">Who has eyes to your
 internet usage?</h3>
 <ul>
 <li>ISP</li>
@@ -1707,8 +1739,7 @@ avoid speech being linked to oneself)</li>
 <li>Helps criminals stay out of jail</li>
 <li>Helps cops investigate online crimes</li>
 </ul>
-<h3 data-number="0.16.2" id="threat-model"><span
-class="header-section-number">0.16.2</span> Threat model</h3>
+<h3 id="threat-model">Threat model</h3>
 <p>Is out desire to remain anonymous a secret on its own?</p>
 <p>Who are we keepking our identity from? a website, advertisers, a
 platform (meta, google), a well-funded governments</p>
@@ -1721,8 +1752,7 @@ platforms</p>
 responds, NSA takes the response packet from internet backbone, tells
 the router to drop the packet, and meanwhile sends the packet through
 Quantum system - TAO FOXACID which sends that packet to the client.</p>
-<h3 data-number="0.16.3" id="the-goal"><span
-class="header-section-number">0.16.3</span> The goal</h3>
+<h3 id="the-goal">The goal</h3>
 <ul>
 <li>Server and receiver cannot be “linked” by a 3rd party</li>
 <li>Server and receiver both remain anonymous, including to each other
@@ -1735,11 +1765,8 @@ size range)</li>
 </ul></li>
 <li>Ideally - censorship-resistant</li>
 </ul>
-<h3 data-number="0.16.4" id="how-to-achieve-anonymity"><span
-class="header-section-number">0.16.4</span> How to achieve
-anonymity</h3>
-<h4 data-number="0.16.4.1" id="hop-approach"><span
-class="header-section-number">0.16.4.1</span> 1-hop approach</h4>
+<h3 id="how-to-achieve-anonymity">How to achieve anonymity</h3>
+<h4 id="hop-approach">1-hop approach</h4>
 <p>1-hop approach - Proxy / Commercial VPN - ISP can see that you are
 communicating with the VPN, but they don’t know what is the end
 communication</p>
@@ -1757,8 +1784,7 @@ communication</p>
 not forced to be under VPN)</li>
 <li>Vulnerable to censorship</li>
 </ul>
-<h4 data-number="0.16.4.2" id="hop-approach-1"><span
-class="header-section-number">0.16.4.2</span> 2-hop approach</h4>
+<h4 id="hop-approach-1">2-hop approach</h4>
 <p>2-hop approach - Apple Private Relay</p>
 <p>There are 2 relays: you are talking to Apple, and they talk with 3rd
 party, which talks to Web.</p>
@@ -1774,9 +1800,7 @@ party, which talks to Web.</p>
 <li>Limited to user’s geography - business of streaming media
 contracts</li>
 </ul>
-<h4 data-number="0.16.4.3" id="mix-networks-e.g.-mixminion"><span
-class="header-section-number">0.16.4.3</span> Mix networks
-(e.g. Mixminion)</h4>
+<h4 id="mix-networks-e.g.-mixminion">Mix networks (e.g. Mixminion)</h4>
 <p>Goal - anonymize e-mail / Usenet-like traffic</p>
 <p>Key intuition - get traffic, shuffle it and send it next step. Each
 node waits for certain time, mix the packets (order, identity of the
@@ -1790,9 +1814,7 @@ repeat attacks or precomputed paths.</p>
 <p>Advantage provable (storng) anonymity may resist traffic analysis</p>
 <p>Problem: Very slow, high-latency (hours) Few users -&gt; small
 anonymity set</p>
-<h4 data-number="0.16.4.4" id="tor-the-onion-router"><span
-class="header-section-number">0.16.4.4</span> Tor (The Onion
-Router)</h4>
+<h4 id="tor-the-onion-router">Tor (The Onion Router)</h4>
 <p>Can we make mix-net work at interactive speeds? -&gt; tradeoff with
 robustness to traffic analysis</p>
 <p>Each packet is 514 bytes</p>
@@ -1814,8 +1836,7 @@ list?</em> -&gt; <strong>consensus</strong></p>
 <li>web services may block tor</li>
 <li>adversary may become global passive adversaries</li>
 </ul>
-<h5 data-number="0.16.4.4.1" id="how-can-this-system-be-attacked"><span
-class="header-section-number">0.16.4.4.1</span> How can this system be
+<h5 id="how-can-this-system-be-attacked">How can this system be
 attacked?</h5>
 <p>Quantum system can intercept traffic in between client and guard
 node.</p>
@@ -1824,12 +1845,10 @@ node.</p>
 reputation of the relay</p>
 <p>There are services inside the network which makes it harder to
 attack.</p>
-<h4 data-number="0.16.4.5" id="garlic-routing"><span
-class="header-section-number">0.16.4.5</span> Garlic routing</h4>
+<h4 id="garlic-routing">Garlic routing</h4>
 <p>Packaging together messages at router and disassemble at next one. So
 it has mix-net properties</p>
-<h4 data-number="0.16.4.6" id="dining-cryptographers-dc-net"><span
-class="header-section-number">0.16.4.6</span> Dining Cryptographers
+<h4 id="dining-cryptographers-dc-net">Dining Cryptographers
 (DC-net)</h4>
 <p>Different - not relay-based, information coding</p>
 <p>Based on the secure multi-party computation.</p>
@@ -1857,9 +1876,7 @@ cryptographers.</p>
 <p>Scaling by avoiding all-to-all communcation: small amount of servers
 (m &lt;&lt; n), and a lot of clients. Clients communicate only with the
 servers.</p>
-<h2 data-number="0.17" id="sybil-attacks-and-defenses"><span
-class="header-section-number">0.17</span> Sybil attacks and
-defenses</h2>
+<h2 id="sybil-attacks-and-defenses">Sybil attacks and defenses</h2>
 <p><strong>What is it:</strong> “Sybil” is study of a patient diagnosed
 with multiple personality disorder (1973).</p>
 <p>Anyone can have as many electronic personas as one has time and
@@ -1876,23 +1893,20 @@ agree with you)</li>
 give a different opinion - e.g. tabacco movement against public
 legislators or shell “working” on renewables)</li>
 </ul>
-<h3 data-number="0.17.1" id="implications"><span
-class="header-section-number">0.17.1</span> Implications</h3>
+<h3 id="implications">Implications</h3>
 <p>DHTs: eclipse attacks - censor nodes, censor key-value pairs</p>
 <p>Compromise threshold-based security (t-of-n): creeping compromise -
 slowly increase t, n</p>
 <p>Compromise consensus: force particular decisions rewrite history
 equivocate (multiple histories if i tell different people different
 stories - Byzantine attack)</p>
-<h3 data-number="0.17.2" id="sybil-defenses"><span
-class="header-section-number">0.17.2</span> Sybil defenses</h3>
+<h3 id="sybil-defenses">Sybil defenses</h3>
 <p>Permissioned systems - only select few nodes</p>
 <p>Strong identity</p>
 <p>Adding artificial costs</p>
 <p>Social network-based - relationship between the identities</p>
 <p>Proof of Personhood</p>
-<h4 data-number="0.17.2.1" id="stronger-identities"><span
-class="header-section-number">0.17.2.1</span> Stronger identities</h4>
+<h4 id="stronger-identities">Stronger identities</h4>
 <p>Sign up with phone number (e.g. WhatsApp) - buy phone numbers, buy
 burner phones Sign up with credit card - fake cards, fake passports Sign
 up with e-mail - me@gmail.com vs me+cs438@gmail.com ID verification -
@@ -1922,8 +1936,7 @@ fingerprints</li>
 ML model.</li>
 </ul></li>
 </ul>
-<h4 data-number="0.17.2.2" id="artificial-costs"><span
-class="header-section-number">0.17.2.2</span> Artificial costs</h4>
+<h4 id="artificial-costs">Artificial costs</h4>
 <p>Key idea - increase the cost to Sybil identities</p>
 <ul>
 <li>Proof-of-work (bitcoin approach)</li>
@@ -1933,8 +1946,7 @@ class="header-section-number">0.17.2.2</span> Artificial costs</h4>
 will lose this money)</li>
 <li>Proof-of-space/storage</li>
 </ul>
-<h5 data-number="0.17.2.2.1" id="proof-of-work"><span
-class="header-section-number">0.17.2.2.1</span> Proof-of-work</h5>
+<h5 id="proof-of-work">Proof-of-work</h5>
 <p>first used as anti-spam popularized by Bitcoin</p>
 <p>It is a crypto puzzle: <span class="math inline">H(data, nonce) =
 000...000xxxxxxxxx</span> -&gt; find the <strong>nonce</strong> 0s are
@@ -1943,16 +1955,13 @@ Proof-of-work threshold, and you need 2^^n hashes</p>
 not efficient and not environmentally friendly</p>
 <p>It is more than a 1000x worse than other ideas from energy
 perspective.</p>
-<h5 data-number="0.17.2.2.2" id="proof-of-stake"><span
-class="header-section-number">0.17.2.2.2</span> Proof-of-stake</h5>
+<h5 id="proof-of-stake">Proof-of-stake</h5>
 <p>Etherium</p>
 <p>Nodes must stake money to participate in consensus Randomized
 validators, likelyhood based on stake. If validators don’t agree, if you
 misbehave, you get punished by loss of stake Plutocracy: more money -
 more stake (problem for small cryptocurrencies)</p>
-<h5 data-number="0.17.2.2.3" id="socialtrust-network-defenses"><span
-class="header-section-number">0.17.2.2.3</span> Social/Trust network
-defenses</h5>
+<h5 id="socialtrust-network-defenses">Social/Trust network defenses</h5>
 <ul>
 <li>PDP “Web of Trust” model
 <ul>
@@ -2002,8 +2011,7 @@ botnet</li>
 <li>small-scale attack</li>
 </ul></li>
 </ul>
-<h5 data-number="0.17.2.2.4" id="sybils-on-facebook"><span
-class="header-section-number">0.17.2.2.4</span> Sybils on Facebook</h5>
+<h5 id="sybils-on-facebook">Sybils on Facebook</h5>
 <p>We’re Facebook and trying to detect fake accounts:</p>
 <p>AI, look for usage patterns - IP could be an indication (uzbekistant
 IP but accutely interested in Swiss politics), volume of usage reporting
@@ -2012,8 +2020,7 @@ who - new account reaching out to a lot of people, 2) who are you
 connected to who - similar age/usage</p>
 <p>If these detections are public, the adversaries are just going to
 change approach so most of the time it is kept secret.</p>
-<h5 data-number="0.17.2.2.5" id="proof-of-personhood"><span
-class="header-section-number">0.17.2.2.5</span> Proof-of-Personhood</h5>
+<h5 id="proof-of-personhood">Proof-of-Personhood</h5>
 <p>Key intuition - link identity to “being a physical person”</p>
 <p>Goals:</p>
 <p>inclusion - low cost to participation (permissionless) equality- one
@@ -2024,27 +2031,20 @@ Sybils privacy - no ID, no biometrics, etc.</p>
 tests) - make a story out of pictures that makes sense. And it also
 prepares a flip test for others Humanity DAO - DAO/curated list Many
 others - Upala, BrightID, Good</p>
-<h2 data-number="0.18" id="review-of-consensus"><span
-class="header-section-number">0.18</span> Review of Consensus</h2>
-<h3 data-number="0.18.1" id="logical-clocks"><span
-class="header-section-number">0.18.1</span> Logical clocks</h3>
+<h2 id="review-of-consensus">Review of Consensus</h2>
+<h3 id="logical-clocks">Logical clocks</h3>
 <p>Lamport clock - A caused B -&gt; C(A) &lt; C(B) Each message contains
 the logical time, receiving updates the local clock</p>
 <p>Vector clock - C(A) &lt; C(B) -&gt; A caused B Similar to G-Counter
 CRDT, one counter per node.</p>
 <p>Threshold logical clock - specialized for threshold applications</p>
-<h4 data-number="0.18.1.1" id="threshold-logical-clock"><span
-class="header-section-number">0.18.1.1</span> Threshold logical
-clock</h4>
+<h4 id="threshold-logical-clock">Threshold logical clock</h4>
 <p>When a consensus is reached -&gt; broadcast logical clock
 advance.</p>
 <p>Then a threshold (quorum) of clock advances has been received -&gt;
 move to the next box, even if we haven’t witnessed the consensus</p>
-<h2 data-number="0.19" id="byzantine-problems"><span
-class="header-section-number">0.19</span> Byzantine problems</h2>
-<h3 data-number="0.19.1" id="byzantine-generals-problem"><span
-class="header-section-number">0.19.1</span> Byzantine generals
-problem</h3>
+<h2 id="byzantine-problems">Byzantine problems</h2>
+<h3 id="byzantine-generals-problem">Byzantine generals problem</h3>
 <p>Some generals surround the castle, and the goal is to take the
 castle. They will win if they coordinate correctly - either attack or
 retreat.</p>
@@ -2069,13 +2069,10 @@ retreat.</p>
 unreliable components</p>
 <p><strong>Redundancy</strong>: fundamental principle to build
 fault-tolerant systems</p>
-<h3 data-number="0.19.2" id="byzantine-faults---causes"><span
-class="header-section-number">0.19.2</span> Byzantine faults -
-Causes</h3>
+<h3 id="byzantine-faults---causes">Byzantine faults - Causes</h3>
 <p>Malicious actors (hacking), software bug, hardware failure</p>
 <p>What kind of hardware failure -&gt; network</p>
-<h3 data-number="0.19.3" id="bft-consensus"><span
-class="header-section-number">0.19.3</span> BFT Consensus</h3>
+<h3 id="bft-consensus">BFT Consensus</h3>
 <p>Key properties: Safety - all nodes agree on a (single) decision
 Liveness - eventually something is decided</p>
 <p>Paxos &gt;= 2f + 1</p>
@@ -2092,12 +2089,10 @@ who’s honest)</p>
 <p>How to decide on n? - cost analysis</p>
 <p>Sometimes people will accept Byzantine faults because the cost of the
 chance of introducing a bug with the implementation of BFT.</p>
-<h2 data-number="0.20"
-id="permissionless-consensus-bitcoin-and-proof-of-work"><span
-class="header-section-number">0.20</span> Permissionless consensus
-(Bitcoin and Proof-of-work)</h2>
-<h3 data-number="0.20.1" id="bitcoin---key-ideas"><span
-class="header-section-number">0.20.1</span> Bitcoin - key ideas</h3>
+<h2
+id="permissionless-consensus-bitcoin-and-proof-of-work">Permissionless
+consensus (Bitcoin and Proof-of-work)</h2>
+<h3 id="bitcoin---key-ideas">Bitcoin - key ideas</h3>
 <p>Proof-of-work:</p>
 <ul>
 <li>“miners” solve computational puzzles (hash with N leading zeros)
@@ -2107,8 +2102,7 @@ class="header-section-number">0.20.1</span> Bitcoin - key ideas</h3>
 </ul>
 <p>10min - ensures that everyone has received a block n, before there is
 a chance for anyone to mine block n+1.</p>
-<h3 data-number="0.20.2" id="bitcoin-assumptions"><span
-class="header-section-number">0.20.2</span> Bitcoin assumptions</h3>
+<h3 id="bitcoin-assumptions">Bitcoin assumptions</h3>
 <p>Threshold assumption - majority of mining power is honest (you cannot
 corrupt more than 50%). This means it is independent fo the number of
 nodes</p>

@@ -592,9 +592,119 @@
 <header id="title-block-header">
 <h1 class="title">Secure Programming</h1>
 </header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#introduction" id="toc-introduction">Introduction</a></li>
+<li><a href="#lecture-3" id="toc-lecture-3">Lecture 3</a>
+<ul>
+<li><a href="#revision" id="toc-revision">Revision</a>
+<ul>
+<li><a href="#example" id="toc-example">Example</a></li>
+<li><a href="#types-of-memory" id="toc-types-of-memory">Types of
+memory</a></li>
+</ul></li>
+<li><a href="#programming-languages"
+id="toc-programming-languages">Programming languages</a></li>
+<li><a href="#secure-software-design"
+id="toc-secure-software-design">Secure software design</a></li>
+<li><a href="#entropy" id="toc-entropy">Entropy</a></li>
+</ul></li>
+<li><a href="#cryptography" id="toc-cryptography">Cryptography</a>
+<ul>
+<li><a href="#cryptography-goals"
+id="toc-cryptography-goals">Cryptography goals</a></li>
+<li><a href="#attacks" id="toc-attacks">Attacks</a></li>
+<li><a href="#cryptographic-hashes"
+id="toc-cryptographic-hashes">Cryptographic hashes</a></li>
+<li><a href="#random-numbers" id="toc-random-numbers">Random
+numbers</a></li>
+<li><a href="#symmetric-cryptography"
+id="toc-symmetric-cryptography">Symmetric cryptography</a></li>
+<li><a href="#symmetric-signatures"
+id="toc-symmetric-signatures">Symmetric signatures</a></li>
+</ul></li>
+<li><a href="#asymmetric-cryptography"
+id="toc-asymmetric-cryptography">Asymmetric Cryptography</a>
+<ul>
+<li><a href="#rsa" id="toc-rsa">RSA</a></li>
+<li><a href="#key-management" id="toc-key-management">Key
+management</a></li>
+<li><a href="#passwords" id="toc-passwords">Passwords</a></li>
+</ul></li>
+<li><a href="#conservative-programming"
+id="toc-conservative-programming">Conservative Programming</a>
+<ul>
+<li><a href="#handling-user-input" id="toc-handling-user-input">Handling
+user input</a></li>
+<li><a href="#intrusion-detection"
+id="toc-intrusion-detection">Intrusion detection</a></li>
+</ul></li>
+<li><a href="#questions" id="toc-questions">Questions</a></li>
+<li><a href="#checking-assumptions"
+id="toc-checking-assumptions">Checking assumptions</a>
+<ul>
+<li><a href="#smart-car-key-example"
+id="toc-smart-car-key-example">Smart car key example</a></li>
+</ul></li>
+<li><a href="#handling-errors" id="toc-handling-errors">Handling
+Errors</a>
+<ul>
+<li><a href="#error-handling-goals" id="toc-error-handling-goals">Error
+handling goals</a></li>
+<li><a href="#how-not-to-do-error-handling"
+id="toc-how-not-to-do-error-handling">How not to do error
+handling</a></li>
+<li><a href="#exceptions" id="toc-exceptions">Exceptions</a></li>
+</ul></li>
+<li><a href="#memory-management" id="toc-memory-management">Memory
+management</a></li>
+<li><a href="#secure-programming-development-tools"
+id="toc-secure-programming-development-tools">Secure Programming
+Development Tools</a></li>
+<li><a href="#testing" id="toc-testing">Testing</a>
+<ul>
+<li><a href="#designing-tests" id="toc-designing-tests">Designing
+tests</a></li>
+<li><a href="#coverage" id="toc-coverage">Coverage</a></li>
+<li><a href="#fuzz-testing" id="toc-fuzz-testing">Fuzz testing</a></li>
+<li><a href="#investingating-bugs"
+id="toc-investingating-bugs">Investingating Bugs</a>
+<ul>
+<li><a href="#if-the-crashing-input-is-found-what-to-do"
+id="toc-if-the-crashing-input-is-found-what-to-do">If the crashing input
+is found what to do?</a></li>
+</ul></li>
+<li><a href="#penetration-testing"
+id="toc-penetration-testing">Penetration Testing</a></li>
+</ul></li>
+<li><a href="#exploitation" id="toc-exploitation">Exploitation</a>
+<ul>
+<li><a href="#stack-layout" id="toc-stack-layout">Stack layout</a></li>
+<li><a href="#question-about-fuzzing"
+id="toc-question-about-fuzzing">Question about fuzzing</a></li>
+<li><a href="#question-on-assembly"
+id="toc-question-on-assembly">Question on assembly</a></li>
+<li><a href="#attacker-goal" id="toc-attacker-goal">Attacker
+goal</a></li>
+<li><a href="#questions-web-security"
+id="toc-questions-web-security">Questions (Web security)</a></li>
+<li><a href="#sql-injections" id="toc-sql-injections">SQL
+Injections</a></li>
+<li><a href="#cross-site-request-forgery-csrf"
+id="toc-cross-site-request-forgery-csrf">Cross-site request forgery
+(CSRF)</a></li>
+<li><a href="#unrestricted-file-uploads"
+id="toc-unrestricted-file-uploads">Unrestricted file uploads</a></li>
+<li><a href="#deserialization-of-untrusted-data"
+id="toc-deserialization-of-untrusted-data">Deserialization of untrusted
+data</a></li>
+<li><a href="#ssrf" id="toc-ssrf">SSRF</a></li>
+</ul></li>
+<li><a href="#exam" id="toc-exam">Exam</a></li>
+</ul>
+</nav>
 <!-- markdownlint-disable MD010 MD041 MD001 MD036-->
-<h1 data-number="1" id="introduction"><span
-class="header-section-number">1</span> Introduction</h1>
+<h1 id="introduction">Introduction</h1>
 <p>Confidentiality - you don’t leak any confidential information
 Integrity - information remains untouched Availability - system has to
 remain available even if attacker tries to stop it</p>
@@ -656,12 +766,9 @@ all weaknesses Hard to convince managers: since it can increase cost,
 can decrease user friendliness and hard to measure, since it could be
 invisible until attacked Many levels: hardware, OS, applications,
 frameworks, ….</p>
-<h1 data-number="2" id="lecture-3"><span
-class="header-section-number">2</span> Lecture 3</h1>
-<h2 data-number="2.1" id="revision"><span
-class="header-section-number">2.1</span> Revision</h2>
-<h3 data-number="2.1.1" id="example"><span
-class="header-section-number">2.1.1</span> Example</h3>
+<h1 id="lecture-3">Lecture 3</h1>
+<h2 id="revision">Revision</h2>
+<h3 id="example">Example</h3>
 <div class="sourceCode" id="cb1"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">(</span><span class="dt">int</span> argc<span class="op">,</span> <span class="dt">char</span> <span class="op">**</span>argv<span class="op">){</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">char</span> buf<span class="op">[</span><span class="dv">64</span><span class="op">];</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">int</span> len <span class="op">=</span> atoi<span class="op">(</span>argv<span class="op">[</span><span class="dv">1</span><span class="op">]);</span></span>
@@ -684,8 +791,7 @@ escalation. If there is a chance - there is a chance for arbitrary code
 execution</li>
 <li>how to <strong>fix</strong> it - add a missing check.</li>
 </ul>
-<h3 data-number="2.1.2" id="types-of-memory"><span
-class="header-section-number">2.1.2</span> Types of memory</h3>
+<h3 id="types-of-memory">Types of memory</h3>
 <ul>
 <li>parameter - in stack or a register (deallocation when the function
 returns). Since it is a function parameter, multiple of these can happen
@@ -698,8 +804,7 @@ freed, since it is on the heap.</li>
 called. Is it a bug if it is not freed in the same function? - Depends
 on the context, since heap vars can be deallocated later.</li>
 </ul>
-<h2 data-number="2.2" id="programming-languages"><span
-class="header-section-number">2.2</span> Programming languages</h2>
+<h2 id="programming-languages">Programming languages</h2>
 <p>Choosing the right programming language is important first step</p>
 <p>Programming languages are ofthen classified as:</p>
 <ul>
@@ -786,8 +891,7 @@ widely used. Most suitable when:</p>
 insulin pumps)</li>
 <li>hardware critical</li>
 </ul>
-<h2 data-number="2.3" id="secure-software-design"><span
-class="header-section-number">2.3</span> Secure software design</h2>
+<h2 id="secure-software-design">Secure software design</h2>
 <p>Many design decision related to security should be taken in to
 account before writing the first line of code.</p>
 <p>Number of bugs generally is proportional to complexity. Even in
@@ -831,15 +935,12 @@ get specifically assigned permissions</p>
 <p>Make sure the defaults are as secure as possible. E.g. ubuntu forbids
 logging in as root user by default, creating only a user account with
 sudo access.</p>
-<h2 data-number="2.4" id="entropy"><span
-class="header-section-number">2.4</span> Entropy</h2>
+<h2 id="entropy">Entropy</h2>
 <p>4 letters, one of which uppercase + 4 numbers: log2(26^4 * 4 * 10^4)
 possibilities 3 words in 8192 word dictionary: (2<sup>13)</sup>3
 possibilities</p>
-<h1 data-number="3" id="cryptography"><span
-class="header-section-number">3</span> Cryptography</h1>
-<h2 data-number="3.1" id="cryptography-goals"><span
-class="header-section-number">3.1</span> Cryptography goals</h2>
+<h1 id="cryptography">Cryptography</h1>
+<h2 id="cryptography-goals">Cryptography goals</h2>
 <ol type="1">
 <li>Confidentiality - Eve cannot read Alice’s message</li>
 <li>Integrity - Mallory cannot alter Alice’s message without Bob finding
@@ -857,8 +958,7 @@ message to Bob</li>
 </ul>
 <p><strong>Kerckhoffs’ principle:</strong> when doing encryption,
 separate the algorithm from the key. Use public key.</p>
-<h2 data-number="3.2" id="attacks"><span
-class="header-section-number">3.2</span> Attacks</h2>
+<h2 id="attacks">Attacks</h2>
 <p><strong>Brute Force</strong>:<br />
 attempt to decryot the message with every possible key.
 <em>Solution</em>: Larger Key Space (e.g. instead of shifting alphabet,
@@ -894,8 +994,7 @@ Solution - <em>asymmetric digital signatures</em>. There are different
 keys to sign and verify. If these are symmetric keys, the other end can
 sign it, so Bob cannot prove that Alice signed it to someone else,
 because he can sign it himself, not only verify it.</p>
-<h2 data-number="3.3" id="cryptographic-hashes"><span
-class="header-section-number">3.3</span> Cryptographic hashes</h2>
+<h2 id="cryptographic-hashes">Cryptographic hashes</h2>
 <p>Hash function maps the message to hash. This has to be a one-way
 function, so there is no way to get back the original message. That is
 why it is hard to reverse.<br />
@@ -911,8 +1010,7 @@ from creating a message with same signature as signed message</li>
 and m2 such that hash m1 = hash m2.</li>
 </ul>
 <p>Well known hashes: SHA-2, SHA-3, MD5</p>
-<h2 data-number="3.4" id="random-numbers"><span
-class="header-section-number">3.4</span> Random numbers</h2>
+<h2 id="random-numbers">Random numbers</h2>
 <p>Many crypto algorithms need random numbers. Problem is that CPU is
 deterministic and it is hard to produce random data. So it should use
 information from the environment.</p>
@@ -920,8 +1018,7 @@ information from the environment.</p>
 which is updated with each new number.</p>
 <p>However sequence is often predictable. that is why it is necessary to
 use cryptographically secure PRNG</p>
-<h2 data-number="3.5" id="symmetric-cryptography"><span
-class="header-section-number">3.5</span> Symmetric cryptography</h2>
+<h2 id="symmetric-cryptography">Symmetric cryptography</h2>
 <p>Alice and Bob know the key, Mallory does not.</p>
 <p><strong>One Time pad:</strong><br />
 This is a key that is xor’ed with a message and then the message is once
@@ -963,20 +1060,17 @@ that we decrypt almost the whole message.</li>
 </ol>
 <p><em>Solution</em>: make an error indistinguishable to other data.
 Such that attacker would not know that they can exploit it.</p>
-<h2 data-number="3.6" id="symmetric-signatures"><span
-class="header-section-number">3.6</span> Symmetric signatures</h2>
+<h2 id="symmetric-signatures">Symmetric signatures</h2>
 <p>Message authentication code (MAC) is signature for message. - If
 message is altered, MAC is no longer valid. Key is needed to generate
 valid MAC, and same key is needed to validate MAC.<br />
 Typical example: Hash MAC<br />
 Signing: Alice combines key with message, then applies hash function.
 Verification: Bob …….</p>
-<h1 data-number="4" id="asymmetric-cryptography"><span
-class="header-section-number">4</span> Asymmetric Cryptography</h1>
+<h1 id="asymmetric-cryptography">Asymmetric Cryptography</h1>
 <p>Asymmetric crypto uses two keys, this is used to verify with a public
 key who signed it</p>
-<h2 data-number="4.1" id="rsa"><span
-class="header-section-number">4.1</span> RSA</h2>
+<h2 id="rsa">RSA</h2>
 <p>Bob creates his own key - public + private keys. Public key does not
 need to be hidde, but private key has to be hidden.</p>
 <p>Encryption function is designed in such a way that Epr(Epu(m))=m. Key
@@ -1025,8 +1119,7 @@ a big reasearch topic.</p>
 <p><strong>Quantum Crypto</strong>:<br />
 future computers may communicate in ways that are physically impossible
 to intercept. It would not rely on maths but on physics.</p>
-<h2 data-number="4.2" id="key-management"><span
-class="header-section-number">4.2</span> Key management</h2>
+<h2 id="key-management">Key management</h2>
 <p>We have to be confident that the key is correct person’s key.</p>
 <p>Ways to solve this:</p>
 <ul>
@@ -1140,8 +1233,7 @@ read.</li>
 this in the application layer. (when the keys are setup we already know
 that we are talking with the server).</li>
 </ul>
-<h2 data-number="4.3" id="passwords"><span
-class="header-section-number">4.3</span> Passwords</h2>
+<h2 id="passwords">Passwords</h2>
 <p>How to check certificate validity?:</p>
 <ul>
 <li>server address must match the certificate</li>
@@ -1152,11 +1244,9 @@ key</li>
 <li>CA must be trusted by the user</li>
 <li>certificate must not be on revocation list</li>
 </ul>
-<h1 data-number="5" id="conservative-programming"><span
-class="header-section-number">5</span> Conservative Programming</h1>
+<h1 id="conservative-programming">Conservative Programming</h1>
 <p>Trying to prevent vulnerabilities.</p>
-<h2 data-number="5.1" id="handling-user-input"><span
-class="header-section-number">5.1</span> Handling user input</h2>
+<h2 id="handling-user-input">Handling user input</h2>
 <p>URL is a user input, thus has to be careful - never trust the
 parameters from user input blindly and verify the user authority for
 such input.<br />
@@ -1182,13 +1272,11 @@ cause troubles as well</p>
 <p><strong>Escaping</strong></p>
 <p>characters that have special meanings, this is replaced such that
 they lose special meaning</p>
-<h2 data-number="5.2" id="intrusion-detection"><span
-class="header-section-number">5.2</span> Intrusion detection</h2>
+<h2 id="intrusion-detection">Intrusion detection</h2>
 <p>Validation might not be sufficient to detect intrusion, because
 e.g. there can be spam emails.</p>
 <p>The heuristics depend on the context of the system.</p>
-<h1 data-number="6" id="questions"><span
-class="header-section-number">6</span> Questions</h1>
+<h1 id="questions">Questions</h1>
 <p>1000000 begning files 5000 malicious files sys A: 5% false positives,
 10% false negatives. (false positive - non malicious marked as
 malicious, false negative - malicious not marked as malicious)<br />
@@ -1209,10 +1297,8 @@ prevent others to forge the secret.</li>
 <li>Requested page address - verify if that user is allowed to access
 that page (knowing the url is not sufficient)</li>
 </ul>
-<h1 data-number="7" id="checking-assumptions"><span
-class="header-section-number">7</span> Checking assumptions</h1>
-<h2 data-number="7.1" id="smart-car-key-example"><span
-class="header-section-number">7.1</span> Smart car key example</h2>
+<h1 id="checking-assumptions">Checking assumptions</h1>
+<h2 id="smart-car-key-example">Smart car key example</h2>
 <p>If key is close to the car, car automatically unlocks. So if the key
 is far away but the signal is amplified, the car still can be unlocked.
 Assumption is that the key, thus the owner is close.</p>
@@ -1244,14 +1330,12 @@ call);</p>
 before executing command, and fail if it is not.<br />
 Any interaction with the file system, network, etc, might see different
 state than the orevious one.</p>
-<h1 data-number="8" id="handling-errors"><span
-class="header-section-number">8</span> Handling Errors</h1>
+<h1 id="handling-errors">Handling Errors</h1>
 <p>There are a lot of way for program to have errors. Almost all calls
 can fail, usually in multiple ways.</p>
 <p>System calls is a part of the system, that is out of hour control,
 therefore it is generally expected that anything can fail.</p>
-<h2 data-number="8.1" id="error-handling-goals"><span
-class="header-section-number">8.1</span> Error handling goals</h2>
+<h2 id="error-handling-goals">Error handling goals</h2>
 <p>Even if an error happens we should ensure:</p>
 <ul>
 <li>Any resources (memory, open files, mutexes, etc..) are still
@@ -1265,9 +1349,7 @@ authentication)</li>
 <p>Usually is it also desirable to inform the user and/or log the error
 for later analysis or debugging. But it might cause some
 vulnerabilities.</p>
-<h2 data-number="8.2" id="how-not-to-do-error-handling"><span
-class="header-section-number">8.2</span> How not to do error
-handling</h2>
+<h2 id="how-not-to-do-error-handling">How not to do error handling</h2>
 <p>Terminating immediately leaves no way to clean up resources and
 persistent state</p>
 <div class="sourceCode" id="cb2"><pre
@@ -1306,8 +1388,7 @@ Example - count inconsistent with number of entries in the list;</p>
 <li>Think of all changes you made that affect program’s state</li>
 <li>Reverse those changes to keep the state.</li>
 </ul>
-<h2 data-number="8.3" id="exceptions"><span
-class="header-section-number">8.3</span> Exceptions</h2>
+<h2 id="exceptions">Exceptions</h2>
 <p>handling error codes gets messy quickly.</p>
 <p><strong>Exceptions</strong> provide a better alternative in most
 languages</p>
@@ -1323,8 +1404,7 @@ executed</li>
 or finally calls. It is nicer to have RAII practice in C++ (return call
 calls the destructor of an object)</p>
 <p>Exceptions can alter control flow on any call</p>
-<h1 data-number="9" id="memory-management"><span
-class="header-section-number">9</span> Memory management</h1>
+<h1 id="memory-management">Memory management</h1>
 <p>Low-level languages allow and mostly require programmer to manage
 memory.</p>
 <p>Types of memory:</p>
@@ -1417,9 +1497,8 @@ or overflow the buffer.</p>
 because result of overflow is undefined.<br />
 Safe/efficient overflow checks as common extension
 (e.g. __builtin_add_overflow)</p>
-<h1 data-number="10" id="secure-programming-development-tools"><span
-class="header-section-number">10</span> Secure Programming Development
-Tools</h1>
+<h1 id="secure-programming-development-tools">Secure Programming
+Development Tools</h1>
 <p>Compiler - detect and try to prevent possible vulnerabilites<br />
 Source control - prevent bugs due to group work and ensure bugs stay
 fixed</p>
@@ -1449,10 +1528,8 @@ positives - it is conservative in reporting errors.</p>
 <p>attempts to find bugs at runtime - looks for undefined behaviour and
 kills the program</p>
 <p>this is inconvenient since you need explicit test cases</p>
-<h1 data-number="11" id="testing"><span
-class="header-section-number">11</span> Testing</h1>
-<h2 data-number="11.1" id="designing-tests"><span
-class="header-section-number">11.1</span> Designing tests</h2>
+<h1 id="testing">Testing</h1>
+<h2 id="designing-tests">Designing tests</h2>
 <p>TEsting is critical for both correctness and security</p>
 <p>Testing is mainly to cover the edge cases or the implicit/explicit
 assumptions.</p>
@@ -1468,8 +1545,7 @@ because input is parsed/sanitized and it is different)</p>
 <p>Generate random inputs (following a pattern) to increase diversity in
 the ways the code is pushed to the limit.<br />
 It is step towards <em>fuzz testing</em></p>
-<h2 data-number="11.2" id="coverage"><span
-class="header-section-number">11.2</span> Coverage</h2>
+<h2 id="coverage">Coverage</h2>
 <p>the goal is always to find all the bugs.</p>
 <p>To solve that - find test cases that execute as much program code as
 possible.</p>
@@ -1515,8 +1591,7 @@ statements and are executed sequentially in the direction of the
 graph.</p>
 <p>It can have branch coverage, path coverage (used by fuzzing)</p>
 <p><em>gcov</em> is a nice tool to get line coverage</p>
-<h2 data-number="11.3" id="fuzz-testing"><span
-class="header-section-number">11.3</span> Fuzz testing</h2>
+<h2 id="fuzz-testing">Fuzz testing</h2>
 <p>Testing with random inputs</p>
 <p>Correctness is no longer a goal, security is.</p>
 <p>Goal: to crash the program.</p>
@@ -1576,8 +1651,7 @@ symbolic inputs), normal CPUs don’t understand them, and there is a need
 for virtualization/hypervisor (eg QEMU)</p>
 <p>American Fuzzy Lop - practical fuzzer (basis for AFL++). Has a
 modified compiler to identify the path.</p>
-<h2 data-number="11.4" id="investingating-bugs"><span
-class="header-section-number">11.4</span> Investingating Bugs</h2>
+<h2 id="investingating-bugs">Investingating Bugs</h2>
 <p>Assert statements</p>
 <p>Address sanitizer adds instrumentation in c/c++ code to detect memory
 errors. (program crashes if it encounters its bug).</p>
@@ -1585,20 +1659,16 @@ errors. (program crashes if it encounters its bug).</p>
 <p>Valgrind - detects memory errors on uninstrumented binaries
 (comparable to address sanitizer). Has detection for uninintialized
 reads and memory leaks.</p>
-<h3 data-number="11.4.1"
-id="if-the-crashing-input-is-found-what-to-do"><span
-class="header-section-number">11.4.1</span> If the crashing input is
-found what to do?</h3>
+<h3 id="if-the-crashing-input-is-found-what-to-do">If the crashing input
+is found what to do?</h3>
 <p>Run debugger, example, gdb.<br />
 In the debugger there are plenty of nice features - run program with
 breakpoints, watchpoints, stepping, obtain stack trace.</p>
-<h2 data-number="11.5" id="penetration-testing"><span
-class="header-section-number">11.5</span> Penetration Testing</h2>
+<h2 id="penetration-testing">Penetration Testing</h2>
 <p>either pay a hacker to attempt to break into your system.</p>
 <p>there are companies that pay for pen testers to find vulnerabilities
 - it is deliberate by the developer.</p>
-<h1 data-number="12" id="exploitation"><span
-class="header-section-number">12</span> Exploitation</h1>
+<h1 id="exploitation">Exploitation</h1>
 <p>Example - if the program actually run with elevated privileges, how
 do we get the privileges exactly.</p>
 <p>Actually doing the attack requires low-level insights:</p>
@@ -1607,13 +1677,11 @@ do we get the privileges exactly.</p>
 <li>where to return to?</li>
 <li>how to actually perfore the attack with this information?</li>
 </ul>
-<h2 data-number="12.1" id="stack-layout"><span
-class="header-section-number">12.1</span> Stack layout</h2>
+<h2 id="stack-layout">Stack layout</h2>
 <p>to understand the stack layout, it is possible to compile the program
 to assembly.</p>
 <p>Usually the return address is %rbp+8</p>
-<h2 data-number="12.2" id="question-about-fuzzing"><span
-class="header-section-number">12.2</span> Question about fuzzing</h2>
+<h2 id="question-about-fuzzing">Question about fuzzing</h2>
 <div class="sourceCode" id="cb10"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">(...){</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">long</span> i<span class="op">,</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">,</span> value<span class="op">;</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">char</span> input<span class="op">[</span><span class="dv">256</span><span class="op">];</span></span>
@@ -1629,8 +1697,7 @@ memcpy, but because the branch (vuln()) is reached through for loop, it
 is not possible to track the taint in the i or j from the value. This is
 not possible because there are too many possibilities that the system
 would need to detect, so thus it is not detected.</p>
-<h2 data-number="12.3" id="question-on-assembly"><span
-class="header-section-number">12.3</span> Question on assembly</h2>
+<h2 id="question-on-assembly">Question on assembly</h2>
 <p><strong>INSERT ASSEMBLY AND C CODE</strong></p>
 <p><strong>Q</strong>: where is the return value?<br />
 <em>Answer</em> - it is on %rbp + 8</p>
@@ -1647,8 +1714,7 @@ struct.</p>
 <p><strong>Q</strong>: what input do we give?<br />
 <em>Answer</em> - we give 35 to have 35 structs and then provide
 shellcode: Args: <em>35 0 0 shellcode</em></p>
-<h2 data-number="12.4" id="attacker-goal"><span
-class="header-section-number">12.4</span> Attacker goal</h2>
+<h2 id="attacker-goal">Attacker goal</h2>
 <p>Assume the attacker found the vulnerability to overwrite the return
 address and how to reach that address.</p>
 <p>Where to we point the return address to? - keep in mind that we can
@@ -1731,8 +1797,7 @@ the x86_64 arch stores pointers as 64bit integers. However it uses only
 However x86_64 arch is little endian - lsb is stored first (looks
 reversed). This means the null bytes of the pointer are stored at the
 end, which is good.</p>
-<h2 data-number="12.5" id="questions-web-security"><span
-class="header-section-number">12.5</span> Questions (Web security)</h2>
+<h2 id="questions-web-security">Questions (Web security)</h2>
 <p>Q1: You add security checks to ensure user-submitted content can only
 be retrieced by the same user that submitted it. This completely
 mitigates stored XSS attacks - True. If we submit the content ourselves,
@@ -1755,8 +1820,7 @@ between conns; cannot distinguish systems on the same external IP
 address (NAT)<br />
 Q: can it be bypassed? - only within a network with a common ext IP
 address, or if we can spoof the IP address</p>
-<h2 data-number="12.6" id="sql-injections"><span
-class="header-section-number">12.6</span> SQL Injections</h2>
+<h2 id="sql-injections">SQL Injections</h2>
 <p>Adding “’ OR 1=1;–” is a common way to do an SQL injection. Or doing
 a UNION to retrieve the data from other tables.</p>
 <p>It is often blind - client does not know the output for every
@@ -1764,8 +1828,7 @@ input.</p>
 <p><strong>Mitigation</strong> - do not trust any input SQL code. There
 can be a second order SQL queries, so to mitigate, use prepared
 statements and procedures.</p>
-<h2 data-number="12.7" id="cross-site-request-forgery-csrf"><span
-class="header-section-number">12.7</span> Cross-site request forgery
+<h2 id="cross-site-request-forgery-csrf">Cross-site request forgery
 (CSRF)</h2>
 <p><em>Generally the stuff that is not shown, it is assumed that is
 secure</em></p>
@@ -1783,8 +1846,7 @@ information with CSRF.<br />
 Add a random token to each state changing operation and check it -
 forged reqs will not have correct token. Attackers will not be able to
 forge this token.</p>
-<h2 data-number="12.8" id="unrestricted-file-uploads"><span
-class="header-section-number">12.8</span> Unrestricted file uploads</h2>
+<h2 id="unrestricted-file-uploads">Unrestricted file uploads</h2>
 <p>in improperly configured server you can upload a file with a wrong
 extension (e.g. .php), and then exploited by running it.</p>
 <div class="sourceCode" id="cb11"><pre
@@ -1800,8 +1862,7 @@ web server config: allow only specific dirs for script execution, and
 disallow writes to script dirs.<br />
 Apply principle of least privilege using operating system: configure
 system to use only executable,</p>
-<h2 data-number="12.9" id="deserialization-of-untrusted-data"><span
-class="header-section-number">12.9</span> Deserialization of untrusted
+<h2 id="deserialization-of-untrusted-data">Deserialization of untrusted
 data</h2>
 <p>Serialization: take object and convert it into data. The idea is to
 store the object on the disk or use a stored procedure.</p>
@@ -1815,12 +1876,10 @@ program.</p>
 <p>Encryption could help in a sense that it ensures that it comes from a
 trusted source.</p>
 <p>This allows arbitrary code execution.</p>
-<h2 data-number="12.10" id="ssrf"><span
-class="header-section-number">12.10</span> SSRF</h2>
+<h2 id="ssrf">SSRF</h2>
 <p>server downloads content that is in the url, therefore SSRF
 vulnerability is there iff there is urls submitted.</p>
-<h1 data-number="13" id="exam"><span
-class="header-section-number">13</span> Exam</h1>
+<h1 id="exam">Exam</h1>
 <p><strong>Q1</strong><br />
 a) addition is to compute the entropy, multiplication is to compute the
 combinations<br />

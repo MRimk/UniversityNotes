@@ -529,13 +529,148 @@
 <header id="title-block-header">
 <h1 class="title">Advanced Network Programming</h1>
 </header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#lecture-2" id="toc-lecture-2">1. Lecture 2</a>
+<ul>
+<li><a href="#transferring-data-between-nic-and-end-host"
+id="toc-transferring-data-between-nic-and-end-host">1.1. Transferring
+data between NIC and end-host</a>
+<ul>
+<li><a href="#building-packets-with-headers-and-trailers"
+id="toc-building-packets-with-headers-and-trailers">1.1.1. Building
+packets with headers and trailers</a></li>
+<li><a href="#unit-of-processing" id="toc-unit-of-processing">1.1.2.
+Unit of processing</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#lecture-3---linux-networking"
+id="toc-lecture-3---linux-networking">2. Lecture 3 - Linux
+Networking</a>
+<ul>
+<li><a href="#device-interfaces" id="toc-device-interfaces">2.1. Device
+interfaces</a>
+<ul>
+<li><a href="#receive-path" id="toc-receive-path">2.1.1. Receive
+path</a></li>
+<li><a href="#send-path" id="toc-send-path">2.1.2. Send Path</a></li>
+<li><a href="#overheads" id="toc-overheads">2.1.3.
+<strong>Overheads</strong></a></li>
+</ul></li>
+</ul></li>
+<li><a href="#lecture-4---multicore-scalability"
+id="toc-lecture-4---multicore-scalability">3. Lecture 4 - Multicore
+Scalability</a></li>
+<li><a href="#lecture-5---userspace-networking-stacks"
+id="toc-lecture-5---userspace-networking-stacks">4. Lecture 5 -
+Userspace Networking Stacks</a>
+<ul>
+<li><a href="#netmap-optimizations" id="toc-netmap-optimizations">4.1.
+Netmap optimizations</a>
+<ul>
+<li><a href="#mtcp-scalable-user-space-tcp-stack"
+id="toc-mtcp-scalable-user-space-tcp-stack">4.1.1. mTCP: Scalable User
+Space TCP Stack</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#rdma-networking" id="toc-rdma-networking">5. RDMA
+Networking</a>
+<ul>
+<li><a href="#rdma" id="toc-rdma">5.1. RDMA</a></li>
+<li><a href="#challenges-with-rdma" id="toc-challenges-with-rdma">5.2.
+Challenges with RDMA</a></li>
+</ul></li>
+<li><a href="#network-infrastructure" id="toc-network-infrastructure">6.
+Network infrastructure</a>
+<ul>
+<li><a href="#link-layer" id="toc-link-layer">6.1. Link layer**</a>
+<ul>
+<li><a href="#framing" id="toc-framing">6.1.1. Framing</a></li>
+<li><a href="#error-detection" id="toc-error-detection">6.1.2. Error
+detection</a></li>
+<li><a href="#collisions" id="toc-collisions">6.1.3. Collisions</a></li>
+</ul></li>
+<li><a href="#ethernet" id="toc-ethernet">6.2. Ethernet</a></li>
+<li><a href="#network-layer-and-routing"
+id="toc-network-layer-and-routing">6.3. Network layer and routing</a>
+<ul>
+<li><a href="#router-architecture" id="toc-router-architecture">6.3.1.
+Router architecture</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#congestion-control" id="toc-congestion-control">7.
+Congestion control</a>
+<ul>
+<li><a href="#tcp-slow-start" id="toc-tcp-slow-start">7.0.1. TCP slow
+start</a></li>
+</ul></li>
+<li><a href="#half-of-the-lecture-was-missed-go-back-to-slides"
+id="toc-half-of-the-lecture-was-missed-go-back-to-slides">8. HALF OF THE
+LECTURE WAS MISSED, GO BACK TO SLIDES</a></li>
+<li><a href="#software-defined-netowrking"
+id="toc-software-defined-netowrking">9. Software defined netowrking</a>
+<ul>
+<li><a href="#sdn-ideas-and-abstractions"
+id="toc-sdn-ideas-and-abstractions">9.1. SDN ideas and
+abstractions</a></li>
+<li><a href="#sdn-use-case---network-slicing"
+id="toc-sdn-use-case---network-slicing">9.2. SDN use case - network
+slicing</a></li>
+<li><a href="#data-plane" id="toc-data-plane">9.3. Data plane</a>
+<ul>
+<li><a href="#programmability" id="toc-programmability">9.3.1.
+Programmability</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#data-centers" id="toc-data-centers">10. Data centers</a>
+<ul>
+<li><a href="#data-center-network-arch"
+id="toc-data-center-network-arch">10.1. Data center network arch</a>
+<ul>
+<li><a href="#tree-based-data-center-network"
+id="toc-tree-based-data-center-network">10.1.1. Tree-based data center
+network</a></li>
+<li><a href="#network-performance-metrics"
+id="toc-network-performance-metrics">10.1.2. Network performance
+metrics</a></li>
+<li><a href="#oversubscription-ratio"
+id="toc-oversubscription-ratio">10.1.3. Oversubscription ratio</a></li>
+</ul></li>
+<li><a href="#factors-behind-data-center-network-designs"
+id="toc-factors-behind-data-center-network-designs">10.2. Factors behind
+data center network designs</a>
+<ul>
+<li><a href="#fat-tree" id="toc-fat-tree">10.2.1. Fat-tree</a></li>
+</ul></li>
+<li><a href="#data-center-network-congestion-control"
+id="toc-data-center-network-congestion-control">10.3. Data center
+network congestion control</a>
+<ul>
+<li><a href="#what-if-we-avoid-packet-drops"
+id="toc-what-if-we-avoid-packet-drops">10.3.1. What if we avoid packet
+drops?</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#streaming" id="toc-streaming">11. Streaming</a>
+<ul>
+<li><a href="#video-compression" id="toc-video-compression">11.1. Video
+compression</a></li>
+<li><a href="#video-streaming-protocols"
+id="toc-video-streaming-protocols">11.2. Video streaming
+protocols</a></li>
+<li><a href="#abr-algorithms" id="toc-abr-algorithms">11.3. ABR
+algorithms</a></li>
+<li><a href="#netflix-video-serving"
+id="toc-netflix-video-serving">11.4. Netflix video serving</a></li>
+<li><a href="#video-stream-analytics"
+id="toc-video-stream-analytics">11.5. Video stream analytics</a></li>
+</ul></li>
+</ul>
+</nav>
 <!-- markdownlint-disable MD010 MD041 MD001 MD036 MD029-->
-<h1 data-number="1" id="lecture-2"><span
-class="header-section-number">1</span> 1. Lecture 2</h1>
-<h2 data-number="1.1"
-id="transferring-data-between-nic-and-end-host"><span
-class="header-section-number">1.1</span> 1.1. Transferring data between
-NIC and end-host</h2>
+<h1 id="lecture-2">1. Lecture 2</h1>
+<h2 id="transferring-data-between-nic-and-end-host">1.1. Transferring
+data between NIC and end-host</h2>
 <p>To transfer data:</p>
 <p>Strategy 1:</p>
 <ul>
@@ -577,18 +712,14 @@ packet arrivals</li>
 <li>do a hybrid - e.g. interrupts -&gt; polling -&gt; interrupts.
 (ethtool -c)</li>
 </ol>
-<h3 data-number="1.1.1"
-id="building-packets-with-headers-and-trailers"><span
-class="header-section-number">1.1.1</span> 1.1.1. Building packets with
-headers and trailers</h3>
+<h3 id="building-packets-with-headers-and-trailers">1.1.1. Building
+packets with headers and trailers</h3>
 <p>We do not know the header sizes e.g. TCP layer does does not know IP
 layer packet size. So it is hard to know what memory to allocate since
 it has to be contiguos with our memory.</p>
 <p>Scatter Gather I/O: instead of one address, one length, pass a list
 of addresses if length to the DMA engine.</p>
-<h3 data-number="1.1.2" id="unit-of-processing"><span
-class="header-section-number">1.1.2</span> 1.1.2. Unit of
-processing</h3>
+<h3 id="unit-of-processing">1.1.2. Unit of processing</h3>
 <p>Application –send() max 2^(64-1) bytes allowed–&gt;</p>
 <p>Networking Stack -&gt; 1GB/1500 = ~64k packets or 1GB/64KB = ~16K
 packets with large TCP/IP packets.</p>
@@ -625,17 +756,14 @@ easier to do that.</p>
 <p>TCP offloading: con - together with socket TCP offloading cannot do
 stateless, which means NIC has to keep the state of seqs and
 packets.</p>
-<h1 data-number="2" id="lecture-3---linux-networking"><span
-class="header-section-number">2</span> 2. Lecture 3 - Linux
+<h1 id="lecture-3---linux-networking">2. Lecture 3 - Linux
 Networking</h1>
-<h2 data-number="2.1" id="device-interfaces"><span
-class="header-section-number">2.1</span> 2.1. Device interfaces</h2>
+<h2 id="device-interfaces">2.1. Device interfaces</h2>
 <p>Between NIC &lt;-&gt; Device Driver - producer/consumer
 communication. The implementation is circular queues/rings of memory
 buffers. Producer (NIC does DMA) will add new buffers and consumer
 (Network stack) processes those buffers and unlinks them.</p>
-<h3 data-number="2.1.1" id="receive-path"><span
-class="header-section-number">2.1.1</span> 2.1.1. Receive path</h3>
+<h3 id="receive-path">2.1.1. Receive path</h3>
 <ol type="1">
 <li>packet received (network card)</li>
 <li>DMA to memory using ring buffer addresses</li>
@@ -674,8 +802,7 @@ contains Link list pointers, which network device needs to be
 transmitted to, which socket it needs to go, place for headers/trailers
 ofr various protocols, various Linux-specific accounting and reference
 counting info.</p>
-<h3 data-number="2.1.2" id="send-path"><span
-class="header-section-number">2.1.2</span> 2.1.2. Send Path</h3>
+<h3 id="send-path">2.1.2. Send Path</h3>
 <p>Sending is synchronous so there is more control over it, rather than
 receiving side, which is asynchronous and is not controlled when the
 reception of the packet, interrupts, timeouts happen.</p>
@@ -698,9 +825,7 @@ offloading</strong> - what you do with the current packet depends on
 some state that needs to be maintained.</li>
 <li>it is a correctness issue</li>
 </ul>
-<h3 data-number="2.1.3" id="overheads"><span
-class="header-section-number">2.1.3</span> 2.1.3.
-<strong>Overheads</strong></h3>
+<h3 id="overheads">2.1.3. <strong>Overheads</strong></h3>
 <p><strong>Per-packet operations</strong></p>
 <ul>
 <li>generation of TCP/IP packets</li>
@@ -719,8 +844,7 @@ class="header-section-number">2.1.3</span> 2.1.3.
 <li>IPSec (encrypt/decrypt)</li>
 </ul>
 <p>Optimization can be offloading, scatter-gather IO capabilities.</p>
-<h1 data-number="3" id="lecture-4---multicore-scalability"><span
-class="header-section-number">3</span> 3. Lecture 4 - Multicore
+<h1 id="lecture-4---multicore-scalability">3. Lecture 4 - Multicore
 Scalability</h1>
 <p>Dennard Scaling - observation that as the the transistor area
 decreases, frequency can increase, but there is a limitation in leakage
@@ -789,9 +913,8 @@ connections.</li>
 choose to transmit a packet. often it is preferable to have RX queue
 with TX queue together on the same core, especially for TCP. This makes
 it easier for packet processing.</p>
-<h1 data-number="4" id="lecture-5---userspace-networking-stacks"><span
-class="header-section-number">4</span> 4. Lecture 5 - Userspace
-Networking Stacks</h1>
+<h1 id="lecture-5---userspace-networking-stacks">4. Lecture 5 -
+Userspace Networking Stacks</h1>
 <p><em>What is packet processing?</em> - it is a separate applications,
 middleware that work on raw network packets. E.g. firewall, routers,
 forwarding, load-balancers. These devices are not considered
@@ -813,8 +936,7 @@ copies and shared metadata overheads.</li>
 <li>System calls are not cheap - they trap into the kernel, disrupt
 ongoing processing, processing ring switch, security checks.</li>
 </ol>
-<h2 data-number="4.1" id="netmap-optimizations"><span
-class="header-section-number">4.1</span> 4.1. Netmap optimizations</h2>
+<h2 id="netmap-optimizations">4.1. Netmap optimizations</h2>
 <ol type="1">
 <li>Better packet buffer management: all uniform packet - fixed size to
 2KB a pool of them are initialized at the boot time and shared between
@@ -878,8 +1000,7 @@ to be in the design of DPDK.</p>
 <p>Practical scenario - switching; use in the datacenters, where the
 overhead in the networking stack. I.e. scenario where it is expected to
 push the boundaries of the processing power.</p>
-<h3 data-number="4.1.1" id="mtcp-scalable-user-space-tcp-stack"><span
-class="header-section-number">4.1.1</span> 4.1.1. mTCP: Scalable User
+<h3 id="mtcp-scalable-user-space-tcp-stack">4.1.1. mTCP: Scalable User
 Space TCP Stack</h3>
 <p>It is highly scalable uspace stack. Comaprison to megapipe: it has to
 do multicore scalability; new radical API (limit of megapipe); no kernel
@@ -913,8 +1034,7 @@ ACK and data packet transfers. And had priority to the control
 lines, thus reducing latency.</p>
 <p>Significant performance improvements over previous efforts. Milestone
 work - proof of concept of an efficient TCP stack in uspace.</p>
-<h1 data-number="5" id="rdma-networking"><span
-class="header-section-number">5</span> 5. RDMA Networking</h1>
+<h1 id="rdma-networking">5. RDMA Networking</h1>
 <p>Latencies</p>
 <p>This was not important when the Moore’s law was improving all the
 systems.</p>
@@ -958,8 +1078,7 @@ etc</li>
 </ul></li>
 <li>hard API integration</li>
 </ul>
-<h2 data-number="5.1" id="rdma"><span
-class="header-section-number">5.1</span> 5.1. RDMA</h2>
+<h2 id="rdma">5.1. RDMA</h2>
 <p>It is a networking ….. (slide 15)</p>
 <p><strong>Idea 1 - User-space networking</strong> - Let the process
 manage its networking</p>
@@ -1007,8 +1126,7 @@ just to sustem DRAM, think of DRAM in the GPU or even directly storage.
 from network.</p>
 <p>This was exactly what was done in Berkely, Stanford, etc even in the
 80s-90s</p>
-<h2 data-number="5.2" id="challenges-with-rdma"><span
-class="header-section-number">5.2</span> 5.2. Challenges with RDMA</h2>
+<h2 id="challenges-with-rdma">5.2. Challenges with RDMA</h2>
 <ul>
 <li>Debugging
 <ul>
@@ -1033,8 +1151,7 @@ server?</li>
 <li>how many memory buffers an RNIC can remember?</li>
 </ul></li>
 </ul>
-<h1 data-number="6" id="network-infrastructure"><span
-class="header-section-number">6</span> 6. Network infrastructure</h1>
+<h1 id="network-infrastructure">6. Network infrastructure</h1>
 <p>Handling connections:</p>
 <ul>
 <li>Circuit switching - each connection has its own circuit</li>
@@ -1043,14 +1160,12 @@ smaller packets</li>
 </ul>
 <p>Connecting two hosts - put data into frames (in link layer), send it
 over the digital signals, and take the data from frames.</p>
-<h2 data-number="6.1" id="link-layer"><span
-class="header-section-number">6.1</span> 6.1. Link layer**</h2>
+<h2 id="link-layer">6.1. Link layer**</h2>
 <p>It is responsible over framing, error detection and medium access
 control (to avoid or detect connections).</p>
 <p>Network node - any device that runs over the network (switch, pc,
 etc)</p>
-<h3 data-number="6.1.1" id="framing"><span
-class="header-section-number">6.1.1</span> 6.1.1. Framing</h3>
+<h3 id="framing">6.1.1. Framing</h3>
 <p>Byte oriented protocols (each frame as a collection of bytes). Widely
 used point-to-point protocol</p>
 <p>Bit oriented protocols (each frame as a collection of bits). High
@@ -1059,8 +1174,7 @@ after seeing 5 1s.</p>
 <p>Clock-based framing - synchronous optical network (SONET). Synce uses
 the first 2 bytes (with a pattern) in the overhead, look for pattern
 every 810 bytes, no bit stuffing.</p>
-<h3 data-number="6.1.2" id="error-detection"><span
-class="header-section-number">6.1.2</span> 6.1.2. Error detection</h3>
+<h3 id="error-detection">6.1.2. Error detection</h3>
 <p>Detect errors in frames using redundant bits and discard the frame if
 an error is found.</p>
 <p>Ways to check for errors:</p>
@@ -1078,14 +1192,12 @@ implemented, there can be faults anywhere inside, therefore only the end
 points are the ones that can know if the communication was successful.
 This is the reason why in each layer there is some kind of error
 detection.</p>
-<h3 data-number="6.1.3" id="collisions"><span
-class="header-section-number">6.1.3</span> 6.1.3. Collisions</h3>
+<h3 id="collisions">6.1.3. Collisions</h3>
 <p>If there are more than two computers connected to the bus, there is a
 high risk to have collisions of packets.</p>
 <p><strong>Multiple access protocol</strong> - its principles are work
 conserving, fairness, decentralized, simple.</p>
-<h2 data-number="6.2" id="ethernet"><span
-class="header-section-number">6.2</span> 6.2. Ethernet</h2>
+<h2 id="ethernet">6.2. Ethernet</h2>
 <p>At first it was hubs which just repeat the signal to all ports except
 the source, and needed the collision detection, because there can be
 multiple senders to one end point.</p>
@@ -1140,9 +1252,7 @@ learned</li>
 <li>security issues - packet sniffing, ARP spoofing attack, MAC flooding
 attack.</li>
 </ul>
-<h2 data-number="6.3" id="network-layer-and-routing"><span
-class="header-section-number">6.3</span> 6.3. Network layer and
-routing</h2>
+<h2 id="network-layer-and-routing">6.3. Network layer and routing</h2>
 <p>Router connects different networks.</p>
 <p><strong>Control plane</strong>: running protocols to figure out the
 path between one end to another end.</p>
@@ -1169,9 +1279,7 @@ the correct action to the correct route.</li>
 </ol>
 <p>All the routers need some processing to complete the routing
 algorithm protocols such that they complete the tables.</p>
-<h3 data-number="6.3.1" id="router-architecture"><span
-class="header-section-number">6.3.1</span> 6.3.1. Router
-architecture</h3>
+<h3 id="router-architecture">6.3.1. Router architecture</h3>
 <p>Two general functions:</p>
 <ul>
 <li>Routing - run routing protocols/algortithms to generate forwarding
@@ -1189,8 +1297,7 @@ virtual packet queue</p>
 <p>Output port - it needs to buffer the packets such that it makes the
 frames with full information, and needs to do scheduling (FIFO queue,
 weighted fair queues, priority queues).</p>
-<h1 data-number="7" id="congestion-control"><span
-class="header-section-number">7</span> 7. Congestion control</h1>
+<h1 id="congestion-control">7. Congestion control</h1>
 <p>TCP guarantees reliability:</p>
 <p><em>stop-and-wait reliability</em> - it is not really efficient
 because packets need to wait for a while</p>
@@ -1221,8 +1328,7 @@ the equilibrium is reached.</p>
 start</em></p>
 <p>How to adapt to the available space in the path accordingly -
 <em>sliding window mechanism</em></p>
-<h3 data-number="7.0.1" id="tcp-slow-start"><span
-class="header-section-number">7.0.1</span> 7.0.1. TCP slow start</h3>
+<h3 id="tcp-slow-start">7.0.1. TCP slow start</h3>
 <p>for every ACK you get, you send as many as the ACKs you got. (exp
 growth - 1, 2, 4, 8…) the window size is min(congestion windown and recv
 window) do that until packets start dropping - then restart and remember
@@ -1242,13 +1348,9 @@ protocol</li>
 <li>How long does it take to ramp up?</li>
 </ol>
 <p>why the packet could be dropped: buffer, bandwith delay pockets</p>
-<h1 data-number="8"
-id="half-of-the-lecture-was-missed-go-back-to-slides"><span
-class="header-section-number">8</span> 8. HALF OF THE LECTURE WAS
-MISSED, GO BACK TO SLIDES</h1>
-<h1 data-number="9" id="software-defined-netowrking"><span
-class="header-section-number">9</span> 9. Software defined
-netowrking</h1>
+<h1 id="half-of-the-lecture-was-missed-go-back-to-slides">8. HALF OF THE
+LECTURE WAS MISSED, GO BACK TO SLIDES</h1>
+<h1 id="software-defined-netowrking">9. Software defined netowrking</h1>
 <p>There are a lot of artifacts because networking is complex.</p>
 <p>Networks run in a distributed and autonomous way and scalability is
 important. With more functionalities (for different layers) together add
@@ -1296,9 +1398,7 @@ plane.</p>
 modularity that can be reused in other mechanisms, therefore networking
 seems like it is mainly about artifacts/engineering.</p>
 <p>Goal is to program the network like the computers.</p>
-<h2 data-number="9.1" id="sdn-ideas-and-abstractions"><span
-class="header-section-number">9.1</span> 9.1. SDN ideas and
-abstractions</h2>
+<h2 id="sdn-ideas-and-abstractions">9.1. SDN ideas and abstractions</h2>
 <p>Some history: First attempt to make networks programmable was
 demultiplexing packets to software programs (active networking). This
 was done by inserting a snipet of code into the packet header, router
@@ -1348,8 +1448,7 @@ infrastructure - this requires configuring the forwarding tables in each
 switch. Proposed abs - abstract view of the network.</p>
 <p>So far it is assumed that all the nodes are under the same authority.
 In between the authorities the BGP algo is run.</p>
-<h2 data-number="9.2" id="sdn-use-case---network-slicing"><span
-class="header-section-number">9.2</span> 9.2. SDN use case - network
+<h2 id="sdn-use-case---network-slicing">9.2. SDN use case - network
 slicing</h2>
 <p><strong>Network testing</strong> - it is an interesting problem
 because it is hard to show that the new solution works. Solutions for
@@ -1390,8 +1489,7 @@ Bob allows)) Monitoring slice that analyses all the traffic</p>
 <li>Generate the rules and check if the rules are exactly
 applicable</li>
 </ol>
-<h2 data-number="9.3" id="data-plane"><span
-class="header-section-number">9.3</span> 9.3. Data plane</h2>
+<h2 id="data-plane">9.3. Data plane</h2>
 <p>OpenFlow - uses match+action abstraction - set of header match fields
 and forwarding actions. There is a list for all possible matches and
 possible actions. However, most hardware switches only support limited
@@ -1405,8 +1503,7 @@ modified. But this takes years before the hardware gets delivered.</p>
 <p>However, there is a possiblity - make ASIC programmable and let new
 features be supported. To achieve this, there needs to be
 programmability supported on the CPU.</p>
-<h3 data-number="9.3.1" id="programmability"><span
-class="header-section-number">9.3.1</span> 9.3.1. Programmability</h3>
+<h3 id="programmability">9.3.1. Programmability</h3>
 <p>Thus in networking there is a language created <strong>P4</strong>,
 which has its own data plane abstraction - <strong>RMT</strong>.</p>
 <p>RMT is a RISC-inspired reconfigurable match tables model.</p>
@@ -1417,11 +1514,8 @@ like process to get the packet headers. These filters will need to
 specify what to match on and which action to take. After going through
 all the matches, packet is reassembled and sent out.</p>
 <p>Applications of this: congestion control or in-network computing.</p>
-<h1 data-number="10" id="data-centers"><span
-class="header-section-number">10</span> 10. Data centers</h1>
-<h2 data-number="10.1" id="data-center-network-arch"><span
-class="header-section-number">10.1</span> 10.1. Data center network
-arch</h2>
+<h1 id="data-centers">10. Data centers</h1>
+<h2 id="data-center-network-arch">10.1. Data center network arch</h2>
 <p>How to connect servers in a data center so that it has best
 throughput and performance?</p>
 <ol type="1">
@@ -1444,9 +1538,8 @@ offer different trade-offs. The goal is to have a good connectivity but
 also lower complexity. Thus tree seems like it has a good connectivity
 and not that hard to build.</li>
 </ol>
-<h3 data-number="10.1.1" id="tree-based-data-center-network"><span
-class="header-section-number">10.1.1</span> 10.1.1. Tree-based data
-center network</h3>
+<h3 id="tree-based-data-center-network">10.1.1. Tree-based data center
+network</h3>
 <p>Tree (but multi-rooted) is good to have such that it would have a
 good connectivity and low complexity. Multiple roots allow to avoid a
 single point of failure and better connectivity. Going from bottom to
@@ -1455,8 +1548,7 @@ because there is more traffic. Problem of this design is that you cannot
 evolve the switches in a natural way, because of the hierarchical
 structure (upgrade lower layers, and then the upper layers need to be
 updated).</p>
-<h3 data-number="10.1.2" id="network-performance-metrics"><span
-class="header-section-number">10.1.2</span> 10.1.2. Network performance
+<h3 id="network-performance-metrics">10.1.2. Network performance
 metrics</h3>
 <p>Bisection width: minimum number of links to cut to divide the network
 into two halves</p>
@@ -1464,18 +1556,14 @@ into two halves</p>
 the network into two halves</p>
 <p>Full bisection bandwidth: nodes in one half can communicate to the
 other half in this bandwidth (?)</p>
-<h3 data-number="10.1.3" id="oversubscription-ratio"><span
-class="header-section-number">10.1.3</span> 10.1.3. Oversubscription
-ratio</h3>
+<h3 id="oversubscription-ratio">10.1.3. Oversubscription ratio</h3>
 <p>Ratio of worst-case required aggregate bandwidth to the total uplink
 bandwidth of a network device. - Ability of hosts to fully utilize its
 uplink capabilities.</p>
 <p>Oversubscription ratio 1:1 means that all hosts can use full uplink
 capacity.</p>
-<h2 data-number="10.2"
-id="factors-behind-data-center-network-designs"><span
-class="header-section-number">10.2</span> 10.2. Factors behind data
-center network designs</h2>
+<h2 id="factors-behind-data-center-network-designs">10.2. Factors behind
+data center network designs</h2>
 <p>Commoditication in the data center: inexpensive, commodity servers
 and storage devices the network is still highly specialized (using
 large-fanout proprietary switches)</p>
@@ -1485,8 +1573,7 @@ limited policy routing, etc</p>
 graph processing, etc) Low traffic locality, and the goal is to have
 flat high bandwith (pick random pair in the server, and the goal is to
 keep the same bandwidth between any nodes)</p>
-<h3 data-number="10.2.1" id="fat-tree"><span
-class="header-section-number">10.2.1</span> 10.2.1. Fat-tree</h3>
+<h3 id="fat-tree">10.2.1. Fat-tree</h3>
 <p>to accomodate these factors - expand the tree topology to “fat-tree”,
 which is a normal tree network, but has more linkst to the higher layers
 to improve the connectivity.</p>
@@ -1526,9 +1613,8 @@ flow</li>
 <li>Flow scheduling - havev a centralized scheduler to assign flows to
 paths (leveraging SDN)</li>
 </ul>
-<h2 data-number="10.3" id="data-center-network-congestion-control"><span
-class="header-section-number">10.3</span> 10.3. Data center network
-congestion control</h2>
+<h2 id="data-center-network-congestion-control">10.3. Data center
+network congestion control</h2>
 <p>ususally in TCP AIMD, we do slowstart and then do timeout, again
 slowstart and do additive increase later</p>
 <p><strong>TCP incast problem</strong> - data center application runs on
@@ -1552,9 +1638,8 @@ commodify switches. - this leads to TCP global sync. Solutions:</p>
 </ul>
 <p>what can we do to do better: in essence you don’t want to
 overenginneer the system, and make limitted solutions.</p>
-<h3 data-number="10.3.1" id="what-if-we-avoid-packet-drops"><span
-class="header-section-number">10.3.1</span> 10.3.1. What if we avoid
-packet drops?</h3>
+<h3 id="what-if-we-avoid-packet-drops">10.3.1. What if we avoid packet
+drops?</h3>
 <p>Ethernet flow control:</p>
 <ul>
 <li>Pause frame
@@ -1580,8 +1665,7 @@ if it is empty.</p>
 there was congestion</p>
 <p>DCTCP ECN: marks only ACKs that are marked by ECN</p>
 <p>DCTCP calculations: F = #ACKs marked by ECN / #total ACKs</p>
-<h1 data-number="11" id="streaming"><span
-class="header-section-number">11</span> 11. Streaming</h1>
+<h1 id="streaming">11. Streaming</h1>
 <p>before it was downloading the video and watching it</p>
 <p>now it is streaming - downloading chunk by chunk</p>
 <p><strong>Challenges</strong>:</p>
@@ -1589,8 +1673,7 @@ class="header-section-number">11</span> 11. Streaming</h1>
 <li>a lot of data to process</li>
 <li>smt else</li>
 </ul>
-<h2 data-number="11.1" id="video-compression"><span
-class="header-section-number">11.1</span> 11.1. Video compression</h2>
+<h2 id="video-compression">11.1. Video compression</h2>
 <ol type="1">
 <li>send a smaller frame</li>
 <li>send a delta between the frames</li>
@@ -1633,9 +1716,7 @@ switching between bandwidths.</p>
 small segements (chunks) and encode the segments with different bitrates
 Adaptively select the bitrate for each segment in streaming for each
 user</p>
-<h2 data-number="11.2" id="video-streaming-protocols"><span
-class="header-section-number">11.2</span> 11.2. Video streaming
-protocols</h2>
+<h2 id="video-streaming-protocols">11.2. Video streaming protocols</h2>
 <p>Ways of doing it are either built on UDP (live streaming) or TCP and
 on HTTP (video on-demand services).</p>
 <p><strong>RTP - real-time transport protocol</strong>: primarily used
@@ -1664,8 +1745,7 @@ is ISO standard. DASH data model - has a media presentation description
 segments there can be adds. In the period there can be adaptation set,
 which have specifications (in manifest file) of segments (basically
 packets of tcp).</p>
-<h2 data-number="11.3" id="abr-algorithms"><span
-class="header-section-number">11.3</span> 11.3. ABR algorithms</h2>
+<h2 id="abr-algorithms">11.3. ABR algorithms</h2>
 <p><strong>Birate selection in ABR</strong> you want to have the bitrate
 depending on the data and the bandwidth. The bandwidth can vary A LOT,
 especially in mobile environments, so to estimate the bandwidth do an
@@ -1693,9 +1773,7 @@ function would have cushioning</p>
 <p><strong>deep reimforcement learning</strong> train the deep learning
 model, and use the trained agent to make decisions. It is also possible
 to replace video codecs with machine learning.</p>
-<h2 data-number="11.4" id="netflix-video-serving"><span
-class="header-section-number">11.4</span> 11.4. Netflix video
-serving</h2>
+<h2 id="netflix-video-serving">11.4. Netflix video serving</h2>
 <p>workloads: serve only static media files, which are pre-encoded for
 all codecs/bitrates</p>
 <p>Video serving stack:</p>
@@ -1715,9 +1793,7 @@ send it to the NIC. Thus mempru bandwidth is a bottleneck.
 <em>Optimisation</em> - to achieve 400Gbps bandwidth, it would need to
 have 50GB/s PCI bandwidth, so to do that encryption is done at the
 NIC.</p>
-<h2 data-number="11.5" id="video-stream-analytics"><span
-class="header-section-number">11.5</span> 11.5. Video stream
-analytics</h2>
+<h2 id="video-stream-analytics">11.5. Video stream analytics</h2>
 <p>usually streaming is server -&gt; client, but now it is also client
 -&gt; cloud server.</p>
 <p>There is a very large volume of traffic, in the wide area

@@ -547,11 +547,54 @@
 <header id="title-block-header">
 <h1 class="title">Foundations of Software</h1>
 </header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#models" id="toc-models">Models</a>
+<ul>
+<li><a href="#induction" id="toc-induction">Induction</a></li>
+<li><a href="#syntax" id="toc-syntax">Syntax</a></li>
+</ul></li>
+<li><a href="#structural-induction-on-syntax"
+id="toc-structural-induction-on-syntax">Structural induction on
+syntax</a>
+<ul>
+<li><a href="#abstract-machines" id="toc-abstract-machines">Abstract
+Machines</a></li>
+<li><a href="#induction-on-derivations"
+id="toc-induction-on-derivations">Induction on Derivations</a></li>
+<li><a href="#normal-forms" id="toc-normal-forms">Normal forms</a></li>
+<li><a href="#multi-step-evaluation"
+id="toc-multi-step-evaluation">Multi-step evaluation</a></li>
+</ul></li>
+<li><a href="#untyped-lambda-calculus"
+id="toc-untyped-lambda-calculus">Untyped Lambda calculus</a>
+<ul>
+<li><a href="#recursion-in-lambda-calculus"
+id="toc-recursion-in-lambda-calculus">Recursion in Lambda
+calculus</a></li>
+<li><a href="#inductive-proofs-about-the-lambda-calculus"
+id="toc-inductive-proofs-about-the-lambda-calculus">Inductive proofs
+about the lambda calculus</a></li>
+<li><a href="#progress" id="toc-progress">Progress</a></li>
+</ul></li>
+<li><a href="#skipped-typed-lambda-calculus"
+id="toc-skipped-typed-lambda-calculus">Skipped Typed Lambda Calculus</a>
+<ul>
+<li><a href="#proof-of-preservation"
+id="toc-proof-of-preservation">Proof of preservation</a></li>
+<li><a href="#erasure" id="toc-erasure">Erasure</a></li>
+<li><a
+href="#the-curry-howard-correspondence---comes-up-in-the-exam-often"
+id="toc-the-curry-howard-correspondence---comes-up-in-the-exam-often">The
+Curry-Howard Correspondence - comes up in the exam often</a></li>
+</ul></li>
+<li><a href="#extensions-to-stlc" id="toc-extensions-to-stlc">Extensions
+to STLC</a></li>
+</ul>
+</nav>
 <!-- markdownlint-disable MD010 MD041 MD001 MD036 MD029-->
-<h2 data-number="0.1" id="models"><span
-class="header-section-number">0.1</span> Models</h2>
-<h3 data-number="0.1.1" id="induction"><span
-class="header-section-number">0.1.1</span> Induction</h3>
+<h2 id="models">Models</h2>
+<h3 id="induction">Induction</h3>
 <p>Principle of <em>complete induction</em> on natural numbers. It
 states that if it holds for n, it holds for all numbers i where i &lt;
 n.</p>
@@ -578,14 +621,12 @@ e.g. integers and strings of characters, rationals, because they can be
 bijectively mapped to naturals. Reals cannot have complete induction,
 because there is not a finite number of decreasing steps to reach a base
 case.</p>
-<h3 data-number="0.1.2" id="syntax"><span
-class="header-section-number">0.1.2</span> Syntax</h3>
+<h3 id="syntax">Syntax</h3>
 <p>Programs will be represented as trees of syntax.</p>
 <p>N.B. Parenthesis don’t matter.</p>
 <p>Evaluation relation is a smallest step we can take to get from one
 configuration to another. Notation t1 –&gt; t2.</p>
-<h2 data-number="0.2" id="structural-induction-on-syntax"><span
-class="header-section-number">0.2</span> Structural induction on
+<h2 id="structural-induction-on-syntax">Structural induction on
 syntax</h2>
 <p><em>Depth</em> of a term t is the smallest i such that t is in <span
 class="math inline">S_i</span></p>
@@ -627,13 +668,11 @@ Consts(t_3)| \le size(t_1) + size(t_2) + size(t_3) + 1</span></li>
 <li>apply each IH once to conclude a simple algebra relation</li>
 </ol></li>
 </ol>
-<h3 data-number="0.2.1" id="abstract-machines"><span
-class="header-section-number">0.2.1</span> Abstract Machines</h3>
+<h3 id="abstract-machines">Abstract Machines</h3>
 <p><strong>Abstract machine</strong> consists of a set of states and a
 transition relation on states, written <span
 class="math inline">\rightarrow</span></p>
-<h3 data-number="0.2.2" id="induction-on-derivations"><span
-class="header-section-number">0.2.2</span> Induction on Derivations</h3>
+<h3 id="induction-on-derivations">Induction on Derivations</h3>
 <p>Side note: Derivation tree means that the statement at the bottom is
 derivable.</p>
 <p>Given an arbitrary derivation D with conclusion <span
@@ -674,8 +713,7 @@ class="math inline">t \rightarrow t&#39;</span>, we can do a case
 analysis on the last rule in the derivation tree. And for each case we
 learn things for free and we can apply theses things each time to
 formulate induction hypotheses.</p>
-<h3 data-number="0.2.3" id="normal-forms"><span
-class="header-section-number">0.2.3</span> Normal forms</h3>
+<h3 id="normal-forms">Normal forms</h3>
 <p><strong>Normal form</strong> - the term that cannot be evaluated any
 further. I.e. a term t is in normal form if and only if there is no t’
 such that <span class="math inline">t \rightarrow t&#39;</span></p>
@@ -684,13 +722,11 @@ computation.</p>
 <p><strong>Stuck term</strong> is a term that is in normal form but is
 not a value (e.g. succ false)</p>
 <p>Stuck terms model run-time errors.</p>
-<h3 data-number="0.2.4" id="multi-step-evaluation"><span
-class="header-section-number">0.2.4</span> Multi-step evaluation</h3>
+<h3 id="multi-step-evaluation">Multi-step evaluation</h3>
 <p>The <strong>multi-step evaluation</strong> relation <span
 class="math inline">\rightarrow^*</span> is the reflexve, transitive
 closure of single-step evaluation.</p>
-<h2 data-number="0.3" id="untyped-lambda-calculus"><span
-class="header-section-number">0.3</span> Untyped Lambda calculus</h2>
+<h2 id="untyped-lambda-calculus">Untyped Lambda calculus</h2>
 <p>Example where call-by-name does not evaluate to call-by-value in one
 step: Call-by-value: <span class="math display">(\lambda x.x)((\lambda
 y.y)(\lambda z.z)) \rightarrow^{value}(\lambda x.x)(\lambda
@@ -698,9 +734,7 @@ z.z)</span></p>
 <p>Call-by-name: <span class="math display">(\lambda x.x)((\lambda
 y.y)(\lambda z.z)) \rightarrow^{name} (\lambda y.y)(\lambda
 z.z)</span></p>
-<h4 data-number="0.3.0.1" id="termination-of-evaluation"><span
-class="header-section-number">0.3.0.1</span> Termination of
-evaluation</h4>
+<h4 id="termination-of-evaluation">Termination of evaluation</h4>
 <p><strong>Theorem</strong> - termination of evaluation - for every
 <span class="math inline">t</span> there is some normal form <span
 class="math inline">t&#39;</span> such that <span class="math inline">t
@@ -708,9 +742,7 @@ class="math inline">t&#39;</span> such that <span class="math inline">t
 <p>This is not a Turing-complete then.</p>
 <p>Lambda calculus does not terminate because of the <span
 class="math inline">\Omega</span> term.</p>
-<h4 data-number="0.3.0.2" id="lambda-calculus-puzzles"><span
-class="header-section-number">0.3.0.2</span> Lambda calculus
-puzzles</h4>
+<h4 id="lambda-calculus-puzzles">Lambda calculus puzzles</h4>
 <p>Q: one-step evaluation of <span class="math inline">t = (\lambda x.\
 \lambda y.y\ x)(\lambda z.z)</span> A: <span class="math inline">t&#39;
 = \lambda y.y\ (\lambda z.z)</span> This showcases that <span
@@ -728,17 +760,14 @@ and we cannot reduce the right side because for E-APP2 because left side
 is not a value. If it was <strong>call-by-name</strong>, then we could
 apply E-APPABS and E-APP1 to get <span class="math inline">y((\lambda
 z.z)(\lambda w.w))</span></p>
-<h4 data-number="0.3.0.3" id="rules"><span
-class="header-section-number">0.3.0.3</span> Rules</h4>
+<h4 id="rules">Rules</h4>
 <p><strong>E-APP1</strong> <span class="math inline">t_1 \rightarrow
 t_1&#39; \rArr t_1t_2 \rightarrow t_1&#39; t_2</span></p>
 <p><strong>E-APP2</strong> <span class="math inline">t_2 \rightarrow
 t_2&#39; \rArr v_1t_2 \rightarrow v_1 t_2&#39;</span></p>
 <p><strong>E-APPABS</strong> <span class="math inline">(\lambda x.
 t_{12})v_2\rightarrow [x \rightarrowtail v_2] t_{12}</span></p>
-<h3 data-number="0.3.1" id="recursion-in-lambda-calculus"><span
-class="header-section-number">0.3.1</span> Recursion in Lambda
-calculus</h3>
+<h3 id="recursion-in-lambda-calculus">Recursion in Lambda calculus</h3>
 <p>Recursion and divergence are intertwined, so we need to consider
 divergent terms.</p>
 <p><span class="math display">\Omega = (\lambda x.xx) (\lambda x.
@@ -746,8 +775,7 @@ xx)</span></p>
 <p><span class="math inline">\Omega</span> evaluates in one step to
 itself. Therefore it never reaches a normal form - it
 <em>diverges</em>.</p>
-<h4 data-number="0.3.1.1" id="iterated-application"><span
-class="header-section-number">0.3.1.1</span> Iterated application</h4>
+<h4 id="iterated-application">Iterated application</h4>
 <p>Suppose f is some <span
 class="math inline">\lambda</span>-abstraction, and consider the
 following variant of omega:</p>
@@ -758,8 +786,7 @@ class="math display">Y_f = (\lambda x. f (x x))(\lambda x. f(xx))
 \rightarrow f(\lambda x. f (x x))(\lambda x. f(xx)) \rightarrow
 f(f(\lambda x. f (x x))(\lambda x. f(xx))) ...</span> This is a problem
 because it never reaches anything, only diverges.</p>
-<h4 data-number="0.3.1.2" id="delaying-divergence"><span
-class="header-section-number">0.3.1.2</span> Delaying divergence</h4>
+<h4 id="delaying-divergence">Delaying divergence</h4>
 <p><strong>poisonpill = <span class="math inline">\lambda</span>y.
 omega</strong></p>
 <p><strong>poisonpill</strong> is a value. It delays the explosion of
@@ -790,25 +817,20 @@ fct.\ \lambda n.\ ...) \rightarrow^* 3\times(z_f\ 2)...</span></p>
 <p><strong>Define z = <span class="math inline">\lambda f.
 z_f</span></strong></p>
 <p>READ: chapter 8.</p>
-<h4 data-number="0.3.1.3" id="delaying-evaluation-in-ite"><span
-class="header-section-number">0.3.1.3</span> Delaying evaluation in
-ite</h4>
+<h4 id="delaying-evaluation-in-ite">Delaying evaluation in ite</h4>
 <p>We delay the evaluation of the branches of the if then else, we add
 an identity function afterwards to first evaluate the boolean
 evaluation. And we add dummy lamba wrappers for the branches Test
 already has the unit. (sometimes)</p>
-<h4 data-number="0.3.1.4" id="church-numerals"><span
-class="header-section-number">0.3.1.4</span> Church numerals</h4>
+<h4 id="church-numerals">Church numerals</h4>
 <p>There can be different representations of the same number which means
 that equality is under question.</p>
 <p>If we enrich the pure lambda calculus with “regular numbers”, we can
 display church numberal by converting them to regular numbers: realnat =
 <span class="math inline">\lambda</span>n. n (<span
 class="math inline">\lambda</span>m. succ m) 0</p>
-<h3 data-number="0.3.2"
-id="inductive-proofs-about-the-lambda-calculus"><span
-class="header-section-number">0.3.2</span> Inductive proofs about the
-lambda calculus</h3>
+<h3 id="inductive-proofs-about-the-lambda-calculus">Inductive proofs
+about the lambda calculus</h3>
 <p><strong>Exercise</strong>: If t -&gt; t’, then FV(t) <span
 class="math inline">\supseteq</span> FV(t’).</p>
 <p><strong>Proof</strong>: Proof by induction on the derivation tree of
@@ -854,8 +876,7 @@ then t’ is closed”</p>
 <p>If t -&gt; t’, and t is closed, then t’ is closed -
 <strong>preservation</strong></p>
 <p>Progress + preservation = <strong>safety/soundness</strong></p>
-<h3 data-number="0.3.3" id="progress"><span
-class="header-section-number">0.3.3</span> Progress</h3>
+<h3 id="progress">Progress</h3>
 <p><strong>Theorem:</strong> If t is closed (FV(t) = {}), then t is a
 value or t -&gt; t’ <strong>Proof</strong>: Proof by induction on the
 structure of t Case analysis on the structure of t</p>
@@ -871,11 +892,9 @@ and v1 = <span class="math inline">\lambda</span>x. t12, then t= (<span
 class="math inline">\lambda</span>x. t12) v2, which means E-AppAbs
 applies</p>
 <p>test</p>
-<h2 data-number="0.4" id="skipped-typed-lambda-calculus"><span
-class="header-section-number">0.4</span> Skipped Typed Lambda
+<h2 id="skipped-typed-lambda-calculus">Skipped Typed Lambda
 Calculus</h2>
-<h3 data-number="0.4.1" id="proof-of-preservation"><span
-class="header-section-number">0.4.1</span> Proof of preservation</h3>
+<h3 id="proof-of-preservation">Proof of preservation</h3>
 <p>Preservation: if {}/ |- t.T and t -&gt; t’, then {}/ |- t’.T</p>
 <p>By induction on derivation of {}/ |- t.T</p>
 <p>Case analysis of {}/ |- t.T</p>
@@ -890,18 +909,16 @@ T By T-App. {}/ |- ….</p>
 <p>case analysis of [x -&gt; v2]t12</p>
 <p>Case t12 = x [x -&gt; v2]t12 = v2 we need to prove that {}/ |- v2.T
 (from empty environment v2 has type T)</p>
-<h3 data-number="0.4.2" id="erasure"><span
-class="header-section-number">0.4.2</span> Erasure</h3>
+<h3 id="erasure">Erasure</h3>
 <p>Takes the term from STLC, and takes it to the untyped lambda
 calculus</p>
 <p>erase(x) = x erase(:T1. t2) = . erase(t2) erase(t1 t2) = erase(t1)
 erase(t2)</p>
 <p>We need to have both true: first erase and then take a step in
 untyped lambda calculus or first take a step in STLC and then erase.</p>
-<h3 data-number="0.4.3"
-id="the-curry-howard-correspondence---comes-up-in-the-exam-often"><span
-class="header-section-number">0.4.3</span> The Curry-Howard
-Correspondence - comes up in the exam often</h3>
+<h3
+id="the-curry-howard-correspondence---comes-up-in-the-exam-often">The
+Curry-Howard Correspondence - comes up in the exam often</h3>
 <p>In constructive logics, a proof of P must provide evidence for P (law
 of excluded middle is not recognized - so <span class="math inline">P
 \lor \neg P</span> could be false)</p>
@@ -945,7 +962,6 @@ approprate type. \(a*b).a</p>
 </tr>
 </tbody>
 </table>
-<h2 data-number="0.5" id="extensions-to-stlc"><span
-class="header-section-number">0.5</span> Extensions to STLC</h2>
+<h2 id="extensions-to-stlc">Extensions to STLC</h2>
 </body>
 </html>

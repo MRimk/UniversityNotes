@@ -610,9 +610,182 @@
 <header id="title-block-header">
 <h1 class="title">Information Security and Privacy</h1>
 </header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#introduction-to-cyber-threats"
+id="toc-introduction-to-cyber-threats">Introduction to cyber threats</a>
+<ul>
+<li><a href="#motivation-for-attacks"
+id="toc-motivation-for-attacks">Motivation for attacks</a></li>
+<li><a href="#value-of-a-hacked-pc" id="toc-value-of-a-hacked-pc">Value
+of a hacked PC</a></li>
+<li><a href="#cyber-attack-lifecycle"
+id="toc-cyber-attack-lifecycle">Cyber attack lifecycle</a></li>
+<li><a href="#commodity-threats" id="toc-commodity-threats">Commodity
+threats</a></li>
+<li><a href="#hacktivism" id="toc-hacktivism">Hacktivism</a></li>
+<li><a href="#advanced-persistent-threat"
+id="toc-advanced-persistent-threat">Advanced Persistent Threat</a></li>
+<li><a href="#classes-of-malware" id="toc-classes-of-malware">Classes of
+Malware</a></li>
+<li><a href="#social-engineering" id="toc-social-engineering">Social
+engineering</a></li>
+<li><a href="#vulnerabilities-and-exploits"
+id="toc-vulnerabilities-and-exploits">Vulnerabilities and
+exploits</a></li>
+</ul></li>
+<li><a href="#exercises-1" id="toc-exercises-1">Exercises 1</a></li>
+<li><a href="#crypto-basics" id="toc-crypto-basics">Crypto Basics</a>
+<ul>
+<li><a href="#naive-approach-to-encryption"
+id="toc-naive-approach-to-encryption">Naive approach to
+encryption</a></li>
+<li><a href="#symmetric-crypto" id="toc-symmetric-crypto">Symmetric
+Crypto</a></li>
+<li><a href="#data-integrity" id="toc-data-integrity">Data
+Integrity</a></li>
+<li><a href="#authenticated-encryption"
+id="toc-authenticated-encryption">Authenticated Encryption</a></li>
+<li><a href="#public-key-cryptography"
+id="toc-public-key-cryptography">Public-key cryptography</a></li>
+<li><a href="#public-key-distribution"
+id="toc-public-key-distribution">Public key distribution</a></li>
+<li><a href="#crypto-summary" id="toc-crypto-summary">Crypto
+summary</a></li>
+<li><a href="#case-study-tls" id="toc-case-study-tls">Case study:
+TLS</a></li>
+<li><a href="#exercises-2" id="toc-exercises-2">Exercises 2</a></li>
+</ul></li>
+<li><a href="#access-control" id="toc-access-control">Access control</a>
+<ul>
+<li><a href="#basics" id="toc-basics">Basics</a></li>
+<li><a href="#multiple-approaches-to-access-control"
+id="toc-multiple-approaches-to-access-control">Multiple Approaches to
+access control</a></li>
+<li><a href="#authentication"
+id="toc-authentication">Authentication</a></li>
+<li><a href="#authentication-protocols"
+id="toc-authentication-protocols">Authentication protocols</a></li>
+<li><a href="#delegated-authentication"
+id="toc-delegated-authentication">Delegated authentication</a></li>
+<li><a href="#authentication-summary"
+id="toc-authentication-summary">Authentication summary</a></li>
+</ul></li>
+<li><a href="#exercises-3" id="toc-exercises-3">Exercises 3</a></li>
+<li><a href="#data-security" id="toc-data-security">Data Security</a>
+<ul>
+<li><a href="#typical-setups" id="toc-typical-setups">Typical
+setups</a></li>
+<li><a href="#multitier-architecture"
+id="toc-multitier-architecture">Multitier architecture</a></li>
+<li><a href="#database-access-control"
+id="toc-database-access-control">Database access control</a></li>
+<li><a href="#encrypting-the-data"
+id="toc-encrypting-the-data">Encrypting the data</a></li>
+<li><a href="#password-storage" id="toc-password-storage">Password
+storage</a></li>
+<li><a href="#secure-remote-password-protocol"
+id="toc-secure-remote-password-protocol">Secure remote password
+protocol</a></li>
+</ul></li>
+<li><a href="#exercises-4" id="toc-exercises-4">Exercises 4</a></li>
+<li><a href="#programming-languages-security"
+id="toc-programming-languages-security">Programming languages
+security</a>
+<ul>
+<li><a href="#motivation" id="toc-motivation">Motivation</a></li>
+<li><a href="#type-safety" id="toc-type-safety">Type safety</a></li>
+<li><a href="#memory-safety" id="toc-memory-safety">Memory
+safety</a></li>
+<li><a href="#thread-safety" id="toc-thread-safety">Thread
+safety</a></li>
+<li><a href="#sandboxing-and-comparmentalization"
+id="toc-sandboxing-and-comparmentalization">Sandboxing and
+comparmentalization</a></li>
+</ul></li>
+<li><a href="#exercises-5" id="toc-exercises-5">Exercises 5</a></li>
+<li><a href="#web-and-software-security"
+id="toc-web-and-software-security">Web and software security</a>
+<ul>
+<li><a href="#owasp-top-10" id="toc-owasp-top-10">OWASP Top 10</a></li>
+<li><a href="#arbitrary-code-execution"
+id="toc-arbitrary-code-execution">Arbitrary code execution</a></li>
+<li><a href="#software-security" id="toc-software-security">Software
+security</a></li>
+</ul></li>
+<li><a href="#exercises-6" id="toc-exercises-6">Exercises 6</a></li>
+<li><a href="#automated-testing" id="toc-automated-testing">Automated
+Testing</a>
+<ul>
+<li><a href="#manual-testing" id="toc-manual-testing">Manual
+testing</a></li>
+<li><a href="#semi-automated-testing"
+id="toc-semi-automated-testing">Semi-automated testing</a></li>
+<li><a href="#automated-testing-1"
+id="toc-automated-testing-1">Automated testing</a></li>
+<li><a href="#comparison-of-analyses"
+id="toc-comparison-of-analyses">Comparison of Analyses</a></li>
+</ul></li>
+<li><a href="#exercises-7" id="toc-exercises-7">Exercises 7</a></li>
+<li><a href="#network-security" id="toc-network-security">Network
+security</a>
+<ul>
+<li><a href="#best-practices" id="toc-best-practices">Best
+practices</a></li>
+<li><a href="#network-segmentation"
+id="toc-network-segmentation">Network segmentation</a></li>
+<li><a href="#protecting-remote-access---virtual-private-networks"
+id="toc-protecting-remote-access---virtual-private-networks">Protecting
+remote access - Virtual Private Networks</a></li>
+<li><a href="#protecting-the-perimeter"
+id="toc-protecting-the-perimeter">Protecting the perimeter</a></li>
+<li><a href="#protecting-the-workstation"
+id="toc-protecting-the-workstation">Protecting the workstation</a></li>
+</ul></li>
+<li><a href="#exercises-8" id="toc-exercises-8">Exercises 8</a></li>
+<li><a href="#mobile-security" id="toc-mobile-security">Mobile
+security</a>
+<ul>
+<li><a href="#mobile-security-motivation"
+id="toc-mobile-security-motivation">Mobile security motivation</a></li>
+<li><a href="#attack-vectors" id="toc-attack-vectors">Attack
+vectors</a></li>
+<li><a href="#android-vs-ios" id="toc-android-vs-ios">Android vs
+iOS</a></li>
+<li><a href="#arm---armv8" id="toc-arm---armv8">ARM - ARMv8</a></li>
+<li><a href="#android-ecosystem-and-security"
+id="toc-android-ecosystem-and-security">Android ecosystem and
+security</a></li>
+<li><a href="#android-apps" id="toc-android-apps">Android Apps</a></li>
+<li><a href="#app-security" id="toc-app-security">App security</a></li>
+<li><a href="#reversing-android-apps"
+id="toc-reversing-android-apps">Reversing Android Apps</a></li>
+<li><a href="#kernel-security-and-selinux"
+id="toc-kernel-security-and-selinux">Kernel security and
+SELinux</a></li>
+</ul></li>
+<li><a href="#exercises-9" id="toc-exercises-9">Exercises 9</a></li>
+<li><a href="#trusted-computing" id="toc-trusted-computing">Trusted
+Computing</a>
+<ul>
+<li><a href="#confidential-computing"
+id="toc-confidential-computing">Confidential computing</a></li>
+<li><a href="#what-if-we-can-trust-the-hardware"
+id="toc-what-if-we-can-trust-the-hardware">What if we can trust the
+hardware</a></li>
+<li><a href="#trusted-hardware" id="toc-trusted-hardware">Trusted
+hardware</a></li>
+<li><a href="#side-channels" id="toc-side-channels">Side
+channels</a></li>
+<li><a href="#microarchitectural-side-channels"
+id="toc-microarchitectural-side-channels">Microarchitectural
+side-channels</a></li>
+</ul></li>
+<li><a href="#exercises-10" id="toc-exercises-10">Exercises 10</a></li>
+</ul>
+</nav>
 <!-- markdownlint-disable MD010 MD041 MD001 MD036 MD029-->
-<h2 data-number="0.1" id="introduction-to-cyber-threats"><span
-class="header-section-number">0.1</span> Introduction to cyber
+<h2 id="introduction-to-cyber-threats">Introduction to cyber
 threats</h2>
 <p><strong>Cyber threats</strong> Def 1: potential cause of an unwanted
 incident, which can result in harm to a system or organization</p>
@@ -624,8 +797,7 @@ incident, which can result in harm to a system or organization</p>
 <li>cyber: malicious software, denial of service, social engineering,
 software vulnerabilities/exploits</li>
 </ul>
-<h3 data-number="0.1.1" id="motivation-for-attacks"><span
-class="header-section-number">0.1.1</span> Motivation for attacks</h3>
+<h3 id="motivation-for-attacks">Motivation for attacks</h3>
 <p>Originally - curiosity, fun, fame</p>
 <p>Now:</p>
 <ul>
@@ -643,12 +815,10 @@ Peace</li>
 </ul>
 <p>Profit (gray side) - sell the vulnerabilities you discover to some
 broker</p>
-<h3 data-number="0.1.2" id="value-of-a-hacked-pc"><span
-class="header-section-number">0.1.2</span> Value of a hacked PC</h3>
+<h3 id="value-of-a-hacked-pc">Value of a hacked PC</h3>
 <p>Hacked PC has a lot of value for various exploits (see slide 0x01
 6)</p>
-<h3 data-number="0.1.3" id="cyber-attack-lifecycle"><span
-class="header-section-number">0.1.3</span> Cyber attack lifecycle</h3>
+<h3 id="cyber-attack-lifecycle">Cyber attack lifecycle</h3>
 <p>Preparation:</p>
 <ul>
 <li>define target, from broad (everyone) to focused (individual)</li>
@@ -674,8 +844,7 @@ class="header-section-number">0.1.3</span> Cyber attack lifecycle</h3>
 <li>manipulate, sabotage data</li>
 </ul>
 <p>Cover tracks - delete log data</p>
-<h3 data-number="0.1.4" id="commodity-threats"><span
-class="header-section-number">0.1.4</span> Commodity threats</h3>
+<h3 id="commodity-threats">Commodity threats</h3>
 <p>they are non-targeted (“shotgun” approach) usually non-stealth and
 fully automated goal is often short-term financial gains often
 considered low-risk for the attackers possible starting point for more
@@ -687,17 +856,14 @@ sophisticated attacks</p>
 <li>malicious ads</li>
 <li>computer worm</li>
 </ul>
-<h4 data-number="0.1.4.1" id="malware-spam"><span
-class="header-section-number">0.1.4.1</span> Malware spam</h4>
+<h4 id="malware-spam">Malware spam</h4>
 <p>It is sent broadly to many people (i.e. not targeted) Crude
 customization (e.g. Swiss Post, Linkedin) Attachment contains well-known
 malware Campaigns are life hours to days</p>
-<h4 data-number="0.1.4.2" id="extorsion"><span
-class="header-section-number">0.1.4.2</span> Extorsion</h4>
+<h4 id="extorsion">Extorsion</h4>
 <p>Sent broadly to many people (i.e. not targeted) Relies on leaked
 information, e.g. password lists Convinces user of “hack”</p>
-<h3 data-number="0.1.5" id="hacktivism"><span
-class="header-section-number">0.1.5</span> Hacktivism</h3>
+<h3 id="hacktivism">Hacktivism</h3>
 <p>Several meanings such as: politically moticated hacking, variant of
 (anarchic) civil disobedience</p>
 <p>Good options:</p>
@@ -711,8 +877,7 @@ class="header-section-number">0.1.5</span> Hacktivism</h3>
 <li>Anonymous publication of confidential data (wikileaks, i guess)</li>
 <li>DDoS</li>
 </ul>
-<h4 data-number="0.1.5.1" id="examples-of-hacktivism"><span
-class="header-section-number">0.1.5.1</span> Examples of Hacktivism</h4>
+<h4 id="examples-of-hacktivism">Examples of Hacktivism</h4>
 <p>Panama Papers (2016): Somebody stole and published documents about
 214,000 offshore companies incorporated in Panama</p>
 <p>Epik data breach (2021): A group of hacktivists exposed customer
@@ -722,9 +887,7 @@ hosting extremist content, called the ‘Panama papers of hate groups’</p>
 Russian Federation in retaliation for the invasion of Ukraine. Website
 defacement, email leaks from weapon manufacturers, hacked TV channels
 and surveillance cameras, etc.</p>
-<h3 data-number="0.1.6" id="advanced-persistent-threat"><span
-class="header-section-number">0.1.6</span> Advanced Persistent
-Threat</h3>
+<h3 id="advanced-persistent-threat">Advanced Persistent Threat</h3>
 <p><strong>Advanced</strong> - targeted, multi-step attack, often uses
 specialized tools, often starts with spear-phishing (targeted phishing
 attack)</p>
@@ -734,25 +897,21 @@ long-term over short-term goals, conitnuous monitoring and interaction
 <p><strong>Threat</strong> - human coordinated attack; attackers are
 skilled, motivated and well-funded (e.g. industrial espionage). No ‘fire
 and forget’ approach, not fully automated</p>
-<h4 data-number="0.1.6.1" id="example-of-apt-ruag"><span
-class="header-section-number">0.1.6.1</span> Example of APT: RUAG</h4>
-<h3 data-number="0.1.7" id="classes-of-malware"><span
-class="header-section-number">0.1.7</span> Classes of Malware</h3>
+<h4 id="example-of-apt-ruag">Example of APT: RUAG</h4>
+<h3 id="classes-of-malware">Classes of Malware</h3>
 <p>Virus - spreads by infecting other files</p>
 <p>Worm: spreads automatically to other systems</p>
 <p>Trojan: malware hidden in useful software</p>
 <p>Rootkit: hides presence of malware on computer</p>
 <p>Ransomware: encrypts files and requests payment for decryption</p>
 <p>Nation state malware: malware developed by a nation-state</p>
-<h4 data-number="0.1.7.1" id="virus"><span
-class="header-section-number">0.1.7.1</span> Virus</h4>
+<h4 id="virus">Virus</h4>
 <p>Virus is a malware that infects a file and replicates by infecting
 other files</p>
 <p>By definition, it does not propage automatically to other
 computers.</p>
 <p>(Also, generic term for malware)</p>
-<h4 data-number="0.1.7.2" id="worm"><span
-class="header-section-number">0.1.7.2</span> Worm</h4>
+<h4 id="worm">Worm</h4>
 <p>Worm is a piece of malware that propagates automatically</p>
 <p><em>Morris worm</em>:</p>
 <ul>
@@ -765,8 +924,7 @@ overloading them until they were unusable</li>
 <li>infected 10% of the internet (estimate)</li>
 <li>Morris got 400 hours of community service and 10k fine</li>
 </ul>
-<h4 data-number="0.1.7.3" id="trojan"><span
-class="header-section-number">0.1.7.3</span> Trojan</h4>
+<h4 id="trojan">Trojan</h4>
 <p>Strictly, a malware hidden in a useful software or file (e.g. pirated
 game)</p>
 <p>More generally, a malware that stays on the victim’s computer and
@@ -780,8 +938,7 @@ communicates with a control center to carry out malicious activity</p>
 <li>over 100 people arrested (money mules)</li>
 <li>alleged mastermind was arrested in 2013</li>
 </ul>
-<h4 data-number="0.1.7.4" id="rootkit"><span
-class="header-section-number">0.1.7.4</span> Rootkit</h4>
+<h4 id="rootkit">Rootkit</h4>
 <p>Rootkit hides the presence of malware on a computer</p>
 <p>It patches the OS such that malicious files, processes,
 communications are not shown anymore</p>
@@ -792,8 +949,7 @@ your system</p>
 drivers, modules) before running them</p>
 <p>Modern rootkits therefore modify the OS before it boots by infecting
 the boot sector or by infecting the BIOS!</p>
-<h4 data-number="0.1.7.5" id="ransomware"><span
-class="header-section-number">0.1.7.5</span> Ransomware</h4>
+<h4 id="ransomware">Ransomware</h4>
 <p>Ransomware encrypts the files and requests payment for decryption</p>
 <p>After payment is received, the decryption key is (often) obtained</p>
 <p>Bitcoin has made it possible for malicious software developers to
@@ -803,23 +959,18 @@ make a lot of money with little effort or risk</p>
 more</p>
 <p>Simple way of limiting rist are recent (offline, protected)
 backups</p>
-<h4 data-number="0.1.7.6" id="nation-stae-malware-stuxnet"><span
-class="header-section-number">0.1.7.6</span> Nation-stae Malware:
-Stuxnet</h4>
+<h4 id="nation-stae-malware-stuxnet">Nation-stae Malware: Stuxnet</h4>
 <p>Highly advanced malware</p>
 <p>Used for targeted sabotage of Iran’s nuclear program</p>
 <p>Supposedly developed by an American-Israeli team</p>
 <p>Exploited for 0-day exploits in Windows</p>
 <p>Accidentally spread beyond its intended target due to a programming
 error</p>
-<h4 data-number="0.1.7.7" id="botnets---compute-for-hire"><span
-class="header-section-number">0.1.7.7</span> Botnets - compute for
-hire</h4>
+<h4 id="botnets---compute-for-hire">Botnets - compute for hire</h4>
 <p>Mirai botnet consists of 150k IoT cameras</p>
 <p>Used to sell compute for, e.g. DDoS</p>
 <p>DoS overwhelms target computer with large amount of requests</p>
-<h3 data-number="0.1.8" id="social-engineering"><span
-class="header-section-number">0.1.8</span> Social engineering</h3>
+<h3 id="social-engineering">Social engineering</h3>
 <p>“Hacking Humans” - use psychological tricks to manipulate another
 human</p>
 <p>Social engineers use phishing, pretexting, baiting or tailgating</p>
@@ -827,9 +978,7 @@ human</p>
 <p>Intent to obtain sensitive information, gain unauthorized access,
 commit fraud</p>
 <p>Prevented by awareness, training, and robust security measures</p>
-<h3 data-number="0.1.9" id="vulnerabilities-and-exploits"><span
-class="header-section-number">0.1.9</span> Vulnerabilities and
-exploits</h3>
+<h3 id="vulnerabilities-and-exploits">Vulnerabilities and exploits</h3>
 <p><strong>Vulnerability</strong> - weakness in logic, the software or
 hardware of a system (bugs)</p>
 <p><strong>Exploit</strong> - method/tool to take advantage of a
@@ -839,8 +988,7 @@ vulnerability</p>
 because the developers don’t know about it yet (since 0 days)</p>
 <p>They can be mitigated by making them difficult to exploit - isolate
 the system or add multiple layers of security</p>
-<h4 data-number="0.1.9.1" id="typical-software-vulnerabilities"><span
-class="header-section-number">0.1.9.1</span> Typical software
+<h4 id="typical-software-vulnerabilities">Typical software
 vulnerabilities</h4>
 <p>Buffer / heap / stack overflows - violating memory safety</p>
 <p>Unvalidated input, including SQL injection: mixing code and data</p>
@@ -852,8 +1000,7 @@ location or attributes</p>
 etc.</p>
 <p>Weaknesses in the implementation of access control: authentication
 and authorization flaws</p>
-<h2 data-number="0.2" id="exercises-1"><span
-class="header-section-number">0.2</span> Exercises 1</h2>
+<h2 id="exercises-1">Exercises 1</h2>
 <p><strong>Exercise 1</strong> Matching mechanisms authenticity -
 message authentication code (keyed hash) availability -
 duplicate/distribute system confidentiality - isolation intergrity -
@@ -882,8 +1029,7 @@ attacks, it is best to spread awareness</p>
 of all files on a disk, adds the size of the empty space and compares it
 to the total disk size. What type of malware is this software trying to
 detect? Explain why. a: trojan</p>
-<h2 data-number="0.3" id="crypto-basics"><span
-class="header-section-number">0.3</span> Crypto Basics</h2>
+<h2 id="crypto-basics">Crypto Basics</h2>
 <p>Goals of cryptography:</p>
 <ul>
 <li>Confidentiality - data is only accessible with the correct key</li>
@@ -893,19 +1039,15 @@ says that it cannot be <em>modified</em>)</li>
 <li>Non Repudiation - the author of a message cannot deny being the
 author</li>
 </ul>
-<h3 data-number="0.3.1" id="naive-approach-to-encryption"><span
-class="header-section-number">0.3.1</span> Naive approach to
-encryption</h3>
-<h4 data-number="0.3.1.1" id="rotation-cipher"><span
-class="header-section-number">0.3.1.1</span> Rotation cipher</h4>
+<h3 id="naive-approach-to-encryption">Naive approach to encryption</h3>
+<h4 id="rotation-cipher">Rotation cipher</h4>
 <p>Two parties agree on an algorithm and keep it secret</p>
 <p>Problem: if you know that it is a shift, it only takes 26 trials to
 break it.</p>
 <p>So Kerckhoff’s principle comes into effect: a cryptosystem should be
 secure even if everything about the system, except the key, is public
 knowledge</p>
-<h4 data-number="0.3.1.2" id="one-time-pad"><span
-class="header-section-number">0.3.1.2</span> One-time pad</h4>
+<h4 id="one-time-pad">One-time pad</h4>
 <p>Key is a random string and at least as long as plaintext Encryption -
 XOR operation to encrypt and decrypt</p>
 <p>It is <strong>perfect</strong> in theory.</p>
@@ -913,14 +1055,12 @@ XOR operation to encrypt and decrypt</p>
 not be used more than once key length depends on the message length</p>
 <p>It is benefitial when the communication is not immediate. Key can be
 exchanged once and then use it at some point in time.</p>
-<h3 data-number="0.3.2" id="symmetric-crypto"><span
-class="header-section-number">0.3.2</span> Symmetric Crypto</h3>
+<h3 id="symmetric-crypto">Symmetric Crypto</h3>
 <p>Encryption and decryptopm are done with the <strong>same
 key</strong>. Solves the problem of transferring large amounts of
 confidential data by creating the problem of <strong>key
 exchange</strong></p>
-<h4 data-number="0.3.2.1" id="stream-cipher"><span
-class="header-section-number">0.3.2.1</span> Stream cipher</h4>
+<h4 id="stream-cipher">Stream cipher</h4>
 <p>Use a key and pseudo random number generator to encrypt the data with
 the random bits (with XOR). Initialize RNG with key as seed.</p>
 <p>Pros: can encrypt data of arbitrary length</p>
@@ -938,8 +1078,7 @@ C_2[k]</span></p>
 <p><strong>Initialization vector</strong> Stream cipher with
 initialization vector (IV). IV has to be sent with each message. IV can
 just be a random number.</p>
-<h4 data-number="0.3.2.2" id="block-cipher"><span
-class="header-section-number">0.3.2.2</span> Block cipher</h4>
+<h4 id="block-cipher">Block cipher</h4>
 <p>Encrypts a <strong>fixed size</strong> blocks of data</p>
 <ul>
 <li>a <strong>padding scheme</strong> is used to fill the last block
@@ -979,8 +1118,7 @@ same bit in the next cleartext block and mangles the current block
 <strong>Always</strong> add <strong>integrity check</strong></p>
 <p><strong>Padding oracle attack</strong> - padding needs to be
 carefully done.</p>
-<h3 data-number="0.3.3" id="data-integrity"><span
-class="header-section-number">0.3.3</span> Data Integrity</h3>
+<h3 id="data-integrity">Data Integrity</h3>
 <p><strong>Integrity</strong> - protects agains unauthorized
 modification</p>
 <p><em>It is easy to flip bits of the cleartext.</em></p>
@@ -989,8 +1127,7 @@ modification</p>
 <li>detects any modification of the message</li>
 <li>cannot be forged by an attacker</li>
 </ul>
-<h4 data-number="0.3.3.1" id="hash-function"><span
-class="header-section-number">0.3.3.1</span> Hash function</h4>
+<h4 id="hash-function">Hash function</h4>
 <p>take an arbitray length input and generate fixed length output.</p>
 <p><strong>Porperties</strong>:</p>
 <ul>
@@ -1016,9 +1153,8 @@ SHA-1.</p>
 standard but is related to SHA-1. SHA-3 - no weakness known (not able to
 run on embedded system, because it is computationally more difficult)
 BLAKE3 - no weakness known, faster, not standard</p>
-<h4 data-number="0.3.3.2" id="message-authentication-codes-mac"><span
-class="header-section-number">0.3.3.2</span> Message Authentication
-Codes (MAC)</h4>
+<h4 id="message-authentication-codes-mac">Message Authentication Codes
+(MAC)</h4>
 <p>Similar to hash function but involves a symmetric key The same key is
 used to generate the MAC and to validate it.</p>
 <p>If the key is know to two parties, a correct MAC proves:</p>
@@ -1028,10 +1164,8 @@ used to generate the MAC and to validate it.</p>
 </ul>
 <p>This is similar to encryption but does not encrypt, just
 verifies.</p>
-<h3 data-number="0.3.4" id="authenticated-encryption"><span
-class="header-section-number">0.3.4</span> Authenticated Encryption</h3>
-<h4 data-number="0.3.4.1" id="confidentiality-and-integrity"><span
-class="header-section-number">0.3.4.1</span> Confidentiality and
+<h3 id="authenticated-encryption">Authenticated Encryption</h3>
+<h4 id="confidentiality-and-integrity">Confidentiality and
 Integrity</h4>
 <p><strong>Always</strong> require both confidentiality
 <strong>and</strong> integrity.</p>
@@ -1047,8 +1181,7 @@ include additional data that is authenticated but not encrypted - used
 for seq number or other metadata.</p>
 <p>AEAD (authenticated encryption associated data) E.g. Galois/Counter
 Mode (GCM) - common standard together with AES.</p>
-<h3 data-number="0.3.5" id="public-key-cryptography"><span
-class="header-section-number">0.3.5</span> Public-key cryptography</h3>
+<h3 id="public-key-cryptography">Public-key cryptography</h3>
 <p>Solves the problem to agree on a pre-shared symmetric key.</p>
 <p>Uses a pair of <strong>public</strong> and <strong>private</strong>
 key.</p>
@@ -1070,14 +1203,11 @@ secrete</li>
 <li>hard to decrypt without private key</li>
 </ul></li>
 </ul>
-<h4 data-number="0.3.5.1" id="digital-signatures"><span
-class="header-section-number">0.3.5.1</span> Digital signatures</h4>
+<h4 id="digital-signatures">Digital signatures</h4>
 <p>private key allows signer to generate an unforgeable signature that
 attests to the validity of the message.</p>
 <p>Examples: software updates, contracts.</p>
-<h4 data-number="0.3.5.2" id="diffie-hellman-key-exchange"><span
-class="header-section-number">0.3.5.2</span> Diffie-Hellman key
-exchange</h4>
+<h4 id="diffie-hellman-key-exchange">Diffie-Hellman key exchange</h4>
 <p>Protocol for key exchange.</p>
 <p><span class="math inline">K = g^{ab}\ mod\ n</span></p>
 <p>Algorithm: K = A^b % p = (g^a % p)^b % p = g^ab % p = (g^b % p)^a % p
@@ -1085,20 +1215,17 @@ exchange</h4>
 <p><strong>Problem</strong>: Man-in-the-middle attack. Giving the
 impression to Alice and Bob that they are safe. Therefore there needs to
 be integrity through pub keys etc</p>
-<h4 data-number="0.3.5.3" id="rsa"><span
-class="header-section-number">0.3.5.3</span> RSA</h4>
+<h4 id="rsa">RSA</h4>
 <p>n is product of thwo large primes p * q</p>
 <p>e is compirme with (p-1)(q-1), (ed-1) is multiple of (p-1)(q-1)</p>
-<h4 data-number="0.3.5.4" id="eliptic-curve-cryptography-ecc"><span
-class="header-section-number">0.3.5.4</span> Eliptic curve cryptography
+<h4 id="eliptic-curve-cryptography-ecc">Eliptic curve cryptography
 (ECC)</h4>
 <p>Based on the eliptic curves over finite field.</p>
 <p>Smaller keys for equivalent security.</p>
 <p>ECC could be used for the key exchange, e.g. TLS: ECC Diffie-Hellman
 Used for signature.</p>
 <p>For example, Sony used ECDSA to sign software for Playstation 3.</p>
-<h4 data-number="0.3.5.5" id="crypto-comparison"><span
-class="header-section-number">0.3.5.5</span> Crypto Comparison</h4>
+<h4 id="crypto-comparison">Crypto Comparison</h4>
 <p>Asymmetric is powerful but orders of magnitude slower than symmetric
 crypto.</p>
 <p>Assymetric is used to exchange a symmetric key, then symmetric takes
@@ -1115,12 +1242,10 @@ of security):</p>
 <li>Symmetric - Kerberos</li>
 <li>Asymmetric - WPA3 (not possible to crack WiFi passwords)</li>
 </ul>
-<h3 data-number="0.3.6" id="public-key-distribution"><span
-class="header-section-number">0.3.6</span> Public key distribution</h3>
+<h3 id="public-key-distribution">Public key distribution</h3>
 <p>Public keys don’t have to be secrete but have to be
 <strong>authentic</strong>.</p>
-<h4 data-number="0.3.6.1" id="certificate-authority"><span
-class="header-section-number">0.3.6.1</span> Certificate Authority</h4>
+<h4 id="certificate-authority">Certificate Authority</h4>
 <p>We need a trusted 3rd party to distribute the public keys.</p>
 <p>It does some validation before signing the keys:</p>
 <ul>
@@ -1142,41 +1267,33 @@ but controlled by the attacker. There are intermediary certificates to
 reduce to attack surface - if it is hacked, then everything is bad.</p>
 <p>Current browsers have a set of root CAs. If there is a chain of
 signatures up to a trusted root, the browser trusts the certificate.</p>
-<h3 data-number="0.3.7" id="crypto-summary"><span
-class="header-section-number">0.3.7</span> Crypto summary</h3>
+<h3 id="crypto-summary">Crypto summary</h3>
 <p>Crypto can be symmetric (fast), asymmetric (slow)</p>
 <p>Asymmetric should only be used to encrypt short data, as hash of
 document, a random symmetric key.</p>
 <p>ECC is replacing RSA as asymmetric algorithm (it’s faster, shorter
 keys)</p>
 <p>Trus is not possible without a trust root.</p>
-<h3 data-number="0.3.8" id="case-study-tls"><span
-class="header-section-number">0.3.8</span> Case study: TLS</h3>
+<h3 id="case-study-tls">Case study: TLS</h3>
 <p>TLS provides confidentiality, integrity, and authentication.</p>
 <p>Basic idea: build your client-server app without security, add TLS
 and it works.</p>
-<h4 data-number="0.3.8.1" id="building-blocks"><span
-class="header-section-number">0.3.8.1</span> Building blocks</h4>
+<h4 id="building-blocks">Building blocks</h4>
 <p>The server is authenticated with a certificate It proves its identity
 by signing some information received from the client with its private
 key.</p>
 <p>Client and server create a symmetric key using asymmetric crypto.</p>
-<h4 data-number="0.3.8.2" id="cipher-suites"><span
-class="header-section-number">0.3.8.2</span> Cipher Suites</h4>
+<h4 id="cipher-suites">Cipher Suites</h4>
 <p>Algorithms to be used are specified in cipher suits. E.g.
 TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256</p>
 <p>There are 5 suites for v1.3.</p>
-<h4 data-number="0.3.8.3" id="perfect-forward-security"><span
-class="header-section-number">0.3.8.3</span> Perfect Forward
-Security</h4>
+<h4 id="perfect-forward-security">Perfect Forward Security</h4>
 <p><strong>Strong security notion</strong> - session keys should no be
 compromised even if long-term secrets are. It is not related to the
 client or server data, and it is established after the key exchange. It
 must not be stored anywhere such that it does not get recovered.</p>
 <p>Diffie-Hellman-like protocol offer Perfect Forward Secrecy (PFS)</p>
-<h4 data-number="0.3.8.4"
-id="tls-uses-public-and-symmetric-crypto"><span
-class="header-section-number">0.3.8.4</span> TLS uses public and
+<h4 id="tls-uses-public-and-symmetric-crypto">TLS uses public and
 symmetric crypto</h4>
 <p>Public key crypto:</p>
 <ul>
@@ -1192,21 +1309,17 @@ key</li>
 <li>AES block cipher is used in CBC mode for encryption</li>
 <li>SHA hash is used for HMAC, for key derivations</li>
 </ul>
-<h4 data-number="0.3.8.5" id="weaknesses-in-tls"><span
-class="header-section-number">0.3.8.5</span> Weaknesses in TLS</h4>
+<h4 id="weaknesses-in-tls">Weaknesses in TLS</h4>
 <p>There have been attacks that broke it.</p>
 <p>Downgrade attacks Padding oracle attacks</p>
-<h4 data-number="0.3.8.6" id="implementing-tls"><span
-class="header-section-number">0.3.8.6</span> Implementing TLS</h4>
+<h4 id="implementing-tls">Implementing TLS</h4>
 <p>Assign a new port (HTTPS uses different port), start with TLS
 handshake, not compatible with clients that can’t TLS.</p>
 <p>Put STARTTLS command on the standard protocol.</p>
-<h4 data-number="0.3.8.7" id="deploying-tls-on-the-internet"><span
-class="header-section-number">0.3.8.7</span> Deploying TLS on the
+<h4 id="deploying-tls-on-the-internet">Deploying TLS on the
 Internet</h4>
 <p>Using HTTPS is becoming default for Privacy and Security</p>
-<h4 data-number="0.3.8.8" id="lets-encrypt---free-certificates"><span
-class="header-section-number">0.3.8.8</span> Let’s encrypt - Free
+<h4 id="lets-encrypt---free-certificates">Let’s encrypt - Free
 certificates</h4>
 <p>To be able to create certificates that are trusted by all browsers,
 you must undergo a certification.</p>
@@ -1219,8 +1332,7 @@ you must undergo a certification.</p>
 <p>Let’s Encrypt certificates have to be regenerated every few months
 because certificate revokation is broken (if it is attacked, the
 certificate is still valid until the end of the certificate).</p>
-<h4 data-number="0.3.8.9" id="attacks-on-https-and-defences"><span
-class="header-section-number">0.3.8.9</span> Attacks on HTTPS and
+<h4 id="attacks-on-https-and-defences">Attacks on HTTPS and
 defences</h4>
 <p>SSL Stripping - a MITM makes you believe that the site uses HTTP
 instead of HTTPS. Defence - HSTS - HTTP Strict Transport Security. It
@@ -1237,8 +1349,7 @@ not accept to connect.</li>
 check who requested certificates for their domain and clients can verify
 that a cert received from server is in the logs.</li>
 </ul>
-<h3 data-number="0.3.9" id="exercises-2"><span
-class="header-section-number">0.3.9</span> Exercises 2</h3>
+<h3 id="exercises-2">Exercises 2</h3>
 <ol type="1">
 <li>Why can’t you use a message authentication code (e.g. HMAC-SHA2) to
 sign a contract between a buyer and a seller?
@@ -1292,32 +1403,27 @@ attack that can be prevented by using a pinned certificate.
 <li>Which certificate authorities have been used to sign the certificate
 of the [www.epfl.ch] web server? <em>A:</em></li>
 </ol>
-<h2 data-number="0.4" id="access-control"><span
-class="header-section-number">0.4</span> Access control</h2>
+<h2 id="access-control">Access control</h2>
 <p>How we can control who gets access to certain object?</p>
-<h3 data-number="0.4.1" id="basics"><span
-class="header-section-number">0.4.1</span> Basics</h3>
+<h3 id="basics">Basics</h3>
 <p>Defines and enforces <strong>operations</strong> that
 <strong>subjects</strong> can do on <strong>objects</strong></p>
 <p>E.g. Person has permission to read/write from a socket (this implies
 that the subject has been authenticated first)</p>
-<h4 data-number="0.4.1.1" id="security-policy"><span
-class="header-section-number">0.4.1.1</span> Security policy</h4>
+<h4 id="security-policy">Security policy</h4>
 <p><strong>Access rights</strong> describe which subjects can do what
 operations on what objects.</p>
 <p>A <strong>security policy</strong> is a collection of access rights.
 Security policies can be represented as an access control matrix. It
 shows what subject can do what on the object.</p>
-<h4 data-number="0.4.1.2" id="security-mechanism"><span
-class="header-section-number">0.4.1.2</span> Security mechanism</h4>
+<h4 id="security-mechanism">Security mechanism</h4>
 <p><strong>Security mechanism</strong> tries to prevent operations that
 are not authorized bu the security policy.</p>
 <p>Allow-list - anything that is not allowed implicitly is denied.
 Deny-list - anything that is not denied is allowed. (worse because we
 will only figure out if something is not denied after the attack)</p>
-<h4 data-number="0.4.1.3" id="principle-of-least-privilege-polp"><span
-class="header-section-number">0.4.1.3</span> Principle of Least
-Privilege (PoLP)</h4>
+<h4 id="principle-of-least-privilege-polp">Principle of Least Privilege
+(PoLP)</h4>
 <ul>
 <li>subjects only have the minimum rights required for their job</li>
 <li>i.e. subjects are only allowed minimal operations on objects per
@@ -1332,8 +1438,7 @@ privilege.</p>
 principle</strong></p>
 <p>Another way to look at it: if you cannot remove any right without
 taking away functionality</p>
-<h4 data-number="0.4.1.4" id="multiple-levels-of-access-control"><span
-class="header-section-number">0.4.1.4</span> Multiple levels of access
+<h4 id="multiple-levels-of-access-control">Multiple levels of access
 control</h4>
 <p>In a network there could be several layers of AC: firewall, server,
 application</p>
@@ -1347,16 +1452,14 @@ attack</li>
 <li>sometimes other layers don’t have the correct semantics (e.g. user
 profiles in an application is just a file for OS)</li>
 </ul>
-<h3 data-number="0.4.2" id="multiple-approaches-to-access-control"><span
-class="header-section-number">0.4.2</span> Multiple Approaches to access
-control</h3>
+<h3 id="multiple-approaches-to-access-control">Multiple Approaches to
+access control</h3>
 <ul>
 <li>Role-based Access Control (RBAC)</li>
 <li>Discretionary Access Control (DAC)</li>
 <li>Mandatory Access Control (MAC)</li>
 </ul>
-<h4 data-number="0.4.2.1" id="rbac"><span
-class="header-section-number">0.4.2.1</span> RBAC</h4>
+<h4 id="rbac">RBAC</h4>
 <p>Simplifies the specification of permissions by grouping users into
 roles. (Centered on user roles)</p>
 <p>A role can contain multiple permissions.</p>
@@ -1365,27 +1468,23 @@ and rights, it would become a very complicated matrix. Roles simplifies
 that because it is an abstraction to group a certain set of roles.</p>
 <p>Each subject can have multiple roles. (In Unix each object can only
 be in one group - that’s just implementation)</p>
-<h5 data-number="0.4.2.1.1" id="example-rbac-implementation---os"><span
-class="header-section-number">0.4.2.1.1</span> Example RBAC
-implementation - OS</h5>
+<h5 id="example-rbac-implementation---os">Example RBAC implementation -
+OS</h5>
 <p>Most OS have the notion of groups Groups can be given a set of
 permissions Users can be added to groups</p>
-<h5 data-number="0.4.2.1.2" id="rbac-pros"><span
-class="header-section-number">0.4.2.1.2</span> RBAC Pros</h5>
+<h5 id="rbac-pros">RBAC Pros</h5>
 <p>Easy to grasp the idea of roles</p>
 <p>Easy to manage (roles decouple digital entities from permissions)</p>
 <p>Easy to tell through roles which permissions a subject has and why
 (typically centrally managed)</p>
-<h5 data-number="0.4.2.1.3" id="rbac-cons"><span
-class="header-section-number">0.4.2.1.3</span> RBAC Cons</h5>
+<h5 id="rbac-cons">RBAC Cons</h5>
 <p>Difficult to decide on the granularity of roles - how deep the role
 has the access in; leads either to role explosion or roles that are too
 broad</p>
 <p>Role meaning is fuzzy (based on human explanation)</p>
 <p>Uncliear if roles can be shared across differen departments</p>
-<h4 data-number="0.4.2.2" id="discretionary-access-control-dac"><span
-class="header-section-number">0.4.2.2</span> Discretionary Access
-Control (DAC)</h4>
+<h4 id="discretionary-access-control-dac">Discretionary Access Control
+(DAC)</h4>
 <p>Someone owns the file, and ownes specifies policies to access
 resources it owns</p>
 <p>Represented by access control list (ACL)</p>
@@ -1399,8 +1498,7 @@ up with a key People know exactly for which doors they have a key</p>
 <p>ACL is practical when you often have to create or modify rights on
 objects Capabilities, when you often create or change rights of subjects
 or roles</p>
-<h5 data-number="0.4.2.2.1" id="dac-in-unix-fs"><span
-class="header-section-number">0.4.2.2.1</span> DAC in Unix FS</h5>
+<h5 id="dac-in-unix-fs">DAC in Unix FS</h5>
 <p>Done with ACL Stored in the target object (in the metadata) subjects
 are grouped in three categories - owner, group, other.</p>
 <p>Three access rights - read, write, execute</p>
@@ -1414,9 +1512,7 @@ rather than the permissions of the user/group</p>
 <p>Programs with setuid can be very dangerous. This is because programs
 with setuid bit set are privileged and if they have any bug in them that
 could be used to escalate the privileges of the user.</p>
-<h5 data-number="0.4.2.2.2" id="capabilities-in-linux"><span
-class="header-section-number">0.4.2.2.2</span> Capabilities in
-Linux</h5>
+<h5 id="capabilities-in-linux">Capabilities in Linux</h5>
 <p>Capabilities are permissions that are related to a subjec, not to an
 object.</p>
 <p>Linux supports capabilities for processes. e.g.: CAP_CHOWN - make
@@ -1430,25 +1526,21 @@ group</li>
 <li>it does not have the setuid bit</li>
 </ul>
 <p>It is most of the time safer than using setuid</p>
-<h5 data-number="0.4.2.2.3" id="acl-in-windows"><span
-class="header-section-number">0.4.2.2.3</span> ACL in Windows</h5>
+<h5 id="acl-in-windows">ACL in Windows</h5>
 <p>ACL is not limited to three types of subjects (used, group, other) -
 objects can have a list of ACLs for different users and groups</p>
 <p>The Windows administrator account is not the highest privileged
 account. The system account NT Authorityis the one that runs the system
 and launches services. Thus, you can configure anti-virus software in a
 way that even administrators cannot remove it.</p>
-<h5 data-number="0.4.2.2.4" id="capabilities-in-windows"><span
-class="header-section-number">0.4.2.2.4</span> Capabilities in
-Windows</h5>
+<h5 id="capabilities-in-windows">Capabilities in Windows</h5>
 <p>Windows has priviliges that act like capabilities:</p>
 <ul>
 <li>SeTimeZonePrivilege - change time zone</li>
 <li>SeSystemtimePrivilege - can change the system time</li>
 <li>etc</li>
 </ul>
-<h4 data-number="0.4.2.3" id="dac-pros-and-cons"><span
-class="header-section-number">0.4.2.3</span> DAC pros and cons</h4>
+<h4 id="dac-pros-and-cons">DAC pros and cons</h4>
 <p>Pros:</p>
 <ul>
 <li>flexible</li>
@@ -1464,8 +1556,7 @@ mistakes</li>
 program run by tan authorized user can read a protected file and write
 an unprotected copy of that file. Anybody can read the file.</li>
 </ul>
-<h4 data-number="0.4.2.4" id="mandatory-access-control-mac"><span
-class="header-section-number">0.4.2.4</span> Mandatory access control
+<h4 id="mandatory-access-control-mac">Mandatory access control
 (MAC)</h4>
 <p>Tries to ensure that even someone with access cannot leak the
 data</p>
@@ -1530,8 +1621,7 @@ declassified)</li>
 secret file and write the contents into a confidential file, thereby
 reclassifying the secrecy level and downgrading it (that’s why secret
 subjects can write only in secret documents)</p>
-<h5 data-number="0.4.2.4.1" id="mac-confidentiality-vs-integrity"><span
-class="header-section-number">0.4.2.4.1</span> MAC Confidentiality vs
+<h5 id="mac-confidentiality-vs-integrity">MAC Confidentiality vs
 Integrity</h5>
 <p>MAC and Confidentiality:</p>
 <ul>
@@ -1557,15 +1647,13 @@ lower level (<strong>no write-down</strong>)
 <li>E.g.: OS - users can read and execute OS programs but cannot modify
 them</li>
 </ul>
-<h5 data-number="0.4.2.4.2" id="mac-in-windows"><span
-class="header-section-number">0.4.2.4.2</span> MAC in Windows</h5>
+<h5 id="mac-in-windows">MAC in Windows</h5>
 <p>Windows implements MAC for integrity protection (Mandatory Integrity
 Control) 4 integrity levels - low, medium, high, system</p>
 <p>Objects have a label that says whether write-up, read-up, or
 execute-up are allowed. Internet browsers and other programs processing
 files received from internet run in low integrity level</p>
-<h5 data-number="0.4.2.4.3" id="mac-in-linux"><span
-class="header-section-number">0.4.2.4.3</span> MAC in Linux</h5>
+<h5 id="mac-in-linux">MAC in Linux</h5>
 <p>SELinux and AppArmour are two MAC systems form Linux. They are both
 based on the generic Lunux Security Module (LSM)</p>
 <p>LSM sits in the kernel and is called just after standard DAC checks
@@ -1573,8 +1661,7 @@ and before access is given</p>
 <p>SELinux is used in Android - creates context on the name, role and
 domain AppArmour user profiles define access rights to files, network
 and capabilities. Is enabled by default in ubuntu</p>
-<h5 data-number="0.4.2.4.4" id="mac-pros-and-cons"><span
-class="header-section-number">0.4.2.4.4</span> MAC pros and cons</h5>
+<h5 id="mac-pros-and-cons">MAC pros and cons</h5>
 <p>Pros:</p>
 <ul>
 <li>Addresses the limitations of DAC</li>
@@ -1585,9 +1672,7 @@ class="header-section-number">0.4.2.4.4</span> MAC pros and cons</h5>
 <li>Can be too restrictive, prevent legitimate tasks</li>
 <li>Not flexible</li>
 </ul>
-<h4 data-number="0.4.2.5" id="summary-of-access-control"><span
-class="header-section-number">0.4.2.5</span> Summary of access
-control</h4>
+<h4 id="summary-of-access-control">Summary of access control</h4>
 <p>Different types of access control, usage depends on situation:
 <strong>Aim</strong> - achieve least privilege at minimal complexity</p>
 <p>Moder OSes make use of all of these types:</p>
@@ -1597,8 +1682,7 @@ control</h4>
 <li>Using groups to implement RBAC (users, admins, hr, marketing)</li>
 <li>MAC for protecting the integrity of the system</li>
 </ul>
-<h3 data-number="0.4.3" id="authentication"><span
-class="header-section-number">0.4.3</span> Authentication</h3>
+<h3 id="authentication">Authentication</h3>
 <p>Access control only makes sense if subjects are authenticated.</p>
 <p>3 common flavors to authenticate:</p>
 <ul>
@@ -1609,9 +1693,8 @@ token</li>
 </ul>
 <p>Two factor authentication requires the use of two factors - password
 is often one of the two factors</p>
-<h4 data-number="0.4.3.1" id="even-strong-passwords-are-at-risk"><span
-class="header-section-number">0.4.3.1</span> Even strong passwords are
-at risk</h4>
+<h4 id="even-strong-passwords-are-at-risk">Even strong passwords are at
+risk</h4>
 <p>a stolen password can be replayed by anybody</p>
 <p>An attacker can:</p>
 <ul>
@@ -1625,8 +1708,7 @@ at risk</h4>
 <li>lists tof usernames and passwords are distributed online</li>
 <li>hackers try the same credentials on many different sites</li>
 </ul>
-<h4 data-number="0.4.3.2" id="password-managers"><span
-class="header-section-number">0.4.3.2</span> Password managers</h4>
+<h4 id="password-managers">Password managers</h4>
 <p>Store all your credentials in encrypted form</p>
 <ul>
 <li>your <strong>master password</strong> is used to decrypt the
@@ -1649,15 +1731,13 @@ locally</li>
 <li>best of both - the password manager comes with an open source server
 that you can host where you want (Bitwarden)</li>
 </ul>
-<h4 data-number="0.4.3.3" id="authenticationsession-cookies"><span
-class="header-section-number">0.4.3.3</span> Authentication/session
+<h4 id="authenticationsession-cookies">Authentication/session
 cookies</h4>
 <p>Cookie is kept by the client and used for authenticating against the
 server. Cookie should be uniques for every subject Cookie can be used bu
 several clients through forging (if the server encrypts the cookie it
 hinders the forging - HMAC)</p>
-<h4 data-number="0.4.3.4" id="something-you-own"><span
-class="header-section-number">0.4.3.4</span> Something you own</h4>
+<h4 id="something-you-own">Something you own</h4>
 <p>Typically called hardware/software token.</p>
 <p>Bingo card: proves that the user owns the card can easily be copied
 without being detected</p>
@@ -1673,9 +1753,7 @@ token Proof that user owns phone (or sim card)</p>
 <p>Private key in hardware token token signs a challenge different key
 for different websites proof that user owns token secure hardware
 Universal 2nd Factor (U2F) standard</p>
-<h4 data-number="0.4.3.5" id="oath-generation-of-otp"><span
-class="header-section-number">0.4.3.5</span> OATH, generation of
-OTP</h4>
+<h4 id="oath-generation-of-otp">OATH, generation of OTP</h4>
 <p><strong>OATH</strong> is a standard that describes:</p>
 <ul>
 <li>how OTPs are generated from a seed</li>
@@ -1684,20 +1762,17 @@ OTP</h4>
 <p>Standard OATH tokens exis as hw and sw (e.g. Google Authenticator
 app) Generation of the next OTP is either counter or time based
 RFC4226</p>
-<h5 data-number="0.4.3.5.1" id="oath-algorithms"><span
-class="header-section-number">0.4.3.5.1</span> OATH algorithms</h5>
+<h5 id="oath-algorithms">OATH algorithms</h5>
 <p>Counter based: hotp(k, c) = truncate(hmac - sha512(k,c))</p>
 <p>Time-based (initial time t0, time interval x): totp(k, t) = hotp (k,
 (t - t0) / x)</p>
 <p>Tradeoffs?: —</p>
-<h4 data-number="0.4.3.6" id="rsa-secure-ids"><span
-class="header-section-number">0.4.3.6</span> RSA Secure IDs</h4>
+<h4 id="rsa-secure-ids">RSA Secure IDs</h4>
 <p>Secure IDs implement a form of totp Requires random seed to be synced
 device and customer</p>
 <p>In a massive hack, attackers stole ALL seeds from RSA - the first
 true supply chain attack</p>
-<h4 data-number="0.4.3.7" id="u2f-fido2"><span
-class="header-section-number">0.4.3.7</span> U2F, FIDO2</h4>
+<h4 id="u2f-fido2">U2F, FIDO2</h4>
 <p><strong>Universal 2nd Factor</strong> is a standard developed by the
 <strong>FIDO</strong> alliance</p>
 <p>Latest version is FIDO2</p>
@@ -1742,8 +1817,7 @@ cannot be used to log in</li>
 <li>it can use the native authenctication system of the platform</li>
 </ul></li>
 </ul>
-<h4 data-number="0.4.3.8" id="biometrics"><span
-class="header-section-number">0.4.3.8</span> Biometrics</h4>
+<h4 id="biometrics">Biometrics</h4>
 <p>Motivation: Something you know could be guessed Something you own
 could be stolen Nothing to remember, nothing that can be lost</p>
 <p><strong>Authentication process</strong>:</p>
@@ -1807,11 +1881,9 @@ fingers)</li>
 <li>A los of more or less serious research is done with ML and AI to
 extract inofmration from faces</li>
 </ul>
-<h3 data-number="0.4.4" id="authentication-protocols"><span
-class="header-section-number">0.4.4</span> Authentication protocols</h3>
+<h3 id="authentication-protocols">Authentication protocols</h3>
 <p>(when sending a password over TLS is not enough)</p>
-<h4 data-number="0.4.4.1" id="challenge-response"><span
-class="header-section-number">0.4.4.1</span> Challenge-response</h4>
+<h4 id="challenge-response">Challenge-response</h4>
 <p>Rather than sending the password to the server: Server sends a random
 challenge to the client The client uses the password hash to create a
 respose (e.g. encryption or HMAC of the challenge)</p>
@@ -1829,15 +1901,13 @@ both use a challenge: they can authenticate each other</p>
 <p>Challenge-response protocols may be eavesdropped or suffer cracking
 attacks: the attacker recordsa challenge and a response, then they try
 all possible passwords to find which would yielf the same response</p>
-<h4 data-number="0.4.4.2" id="kerberos"><span
-class="header-section-number">0.4.4.2</span> Kerberos</h4>
+<h4 id="kerberos">Kerberos</h4>
 <p>Kerberos provides authentication and authorization across a network
 Subjects receive tickets that they use to access objects</p>
 <p>Exclusively based on symmetric keys (developed at MIT in the 80s,
 initially deployed in Unix) The main authentication protocol in windows
 networks</p>
-<h5 data-number="0.4.4.2.1" id="kerberos-tickets-authenticators"><span
-class="header-section-number">0.4.4.2.1</span> Kerberos tickets,
+<h5 id="kerberos-tickets-authenticators">Kerberos tickets,
 authenticators</h5>
 <p>By presenting a ticket a client gets access to a service from a
 server</p>
@@ -1854,10 +1924,8 @@ server.</li>
 <p>The ticket is encrypted with the key of the destination server.</p>
 <p>The authenticator is an id and a timestamp encrypted with a session
 key.</p>
-<h5 data-number="0.4.4.2.2"
-id="kerberos-authentication-server-ticket-server"><span
-class="header-section-number">0.4.4.2.2</span> Kerberos authentication
-server, ticket server</h5>
+<h5 id="kerberos-authentication-server-ticket-server">Kerberos
+authentication server, ticket server</h5>
 <p>Kerberos uses a 3-phase approach:</p>
 <ul>
 <li>1-2 - an authentication server (AS) authenticates the client and
@@ -1866,9 +1934,7 @@ delivers a ticket granting ticket (TGT)</li>
 server (TGS) to get a ticket for the service</li>
 <li>5-6 - the client can access the service</li>
 </ul>
-<h5 data-number="0.4.4.2.3" id="kerberos-authentication"><span
-class="header-section-number">0.4.4.2.3</span> Kerberos
-authentication</h5>
+<h5 id="kerberos-authentication">Kerberos authentication</h5>
 <p>The password hash is used as key Kc</p>
 <ol type="1">
 <li>The client asks for a ticket for the TGS, sends <em>c,tgs</em></li>
@@ -1876,9 +1942,7 @@ authentication</h5>
 and an encrypted session key ENC_Kc(K_c,tgs)</li>
 </ol>
 <p>the client knows Kc and can decrypt the session key</p>
-<h5 data-number="0.4.4.2.4" id="kerberos-authorization"><span
-class="header-section-number">0.4.4.2.4</span> Kerberos
-authorization</h5>
+<h5 id="kerberos-authorization">Kerberos authorization</h5>
 <p>the client creates an authenticator with K_c,tgs</p>
 <ol start="3" type="1">
 <li>the client sends the ticket T_c,tgs and A_c,tgs to the TGS.</li>
@@ -1886,16 +1950,14 @@ authorization</h5>
 T_c,s and an encrypted session key ENC_K_c,tgs (K_c,s)</li>
 </ol>
 <p>The client knows K_c,tgs and can decrypt the session key.</p>
-<h5 data-number="0.4.4.2.5" id="kerberos-access"><span
-class="header-section-number">0.4.4.2.5</span> Kerberos access</h5>
+<h5 id="kerberos-access">Kerberos access</h5>
 <p>the client creates an authenticator with K_c,s</p>
 <ol start="5" type="1">
 <li>the client sends the ticket T_c,s and A_c,s to the server</li>
 <li>the server verifies the authenticaor</li>
 </ol>
 <p>the client can now use the service</p>
-<h5 data-number="0.4.4.2.6" id="kerberos-discussion"><span
-class="header-section-number">0.4.4.2.6</span> Kerberos discussion</h5>
+<h5 id="kerberos-discussion">Kerberos discussion</h5>
 <p>the ticket obtained from the AS is called the <strong>ticket grantic
 ticket (TGT)</strong> because it is used to get the other tickets</p>
 <p>To validate a ticket, a server:</p>
@@ -1913,8 +1975,7 @@ period</strong></li>
 time period</li>
 </ul>
 <p>Tickets are typically valid for eight hours</p>
-<h5 data-number="0.4.4.2.7" id="kerberos-attacks"><span
-class="header-section-number">0.4.4.2.7</span> Kerberos attacks</h5>
+<h5 id="kerberos-attacks">Kerberos attacks</h5>
 <p>MITM attacks - not possible:</p>
 <ul>
 <li>the attacker does not know the session keys (Kc, K_c,tgs,
@@ -1930,16 +1991,12 @@ accepted</li>
 <li>Attacker cannot replay fresh authenticators, servers keep a list of
 the last authenticators received</li>
 </ul>
-<h5 data-number="0.4.4.2.8" id="kerberos-pre-authentication"><span
-class="header-section-number">0.4.4.2.8</span> Kerberos
-pre-authentication</h5>
+<h5 id="kerberos-pre-authentication">Kerberos pre-authentication</h5>
 <p>Anybody can request a ticket for a user c from AS (they can brute
 force the password of session key)</p>
 <p>To prevent this, pre-authentication can be used.</p>
 <p>Microsoft uses pre-authentication.</p>
-<h5 data-number="0.4.4.2.9" id="kerberos-symmetric-keys"><span
-class="header-section-number">0.4.4.2.9</span> Kerberos symmetric
-keys</h5>
+<h5 id="kerberos-symmetric-keys">Kerberos symmetric keys</h5>
 <p>the security of Kerberos relies on symmetric keys:</p>
 <ul>
 <li>the password hash of the user(s)</li>
@@ -1954,24 +2011,19 @@ keys</h5>
 alt="Kerberos summary" />
 <figcaption aria-hidden="true">Kerberos summary</figcaption>
 </figure>
-<h3 data-number="0.4.5" id="delegated-authentication"><span
-class="header-section-number">0.4.5</span> Delegated authentication</h3>
-<h4 data-number="0.4.5.1" id="oauth2"><span
-class="header-section-number">0.4.5.1</span> OAUTH2</h4>
+<h3 id="delegated-authentication">Delegated authentication</h3>
+<h4 id="oauth2">OAUTH2</h4>
 <p>Oauth2 is a protocol used for delegated authentication on the
 Internet (Oauth2 providers like Facebook, Google, or Twitter can be used
 to authenticate and access other applications)</p>
-<h5 data-number="0.4.5.1.1" id="roles"><span
-class="header-section-number">0.4.5.1.1</span> Roles</h5>
+<h5 id="roles">Roles</h5>
 <p>Client - application that wants to use authentication and possibly
 access the user’s data</p>
 <p>Resource server - server that has user’s data that client wants to
 use</p>
 <p>Authorization server - sever on whic hthe user authenticates</p>
 <p>User - owner of account and resources on resource server</p>
-<h6 data-number="0.4.5.1.1.1" id="typical-oauth2-flow"><span
-class="header-section-number">0.4.5.1.1.1</span> Typical Oauth2
-flow</h6>
+<h6 id="typical-oauth2-flow">Typical Oauth2 flow</h6>
 <p>The client and the authentication server have a shared secret</p>
 <ul>
 <li>the client thus has to register with the authentication server
@@ -1994,16 +2046,13 @@ resources</li>
 <li>switching to the other app (e.g. facebook) and then back</li>
 </ul></li>
 </ul>
-<h5 data-number="0.4.5.1.2" id="oauth2-authentication-only"><span
-class="header-section-number">0.4.5.1.2</span> Oauth2 authentication
-only</h5>
+<h5 id="oauth2-authentication-only">Oauth2 authentication only</h5>
 <p>If Oauth is only used for logging in, then the flow can stop after
 getting access token and login</p>
 <p>Most apps in smartphones do not store your password: they use Oauth2
 to reques an access token and use this when you cange your password you
 don’t need to type your new password into all your devices</p>
-<h3 data-number="0.4.6" id="authentication-summary"><span
-class="header-section-number">0.4.6</span> Authentication summary</h3>
+<h3 id="authentication-summary">Authentication summary</h3>
 <p>Passwords can go a long way, especially if you use a password
 manager</p>
 <p>For critical accounts, 2FA significantly raises the bar for attacker
@@ -2017,8 +2066,7 @@ authentication is separated from authorization</p>
 crypto at all, relies on communications being made over TLS</p>
 <p>Challenge-response protocols we have seen and Kerberos use symmetric
 crypto</p>
-<h2 data-number="0.5" id="exercises-3"><span
-class="header-section-number">0.5</span> Exercises 3</h2>
+<h2 id="exercises-3">Exercises 3</h2>
 <p><strong>Exercise 1</strong> Explain what is the most important
 principle for access control in IT systems.</p>
 <p>The most important principle is the least privilege principle. It
@@ -2128,8 +2176,7 @@ gives access to Twitter independently of any password change. If you go
 to the “settings and privacy” page of your twitter account you can find
 all active tokens on “Apps and sessions”. You can invalidate single
 tokens by cliking on “Log out the device shown” for each session.</p>
-<h2 data-number="0.6" id="data-security"><span
-class="header-section-number">0.6</span> Data Security</h2>
+<h2 id="data-security">Data Security</h2>
 <p>Data storage requirements are ubiquitous.</p>
 <p>Companies must consider securiyt of data they store - EU idea is to
 store only what is needed, US store everything.</p>
@@ -2140,22 +2187,18 @@ store only what is needed, US store everything.</p>
 </ul>
 <p>Biggest Swiss privacy scandal - affair efisch - data stored of the
 citizens.</p>
-<h3 data-number="0.6.1" id="typical-setups"><span
-class="header-section-number">0.6.1</span> Typical setups</h3>
+<h3 id="typical-setups">Typical setups</h3>
 <p>on premises - internet -&gt; firewall -&gt; web server farm -&gt; DB
 in cloud - internet -&gt; cloud server farm with DBs</p>
-<h3 data-number="0.6.2" id="multitier-architecture"><span
-class="header-section-number">0.6.2</span> Multitier architecture</h3>
+<h3 id="multitier-architecture">Multitier architecture</h3>
 <ol type="1">
 <li>presentation tier (UI, web pages, interface)</li>
 <li>application tier (logic - aoordinates application, processes,
 performs calculations, moves data)</li>
 <li>data tier (storing and retrieveing from db or file system)</li>
 </ol>
-<h3 data-number="0.6.3" id="database-access-control"><span
-class="header-section-number">0.6.3</span> Database access control</h3>
-<h4 data-number="0.6.3.1" id="layers"><span
-class="header-section-number">0.6.3.1</span> Layers</h4>
+<h3 id="database-access-control">Database access control</h3>
+<h4 id="layers">Layers</h4>
 <p>Layer - threat</p>
 <ul>
 <li>Hardware - a thief could take the disk or its backup</li>
@@ -2167,23 +2210,19 @@ all data</li>
 application users</li>
 </ul>
 <p>Each layer must have a proper different access control</p>
-<h4 data-number="0.6.3.2" id="hardware-access-control"><span
-class="header-section-number">0.6.3.2</span> Hardware access
-control</h4>
+<h4 id="hardware-access-control">Hardware access control</h4>
 <p>if it is a physical machine in a data center - physical protection -
 locks, cameras, alarms</p>
 <p>if it is a virtual machine in the cloud: cloning the machine is like
 stealing the hard disk, so limit the number of people who have the right
 to clone, use strong auth for your cloud management console,
 e.g. 2FA</p>
-<h4 data-number="0.6.3.3" id="os-access-control"><span
-class="header-section-number">0.6.3.3</span> OS access control</h4>
+<h4 id="os-access-control">OS access control</h4>
 <p>Database is run a userspace proces, so it is owned by OS user.</p>
 <p>This user is the only one allowed to access the files of the
 database. And the data is stored in the directory of that DB, and its
 only allowed to be accessed by <em>mysql</em> user, or any root</p>
-<h4 data-number="0.6.3.4" id="discretionary-db-access-control"><span
-class="header-section-number">0.6.3.4</span> Discretionary DB access
+<h4 id="discretionary-db-access-control">Discretionary DB access
 control</h4>
 <p>SQL databases use discretionary access control (DAC) to grant access
 to objects through privileges.</p>
@@ -2199,8 +2238,7 @@ WHERE academic_year=2023”</p>
 roles</p>
 <p>You can grant several roles to a same user, and they act as
 users.</p>
-<h4 data-number="0.6.3.5" id="network-access-control"><span
-class="header-section-number">0.6.3.5</span> Network access control</h4>
+<h4 id="network-access-control">Network access control</h4>
 <p>sometimes the applciation tier runs on the same machine as the DB.
 (then DB should be configured to listen to connections from
 localhost)</p>
@@ -2209,9 +2247,7 @@ accept connections only from machines that should talk to the DB (E.g.
 installing a firewall in from of the DB, or using a local firewall on
 the DB server, restricting users to certain IP addresses that can access
 the DB (“CREATE USER bob@10.2.2.3 …”))</p>
-<h4 data-number="0.6.3.6" id="application-access-control"><span
-class="header-section-number">0.6.3.6</span> Application access
-control</h4>
+<h4 id="application-access-control">Application access control</h4>
 <p>applicaitons usually have their own layer of users and privileges -
 they use one or few DB accounts to interact with the DB</p>
 <p>an e-banking application has 1K customers and three tables - a
@@ -2229,8 +2265,7 @@ accounts and give permissions.</p>
 <li>it’s a confidentiality problem - lack of compartmentalization and
 separation.</li>
 </ul>
-<h4 data-number="0.6.3.7" id="example-sql-injection"><span
-class="header-section-number">0.6.3.7</span> Example: SQL injection</h4>
+<h4 id="example-sql-injection">Example: SQL injection</h4>
 <p>An attacker can modify the SQL command by adding a closing the quote
 and adding additional command to get other data.</p>
 <p>Separate code and data! - use %s for string parameters such that the
@@ -2252,27 +2287,20 @@ application)</li>
 fine-grained access control DB uses coarse grained If the access control
 at the application level fails, the access control reduces the
 impact</p>
-<h3 data-number="0.6.4" id="encrypting-the-data"><span
-class="header-section-number">0.6.4</span> Encrypting the data</h3>
+<h3 id="encrypting-the-data">Encrypting the data</h3>
 <p>There are data at rest (hw, db), in use(application), in motion
 (network)</p>
-<h4 data-number="0.6.4.1" id="encrypting-data-at-rest"><span
-class="header-section-number">0.6.4.1</span> Encrypting data at
-rest</h4>
+<h4 id="encrypting-data-at-rest">Encrypting data at rest</h4>
 <p>always encrypt the data before writing to the disk - protects against
 theft/copy of the disks, but does not protect against users.</p>
 <p>DB can be configured to encrypt data before writing it to files.
 (Keys may be stored in local files or obtained from a key server)</p>
 <p>Example use case - mobile phones.</p>
-<h4 data-number="0.6.4.2" id="encrypting-data-in-motion"><span
-class="header-section-number">0.6.4.2</span> Encrypting data in
-motion</h4>
+<h4 id="encrypting-data-in-motion">Encrypting data in motion</h4>
 <p>if not encrypted it could be eavesdropped.</p>
 <p>Use TLS, but also use certificate pinning</p>
-<h4 data-number="0.6.4.3"
-id="encrypting-data-in-use-by-the-applicaiton"><span
-class="header-section-number">0.6.4.3</span> Encrypting data in use by
-the applicaiton</h4>
+<h4 id="encrypting-data-in-use-by-the-applicaiton">Encrypting data in
+use by the applicaiton</h4>
 <p>Solution to protect the data in memory of the DB is to encrypt the
 data in the application before storing it into the DB.</p>
 <p>The key stays in the application tier -there is no way to decrypt the
@@ -2285,13 +2313,11 @@ DB</strong>:</p>
 <li>sort, compare or aggregate data</li>
 </ul>
 <p>useful only to find exact matches, e.g. high profile information</p>
-<h3 data-number="0.6.5" id="password-storage"><span
-class="header-section-number">0.6.5</span> Password storage</h3>
+<h3 id="password-storage">Password storage</h3>
 <p>how to store passwords - store hashes.</p>
 <p>Microsoft stores Windows passwords as hashes (MD4) Almost all
 passwrods of length 8 can be recovered in under a minute</p>
-<h4 data-number="0.6.5.1" id="hashing"><span
-class="header-section-number">0.6.5.1</span> Hashing</h4>
+<h4 id="hashing">Hashing</h4>
 <p>classing way - use salt and iterations</p>
 <ul>
 <li>hugely slows down password cracking</li>
@@ -2302,8 +2328,7 @@ class="header-section-number">0.6.5.1</span> Hashing</h4>
 <li>cracking a pass requires a decent amount of memory</li>
 <li>specialized hw with many cores do not have enough power</li>
 </ul>
-<h5 data-number="0.6.5.1.1" id="importance-of-salt"><span
-class="header-section-number">0.6.5.1.1</span> Importance of salt</h5>
+<h5 id="importance-of-salt">Importance of salt</h5>
 <p>SMBv1 (Microsoft) does not salt their password. Without salt same
 password will result in the same hash.</p>
 <ol type="1">
@@ -2321,9 +2346,7 @@ password will result in the same hash.</p>
 </ul></li>
 <li>kerberos pre-auth</li>
 </ul>
-<h5 data-number="0.6.5.1.2" id="time-memory-trade-off"><span
-class="header-section-number">0.6.5.1.2</span> Time-memory
-trade-off</h5>
+<h5 id="time-memory-trade-off">Time-memory trade-off</h5>
 <p>when you double the memory, it is four times faster to invert the
 function</p>
 <p><span class="math inline">T ~ \frac {N^2} {M^2}</span></p>
@@ -2347,10 +2370,8 @@ to the possible password.</p>
 <p>Hellman’s original trande-off becomes a colision problem.</p>
 <p>Solution is rainbow tables which has different reduction function
 used.</p>
-<h4 data-number="0.6.5.2"
-id="storing-hashes-with-salt-and-iterations"><span
-class="header-section-number">0.6.5.2</span> Storing hashes with salt
-and iterations</h4>
+<h4 id="storing-hashes-with-salt-and-iterations">Storing hashes with
+salt and iterations</h4>
 <p>using salt prevents two issues - cannot crack multiple hashes with a
 single hash calculation and cannot calculate the hashes in advance</p>
 <p><strong>What cryptographic primitive can we use to combine a salt
@@ -2361,12 +2382,8 @@ of billions of hashes per second)</p>
 <p>Salt standards - <em>password based key derivation function
 2</em></p>
 <p>used in WiFi WPA, MacOS, Linux, etc.</p>
-<h4 data-number="0.6.5.3" id="memory-hard-function-hashin"><span
-class="header-section-number">0.6.5.3</span> Memory hard function
-hashin</h4>
-<h5 data-number="0.6.5.3.1" id="memmory-hard-function"><span
-class="header-section-number">0.6.5.3.1</span> Memmory hard
-function</h5>
+<h4 id="memory-hard-function-hashin">Memory hard function hashin</h4>
+<h5 id="memmory-hard-function">Memmory hard function</h5>
 <p>purposefully hard to implement efficiently, it takes a lot of memory
 to compute.</p>
 <p>Better password hash functions require a certain amout of memory
@@ -2381,22 +2398,18 @@ have enough memory you can still recalculate the results.</p>
 <li>always use salt and make the hash function slow</li>
 <li>yescrypt, scrypt, argon2</li>
 </ul>
-<h4 data-number="0.6.5.4" id="password-storage-in-linux"><span
-class="header-section-number">0.6.5.4</span> Password storage in
-Linux</h4>
+<h4 id="password-storage-in-linux">Password storage in Linux</h4>
 <p>most distros switched to yescrypt (memory hard function)</p>
 <p>the salt and hash are stored in /etc/shadow</p>
 <p>“$y$” is the thype of hash</p>
-<h3 data-number="0.6.6" id="secure-remote-password-protocol"><span
-class="header-section-number">0.6.6</span> Secure remote password
+<h3 id="secure-remote-password-protocol">Secure remote password
 protocol</h3>
 <p>PAKE allows to verify the password of a remote party, and exchange a
 key (e.g. for encryption)</p>
 <p>PAKE is similar to Diffie-hellman but uses the symmetric key.</p>
 <p>Password cannot be bruteforced because it is in exponents, and it’s
 safe from eavesdropper.</p>
-<h2 data-number="0.7" id="exercises-4"><span
-class="header-section-number">0.7</span> Exercises 4</h2>
+<h2 id="exercises-4">Exercises 4</h2>
 <p><strong>Exercise 1</strong> Your application uses an SQL database
 which stores the names, grades and year of graduation of students. •
 What mechanism can you apply to allow user Alice to only read data of
@@ -2475,11 +2488,9 @@ hashes like Argon or Scrypt?</p>
 certain amount of memory to be calculated efficiently. Although graphics
 card have many processing cores, they don’t have enough memory per core
 to calculate the hash efficiently.</p>
-<h2 data-number="0.8" id="programming-languages-security"><span
-class="header-section-number">0.8</span> Programming languages
+<h2 id="programming-languages-security">Programming languages
 security</h2>
-<h3 data-number="0.8.1" id="motivation"><span
-class="header-section-number">0.8.1</span> Motivation</h3>
+<h3 id="motivation">Motivation</h3>
 <p>Rust and safe programming languages. There has been a push to have
 more Rust (android, linux etc)</p>
 <p>Part of this push if google’s 2/3 security rule:</p>
@@ -2489,10 +2500,8 @@ more Rust (android, linux etc)</p>
 <li>code without strong sandbox</li>
 </ul>
 <p>Using a “safe” programming language makes rule unnecessary</p>
-<h4 data-number="0.8.1.1"
-id="consequences-of-memory-safety-vulnerabilities"><span
-class="header-section-number">0.8.1.1</span> Consequences of memory
-safety vulnerabilities</h4>
+<h4 id="consequences-of-memory-safety-vulnerabilities">Consequences of
+memory safety vulnerabilities</h4>
 <p>Those vulnerabilities that receive highest severity rating, are
 mostly memory-safety mvlnerabilities.</p>
 <p>~70% of android’s high severity vulnerabilities are of memory
@@ -2503,8 +2512,7 @@ language</p>
 too expensive to rewrite entire codebase in memory safe language (in
 1988). Now it’s several orders of magnitude more code and there are
 still problems</p>
-<h3 data-number="0.8.2" id="type-safety"><span
-class="header-section-number">0.8.2</span> Type safety</h3>
+<h3 id="type-safety">Type safety</h3>
 <p>Type system is a system that assigns a <strong>type</strong> to every
 <strong>term</strong> (variable, expression, function)</p>
 <p>Type of a <strong>value</strong> specidies which operations can be
@@ -2513,8 +2521,7 @@ be assigned Type of an <strong>expression/function</strong> delimits
 values it accepts and can produce</p>
 <p><strong>Definition</strong> - Well-typed programs cannot go wrong (a
 well-founded program cannot do anything that is not defined to do)</p>
-<h4 data-number="0.8.2.1" id="staticdynamic-typing"><span
-class="header-section-number">0.8.2.1</span> Static/Dynamic Typing</h4>
+<h4 id="staticdynamic-typing">Static/Dynamic Typing</h4>
 <p><strong>Static</strong> type system is checked by the compiler (or
 preprocessors) before program executes (C, Java, Go, Rust, OCaml)</p>
 <ul>
@@ -2541,21 +2548,16 @@ will show them at compile-time.</p>
 <li>fewer type declarations</li>
 <li>better for quick and dirty programming</li>
 </ul>
-<h4 data-number="0.8.2.2" id="declaredinferred-types"><span
-class="header-section-number">0.8.2.2</span> Declared/Inferred
-types</h4>
+<h4 id="declaredinferred-types">Declared/Inferred types</h4>
 <p>Originally languages required full type declarations for all
 functions and variables, and compilers only infer expression types.</p>
 <p>Hindly-Milner type inferece used in Haskell (spread into other
 languages)</p>
-<h4 data-number="0.8.2.3" id="strictrelaxed"><span
-class="header-section-number">0.8.2.3</span> Strict/Relaxed</h4>
+<h4 id="strictrelaxed">Strict/Relaxed</h4>
 <p>Strict typing enforces typing and does not allow program to continue
 if the types don’t match.</p>
 <p>C is not strict.</p>
-<h4 data-number="0.8.2.4"
-id="why-is-c-type-system-so-uglyflexible"><span
-class="header-section-number">0.8.2.4</span> Why is C Type system so
+<h4 id="why-is-c-type-system-so-uglyflexible">Why is C Type system so
 ugly/flexible?</h4>
 <p>C was a thin layer over assembly language, designed by talented
 programmers for talented programmers. -&gt; Machines were slow, memory
@@ -2564,9 +2566,7 @@ was small</p>
 assembly language tricks.</p>
 <p>Clearly successful, but times change - now the correctness and
 security are far more important and C’s type system is not helpful.</p>
-<h4 data-number="0.8.2.5" id="type-safety-and-security"><span
-class="header-section-number">0.8.2.5</span> Type safety and
-security</h4>
+<h4 id="type-safety-and-security">Type safety and security</h4>
 <p>type checking is the only “automatic” bug detection technique in
 widespread use.</p>
 <ul>
@@ -2578,15 +2578,13 @@ positives</li>
 </ul>
 <p>In Java the programmer does not have access to direct memory and only
 access to objects and their representations.</p>
-<h4 data-number="0.8.2.6" id="type-confusion-bugs-are-exploitable"><span
-class="header-section-number">0.8.2.6</span> Type confusion bugs are
+<h4 id="type-confusion-bugs-are-exploitable">Type confusion bugs are
 exploitable</h4>
 <p>Often when objects are being cast, there could be bugs which can be
 exploited.</p>
 <p>Example - if there is a downcast from an inherited class to a
 narrower class. This violates memory safety.</p>
-<h3 data-number="0.8.3" id="memory-safety"><span
-class="header-section-number">0.8.3</span> Memory safety</h3>
+<h3 id="memory-safety">Memory safety</h3>
 <p>(is the monkey in the cage or outside?)</p>
 <p>Memory safety is an essential programming language property. Code can
 only access data within live regions of memory whose pointer is properly
@@ -2603,17 +2601,14 @@ same object</p>
 accessed. - the underlying object has not been freed.</p>
 <p>These safeties are hard to achieve in systems programming
 languages.</p>
-<h4 data-number="0.8.3.1" id="memory-corruption"><span
-class="header-section-number">0.8.3.1</span> Memory corruption</h4>
+<h4 id="memory-corruption">Memory corruption</h4>
 <p>Unintended modification of memory location due to missing/faulty
 safety check.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> vulnerable<span class="op">(</span><span class="dt">int</span> user1<span class="op">,</span> <span class="dt">int</span> <span class="op">*</span>array<span class="op">){</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">//missing bound check for user1</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  array<span class="op">[</span>user1<span class="op">]</span> <span class="op">=</span> <span class="dv">42</span></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
-<h4 data-number="0.8.3.2" id="spatial-memory-safety-error"><span
-class="header-section-number">0.8.3.2</span> Spatial memory safety
-error</h4>
+<h4 id="spatial-memory-safety-error">Spatial memory safety error</h4>
 <p>the pointer is updated to point oustide of the valid object the
 pointer is used to dereference invalid memory</p>
 <p>(if you’re lucky, the program will crash, if unlucky the program will
@@ -2624,17 +2619,14 @@ overwrite some data)</p>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="op">*</span>ptr<span class="op">++</span> <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="op">*</span>ptr <span class="op">=</span> <span class="dv">42</span></span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
-<h4 data-number="0.8.3.3" id="temporal-memory-safety-error"><span
-class="header-section-number">0.8.3.3</span> Temporal memory safety
-error</h4>
+<h4 id="temporal-memory-safety-error">Temporal memory safety error</h4>
 <p>the referenced object is freed and no longer “live” the pointer is
 used to dereference invalid memory</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> vulnerable<span class="op">(){</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    free<span class="op">(</span>buf<span class="op">);</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    buf<span class="op">[</span><span class="dv">12</span><span class="op">]</span> <span class="op">=</span> <span class="dv">42</span><span class="op">;</span></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
-<h4 data-number="0.8.3.4" id="implementation"><span
-class="header-section-number">0.8.3.4</span> Implementation</h4>
+<h4 id="implementation">Implementation</h4>
 <ul>
 <li>Bounds checking
 <ul>
@@ -2655,8 +2647,7 @@ boudns</li>
 <li>smart pointers/borrow checking</li>
 </ul></li>
 </ul>
-<h5 data-number="0.8.3.4.1" id="bounds-checking"><span
-class="header-section-number">0.8.3.4.1</span> Bounds Checking</h5>
+<h5 id="bounds-checking">Bounds Checking</h5>
 <p>every region of memory has a length associated with it</p>
 <p>C’s interior pointers make tracking more complex (Java does not allow
 them)</p>
@@ -2666,9 +2657,7 @@ pointers.</p>
 <p>In a smart compiler no check is necessary every loop iteration since
 it can determine that value of i is within array before the loop using
 language semantics.</p>
-<h5 data-number="0.8.3.4.2" id="overhead-of-bounds-checking"><span
-class="header-section-number">0.8.3.4.2</span> Overhead of bounds
-checking</h5>
+<h5 id="overhead-of-bounds-checking">Overhead of bounds checking</h5>
 <p>Overhead for enforcing spatial memory safety for C code is
 significant (softbound reported 67% overhead, it is due to a lot of
 additional metadata needed to control this and for each memory access
@@ -2676,8 +2665,7 @@ you need to do 2-3 more checks)</p>
 <p>Overhead for Java is not nearly as large (it is reported 3-10% on
 small benchmarks) and similar was found for Rust. This is because the
 size of the object can be stored in the object itself.</p>
-<h5 data-number="0.8.3.4.3" id="automated-storage-reclamation"><span
-class="header-section-number">0.8.3.4.3</span> Automated Storage
+<h5 id="automated-storage-reclamation">Automated Storage
 reclamation</h5>
 <p>reclaim and reuse memory that will not be accessed in future
 execution - conservative approximation - reclaim memory when it’s not
@@ -2685,24 +2673,19 @@ reachable</p>
 <p>Prevent errors with manual reclamation (malloc/free): double free,
 use after free or not freeing.</p>
 <p>Many algorithms: refernce counting, garbage collection.</p>
-<h5 data-number="0.8.3.4.4"
-id="temporal-memory-safety-and-security"><span
-class="header-section-number">0.8.3.4.4</span> Temporal memory safety
-and security</h5>
+<h5 id="temporal-memory-safety-and-security">Temporal memory safety and
+security</h5>
 <p>double free is an <strong>integrity</strong> concern - data
 structures of the allocator may serve as arbitrary write primitive</p>
 <p>Missing free is an <strong>availability</strong> concern - basis for
 denial-of-service attack (when memory is used up and program
 crashes)</p>
-<h5 data-number="0.8.3.4.5" id="reference-counting"><span
-class="header-section-number">0.8.3.4.5</span> Reference counting</h5>
+<h5 id="reference-counting">Reference counting</h5>
 <p>every block of memory maintains a count of numbers of pointers to it:
 1 when block is allocated +1 copying pointer -1 dropping pointer</p>
 <p>Conceptually simple but fidgety to implement</p>
 <p>Memory freed immediately when last pointer is dropped (count = 0)</p>
-<h4 data-number="0.8.3.5" id="garbage-collection-gc"><span
-class="header-section-number">0.8.3.5</span> Garbage collection
-(GC)</h4>
+<h4 id="garbage-collection-gc">Garbage collection (GC)</h4>
 <p>When program is running out of space on heap, stop and run collector
 to find uncreachable objects. Pauses program execution Uncollected
 garbage increases memory requirements may be less expensive than RC
@@ -2713,14 +2696,12 @@ through the objects and mark them. Second phase is going through the
 whole heap and removing unmarked objects.</p>
 <p>It can be implemented for C and C++, conservatively scanning for
 pointers.</p>
-<h5 data-number="0.8.3.5.1" id="gc-overhead"><span
-class="header-section-number">0.8.3.5.1</span> GC overhead</h5>
+<h5 id="gc-overhead">GC overhead</h5>
 <p>GC overhead is difficult to measure</p>
 <p>Has a reputation for being significant</p>
 <p>More troublesome is unpredicatble interruptions (there are pause-free
 GCs)</p>
-<h4 data-number="0.8.3.6" id="rust"><span
-class="header-section-number">0.8.3.6</span> Rust</h4>
+<h4 id="rust">Rust</h4>
 <p>Safe programming language (type and memory)</p>
 <p>Ownership types reduce need for runtime gc (also allows unsafe
 code)</p>
@@ -2728,8 +2709,7 @@ code)</p>
 counting.</p>
 <p>Becoming popular for systems programming - already in use for the
 Linux kernel, Android, Firefox.</p>
-<h5 data-number="0.8.3.6.1" id="rust-ownership"><span
-class="header-section-number">0.8.3.6.1</span> Rust Ownership</h5>
+<h5 id="rust-ownership">Rust Ownership</h5>
 <p>Variables <strong>own</strong> the value they are bound to
 (contain)</p>
 <p>When variable goes out of scope, vlaue is deallocated (similar to C++
@@ -2742,21 +2722,17 @@ borrower is longer than the borrowing function. Immutable reference
 borrowing.</p>
 <p>Read/Write restriction - it is useful in concurrent code to prevent
 data races.</p>
-<h5 data-number="0.8.3.6.2" id="rust-reference-counting"><span
-class="header-section-number">0.8.3.6.2</span> Rust reference
-counting</h5>
+<h5 id="rust-reference-counting">Rust reference counting</h5>
 <p>Lifetime of objects is tied to variable’s scope (sometimes this does
 not work e.g. trees, graphs)</p>
 <p>Rust also allows reference counted smart pointers</p>
-<h5 data-number="0.8.3.6.3" id="unsafe-code"><span
-class="header-section-number">0.8.3.6.3</span> Unsafe code</h5>
+<h5 id="unsafe-code">Unsafe code</h5>
 <p>rust also allows unsafe code that would not pass borrow checker put
 unsage code in module and wrap in sage interface</p>
 <p>Almost all non-trivial data structures implemented this way</p>
 <p>Easier to undetand and hand-verify a small amount of code that
 explicitly is marked unsafe</p>
-<h3 data-number="0.8.4" id="thread-safety"><span
-class="header-section-number">0.8.4</span> Thread safety</h3>
+<h3 id="thread-safety">Thread safety</h3>
 <p>Examples of concurrency bugs:</p>
 <ul>
 <li>race conditions</li>
@@ -2764,47 +2740,36 @@ class="header-section-number">0.8.4</span> Thread safety</h3>
 </ul>
 <p>Example of concurrency bugs - dirtycow</p>
 <p>Very hard to find</p>
-<h4 data-number="0.8.4.1" id="dirtycow"><span
-class="header-section-number">0.8.4.1</span> DirtyCoW</h4>
+<h4 id="dirtycow">DirtyCoW</h4>
 <p>a local privilege escalation attack that exploits a race condition in
 the linux kernel’s memory-management subsystem CoW - copy on write, a
 mechanism for efficiently sharing modifiable data.</p>
-<h4 data-number="0.8.4.2" id="in-programming-languages"><span
-class="header-section-number">0.8.4.2</span> In programming
-languages</h4>
+<h4 id="in-programming-languages">In programming languages</h4>
 <p>Modern languages include type-safe synchronization primites - locks,
 semaphores, atomic vars</p>
-<h5 data-number="0.8.4.2.1" id="thread-safety-in-java"><span
-class="header-section-number">0.8.4.2.1</span> Thread safety in
-Java</h5>
+<h5 id="thread-safety-in-java">Thread safety in Java</h5>
 <p>In Java, the <code>synchronized</code> keyword is used in the
 declaration of a method to acquire locks.</p>
-<h5 data-number="0.8.4.2.2" id="thread-safety-in-go"><span
-class="header-section-number">0.8.4.2.2</span> Thread safety in Go</h5>
+<h5 id="thread-safety-in-go">Thread safety in Go</h5>
 <p>It has Goroutines: green threads created by the go runtime, cheap and
 fast</p>
 <p>It has channels - means of communication between goroutines, data is
 copied from one end of the channel to another.</p>
-<h5 data-number="0.8.4.2.3" id="thread-safety-in-rust"><span
-class="header-section-number">0.8.4.2.3</span> Thread safety in
-Rust</h5>
+<h5 id="thread-safety-in-rust">Thread safety in Rust</h5>
 <p>Ownership guarantees memory safety.</p>
 <p>Either one thread that writes or multiple threads that read the
 data.</p>
-<h3 data-number="0.8.5" id="sandboxing-and-comparmentalization"><span
-class="header-section-number">0.8.5</span> Sandboxing and
+<h3 id="sandboxing-and-comparmentalization">Sandboxing and
 comparmentalization</h3>
 <p>POLP ensures that a component has the least privileges needed to
 function</p>
-<h4 data-number="0.8.5.1" id="sandboxing"><span
-class="header-section-number">0.8.5.1</span> Sandboxing</h4>
+<h4 id="sandboxing">Sandboxing</h4>
 <p>implements POLP by running programs (often untrusted code) in an
 isolated, restricted environment</p>
 <p>is usually a implementation feature of programming languages instead
 of design feature</p>
 <p>system calls: seccomp cgroup</p>
-<h5 data-number="0.8.5.1.1" id="sandboxing-example"><span
-class="header-section-number">0.8.5.1.1</span> Sandboxing example</h5>
+<h5 id="sandboxing-example">Sandboxing example</h5>
 <p>Flash*, JS, WebAssembly inside the browser</p>
 <p>Interpreters (ghostscript/VBA macors) embedded inside word
 processors</p>
@@ -2816,15 +2781,13 @@ implementation of sandbox.</p>
 nightmares</p>
 <p>JS interpreter bugs remain a shource of critical browser
 vulnerabilities.</p>
-<h4 data-number="0.8.5.2" id="compartmentalization"><span
-class="header-section-number">0.8.5.2</span> Compartmentalization</h4>
+<h4 id="compartmentalization">Compartmentalization</h4>
 <p>can enforce POLP</p>
 <p>break a complex system into small components, limit the access of
 entities to only what is necessary.</p>
 <p>Prevent error propagation in the system to diminish impact.</p>
 <p>Sandboxing is an implementation of this.</p>
-<h5 data-number="0.8.5.2.1" id="chromium"><span
-class="header-section-number">0.8.5.2.1</span> Chromium</h5>
+<h5 id="chromium">Chromium</h5>
 <p><strong>Sandboxed render engines</strong> - cannot affect the world,
 except via the exposed AP</p>
 <p>Start process, establish IPC channel Drop all access privileges Do
@@ -2833,13 +2796,10 @@ not require admin rights</p>
 <p><strong>Browser kernel API</strong> - decide how render engines
 influence the outside world</p>
 <p>Available channels: User interaction Storage Network</p>
-<h4 data-number="0.8.5.3" id="compartmentalization-in-pl"><span
-class="header-section-number">0.8.5.3</span> Compartmentalization in
-PL</h4>
+<h4 id="compartmentalization-in-pl">Compartmentalization in PL</h4>
 <p>what should a basic entity be - functions, libraries? (component)</p>
 <p>How should each component interact with each other? (policy)</p>
-<h2 data-number="0.9" id="exercises-5"><span
-class="header-section-number">0.9</span> Exercises 5</h2>
+<h2 id="exercises-5">Exercises 5</h2>
 <p><strong>Exercise 5.1</strong> Explain type safety and memory
 safety.</p>
 <p>Type safety ensures that only type-appropriate operations are applied
@@ -2986,13 +2946,11 @@ those necessary. In a programming language context, compartmentalization
 is often more fine-grained, operating at function or library levels,
 whereas sandboxing is more coarse-grained, limiting access at the
 process level.</p>
-<h2 data-number="0.10" id="web-and-software-security"><span
-class="header-section-number">0.10</span> Web and software security</h2>
+<h2 id="web-and-software-security">Web and software security</h2>
 <p>CVE - unique identifier for a vulnerability (vunerabilities and
 exposures) CWE - unique identifier for a class of vulnerabilities
 (weakness enumeration)</p>
-<h3 data-number="0.10.1" id="owasp-top-10"><span
-class="header-section-number">0.10.1</span> OWASP Top 10</h3>
+<h3 id="owasp-top-10">OWASP Top 10</h3>
 <ol type="1">
 <li>Broken access control
 <ol type="1">
@@ -3095,15 +3053,12 @@ do something it shouldn’t do. Also called “Confused deputy attack”</li>
 <li>Solutions: prevent by implementing defence in depth</li>
 </ol></li>
 </ol>
-<h3 data-number="0.10.2" id="arbitrary-code-execution"><span
-class="header-section-number">0.10.2</span> Arbitrary code
-execution</h3>
+<h3 id="arbitrary-code-execution">Arbitrary code execution</h3>
 <p>It is possible when user-supplied data escapes control</p>
 <p>Example contexts: HTML, SQL, LDAP, OS commands, XML, etc</p>
 <p>Vulnerability - special characters in user inputs can trigger an
 action in the context</p>
-<h4 data-number="0.10.2.1" id="sql-injection"><span
-class="header-section-number">0.10.2.1</span> SQL injection</h4>
+<h4 id="sql-injection">SQL injection</h4>
 <p>Happens when the SQL characters are escaped.</p>
 <p>One of the problems: no input sanitization, so an escape character
 can be used.</p>
@@ -3111,8 +3066,7 @@ can be used.</p>
 therefore it can escape them and add additional code to execute in the
 database</p>
 <p>LDAP, XSS is same principle</p>
-<h4 data-number="0.10.2.2" id="ldap-pnjection"><span
-class="header-section-number">0.10.2.2</span> LDAP pnjection</h4>
+<h4 id="ldap-pnjection">LDAP pnjection</h4>
 <p>Lightweight directory access protocol is used to query
 directories</p>
 <p>It is possible to inject data by changing the meaning of the data by
@@ -3120,13 +3074,11 @@ adding conditions by guessing the structure of LDAP query and overcome
 the password.</p>
 <p>Happened for Joomla, and Log4J (library used in a lot of
 software).</p>
-<h4 data-number="0.10.2.3" id="command-injection"><span
-class="header-section-number">0.10.2.3</span> Command injection</h4>
+<h4 id="command-injection">Command injection</h4>
 <p>Since the code uses concatination, more commands can be added with
 special chars (e.g. “photo &amp; rmdir /s /q photo” when opening the
 dir) Similar thing happened to iOS.</p>
-<h4 data-number="0.10.2.4" id="xss"><span
-class="header-section-number">0.10.2.4</span> XSS</h4>
+<h4 id="xss">XSS</h4>
 <p>Javascript code injection into web pages</p>
 <p>Impact: Steal session cookies, Display forged forms, Complete control
 over webpage.</p>
@@ -3140,9 +3092,7 @@ response</li>
 post)</li>
 <li>DOM-based - attack happens on the client side</li>
 </ul>
-<h4 data-number="0.10.2.5" id="protection-against-injection"><span
-class="header-section-number">0.10.2.5</span> Protection against
-injection</h4>
+<h4 id="protection-against-injection">Protection against injection</h4>
 <p>Deny by default, otherwise inspect received data twice</p>
 <p>When receiving - input validation</p>
 <p>e.g.:</p>
@@ -3160,14 +3110,12 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb7-
 </ul>
 <p>SQL injection protection: use prepared statements instead of
 concatenating. (this is separation of control and data)</p>
-<h3 data-number="0.10.3" id="software-security"><span
-class="header-section-number">0.10.3</span> Software security</h3>
+<h3 id="software-security">Software security</h3>
 <p>All software will have bugs. Some of the bugs can be exploitable.</p>
 <p>In the stack right next to each other we have data and the pointer
 which controls the execution of the program. Therefore an attacker can
 exploit this.</p>
-<h4 data-number="0.10.3.1" id="buffer-overflows"><span
-class="header-section-number">0.10.3.1</span> Buffer overflows</h4>
+<h4 id="buffer-overflows">Buffer overflows</h4>
 <p>Vulnerable program: <code>strcpy</code> call copies a string into the
 buffer on the stack, potentially past the end of
 <code>cookie</code>.</p>
@@ -3229,8 +3177,7 @@ the syscall uses the string argument.</p>
 <span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>  execve<span class="op">(</span><span class="st">&quot;./stack&quot;</span><span class="op">,</span> args<span class="op">,</span> envp<span class="op">);</span> <span class="co">// fire exploit!</span></span>
 <span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
 <span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
-<h4 data-number="0.10.3.2" id="mitigations"><span
-class="header-section-number">0.10.3.2</span> Mitigations</h4>
+<h4 id="mitigations">Mitigations</h4>
 <p>This program violates:</p>
 <ul>
 <li>memory safety: stop memory corruption - safe C/C++ dialects (CCured,
@@ -3241,8 +3188,7 @@ values</li>
 <li>Flow integrity: Protect control transfers - data-flow integrity,
 control-flow integrity</li>
 </ul>
-<h4 data-number="0.10.3.3" id="defense-strategies"><span
-class="header-section-number">0.10.3.3</span> Defense strategies</h4>
+<h4 id="defense-strategies">Defense strategies</h4>
 <p><strong>Data execution prevention (DEP)</strong> - distinguish code
 and data and prohibit the attacker from ijecting code. Problem - ISAs
 (e.g. x86, ARM) did not distinguish code and data</p>
@@ -3261,8 +3207,7 @@ placed before the return value in the function which is a magic value.
 This allows us to protect RIP control-flow attacks. Key limitation -
 only protects from continuous overwrites if (and only if) the attacker
 does not know the canary Low overhead.</p>
-<h2 data-number="0.11" id="exercises-6"><span
-class="header-section-number">0.11</span> Exercises 6</h2>
+<h2 id="exercises-6">Exercises 6</h2>
 <p><strong>Exercise 6.1</strong> You are writing a web application to
 sell Whisky. You want to save your customers’ names in a database. You
 know that single quotes (’) can break SQL request. What can you do to be
@@ -3352,10 +3297,8 @@ non-executable will not prevent the attack.</p>
 <p>Finally, if the shipping address does not overflow more than the
 memory used for the price, it will not affect any canaries. Thus, non of
 these methods can prevent the attack.</p>
-<h2 data-number="0.12" id="automated-testing"><span
-class="header-section-number">0.12</span> Automated Testing</h2>
-<h4 data-number="0.12.0.1" id="why-testing"><span
-class="header-section-number">0.12.0.1</span> Why testing</h4>
+<h2 id="automated-testing">Automated Testing</h2>
+<h4 id="why-testing">Why testing</h4>
 <p>Testing is the process of analuzing a program to find errors.</p>
 <p>To completely make it automated we need formal specification, but
 it’s impossible to define these things completely.</p>
@@ -3365,9 +3308,7 @@ requirements - we can try to have automated attacks or previous attacks
 (but if they don’t succeed, we still don’t know if it is secure), so we
 should try all possible input combinations (there are limitations such
 as for all characters up to length of n)</p>
-<h4 data-number="0.12.0.2" id="limitations-of-testing"><span
-class="header-section-number">0.12.0.2</span> Limitations of
-testing</h4>
+<h4 id="limitations-of-testing">Limitations of testing</h4>
 <p>Testing can only show the presence of bugs, never their absence</p>
 <p>Bugs are everythere: There are giant code bases (chromium, linux
 kernel, gnome, etc.), millions of LoC =&gt; huge attack surface, milions
@@ -3376,8 +3317,7 @@ dependancies, single point-of-failure (e.g. log4j), redundant code, even
 bigger attack surface. System abstraction - developers unaware of
 underlying assumptions, ChatGPT-generated code Integration hell - 2
 “bug-free” systems can still interact in a faulty manner</p>
-<h4 data-number="0.12.0.3" id="software-testing-and-verification"><span
-class="header-section-number">0.12.0.3</span> Software testing and
+<h4 id="software-testing-and-verification">Software testing and
 verification</h4>
 <p>Manual testing: Code reviews Unit and regressions tests (JUnit,
 libcheck) are incomplete but sound, only code with tests is tested but
@@ -3391,10 +3331,8 @@ is incomplete and unsound due to lack of runtime information but remains
 an indicator of possible issues Dynamic analysis (fuzzing, symbolic
 execution) is incomplete but sound due to state explosion but any
 reported issues are true bugs</p>
-<h3 data-number="0.12.1" id="manual-testing"><span
-class="header-section-number">0.12.1</span> Manual testing</h3>
-<h4 data-number="0.12.1.1" id="code-reviews"><span
-class="header-section-number">0.12.1.1</span> Code reviews</h4>
+<h3 id="manual-testing">Manual testing</h3>
+<h4 id="code-reviews">Code reviews</h4>
 <p>Formalized process of someone else looking at your code. Finding
 flaws and code smells.</p>
 <p><em>Flaws</em> - any violationsof the specification or bug. <em>Code
@@ -3416,9 +3354,7 @@ pull-request.</li>
 dlaws, often searching for patterns to find flaws/violations (does not
 look for specific flaws, but general quality of the code)</li>
 </ul>
-<h4 data-number="0.12.1.2" id="unit-and-regression-tests"><span
-class="header-section-number">0.12.1.2</span> Unit and regression
-tests</h4>
+<h4 id="unit-and-regression-tests">Unit and regression tests</h4>
 <p><strong>Unit</strong> - small and individual tests for a fragment of
 code Developers should write these tests during the development
 alongside the code itself. <em>Positive</em> tests - ensure correctly
@@ -3426,10 +3362,8 @@ processes input, <em>negative</em> tests - fails correctly.</p>
 <p><strong>Regression</strong> - bug that was fixed some time ago, and
 due to code changes a bug reemerges. Unit tests help detect them after
 the changes.</p>
-<h3 data-number="0.12.2" id="semi-automated-testing"><span
-class="header-section-number">0.12.2</span> Semi-automated testing</h3>
-<h4 data-number="0.12.2.1" id="static-analysis"><span
-class="header-section-number">0.12.2.1</span> Static analysis</h4>
+<h3 id="semi-automated-testing">Semi-automated testing</h3>
+<h4 id="static-analysis">Static analysis</h4>
 <p>Syntax highlighting, compile-time warnings - goal is to highlight
 issues in code, give feedvack to developer. Should be fast (low
 overhead, simple analysis), myst have low false positives (warning
@@ -3461,17 +3395,14 @@ execution)</p>
 <li>Over-approximation due to imprecision and aliasing leading to false
 positives</li>
 </ul>
-<h4 data-number="0.12.2.2" id="anotations"><span
-class="header-section-number">0.12.2.2</span> Anotations</h4>
+<h4 id="anotations">Anotations</h4>
 <p>Augment source code but are not part of the functional code
 itself</p>
 <p>Compilers may use annotations to test or check certain properties:
 Types in python, argument usage in C/C++, pre/postconditions for
 verfication</p>
-<h4 data-number="0.12.2.3"
-id="codeql---static-analysis-framework-to-find-bugs"><span
-class="header-section-number">0.12.2.3</span> CodeQL - static analysis
-framework to find bugs</h4>
+<h4 id="codeql---static-analysis-framework-to-find-bugs">CodeQL - static
+analysis framework to find bugs</h4>
 <p>Pattern-based code analysis engine to automate security checks.
 Target code is parsed and analyzed based on patterns in the query
 language, starting from sources the patterns search for a path towards a
@@ -3480,8 +3411,7 @@ sink.</p>
 <p>Same as fofther static analyses, may result in false positives.</p>
 <p>Quality of the reported bugs depends on the quality of the queries
 (heuristics).</p>
-<h4 data-number="0.12.2.4" id="the-8-laws-of-static-analysis"><span
-class="header-section-number">0.12.2.4</span> The 8 “Laws” of static
+<h4 id="the-8-laws-of-static-analysis">The 8 “Laws” of static
 analysis</h4>
 <ul>
 <li>Can’t check code you don’t see: must fit into build system</li>
@@ -3493,20 +3423,15 @@ analysis</h4>
 <li>False negatives matter: reduce developer burden</li>
 <li>Annotations are extremely costly: reduce developer burden</li>
 </ul>
-<h3 data-number="0.12.3" id="automated-testing-1"><span
-class="header-section-number">0.12.3</span> Automated testing</h3>
-<h4 data-number="0.12.3.1"
-id="formal-verification---model-checkingsymbolic-execution"><span
-class="header-section-number">0.12.3.1</span> Formal verification -
-model checking/symbolic execution</h4>
+<h3 id="automated-testing-1">Automated testing</h3>
+<h4 id="formal-verification---model-checkingsymbolic-execution">Formal
+verification - model checking/symbolic execution</h4>
 <p>Formal verification is the act of proving or disproving the
 correctness of the code.</p>
 <p>Model checking - translate code into state machine, model checker
 analyzes state machine Symbolic execution - engine analyzes program by
 exploring paths</p>
-<h5 data-number="0.12.3.1.1" id="bounde-model-checking"><span
-class="header-section-number">0.12.3.1.1</span> (bounde) model
-checking</h5>
+<h5 id="bounde-model-checking">(bounde) model checking</h5>
 <p>Analyst translates the code and specification into a finite state
 machine.</p>
 <p>While this allows end-to-end verification it is highly labor
@@ -3515,12 +3440,10 @@ slices instead to scale a bit further. 6000 lines program took 20+ years
 to verify.</p>
 <p>A bug was found in Formally Verified OS, how? - fault in state
 machine</p>
-<h5 data-number="0.12.3.1.2" id="symbolic-execution"><span
-class="header-section-number">0.12.3.1.2</span> Symbolic execution</h5>
+<h5 id="symbolic-execution">Symbolic execution</h5>
 <p>SE is an abstract interpretation of code. Agnostic to concrete values
 (values become formulas)</p>
-<h4 data-number="0.12.3.2" id="fuzzing"><span
-class="header-section-number">0.12.3.2</span> Fuzzing</h4>
+<h4 id="fuzzing">Fuzzing</h4>
 <p>Automatic and dynamic software testing technique Key concept -
 fastest way to test a program is to run it</p>
 <p>Running the program many times, keeping the best inputs and
@@ -3546,21 +3469,18 @@ unidentified is wasted effort</p>
 higher throughput = more inputs tested = higher chance of triggering a
 bug if it exists.</p>
 <p>Fuzzing executes 1000s of trials per second.</p>
-<h5 data-number="0.12.3.2.1" id="blackbox-fuzzing"><span
-class="header-section-number">0.12.3.2.1</span> Blackbox fuzzing</h5>
+<h5 id="blackbox-fuzzing">Blackbox fuzzing</h5>
 <p>create input, run program, see if it crashes</p>
 <p>give the input to the developer to reproduce the bug.</p>
 <p>This is not very clever, because the input is random and limited at
 the depth level.</p>
-<h5 data-number="0.12.3.2.2" id="greybox-fuzzing"><span
-class="header-section-number">0.12.3.2.2</span> Greybox fuzzing</h5>
+<h5 id="greybox-fuzzing">Greybox fuzzing</h5>
 <p>Guided mutation - assign a quality to each input.</p>
 <p>Quality e.g. which part of the code has been covered? Covers more
 distinct code areas.</p>
 <p>This remains fast and it sacrifices only few CPU cycles for
 performance benefits.</p>
-<h5 data-number="0.12.3.2.3" id="input-generation"><span
-class="header-section-number">0.12.3.2.3</span> Input Generation</h5>
+<h5 id="input-generation">Input Generation</h5>
 <p>Not all input are made equal Mutation-based generation</p>
 <ul>
 <li>no specification needed</li>
@@ -3576,8 +3496,7 @@ class="header-section-number">0.12.3.2.3</span> Input Generation</h5>
 grammatically-valid inputs</li>
 <li>may be slow, application-specific</li>
 </ul>
-<h4 data-number="0.12.3.3" id="sanitization---fault-detection"><span
-class="header-section-number">0.12.3.3</span> Sanitization - fault
+<h4 id="sanitization---fault-detection">Sanitization - fault
 detection</h4>
 <p>Makes bugs more explicit.</p>
 <p>Ideal sanitizer - detect bugs as soon as they occur. First
@@ -3606,12 +3525,10 @@ misaligned pointers, int sign mismatch)</li>
 overhead.</p>
 <p>We need model/abstraction/policy for expected behavior. How to model
 logic or semantic bugs? need specification</p>
-<h4 data-number="0.12.3.4" id="identifying-faults"><span
-class="header-section-number">0.12.3.4</span> Identifying faults</h4>
+<h4 id="identifying-faults">Identifying faults</h4>
 <p>Crashes are good indication but not all faults crash. Sanitizers
 implement fault detection by enforcing bounds.</p>
-<h3 data-number="0.12.4" id="comparison-of-analyses"><span
-class="header-section-number">0.12.4</span> Comparison of Analyses</h3>
+<h3 id="comparison-of-analyses">Comparison of Analyses</h3>
 <p><strong>Formal verification</strong>: 100s lines of code, finds all
 bugs <strong>Bounded model checking</strong>: 1,000s lines of code,
 finds most bugs (scales formal verification by constraining loop bounds)
@@ -3622,8 +3539,7 @@ concrete execution (focuses on single path to limit state explosion)
 <strong>Fuzzing</strong>: 1,000,000s lines of code, finds many bugs
 <strong>Warnings/simple analyzers</strong>: 100,000,000s lines of code,
 finds lots of interesting locations</p>
-<h2 data-number="0.13" id="exercises-7"><span
-class="header-section-number">0.13</span> Exercises 7</h2>
+<h2 id="exercises-7">Exercises 7</h2>
 <p><strong>Exercise 7.1</strong> What is coverage-guided fuzzing, and
 how does it differ from black-box fuzzing?</p>
 <p>Coverage-guided fuzzing is a form of greybox fuzzing where the
@@ -3670,10 +3586,8 @@ and raises an exception for. However, not all memory corruptions crash,
 and not all bugs corrupt memory, so many of them remain undetected,
 unless a sanitizer which implements a policy that detects them is
 employed.</p>
-<h2 data-number="0.14" id="network-security"><span
-class="header-section-number">0.14</span> Network security</h2>
-<h3 data-number="0.14.1" id="best-practices"><span
-class="header-section-number">0.14.1</span> Best practices</h3>
+<h2 id="network-security">Network security</h2>
+<h3 id="best-practices">Best practices</h3>
 <p><strong>Inside</strong> the network: segment the network physically:
 Different zone for different parts of the organization Demilitarized
 Zone (DMZ)* to expose organization’s external facing networks to the
@@ -3681,8 +3595,7 @@ Internet - server that belongs to the organization but serve towards the
 outside.</p>
 <p>Towards the <strong>outside</strong> the network: secure
 communication - TLS, IPSec, VPNs</p>
-<h3 data-number="0.14.2" id="network-segmentation"><span
-class="header-section-number">0.14.2</span> Network segmentation</h3>
+<h3 id="network-segmentation">Network segmentation</h3>
 <p>Break the network down into segments based on system and data
 classification.</p>
 <p>Access from zone to zone can be managed by ACLs (access control
@@ -3693,21 +3606,17 @@ want to have central authentification service</p>
 <li>prevents all-at-once compromise of facilities</li>
 <li>protects the data center from external threats</li>
 </ul>
-<h4 data-number="0.14.2.1" id="rings"><span
-class="header-section-number">0.14.2.1</span> Rings</h4>
+<h4 id="rings">Rings</h4>
 <p>Concentric architecture where the most privileged services are
 inside, and therefore if you can access the center you access everything
 around it.</p>
-<h4 data-number="0.14.2.2" id="zones"><span
-class="header-section-number">0.14.2.2</span> Zones</h4>
+<h4 id="zones">Zones</h4>
 <p>Creating containment zones aims to stops attacks from spreading
 between zones. Communication between zones goes through backbone which
 is connected to zones by firewalls. Closer to least privilege than
 rings. The challenge is to create firewall rules for each case - easy to
 make mistakes.</p>
-<h4 data-number="0.14.2.3" id="demilitarized-zone-dmz"><span
-class="header-section-number">0.14.2.3</span> Demilitarized Zone
-(DMZ)</h4>
+<h4 id="demilitarized-zone-dmz">Demilitarized Zone (DMZ)</h4>
 <p>Physical or logical subnetwork which contains and exposes the
 organizations’s external-facing services And external network node can
 access only what is exposed in the DMZ The most common services is
@@ -3719,8 +3628,7 @@ email, VPN endpoint</p>
 </ul>
 <p>Firewall - has routing rules and decided the packet route based on
 different kinds of information. Can be statefull or stateless</p>
-<h4 data-number="0.14.2.4" id="virtual-segmentation"><span
-class="header-section-number">0.14.2.4</span> Virtual segmentation</h4>
+<h4 id="virtual-segmentation">Virtual segmentation</h4>
 <p><em>VLANs</em> - technologoy implements additional security services
 at layer 2 network (ethernet). Makes the virtual cables and switches
 that are accessible by specific accesses, even though the network goes
@@ -3734,8 +3642,7 @@ routers on a single hardware rack. The web server in the DMZ may
 actually be running on the same physical machine as the database of the
 internal back-end zone.</p>
 <p>It would be implemented at switches and routers level.</p>
-<h4 data-number="0.14.2.5" id="zero-trust-networks"><span
-class="header-section-number">0.14.2.5</span> “Zero trust” networks</h4>
+<h4 id="zero-trust-networks">“Zero trust” networks</h4>
 <p>Idea - do not trust anybody, not even internal machines. Prevent
 lateral movement</p>
 <p>Assume that any device can be compromised. So need to continuously
@@ -3746,12 +3653,9 @@ machines Use strong authentication even internally (MFA)</p>
 kubernetes) configuring and rolling out virtual machines can be
 automated. Less work on configuring the network Greatly reduces the
 impact if one machine is compromised.</p>
-<h3 data-number="0.14.3"
-id="protecting-remote-access---virtual-private-networks"><span
-class="header-section-number">0.14.3</span> Protecting remote access -
-Virtual Private Networks</h3>
-<h4 data-number="0.14.3.1" id="vpn"><span
-class="header-section-number">0.14.3.1</span> VPN</h4>
+<h3 id="protecting-remote-access---virtual-private-networks">Protecting
+remote access - Virtual Private Networks</h3>
+<h4 id="vpn">VPN</h4>
 <p>VPN runs a private network over a public network using two
 components:</p>
 <ul>
@@ -3785,11 +3689,8 @@ papers)</li>
 Internet from there The address is hidden by the one of the VPN
 gateway.</p>
 <p>Danger - the VPN provider sees your traffic</p>
-<h3 data-number="0.14.4" id="protecting-the-perimeter"><span
-class="header-section-number">0.14.4</span> Protecting the
-perimeter</h3>
-<h4 data-number="0.14.4.1" id="firewalls"><span
-class="header-section-number">0.14.4.1</span> Firewalls</h4>
+<h3 id="protecting-the-perimeter">Protecting the perimeter</h3>
+<h4 id="firewalls">Firewalls</h4>
 <p>Firewall enforce network level access control and limit what kind of
 data is being passed through.</p>
 <p>Typically border between Internet and internal network.</p>
@@ -3813,8 +3714,7 @@ traffic that has not explicitly been allowed before.</p>
 <blockquote>
 <p>Exclusively work at metadata level</p>
 </blockquote>
-<h4 data-number="0.14.4.2" id="proxies"><span
-class="header-section-number">0.14.4.2</span> Proxies</h4>
+<h4 id="proxies">Proxies</h4>
 <p><strong>Operates at the application level</strong></p>
 <p>Proxy acts as a server to the client and a client to the server -
 like a MITM</p>
@@ -3823,8 +3723,7 @@ internet - reverse proxy - server</p>
 <p>Direct proxies protect users when they access servers on the Internet
 Reverse proxies protect servers when accessed by users from the
 Internet</p>
-<h5 data-number="0.14.4.2.1" id="web-proxies"><span
-class="header-section-number">0.14.4.2.1</span> Web proxies</h5>
+<h5 id="web-proxies">Web proxies</h5>
 <p>Goal - protect users surfing the web against threats by reducing
 attack surface</p>
 <p>Analuze all data downloaded from the web Block access to dangerous
@@ -3838,16 +3737,14 @@ intercept HTTPS traffic. Rather than forwarding the handshake it
 pretends to be the server. (generates fake certificates like company
 ones - therefore all browsers would need to be configured to accept that
 cert) Solution - passthrough but then proxy does not see the data</p>
-<h5 data-number="0.14.4.2.2" id="mail-gateways"><span
-class="header-section-number">0.14.4.2.2</span> Mail gateways</h5>
+<h5 id="mail-gateways">Mail gateways</h5>
 <p>Mail gateways act both as proxy and reverse proxy: all outgoing mail
 is stored on the mail gateway before being forwarded to the internet</p>
 <p>All incoming mail is intercepted by the gateway before being
 forwarded to the users’ mailbox</p>
 <p>Mail gateways typically offer antivirus protection, incoming and
 outgoing spam protection</p>
-<h5 data-number="0.14.4.2.3" id="web-application-firewall-waf"><span
-class="header-section-number">0.14.4.2.3</span> Web Application Firewall
+<h5 id="web-application-firewall-waf">Web Application Firewall
 (WAF)</h5>
 <p>WAF is a typicall example of a reverse proxy with the goal of
 protectin a web server against maliciour requests It analyses requests,
@@ -3862,9 +3759,7 @@ injection)</li>
 </ul>
 <p>Example - modSecurity Checks for XSS, or SQL injections.</p>
 <p>Analyzes the HTTP traffic</p>
-<h5 data-number="0.14.4.2.4" id="intrusion-detection-systems"><span
-class="header-section-number">0.14.4.2.4</span> Intrusion detection
-systems</h5>
+<h5 id="intrusion-detection-systems">Intrusion detection systems</h5>
 <p>IDS inspects traffic for all applications to detect potential
 intrustions Generates alerts if it thinks it saw an attack and then
 terminates the connection</p>
@@ -3906,9 +3801,7 @@ username)</li>
 Pr(MarkedAsMalware) = 0.01 Pr(IsMalware|MarkedAsMalware) =
 Pr(MarkedAsMalware|IsMalware)*Pr(IsMalware)/Pr(MarkedAsMalware) =
 0.99*0.0001/0.01 = 0.0099</p>
-<h3 data-number="0.14.5" id="protecting-the-workstation"><span
-class="header-section-number">0.14.5</span> Protecting the
-workstation</h3>
+<h3 id="protecting-the-workstation">Protecting the workstation</h3>
 <p>Prevent exploitable bugs: ensure automatic update of the OS, ensure
 automatic update of the applications</p>
 <p>Prevent known malware: install antivirus or use built-in ones,
@@ -3918,9 +3811,7 @@ live 2-3 weeks, and now it is 2-3 hours because they assume they will be
 signatured and put to the database.</p>
 <p>Prevent unknown malware: prohibit users from installing applications,
 restrict write access to dirs that contain documents, not programs</p>
-<h4 data-number="0.14.5.1"
-id="preventing-the-privilege-escalation"><span
-class="header-section-number">0.14.5.1</span> Preventing the privilege
+<h4 id="preventing-the-privilege-escalation">Preventing the privilege
 escalation</h4>
 <p>Verify that all access rights are correctly set on programs and
 libraries</p>
@@ -3931,9 +3822,7 @@ reboots the machine</p>
 vulnerabilities Make sure that the hard disk is encrypted, if not,
 attackers can boot from USB (or remove disk) and have full access rights
 to all files.</p>
-<h4 data-number="0.14.5.2" id="protecting-history---logging"><span
-class="header-section-number">0.14.5.2</span> Protecting History -
-logging</h4>
+<h4 id="protecting-history---logging">Protecting History - logging</h4>
 <p>keeping audit trails (logs) is an important part of network security
 to:</p>
 <ul>
@@ -3948,9 +3837,7 @@ to:</p>
 <li>mail servers</li>
 <li>database applications</li>
 </ul>
-<h5 data-number="0.14.5.2.1" id="things-you-should-never-log"><span
-class="header-section-number">0.14.5.2.1</span> Things you should never
-log</h5>
+<h5 id="things-you-should-never-log">Things you should never log</h5>
 <ul>
 <li><strong>passwords</strong></li>
 <li>religious, ideological, political or trade union-related views or
@@ -3964,9 +3851,7 @@ analysis of Internet access is only allowed if there are tangible signs
 of abuse</p>
 <p>Mailboxes and logs should be protected against unauthorized
 access.</p>
-<h4 data-number="0.14.5.3" id="protecting-history---backups"><span
-class="header-section-number">0.14.5.3</span> Protecting History -
-backups</h4>
+<h4 id="protecting-history---backups">Protecting History - backups</h4>
 <p>3-2-1 rule:</p>
 <ul>
 <li>3 copies of the data</li>
@@ -3993,8 +3878,7 @@ sufficient Backups also need to be tested regularly through
 backups</p>
 <p>A Disaster Recovery Plan (DRP) records, in detail, how to rebuild a
 system in case of a major failure.</p>
-<h2 data-number="0.15" id="exercises-8"><span
-class="header-section-number">0.15</span> Exercises 8</h2>
+<h2 id="exercises-8">Exercises 8</h2>
 <p><strong>Exercise 8.1</strong> Consider the following two options for
 letting remote users access your company’s e-mail: • They use a VPN
 access to the company’s network. Then, they can use their preferred mail
@@ -4056,23 +3940,17 @@ they contained before the disaster.</li>
 <li>Write a report of which parts of the recovery worked and which
 didn’t. Adapt you backup strategy accordingly</li>
 </ul>
-<h2 data-number="0.16" id="mobile-security"><span
-class="header-section-number">0.16</span> Mobile security</h2>
-<h3 data-number="0.16.1" id="mobile-security-motivation"><span
-class="header-section-number">0.16.1</span> Mobile security
-motivation</h3>
+<h2 id="mobile-security">Mobile security</h2>
+<h3 id="mobile-security-motivation">Mobile security motivation</h3>
 <p>Phone on 100% CPU capacity will be on for 10min. So everything needs
 to be throttled.</p>
 <p>A lot of sensors that are carrying personal data.</p>
 <p>More exposed to local attackers (e.g. phone left at the bar)</p>
 <p>Mobile computing is considered as one of the computing
 revolutions</p>
-<h3 data-number="0.16.2" id="attack-vectors"><span
-class="header-section-number">0.16.2</span> Attack vectors</h3>
-<h4 data-number="0.16.2.1"
-id="types-of-malware-repackagring-look-alike-malware"><span
-class="header-section-number">0.16.2.1</span> Types of malware:
-repackagring / look-alike Malware</h4>
+<h3 id="attack-vectors">Attack vectors</h3>
+<h4 id="types-of-malware-repackagring-look-alike-malware">Types of
+malware: repackagring / look-alike Malware</h4>
 <p>Download app from app market. Unpack and reverse endgineer app
 (relatively easy on Android)</p>
 <p>Modify and add code: add ads, require more permissions than original
@@ -4080,9 +3958,7 @@ app to steal user data, escalate privileges using exploits to deploy
 ransomware …</p>
 <p>Pack and publish modified version.</p>
 <p>This is not a targetted attack, just broad attack.</p>
-<h4 data-number="0.16.2.2" id="privacy-of-digital-content"><span
-class="header-section-number">0.16.2.2</span> Privacy of digital
-content</h4>
+<h4 id="privacy-of-digital-content">Privacy of digital content</h4>
 <p>Steal digital content from content providers. Platform needs to
 support for secure audio and video playback, and premium content must
 not leave the device.</p>
@@ -4095,19 +3971,15 @@ premium content.</p>
 <li>to put watermarks on the stream (e.g. netflix id), since on the
 server it would be very expensive on the server.</li>
 </ul>
-<h4 data-number="0.16.2.3" id="broader---political-instrument"><span
-class="header-section-number">0.16.2.3</span> Broader - Political
+<h4 id="broader---political-instrument">Broader - Political
 instrument</h4>
 <p>there are companies that provide access to people’s phone’s</p>
 <p>Usually these services, e.g. NSO, are sold to the CIAs, FBIs, other
 agencies that, e.g. kill journalists</p>
-<h3 data-number="0.16.3" id="android-vs-ios"><span
-class="header-section-number">0.16.3</span> Android vs iOS</h3>
+<h3 id="android-vs-ios">Android vs iOS</h3>
 <p>The biggest difference - <strong>openness</strong>.</p>
-<h4 data-number="0.16.3.1"
-id="apples-ios-ecosystem-is-extremely-closed"><span
-class="header-section-number">0.16.3.1</span> Apple’s iOS ecosystem is
-<strong>extremely closed</strong></h4>
+<h4 id="apples-ios-ecosystem-is-extremely-closed">Apple’s iOS ecosystem
+is <strong>extremely closed</strong></h4>
 <ul>
 <li>iOS is a closed source</li>
 <li>iOS and iOS apps can only run on Apple devices</li>
@@ -4117,8 +3989,7 @@ EU)</li>
 </ul>
 <p>How come they still are aroud?: they were first, and they make great
 prodcuts and people know about it</p>
-<h4 data-number="0.16.3.2" id="googles-strategy"><span
-class="header-section-number">0.16.3.2</span> Google’s strategy</h4>
+<h4 id="googles-strategy">Google’s strategy</h4>
 <p>Even though they started earlier, they were late to market it.</p>
 <p>Ecosystem is much more open:</p>
 <ul>
@@ -4131,17 +4002,12 @@ class="header-section-number">0.16.3.2</span> Google’s strategy</h4>
 </ul>
 <p>Android is likely more secure as long as you keep updating
 security</p>
-<h3 data-number="0.16.4" id="arm---armv8"><span
-class="header-section-number">0.16.4</span> ARM - ARMv8</h3>
-<h4 data-number="0.16.4.1" id="arm-processor-profiles"><span
-class="header-section-number">0.16.4.1</span> ARM processor
-profiles</h4>
+<h3 id="arm---armv8">ARM - ARMv8</h3>
+<h4 id="arm-processor-profiles">ARM processor profiles</h4>
 <p>Cortex-A - full application (offers more features) Cortex-R -
 real-time (industrial control, and tight scheduling bounds) Cortex-M -
 embedded (small embedded chips, most IoT runs on this)</p>
-<h4 data-number="0.16.4.2" id="arm-armv8-privilege-levels"><span
-class="header-section-number">0.16.4.2</span> ARM ARMv8 privilege
-levels</h4>
+<h4 id="arm-armv8-privilege-levels">ARM ARMv8 privilege levels</h4>
 <table>
 <colgroup>
 <col style="width: 4%" />
@@ -4184,8 +4050,7 @@ nothing (intended for drivers but they run at ring 0) ring 3 -
 Applications</p>
 <p>How does this relate to mobile device security: Rich OS - apps
 Trusted OS - crypto, passwords, fingerprints, keys</p>
-<h4 data-number="0.16.4.3" id="details-of-armv8-isa"><span
-class="header-section-number">0.16.4.3</span> Details of ARMv8 ISA</h4>
+<h4 id="details-of-armv8-isa">Details of ARMv8 ISA</h4>
 <p>To do computations you need to load and store first.</p>
 <p>Instructions are 4 bytes, Load-store architecture, familiar concepts
 - stack pointer, frame pointer (x29), function calls (bl), stack
@@ -4195,25 +4060,21 @@ frames…</p>
 <div class="sourceCode" id="cb14"><pre
 class="sourceCode bash"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">aarch64-linux-gnu-gcc</span> <span class="at">-g</span> <span class="at">-O0</span> <span class="at">-fPIE</span> <span class="at">-pie</span> <span class="at">-o</span> main main.c</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="ex">qemu-aarch64</span> <span class="at">-L</span> /usr/aarch64-linux-gnu/ main</span></code></pre></div>
-<h3 data-number="0.16.5" id="android-ecosystem-and-security"><span
-class="header-section-number">0.16.5</span> Android ecosystem and
+<h3 id="android-ecosystem-and-security">Android ecosystem and
 security</h3>
-<h4 data-number="0.16.5.1" id="android-open-source-project-aosp"><span
-class="header-section-number">0.16.5.1</span> Android Open Source
-Project (AOSP)</h4>
+<h4 id="android-open-source-project-aosp">Android Open Source Project
+(AOSP)</h4>
 <p>Android is “<strong>owned</strong>” by Google, but code is made
 availabe through AOSP.</p>
 <p>OEM customizes code to their hw, adds proprietary components
 (e.g. for hw support)</p>
 <p>Google Mobile Services require OEM to comply with compatibility
 definition document - provides this or other services, drivers, etc.</p>
-<h4 data-number="0.16.5.2" id="chip---phone"><span
-class="header-section-number">0.16.5.2</span> Chip -&gt; phone</h4>
+<h4 id="chip---phone">Chip -&gt; phone</h4>
 <p>ARM (ISA and design creator) -&gt; chip manufacturers (ODM - Original
 design manufacturer) who pay ARM for licensing, and add their extensions
 -&gt; phone (OEM -&gt; Original equipment manufacturer)</p>
-<h4 data-number="0.16.5.3" id="open-in-aosp"><span
-class="header-section-number">0.16.5.3</span> “Open” in AOSP</h4>
+<h4 id="open-in-aosp">“Open” in AOSP</h4>
 <p>Q: “How does setting a PIN/pattern/password work?”</p>
 <ol type="1">
 <li>Determine component that implements feature</li>
@@ -4221,16 +4082,14 @@ class="header-section-number">0.16.5.3</span> “Open” in AOSP</h4>
 <li>Look for component in AOSP</li>
 <li>Read code until you are satisfied</li>
 </ol>
-<h4 data-number="0.16.5.4" id="not-so-open-in-aosp"><span
-class="header-section-number">0.16.5.4</span> “not-so-Open” in AOSP</h4>
+<h4 id="not-so-open-in-aosp">“not-so-Open” in AOSP</h4>
 <p>Enrolling and verifying passwords is a security-sensitive feature.
 The backend of this feature is implemented by the <strong>Gatekeeper
 subsystem</strong> The subsystem often uses trusted execution env (the
 safe space) and is usually platform-dependent (~proprietary)</p>
 <p>It guarantees stronger confidentiality</p>
 <p>Throttles consecutive failed attempts</p>
-<h4 data-number="0.16.5.5" id="android-devices"><span
-class="header-section-number">0.16.5.5</span> Android devices</h4>
+<h4 id="android-devices">Android devices</h4>
 <p>Many different players - many different hw OEMs</p>
 <p>Many different Anfdroid versions:</p>
 <ul>
@@ -4241,13 +4100,11 @@ class="header-section-number">0.16.5.5</span> Android devices</h4>
 </ul>
 <p>Regular Android app ships with 32-bit ARM, 64-bit ARM, and some
 RISC5</p>
-<h4 data-number="0.16.5.6" id="android-fragmentation"><span
-class="header-section-number">0.16.5.6</span> Android fragmentation</h4>
+<h4 id="android-fragmentation">Android fragmentation</h4>
 <p>Fragmentation is the <strong>biggest challenge</strong> for Android
 security, since thousands of devices with custom hw and sw Customization
 makes development and aptching tricky.</p>
-<h4 data-number="0.16.5.7" id="lif-og-a-security-bug"><span
-class="header-section-number">0.16.5.7</span> Lif og a security bug</h4>
+<h4 id="lif-og-a-security-bug">Lif og a security bug</h4>
 <p>Reporting:</p>
 <ol type="1">
 <li>Discovery: Security researcher (Google’s or external) finds a
@@ -4264,9 +4121,7 @@ days ] Publicly disclose the bug</p>
 <p>Security patch distribution Google distributes the patches to other
 manufactures Patch is published as part of the Monthly Security
 Bulletin</p>
-<h4 data-number="0.16.5.8" id="perils-of-customization"><span
-class="header-section-number">0.16.5.8</span> Perils of
-customization</h4>
+<h4 id="perils-of-customization">Perils of customization</h4>
 <p>Google sends patch to third-party company X: Company X now needs to
 apply the patch to their custom AOSP fork</p>
 <p><strong>Project treble</strong></p>
@@ -4277,15 +4132,11 @@ and delays</p>
 <p>Project Treble helps defining a clear interface Note: this is useful
 for non-security patches as well</p>
 <p>Introduced with Android 8.0+</p>
-<h4 data-number="0.16.5.9"
-id="most-devices-dont-get-security-patches"><span
-class="header-section-number">0.16.5.9</span> Most devices don;t get
+<h4 id="most-devices-dont-get-security-patches">Most devices don;t get
 security patches</h4>
 <p>only 2/3 years of updates because vendors are not interested in
 supporting old devices.</p>
-<h4 data-number="0.16.5.10" id="role-of-security-researchers"><span
-class="header-section-number">0.16.5.10</span> Role of Security
-researchers</h4>
+<h4 id="role-of-security-researchers">Role of Security researchers</h4>
 <p>Identify malware</p>
 <ul>
 <li>Once a new malware is found, it’s added to blacklists</li>
@@ -4296,9 +4147,7 @@ researchers</h4>
 <li>Once they are found, they are reported to Google</li>
 <li>Monetary rewards for security bugs: “Bug Bounties”</li>
 </ul>
-<h4 data-number="0.16.5.11"
-id="attacker-goals-vs-security-researchers"><span
-class="header-section-number">0.16.5.11</span> Attacker goals vs
+<h4 id="attacker-goals-vs-security-researchers">Attacker goals vs
 security researchers</h4>
 <p>Security researchers want to</p>
 <ul>
@@ -4312,8 +4161,7 @@ to listed malware apps)</li>
 <li>Malware analysis, detection, containment</li>
 <li>Vulnerability analysis, detection, prevention, patching</li>
 </ul>
-<h3 data-number="0.16.6" id="android-apps"><span
-class="header-section-number">0.16.6</span> Android Apps</h3>
+<h3 id="android-apps">Android Apps</h3>
 <p>written in Java, C/C++, Kotlin, Rust, …</p>
 <p>Android apps “live” in the Android context: Android framework exposes
 a gigantic number of APIs APIs somewhat equivalent to “library
@@ -4331,46 +4179,37 @@ info</p>
 <p><strong>Android Framework APIs</strong> - too many to be
 enumerated</p>
 <p><strong>Package name</strong> - each app has a package name</p>
-<h4 data-number="0.16.6.1" id="basics-on-android-apps"><span
-class="header-section-number">0.16.6.1</span> Basics on Android
-apps</h4>
+<h4 id="basics-on-android-apps">Basics on Android apps</h4>
 <p>there is no “main” function</p>
 <p>The user interacts via the Graphical UI - UI widgeds (EditText,
 Button), no CLI</p>
 <p>Many APIs are “event-driven” - register a listener X and X’s callback
 is invoked later on</p>
 <p>Apps are build on combination of “components”</p>
-<h4 data-number="0.16.6.2" id="component-types"><span
-class="header-section-number">0.16.6.2</span> 4 Component types</h4>
-<h5 data-number="0.16.6.2.1" id="activity"><span
-class="header-section-number">0.16.6.2.1</span> Activity</h5>
+<h4 id="component-types">4 Component types</h4>
+<h5 id="activity">Activity</h5>
 <p>Entry point for interacting with the user, and it represents a single
 screen with UI.</p>
 <p>You can have many - each defines a UI You can define which is the
 main/start one If app allows it, an external app can start these
 activities at will</p>
-<h5 data-number="0.16.6.2.2" id="service"><span
-class="header-section-number">0.16.6.2.2</span> Service</h5>
+<h5 id="service">Service</h5>
 <p>Meant to perform an action in the background for some period of time,
 regardless of what the user is doing in foreground (the user could be
 switching between activities)</p>
 <p>Services don’t provide UI.</p>
 <p>e.g. music player service</p>
-<h5 data-number="0.16.6.2.3" id="broadcast-receiver"><span
-class="header-section-number">0.16.6.2.3</span> Broadcast receiver</h5>
+<h5 id="broadcast-receiver">Broadcast receiver</h5>
 <p>Respond to system-wide events Have well-defined entry point System
 can deliver these events even to apps that are currently not running</p>
 <p>Events example: battery charging, SMS is received</p>
-<h5 data-number="0.16.6.2.4" id="content-provider"><span
-class="header-section-number">0.16.6.2.4</span> Content provider</h5>
+<h5 id="content-provider">Content provider</h5>
 <p>Manage a shared set of app data High-level API to access data so that
 other apps and services can query/interact with it They abstract away
 the storing mechanism</p>
 <p>Most often based on SQLit database (file-based)</p>
-<h5 data-number="0.16.6.2.5"
-id="communication-between-components---intents"><span
-class="header-section-number">0.16.6.2.5</span> Communication between
-components - intents</h5>
+<h5 id="communication-between-components---intents">Communication
+between components - intents</h5>
 <p>Android-defined objects that encode an “intent” (fancy IPC
 message)</p>
 <p>Use cases:</p>
@@ -4382,8 +4221,7 @@ message)</p>
 <li>note - each component has a life cycle - A.Y could already be
 started</li>
 </ul>
-<h4 data-number="0.16.6.3" id="manifest-file"><span
-class="header-section-number">0.16.6.3</span> Manifest file</h4>
+<h4 id="manifest-file">Manifest file</h4>
 <p>Most important file of Android app</p>
 <p>Specifies all key information needed by the fw to run the app:</p>
 <ul>
@@ -4393,20 +4231,17 @@ class="header-section-number">0.16.6.3</span> Manifest file</h4>
 <li>Main Activity ~&gt; main() entrypoint</li>
 <li>Permissions</li>
 </ul>
-<h3 data-number="0.16.7" id="app-security"><span
-class="header-section-number">0.16.7</span> App security</h3>
+<h3 id="app-security">App security</h3>
 <p>Android is based on Linux</p>
 <p>Each app has its own Linux user ID (there are ways to setp apps so
 that they share the user ID)</p>
 <p>Each app lives in its own security sandbox - standard Linux process
 isolation, restricted file system permissions</p>
-<h4 data-number="0.16.7.1" id="app-installation"><span
-class="header-section-number">0.16.7.1</span> App installation</h4>
+<h4 id="app-installation">App installation</h4>
 <p>Android fw creates a new Linux user with a new user ID*</p>
 <p>each app is given a private dir - also call internal storage, where
 no other app can access it (unless it is with shared user ID)</p>
-<h4 data-number="0.16.7.2" id="android-framework-architecture"><span
-class="header-section-number">0.16.7.2</span> Android Framework
+<h4 id="android-framework-architecture">Android Framework
 Architecture</h4>
 <p>User-space is app, android fw, native libraries, android runtime, HAL
 (audio, bt, camera)</p>
@@ -4420,18 +4255,14 @@ gap is complicated</p>
 <p><strong>*Manager</strong> (LocationManager, TelephonyManager,
 PackageManager, ActivityManager)- lives on App and Android Framework
 levels. They run as “privileged” users.</p>
-<h5 data-number="0.16.7.2.1"
-id="asking-the-os-for-favors-aka-syscalls"><span
-class="header-section-number">0.16.7.2.1</span> asking the OS for
-favors, aka syscalls</h5>
+<h5 id="asking-the-os-for-favors-aka-syscalls">asking the OS for favors,
+aka syscalls</h5>
 <p>Traditional OSes have two worlds - user-space vs kernel-space</p>
 <p>user-space is where user processes and apps live - they can’t do much
 by themselves</p>
 <p>kernel-space is where the actual OS lives - the OS is the god of
 machine and information</p>
-<h5 data-number="0.16.7.2.2" id="example---getlastlocation"><span
-class="header-section-number">0.16.7.2.2</span> Example -
-getLastLocation()</h5>
+<h5 id="example---getlastlocation">Example - getLastLocation()</h5>
 <p>App invokes Android API:
 <code>LocationManager.getLastLocation()</code> We are still within the
 app’s sandbox!</p>
@@ -4439,18 +4270,15 @@ app’s sandbox!</p>
 <code>LocationManagerService.getLastLocation()</code> We are in a
 “privileged” service</p>
 <p>To go to other side we need something</p>
-<h4 data-number="0.16.7.3" id="crossing-the-bridge"><span
-class="header-section-number">0.16.7.3</span> Crossing the bridge</h4>
+<h4 id="crossing-the-bridge">Crossing the bridge</h4>
 <p>Binder - one of the main Android’s “extensions” over Linux It allows
 for <em>Remote Procedure Call (RPC)</em> and <em>Inter-Process
 Communication (IPC)</em></p>
-<h5 data-number="0.16.7.3.1" id="binder-rpc"><span
-class="header-section-number">0.16.7.3.1</span> Binder RPC</h5>
+<h5 id="binder-rpc">Binder RPC</h5>
 <p>App that is run as non-privileged process sends Binder message over
 Binder “Proxy” -&gt; Binder Driver, Linux Kernel -&gt; Binder “Stub”
 -&gt; service that is privileged process/service</p>
-<h5 data-number="0.16.7.3.2" id="binder-details"><span
-class="header-section-number">0.16.7.3.2</span> Binder Details</h5>
+<h5 id="binder-details">Binder Details</h5>
 <p>Proxy and Stub are automatically generated starting from AIDL</p>
 <p>Binder communication: perform ioctl syscall on /dev/binder</p>
 <p>ioctl syscall:</p>
@@ -4462,9 +4290,7 @@ messages and returns replies</li>
 <p>There is a lot of overhead in context switching to kernel, switch to
 service context, get caches, get data, switch to the app. This works if
 the Binder calls are infrequent</p>
-<h4 data-number="0.16.7.4" id="androind-permission-system"><span
-class="header-section-number">0.16.7.4</span> Androind permission
-system</h4>
+<h4 id="androind-permission-system">Androind permission system</h4>
 <p>Manifest encodes what app wants.</p>
 <p>Each of these “protects” security-sensitive capabilities:</p>
 <ul>
@@ -4481,18 +4307,15 @@ dir. Device offers an “external storage” - in the past physical
 “removable” SD card (because it had to have vFAT). Currently part of the
 file system that apps can use to share files, or “/sdcard” - where your
 photos and downloaded files are</p>
-<h3 data-number="0.16.8" id="reversing-android-apps"><span
-class="header-section-number">0.16.8</span> Reversing Android Apps</h3>
-<h4 data-number="0.16.8.1" id="compilation"><span
-class="header-section-number">0.16.8.1</span> Compilation</h4>
+<h3 id="reversing-android-apps">Reversing Android Apps</h3>
+<h4 id="compilation">Compilation</h4>
 <p>Java/Kotlin compiler to Java bytecode (executable by the JVM) then
 DEX compiler to Dalvik bytecode (executable by the DVM) (whereas C/C++
 compiles straight to machine code)</p>
 <p>Java comes with copywrite and copywrite issues, so Google didn’t want
 to be sued by Oracle anymore</p>
-<h4 data-number="0.16.8.2" id="android-application-package-apk"><span
-class="header-section-number">0.16.8.2</span> Android Application
-Package (APK)</h4>
+<h4 id="android-application-package-apk">Android Application Package
+(APK)</h4>
 <p>APK is a zip file</p>
 <p>Content:</p>
 <ul>
@@ -4501,17 +4324,14 @@ Package (APK)</h4>
 <li>resources.arsc (compressed)</li>
 <li>res/*.xml (compressed)</li>
 </ul>
-<h4 data-number="0.16.8.3" id="big-picture"><span
-class="header-section-number">0.16.8.3</span> Big picture</h4>
+<h4 id="big-picture">Big picture</h4>
 <p>from this zip file, you can unpack the individual components,
 libraries that are shipped.</p>
 <p>You can disassemble DEX files, go from Dalvik bytecode to smali file
 type.</p>
 <p>apktool can embed baksmal/smali it unpacks/packs APKs, including
 resources and manifest files</p>
-<h4 data-number="0.16.8.4" id="disassemble-vs-decompilation"><span
-class="header-section-number">0.16.8.4</span> Disassemble vs
-decompilation</h4>
+<h4 id="disassemble-vs-decompilation">Disassemble vs decompilation</h4>
 <p>Disassembly - binary file -&gt; DAlvik bytecode “smali”
 representation</p>
 <p>Decompilation - assembly/bytecode to source code-level representation
@@ -4520,26 +4340,21 @@ difficult</p>
 <p>Decompilation tools: JEB (commercial, VERY expensive) BytecodeViewer
 (pretty good one) Jadx NEW: Ghidra, open source tool developed by
 NSA</p>
-<h3 data-number="0.16.9" id="kernel-security-and-selinux"><span
-class="header-section-number">0.16.9</span> Kernel security and
-SELinux</h3>
+<h3 id="kernel-security-and-selinux">Kernel security and SELinux</h3>
 <p>User-based permission model - each app has userID</p>
 <p>Process isolation - applications are separate</p>
 <p>Extensible mechanism for secure IPC</p>
-<h4 data-number="0.16.9.1" id="application-sandbox"><span
-class="header-section-number">0.16.9.1</span> Application sandbox</h4>
+<h4 id="application-sandbox">Application sandbox</h4>
 <p>apps are isolated from each other. Sandbox is in the kernel, native
 code can’t bypass it</p>
 <p>To bypass the sandbox, an attacker would need to compromise linux</p>
-<h4 data-number="0.16.9.2" id="defense-in-depth"><span
-class="header-section-number">0.16.9.2</span> defense in depth</h4>
+<h4 id="defense-in-depth">defense in depth</h4>
 <p>multiple layers of security controls throughout a system it prevents
 single vulns from leading to compromise of the OS</p>
 <blockquote>
 <p>redundacy</p>
 </blockquote>
-<h4 data-number="0.16.9.3" id="selinux"><span
-class="header-section-number">0.16.9.3</span> SELinux</h4>
+<h4 id="selinux">SELinux</h4>
 <p>Security-Enhanced Linux: a Linux kernel security module</p>
 <ul>
 <li>Useful to define access control security policies</li>
@@ -4568,8 +4383,7 @@ was granted before -&gt; manager does not have to implement security
 checks</p>
 <p>90-95% of research is done on Android security, because iOS is
 closed-source</p>
-<h2 data-number="0.17" id="exercises-9"><span
-class="header-section-number">0.17</span> Exercises 9</h2>
+<h2 id="exercises-9">Exercises 9</h2>
 <p><strong>Exercise 1</strong> Identify three examples to convince this
 guest that the software stack on his phone is only partially open
 source.</p>
@@ -4615,12 +4429,10 @@ memory-mapped input/output) the TEE OS or the baseband firmware,
 respectively, are interacting with. These peripherals are private, and
 it requires a lot of reverse-engineering effort to implement an
 emulation layer that works sufficiently accurate.</p>
-<h2 data-number="0.18" id="trusted-computing"><span
-class="header-section-number">0.18</span> Trusted Computing</h2>
+<h2 id="trusted-computing">Trusted Computing</h2>
 <p>Why trust a computer? If you want to compute something, you may have
 to trust some other party (hw/sw)</p>
-<h3 data-number="0.18.1" id="confidential-computing"><span
-class="header-section-number">0.18.1</span> Confidential computing</h3>
+<h3 id="confidential-computing">Confidential computing</h3>
 <p>Hardware and/or software techniques ensure your program runs without
 disclosing its secrets Not assurance that your code runs to completion
 (adversary may deny service)</p>
@@ -4632,16 +4444,14 @@ trusted (other processes, attacker could turn off the computer)</p>
 -&gt; availability may suffer.</p>
 <p>Confidential computing implies higher overhead. And usually you
 optimize to use only the trusted core component.</p>
-<h3 data-number="0.18.2" id="what-if-we-can-trust-the-hardware"><span
-class="header-section-number">0.18.2</span> What if we can trust the
+<h3 id="what-if-we-can-trust-the-hardware">What if we can trust the
 hardware</h3>
 <p>Assume we can.</p>
 <p>Build a trusted core of the application and put it in the safe
 hardware, then nobody else can look inside or extract secrets. We can
 ensure that the hardware runs correctly with cryptographic
 primitives.</p>
-<h4 data-number="0.18.2.1" id="properties-of-trusted-hardware"><span
-class="header-section-number">0.18.2.1</span> Properties of trusted
+<h4 id="properties-of-trusted-hardware">Properties of trusted
 hardware</h4>
 <ul>
 <li>Attestation - hardware proves that it odes what you think it is
@@ -4654,8 +4464,7 @@ computation (this included protection against side-channel attacks)</li>
 to the memory, and cache is unexcrypted. It assumes that chip cannot be
 broken/read out the cache or individual CPU pins.</p>
 <p>Examples of uses of trusted hardware</p>
-<h3 data-number="0.18.3" id="trusted-hardware"><span
-class="header-section-number">0.18.3</span> Trusted hardware</h3>
+<h3 id="trusted-hardware">Trusted hardware</h3>
 <p>Any hardware that has been certified to perform <em>according to a
 certain set of requirements under strong adversarial conditions</em></p>
 <p>Because of the strong adversarial conditions, trusted hardware is
@@ -4666,8 +4475,7 @@ half-size server that you can put to server rack and they will do all
 the magic by if you open it, it destroys the data, Smart card (bank
 card, sim card, ID, camipro, keys, SwissPass, Insurance card)</p>
 <p>Tamper resistance up to a given attacker</p>
-<h4 data-number="0.18.3.1" id="trusted-execution-environments-tee"><span
-class="header-section-number">0.18.3.1</span> Trusted execution
+<h4 id="trusted-execution-environments-tee">Trusted execution
 environments (TEE)</h4>
 <p>isolated processing environment in which applications can be securely
 executed irrespective of the rest of the “system”</p>
@@ -4693,9 +4501,7 @@ attackers</li>
 therefore hiding information from OS or hypervisor. ARM Trustzone does
 similar to IntelSJX</p>
 <p>TEE guarantees the environment in which code is being run</p>
-<h4 data-number="0.18.3.2" id="trusted-platform-module-tpm"><span
-class="header-section-number">0.18.3.2</span> Trusted Platform Module
-(TPM)</h4>
+<h4 id="trusted-platform-module-tpm">Trusted Platform Module (TPM)</h4>
 <p>Microcontroller atteched to bus or somewhere in the system can
 securely store artifacts such as keys or passwords, used to authenticate
 the platform. It can sign, encrypt data or verify hash.</p>
@@ -4729,8 +4535,7 @@ digest PCRs are initialized at boot time to default value</p>
 SHA256(PCR[n] || D) &lt;—- take existing value, and stream in data from
 D, continuously updating SHA sum TPM_PCRRead(n): returns PCR[n]</p>
 <p>It can be used for attestation, sealing, and isolation</p>
-<h5 data-number="0.18.3.2.1" id="tpm-attestation"><span
-class="header-section-number">0.18.3.2.1</span> TPM Attestation</h5>
+<h5 id="tpm-attestation">TPM Attestation</h5>
 <p>Mechanism that allows a hardware module to prove that it is in a
 specific state to an authorized party</p>
 <p>Attest there is secure hardware : EK serves to prove the device is
@@ -4820,8 +4625,7 @@ continues the contact exchange.</p>
 <p>We still need to trust Intel to faithfully implement SGX, and that it
 does not screw up the enclave, and that it is sufficiently hard to break
 into the enclave.</p>
-<h5 data-number="0.18.3.2.2" id="tpm-sealing"><span
-class="header-section-number">0.18.3.2.2</span> TPM Sealing</h5>
+<h5 id="tpm-sealing">TPM Sealing</h5>
 <p><strong>Sealed storage</strong> protects private information by
 binding it to platform configuration information including the software
 and hardware being used</p>
@@ -4861,10 +4665,8 @@ system</p>
 issues, trade-offs (limited throughput, limited storage) Intel SGX has a
 memory limit because you need to hash the data streams, otherwise there
 could be a replay attacks done.</p>
-<h4 data-number="0.18.3.3"
-id="trusted-hardware-key-properties---isolation"><span
-class="header-section-number">0.18.3.3</span> Trusted Hardware Key
-Properties - Isolation</h4>
+<h4 id="trusted-hardware-key-properties---isolation">Trusted Hardware
+Key Properties - Isolation</h4>
 <p>Mechanism to constrain who and what has access to programs and
 data</p>
 <p>Trusted hardware offers <em>one well-identified entry-point</em> to
@@ -4875,8 +4677,7 @@ interact with software</p>
 <li>tamper responsive - delete keys when attacked</li>
 <li>resistance to side-channel attacks and physical probing</li>
 </ul>
-<h4 data-number="0.18.3.4" id="hardware-secure-modules-hsms"><span
-class="header-section-number">0.18.3.4</span> Hardware Secure Modules
+<h4 id="hardware-secure-modules-hsms">Hardware Secure Modules
 (HSMs)</h4>
 <p>Hardened, tamper-resistant hw devices</p>
 <p>Cryptography oriented: generating keys, encrypting and decrypting
@@ -4887,8 +4688,7 @@ tampering (e.g. coatings and seals) that must be broken to attain
 physical access to the plaintext crypto keys and critical security
 parameters</p>
 <p>There is an API defined by PKCS</p>
-<h5 data-number="0.18.3.4.1" id="use-case-secure-iphone-backups"><span
-class="header-section-number">0.18.3.4.1</span> Use-case: secure iPhone
+<h5 id="use-case-secure-iphone-backups">Use-case: secure iPhone
 backups</h5>
 <p>we want users to be able to vackup their data to the cloud, and the
 user should be the only one that can recover their data</p>
@@ -4919,8 +4719,7 @@ to update, stored in sealed and tamper-evident bags while not used.
 Install software, destroy access cards</p>
 <p>Still need to trust Apple to install secure software in the first
 place</p>
-<h4 data-number="0.18.3.5" id="smartcards"><span
-class="header-section-number">0.18.3.5</span> Smartcards</h4>
+<h4 id="smartcards">Smartcards</h4>
 <p>Plastic card with embedded integratecircuits which can process data
 and are often tamper resistant</p>
 <p>Two types:</p>
@@ -4930,9 +4729,7 @@ and are often tamper resistant</p>
 </ul>
 <p>Contain keys and certificates - authentication / digital signatures,
 confidentiality, key management protocols</p>
-<h5 data-number="0.18.3.5.1" id="use-case-offline-payments"><span
-class="header-section-number">0.18.3.5.1</span> Use-case: Offline
-payments</h5>
+<h5 id="use-case-offline-payments">Use-case: Offline payments</h5>
 <p>We want to signal to the bank to pay to a merchant without talking to
 the bank.</p>
 <p>Threats: other users merchant user themselves external parties</p>
@@ -4950,17 +4747,14 @@ pay for something else.</p>
 <p>There are approaches to limit the relay capabilities - distance
 bounding (time limiting for signals). Relay attacks have proven that the
 user might not be responsible for the fact how their card was used.</p>
-<h3 data-number="0.18.4" id="side-channels"><span
-class="header-section-number">0.18.4</span> Side channels</h3>
+<h3 id="side-channels">Side channels</h3>
 <p>Using TPM in a nutshell: Do very secure operation, trusted hw
 execites the secure operation with secret information, you get the
 result of very secure operation</p>
 <p><strong>Side-channel attacks</strong> - determine the secret key of a
 cryptographic device by measuring its execution time, its power
 consumption or its electromagnetic field.</p>
-<h4 data-number="0.18.4.1" id="types-of-side-channels"><span
-class="header-section-number">0.18.4.1</span> Types of side
-channels</h4>
+<h4 id="types-of-side-channels">Types of side channels</h4>
 <p>learn the system’s secret by observing how different computations
 are</p>
 <p><strong>time</strong> - how different computations take different
@@ -4971,9 +4765,7 @@ power (mutliplication takes more power than addition)</p>
 <p><strong>electromagnetic</strong> - how different computations have
 different emissions (multiplication will be different electromagnetic
 waves)</p>
-<h4 data-number="0.18.4.2" id="timing-attack---naive-rsa"><span
-class="header-section-number">0.18.4.2</span> Timing attack - Naive
-RSA</h4>
+<h4 id="timing-attack---naive-rsa">Timing attack - Naive RSA</h4>
 <p>RSA decryption - compute c^^d mod N Naive algo - square and
 multiply</p>
 <p>Here problem is that there is a check for a bit == 1, and if it is it
@@ -4983,17 +4775,14 @@ op)</p>
 <p>timing depends on number of 1s in the channel</p>
 <p>To mitigate this - make the if branches equal timing wise - add bunch
 of operations to both sides, or add computation to the other side</p>
-<h4 data-number="0.18.4.3" id="power-side-channels"><span
-class="header-section-number">0.18.4.3</span> Power side channels</h4>
+<h4 id="power-side-channels">Power side channels</h4>
 <p>Elliptic-curve crypto operation Power depends on key bits</p>
 <p>This often requires 1000x of tries but afterwards it can leak
 inforamtion</p>
-<h4 data-number="0.18.4.4" id="electromagnetic-side-channels"><span
-class="header-section-number">0.18.4.4</span> Electromagnetic side
+<h4 id="electromagnetic-side-channels">Electromagnetic side
 channels</h4>
 <p>same as power</p>
-<h4 data-number="0.18.4.5" id="countermeasures"><span
-class="header-section-number">0.18.4.5</span> Countermeasures</h4>
+<h4 id="countermeasures">Countermeasures</h4>
 <p>Goal - prevent secret inference from observable state</p>
 <p><strong>Hiding</strong> - lowers signal to noise ratio noise
 generator, randomized execution order, async logic styles…</p>
@@ -5001,9 +4790,7 @@ generator, randomized execution order, async logic styles…</p>
 to recombine Boolean or arithmetic masking, higher-order masking</p>
 <p><strong>Leakage resilience</strong> - prevents leakage aggreagation
 by updating secret e.g. by shielding in a faraday cage</p>
-<h4 data-number="0.18.4.6" id="attacks-against-intel-sgx"><span
-class="header-section-number">0.18.4.6</span> Attacks against Intel
-SGX</h4>
+<h4 id="attacks-against-intel-sgx">Attacks against Intel SGX</h4>
 <p>SGX is the prime technique on modern CPUs to run trusted computation
 Adversary runs side-by-side on the same CPU, either on a nearby thread
 or core</p>
@@ -5015,11 +4802,9 @@ security guarantee.</p>
 <p>Attacks, while they are possible, the attacker is in a very
 constrained environment: they control hypervisor, CPU, and run it in
 almost single-step mode to get information</p>
-<h3 data-number="0.18.5" id="microarchitectural-side-channels"><span
-class="header-section-number">0.18.5</span> Microarchitectural
+<h3 id="microarchitectural-side-channels">Microarchitectural
 side-channels</h3>
-<h4 data-number="0.18.5.1" id="meltdown"><span
-class="header-section-number">0.18.5.1</span> Meltdown</h4>
+<h4 id="meltdown">Meltdown</h4>
 <p>Allowed attackers to leak information of the kernel. Allowed to read
 all memory of the running processes</p>
 <p>AMD was resistant to meltdown (per chance), but Intel was not</p>
@@ -5043,8 +4828,7 @@ virtual memory space Minimizes the cost of some exceptions Of course,
 kernel mode But <strong>everyone can address them</strong></p>
 <p>By accessing certain parts of the page we can infer how long it takes
 to access that part and infer where it is in the memory</p>
-<h5 data-number="0.18.5.1.1" id="meltdown-steps"><span
-class="header-section-number">0.18.5.1.1</span> Meltdown steps</h5>
+<h5 id="meltdown-steps">Meltdown steps</h5>
 <p>Execute a forbidden access (pointer being dereferenced)</p>
 <p>Speculatively use the secret result - store it somewhere else. Before
 the exception is thrown by CPU</p>
@@ -5061,8 +4845,7 @@ array checking if the access to item is fast (in cache) or part of the
 array was flushed - slow. Then they know which cache addresses were
 flushed</p>
 <p>Affected all the processors except AMDx86</p>
-<h5 data-number="0.18.5.1.2" id="meltdown-possible-mitigations"><span
-class="header-section-number">0.18.5.1.2</span> Meltdown possible
+<h5 id="meltdown-possible-mitigations">Meltdown possible
 mitigations</h5>
 <p>The obviouse proper solution is to change the processor degin: test
 the privilege level <strong>before</strong> making the result of a
@@ -5071,8 +4854,7 @@ speculative access available (AMD did this already)</p>
 space</strong> memory In Linux, Kernel page-table isolation (KPTI) and
 similar in other OSs - allows to see very small kernel space in user
 mode performance penalty in Linux is around 5-10%, up to 30%</p>
-<h4 data-number="0.18.5.2" id="spectre"><span
-class="header-section-number">0.18.5.2</span> Spectre</h4>
+<h4 id="spectre">Spectre</h4>
 <p>Another catastrophic attack making it possible toread all memory</p>
 <p>Addresses another shared resource - branch predictors (they are not
 unique per thread but shared among SMT threads)</p>
@@ -5085,8 +4867,7 @@ and the same way still leave the trace</p>
 <p>Goal: get the victim to <strong>speculatively</strong> execute
 <strong>leaky</strong> code whose nonarchitectural side-effects reveal
 the secrets</p>
-<h5 data-number="0.18.5.2.1" id="spectre-steps"><span
-class="header-section-number">0.18.5.2.1</span> Spectre steps</h5>
+<h5 id="spectre-steps">Spectre steps</h5>
 <p>Have leaky code: <code>array1[x]</code> - with appropriate value of x
 we can read anything we want</p>
 <p>Speculatively execute controled branching (attacker controls x). We
@@ -5102,9 +4883,7 @@ indirect memory access: <code>y = array2[array1[x] * 4096]</code>. We
 can use the side effect of the value of the execution to gain
 information.</p>
 <p>And then execute Prime+Probe cache attack to learn the secret.</p>
-<h5 data-number="0.18.5.2.2" id="spectre-possible-mitigations"><span
-class="header-section-number">0.18.5.2.2</span> Spectre possible
-mitigations</h5>
+<h5 id="spectre-possible-mitigations">Spectre possible mitigations</h5>
 <p><strong>Hardware</strong>: disable speculative execution (give up 90%
 of CPU speed), separate branche predictors per process/thread</p>
 <p><strong>General Software</strong> approaches: run only an application
@@ -5116,12 +4895,10 @@ Make it impossible through JS in browsers.</p>
 microcode patches.</p>
 <p>Microcode patches: what is loaded into the CPU to execute complex
 instructions.</p>
-<h4 data-number="0.18.5.3" id="active-mitigations"><span
-class="header-section-number">0.18.5.3</span> Active mitigations</h4>
+<h4 id="active-mitigations">Active mitigations</h4>
 <p>New CPUs roll out mitigations in hw, older CPUs require microcode
 patches. Some issues need (costly) software mitigations</p>
-<h2 data-number="0.19" id="exercises-10"><span
-class="header-section-number">0.19</span> Exercises 10</h2>
+<h2 id="exercises-10">Exercises 10</h2>
 <p><strong>Exercise 1</strong> In the following scenarios explain
 whether you need isolation, attestation, or both. Explain what would
 happen if these properties were not met.</p>

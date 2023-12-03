@@ -544,11 +544,124 @@
   <![endif]-->
 </head>
 <body>
-<h1 data-number="1" id="tcpip-networking"><span
-class="header-section-number">1</span> TCP/IP Networking</h1>
+<header id="title-block-header">
+<h1 class="title">TCP/IP Networking</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#layers" id="toc-layers">Layers</a>
+<ul>
+<li><a href="#application-layer" id="toc-application-layer">Application
+layer</a></li>
+<li><a href="#transport-layer" id="toc-transport-layer">Transport
+layer</a></li>
+<li><a href="#network-layer" id="toc-network-layer">Network
+layer</a></li>
+<li><a href="#data-link-layer-mac-layer"
+id="toc-data-link-layer-mac-layer">Data link layer (MAC layer)</a></li>
+<li><a href="#physical-layer" id="toc-physical-layer">Physical
+layer</a></li>
+<li><a href="#skipped-first-part-of-the-lecture"
+id="toc-skipped-first-part-of-the-lecture">Skipped first part of the
+lecture</a></li>
+</ul></li>
+<li><a href="#network-layer---middle"
+id="toc-network-layer---middle">Network layer - middle</a>
+<ul>
+<li><a href="#ip-rule-1-structured-addresses-longest-prefix-match"
+id="toc-ip-rule-1-structured-addresses-longest-prefix-match">IP Rule #1
+= Structured addresses + Longest prefix match</a></li>
+<li><a href="#ip-rule-2-dont-use-routers-inside-lansubnet"
+id="toc-ip-rule-2-dont-use-routers-inside-lansubnet">IP Rule #2 = Don’t
+use routers inside LAN/subnet</a></li>
+<li><a href="#ipv4" id="toc-ipv4">IPv4</a></li>
+<li><a href="#ipv6" id="toc-ipv6">IPv6</a></li>
+<li><a href="#nat" id="toc-nat">NAT</a></li>
+<li><a href="#mac-address-resolution"
+id="toc-mac-address-resolution">MAC address resolution</a></li>
+<li><a href="#hostinterface-conifguration"
+id="toc-hostinterface-conifguration">Host/Interface
+Conifguration</a></li>
+<li><a
+href="#there-is-other-stuff-in-slides-that-i-skipped---58-74-in-ip"
+id="toc-there-is-other-stuff-in-slides-that-i-skipped---58-74-in-ip">there
+is other stuff in slides that i skipped - 58-74 in ip</a></li>
+</ul></li>
+<li><a href="#mac" id="toc-mac">MAC</a>
+<ul>
+<li><a href="#medium-access-control"
+id="toc-medium-access-control">Medium access control</a></li>
+<li><a href="#mutual-exclusion" id="toc-mutual-exclusion">Mutual
+exclusion</a></li>
+<li><a href="#switched-ethernet" id="toc-switched-ethernet">Switched
+ethernet</a></li>
+<li><a href="#ethernet-frame-format"
+id="toc-ethernet-frame-format">Ethernet frame format</a></li>
+<li><a href="#virtual-lans" id="toc-virtual-lans">Virtual LANs</a></li>
+<li><a href="#bridges" id="toc-bridges">Bridges</a></li>
+<li><a href="#security-aspects" id="toc-security-aspects">Security
+aspects</a></li>
+</ul></li>
+<li><a href="#tcp-and-udp" id="toc-tcp-and-udp">TCP and UDP</a>
+<ul>
+<li><a href="#udp" id="toc-udp">UDP</a></li>
+<li><a href="#tcp" id="toc-tcp">TCP</a></li>
+<li><a href="#tcp-connection-and-sockets"
+id="toc-tcp-connection-and-sockets">TCP Connection and sockets</a></li>
+<li><a href="#more-tcp-details" id="toc-more-tcp-details">More TCP
+details</a></li>
+<li><a href="#secure-transport" id="toc-secure-transport">Secure
+Transport</a></li>
+</ul></li>
+<li><a href="#ip-multicast" id="toc-ip-multicast">IP Multicast</a>
+<ul>
+<li><a href="#ssm" id="toc-ssm">SSM</a></li>
+<li><a href="#multicast-arp" id="toc-multicast-arp">Multicast
+ARP</a></li>
+<li><a href="#multicast-in-mac" id="toc-multicast-in-mac">Multicast in
+MAC</a></li>
+<li><a href="#security-of-ip-multicast"
+id="toc-security-of-ip-multicast">Security of IP Multicast</a></li>
+<li><a href="#multicast-in-practice"
+id="toc-multicast-in-practice">Multicast in practice</a></li>
+</ul></li>
+<li><a href="#link-state-routing" id="toc-link-state-routing">Link state
+routing</a>
+<ul>
+<li><a href="#ospf-open-shortest-path-first-with-single-area"
+id="toc-ospf-open-shortest-path-first-with-single-area">OSPF (Open
+Shortest Path First) with Single area</a></li>
+<li><a href="#ospf-with-multiple-areas"
+id="toc-ospf-with-multiple-areas">OSPF with multiple areas</a></li>
+<li><a href="#other-uses-of-link-state-routing"
+id="toc-other-uses-of-link-state-routing">Other uses of Link State
+Routing</a></li>
+<li><a href="#software-defined-networks"
+id="toc-software-defined-networks">Software defined networks</a></li>
+</ul></li>
+<li><a href="#congestion-control-in-networks"
+id="toc-congestion-control-in-networks">Congestion Control in
+Networks</a>
+<ul>
+<li><a href="#congestion-collapse"
+id="toc-congestion-collapse">Congestion Collapse</a></li>
+<li><a href="#efficiency-vs-fairness"
+id="toc-efficiency-vs-fairness">Efficiency vs fairness</a></li>
+<li><a href="#additive-increase-multiplicative-decrease-aimd"
+id="toc-additive-increase-multiplicative-decrease-aimd">Additive
+increase multiplicative decrease (AIMD)</a></li>
+<li><a href="#slow-start" id="toc-slow-start">Slow start</a></li>
+</ul></li>
+<li><a href="#congestion-control-implementation"
+id="toc-congestion-control-implementation">Congestion control
+implementation</a>
+<ul>
+<li><a href="#tcp-reno" id="toc-tcp-reno">TCP Reno</a></li>
+</ul></li>
+</ul>
+</nav>
 <!-- markdownlint-disable MD010 MD041 MD001 MD036 MD029-->
-<h2 data-number="1.1" id="layers"><span
-class="header-section-number">1.1</span> Layers</h2>
+<h2 id="layers">Layers</h2>
 <p>Layers are abstractions of services with specific interfaces on the
 devices.</p>
 <p>Layers (top to bottom):</p>
@@ -563,15 +676,12 @@ devices.</p>
 modularity.</p>
 <p>Each layer is built on top of another and offers functionality to the
 layer on top of it.</p>
-<h3 data-number="1.1.1" id="application-layer"><span
-class="header-section-number">1.1.1</span> Application layer</h3>
+<h3 id="application-layer">Application layer</h3>
 <p>Creates a commnunication connection. Transfers files, etc.
 (encryption)</p>
-<h3 data-number="1.1.2" id="transport-layer"><span
-class="header-section-number">1.1.2</span> Transport layer</h3>
+<h3 id="transport-layer">Transport layer</h3>
 <p>Creates a virtual link. Uses ports.</p>
-<h3 data-number="1.1.3" id="network-layer"><span
-class="header-section-number">1.1.3</span> Network layer</h3>
+<h3 id="network-layer">Network layer</h3>
 <p>Packet switching over many links</p>
 <p>It is more efficient than message switchin because it reduces buffer
 required in routers, and reduces end-to-end delay. This is because the
@@ -597,9 +707,7 @@ headers.</p>
 <p>IP subnets - LAN All machines have to have same prefix. IP subnet
 prefix is specified using a subnet mask - if it is 16bit subnet mask,
 then the last 16 digits are free to choose.</p>
-<h3 data-number="1.1.4" id="data-link-layer-mac-layer"><span
-class="header-section-number">1.1.4</span> Data link layer (MAC
-layer)</h3>
+<h3 id="data-link-layer-mac-layer">Data link layer (MAC layer)</h3>
 <p>Is responsible for moving data from one node to an adjacent node over
 a <strong>single</strong> communication link (wired or wireless)..</p>
 <p>Services provided depend on the physical link.</p>
@@ -622,42 +730,33 @@ addresses Switches = a system (or program) that forwards packets based
 on the MAC addresses LANs are interconnected by routers and there every
 machine in LAN has to know IP address of the 1-hop router (default
 gateway)</p>
-<h3 data-number="1.1.5" id="physical-layer"><span
-class="header-section-number">1.1.5</span> Physical layer</h3>
+<h3 id="physical-layer">Physical layer</h3>
 <p>It transforms bits and bytes to the waves. Does all the encoding and
 decoding.</p>
 <p>Bit rate is bits per second. Bandwith is width of the frequency range
 that can be used ofr transmission over the channel.</p>
 <p>There are limits to some channels (e.g. Shannon’s law)</p>
-<h3 data-number="1.1.6" id="skipped-first-part-of-the-lecture"><span
-class="header-section-number">1.1.6</span> Skipped first part of the
+<h3 id="skipped-first-part-of-the-lecture">Skipped first part of the
 lecture</h3>
-<h2 data-number="1.2" id="network-layer---middle"><span
-class="header-section-number">1.2</span> Network layer - middle</h2>
-<h3 data-number="1.2.1"
-id="ip-rule-1-structured-addresses-longest-prefix-match"><span
-class="header-section-number">1.2.1</span> IP Rule #1 = Structured
-addresses + Longest prefix match</h3>
+<h2 id="network-layer---middle">Network layer - middle</h2>
+<h3 id="ip-rule-1-structured-addresses-longest-prefix-match">IP Rule #1
+= Structured addresses + Longest prefix match</h3>
 <p>goal of IP is to connect all systems using IP addresses</p>
 <p>Every network interface has a structured IP address that is prefix +
 suffix.</p>
 <p>Router has a forwarding table that links prefixes to output</p>
-<h3 data-number="1.2.2"
-id="ip-rule-2-dont-use-routers-inside-lansubnet"><span
-class="header-section-number">1.2.2</span> IP Rule #2 = Don’t use
-routers inside LAN/subnet</h3>
+<h3 id="ip-rule-2-dont-use-routers-inside-lansubnet">IP Rule #2 = Don’t
+use routers inside LAN/subnet</h3>
 <p>Implication:</p>
 <ul>
 <li>between LANs/subnets use routers, inside each subnet do not</li>
 <li>hosts in same subnet must have same subnet mask and same subnet
 prefix</li>
 </ul>
-<h3 data-number="1.2.3" id="ipv4"><span
-class="header-section-number">1.2.3</span> IPv4</h3>
+<h3 id="ipv4">IPv4</h3>
 <p>32 bits usually writen in dotted decimal notation. Unequely
 identifies one interface in the internet (in principle)</p>
-<h4 data-number="1.2.3.1" id="special-addresses"><span
-class="header-section-number">1.2.3.1</span> Special addresses</h4>
+<h4 id="special-addresses">Special addresses</h4>
 <table>
 <colgroup>
 <col style="width: 30%" />
@@ -711,8 +810,7 @@ LAN)</td>
 </tr>
 </tbody>
 </table>
-<h3 data-number="1.2.4" id="ipv6"><span
-class="header-section-number">1.2.4</span> IPv6</h3>
+<h3 id="ipv6">IPv6</h3>
 <p>Why new version - IPv4 address space was too small What does IPv6 do:
 same thing as IPv4, but with more address space but is not backwards
 compatible</p>
@@ -729,8 +827,7 @@ local IP address.</p>
 most once in address</li>
 </ul>
 <p>Only one block 2000/3 is allocated for global unicast addresses.</p>
-<h3 data-number="1.2.5" id="nat"><span
-class="header-section-number">1.2.5</span> NAT</h3>
+<h3 id="nat">NAT</h3>
 <p>Internet service provider gives one IP address, but if you have n
 devices at home you need more than one IP address.</p>
 <p>NAT is motivated to not run out of the IP addresses by creating local
@@ -742,8 +839,7 @@ single IP address. It is a middle box that deviates from the TCP/IP arch
 <li>the IP principle that addresses should identify hosts uniquely</li>
 <li>layering</li>
 </ul>
-<h4 data-number="1.2.5.1" id="what-does-it-do"><span
-class="header-section-number">1.2.5.1</span> What does it do?</h4>
+<h4 id="what-does-it-do">What does it do?</h4>
 <p>It translates internal IP addresses and port numbers to NAT IP
 address and NAT port numbers. From outside, one sees only NAT IP address
 (public) and NAT port</p>
@@ -755,14 +851,12 @@ additional delay because the packets are processed - transport and
 network layer headers edited.</p>
 <p>There could be nested NATs.</p>
 <p>Internal addresses in IPv4 are typically private addresses.</p>
-<h4 data-number="1.2.5.2" id="how-does-nat-maintain-nat-table"><span
-class="header-section-number">1.2.5.2</span> How does NAT maintain NAT
+<h4 id="how-does-nat-maintain-nat-table">How does NAT maintain NAT
 table?</h4>
 <p>It creates entry on-the-fly when cliend on internal network contacts
 server on external network. NAT chooses a NAT port that does not create
 collision in the table.</p>
-<h4 data-number="1.2.5.3" id="servers-behind-nat"><span
-class="header-section-number">1.2.5.3</span> Servers behind NAT</h4>
+<h4 id="servers-behind-nat">Servers behind NAT</h4>
 <p>Assume A has a server on tcp port 5000.</p>
 <p>Problem: Automatic operation automatic operation of NAT requires for
 the server to start the communication which does not happen.</p>
@@ -775,8 +869,7 @@ only be accessed if explicitly configured, while servers on the internet
 are exposed in general to attacks and need to be actively protected.</p>
 <p>NAT table port entries are allocated randomly (pseudo randomly), and
 the entries are not there forever.</p>
-<h4 data-number="1.2.5.4" id="nats-and-ipv6-v1"><span
-class="header-section-number">1.2.5.4</span> NATs and IPv6, v1</h4>
+<h4 id="nats-and-ipv6-v1">NATs and IPv6, v1</h4>
 <p>NAT was developed for IPv4, motivated by the lack of IPv4</p>
 <p>With IPv6, home routers often do not use NAT because provider
 typically allocates a block of IPv6 addresses, not just one as with
@@ -784,16 +877,14 @@ IPv4</p>
 <p>With IPv6 the home router provides protection by acting as a
 filtering router - allows communication from outside only if initiated
 from inside.</p>
-<h4 data-number="1.2.5.5" id="nats-and-ipv6-v2"><span
-class="header-section-number">1.2.5.5</span> NATs and IPv6, v2</h4>
+<h4 id="nats-and-ipv6-v2">NATs and IPv6, v2</h4>
 <p>There is a system to still use IPv6</p>
 <p>Assume local network receives only one IPv6 address, not entire
 prefix. Solution: use NAT with link local IPv6 addresses on internal
 network. Local network should be restricted to one LAN (only one
 subnet)</p>
 <p>this is used by the VirtualBox(“NAT network”)</p>
-<h4 data-number="1.2.5.6" id="carrier-grade-nats"><span
-class="header-section-number">1.2.5.6</span> Carrier-grade NATs</h4>
+<h4 id="carrier-grade-nats">Carrier-grade NATs</h4>
 <p>“Carrier-grade” NAT shares p external NAT addresses with n &gt; p
 internal hosts. So there are multiple external interfaces.</p>
 <p>Example is VPN access of EPFL. Some users might be connected with the
@@ -803,8 +894,7 @@ same address, or some might be different.</p>
 <p>Some internet service providers do the same in order to reduce the
 number of IPv4 addresses allocated to end-users. They use the block
 100.64/10 instead of 10/8</p>
-<h4 data-number="1.2.5.7" id="more-on-nats"><span
-class="header-section-number">1.2.5.7</span> More on NATs</h4>
+<h4 id="more-on-nats">More on NATs</h4>
 <p>Mapping (internal addr, internal port) -&gt; (NAT addr, NAT port) is
 independent of the external corrsepondent. If this mapping is constant,
 then <strong>full cone NAT</strong> can be used to support servers
@@ -818,18 +908,15 @@ correstpondent S cannot be used or guessed by another S’</p>
 <p>ICMP packets don’t have a port number. Some NATs don’t support ICMP,
 but many do. Those are smart NATs that manipulate <em>ICMP echo request
 identifier</em> instead of the port number.</p>
-<h3 data-number="1.2.6" id="mac-address-resolution"><span
-class="header-section-number">1.2.6</span> MAC address resolution</h3>
+<h3 id="mac-address-resolution">MAC address resolution</h3>
 <p>WHY? And IP machine A has a packet to send to a next-hop B (could be
 a final destination or next-hop router). A knows B’s IP address, and A
 must find B’s MAC address.</p>
 <p>HOW? Broadcast or multicast a packet to LAN asking “who has the IP of
 B?” All hosts that have IP address of B respond with their MAC
 address.</p>
-<h4 data-number="1.2.6.1"
-id="mac-address-resolution-with-ipv6-ndp"><span
-class="header-section-number">1.2.6.1</span> MAC address resolution with
-IPv6 (NDP)</h4>
+<h4 id="mac-address-resolution-with-ipv6-ndp">MAC address resolution
+with IPv6 (NDP)</h4>
 <ol type="1">
 <li>A sends a Neighbour Solicitation (NS) packet using the Neighbour
 Discovery Protocol (NDP) with question “who has IP address B”
@@ -851,19 +938,15 @@ identifier (reuses the last 24 bits of the IP address), and we reser 104
 bits for the multicast. This is because these nodes are in the same
 LAN</p>
 <p>The more specific the question is the better for the network.</p>
-<h4 data-number="1.2.6.2"
-id="mac-address-resolution-with-ipv4-arp"><span
-class="header-section-number">1.2.6.2</span> MAC address resolution with
-IPv4 (ARP)</h4>
+<h4 id="mac-address-resolution-with-ipv4-arp">MAC address resolution
+with IPv4 (ARP)</h4>
 <p>ARP request/ARP reply instead of NS/NA packets</p>
 <p>Theses are MAC frames where Ethernet = ARP (86dd)</p>
 <p>ARP request is broadcast to all nodes in LAN</p>
 <p>ARP is another protocol that is in-between MAC and Network layers. In
 its header there is a Protocol field that shows which protocol initiated
 the request, and in this case it would be IP.</p>
-<h4 data-number="1.2.6.3" id="security-issues-with-arpndp"><span
-class="header-section-number">1.2.6.3</span> Security issues with
-ARP/NDP</h4>
+<h4 id="security-issues-with-arpndp">Security issues with ARP/NDP</h4>
 <p>ARP requests/replies may be falsified (ARP spoofing) Atacker will
 capture all packets intended to B. This is the way to do MITM attack in
 LAN.</p>
@@ -874,8 +957,7 @@ automatically configure the IP address at system startup.</p>
 <p><strong>Dynamic ARP inspeciton</strong> - switch filters all ARP (or
 NDP) traffic and allows only valid answers - removes broadcasts (IPv4)
 and multicasts (IPv6)</p>
-<h4 data-number="1.2.6.4" id="secure-ndp"><span
-class="header-section-number">1.2.6.4</span> Secure NDP</h4>
+<h4 id="secure-ndp">Secure NDP</h4>
 <p>Make NDP spoofing impossible</p>
 <p>How? Assymetric crypto:</p>
 <ul>
@@ -890,9 +972,7 @@ p</li>
 </ul>
 <p>Some necessary things: they need to have strong has function and
 Resource Public Key Infrastructure (RPKI) (similar to CA).</p>
-<h3 data-number="1.2.7" id="hostinterface-conifguration"><span
-class="header-section-number">1.2.7</span> Host/Interface
-Conifguration</h3>
+<h3 id="hostinterface-conifguration">Host/Interface Conifguration</h3>
 <p>IP can be configured manually or automatically:</p>
 <ul>
 <li>IP address of interface</li>
@@ -901,8 +981,7 @@ Conifguration</h3>
 <li>IP address of DNS server</li>
 </ul>
 <p>Some protocols: DHCP for IPv4 and IPv6, SLAAC for stateless IPv6</p>
-<h4 data-number="1.2.7.1" id="dhcp"><span
-class="header-section-number">1.2.7.1</span> DHCP</h4>
+<h4 id="dhcp">DHCP</h4>
 <p>Server in LAN, where all the information info is kept.</p>
 <p>Problem: host cannot contact the DHCP server since it does not know
 of <strong>any</strong> IP address initially. Solution: broadcast in
@@ -915,10 +994,8 @@ server</li>
 reservations</li>
 <li>DHCP server suses limited lifetime allocations - DHCP lease.</li>
 </ul>
-<h4 data-number="1.2.7.2"
-id="slaac-stateless-address-autoconfiguration"><span
-class="header-section-number">1.2.7.2</span> SLAAC (Stateless Address
-Autoconfiguration)</h4>
+<h4 id="slaac-stateless-address-autoconfiguration">SLAAC (Stateless
+Address Autoconfiguration)</h4>
 <p>It is a protocol designed to avoid configuring DHCP serverse and/pr
 obtain a configuration automatically even if there is no DHCP
 server.</p>
@@ -937,38 +1014,32 @@ own address</li>
 network prefix from routers if any presend.</li>
 </ol>
 <p>It does not provide DNS information.</p>
-<h3 data-number="1.2.8"
-id="there-is-other-stuff-in-slides-that-i-skipped---58-74-in-ip"><span
-class="header-section-number">1.2.8</span> there is other stuff in
-slides that i skipped - 58-74 in ip</h3>
-<h2 data-number="1.3" id="mac"><span
-class="header-section-number">1.3</span> MAC</h2>
-<h3 data-number="1.3.1" id="medium-access-control"><span
-class="header-section-number">1.3.1</span> Medium access control</h3>
+<h3
+id="there-is-other-stuff-in-slides-that-i-skipped---58-74-in-ip">there
+is other stuff in slides that i skipped - 58-74 in ip</h3>
+<h2 id="mac">MAC</h2>
+<h3 id="medium-access-control">Medium access control</h3>
 <p>exists so that sharing a cable is possible and using a shared
 wireless radio link</p>
 <p>If there is a shared medium, there are collisions.</p>
 <p>Solutions: Mutual exclusion protocol + distributed Joint decoding –
 used in cellular networks</p>
-<h3 data-number="1.3.2" id="mutual-exclusion"><span
-class="header-section-number">1.3.2</span> Mutual exclusion</h3>
+<h3 id="mutual-exclusion">Mutual exclusion</h3>
 <p>Deterministic - static partitioning on time or frequency to avoid
 collisions (TDMA, FDMA) and works for only few users</p>
 <p>other deterministic - every host takes a turn and passes a token to
 next host</p>
 <p>Random access protocols that allow collisions but detect if they
 occur (retrasnmissions at <em>random</em> time)</p>
-<h4 data-number="1.3.2.1" id="aloha"><span
-class="header-section-number">1.3.2.1</span> ALOHA</h4>
+<h4 id="aloha">ALOHA</h4>
 <p>Collisions occur when two packet transmissions overlap and if a
 packet is lost - then the source has to retransmit (no retransmission
 strategy is defined here)</p>
 <p>There is no feedback to the source in case of collision</p>
 <p>Max utilization is only 18% which is small. This is assuming ideal
 retransmission policy</p>
-<h4 data-number="1.3.2.2" id="csma-carrier-sense-multiple-access"><span
-class="header-section-number">1.3.2.2</span> CSMA (carrier sense
-multiple access)</h4>
+<h4 id="csma-carrier-sense-multiple-access">CSMA (carrier sense multiple
+access)</h4>
 <p>assumes single transitive channel (everyone can hear everyone).</p>
 <p>improves efficiency from ALOHA by listening to the channel before
 transmitting</p>
@@ -978,9 +1049,7 @@ again start transmittting.</p>
 <p>CSMA works well only if the transmission time is much larger than
 propagation, namely bandwidth-delay product &lt;&lt; frame size</p>
 <p>In order to avoid repeated collisions there is a random backoff.</p>
-<h4 data-number="1.3.2.3" id="csmacd-collision-detection"><span
-class="header-section-number">1.3.2.3</span> CSMA/CD (Collision
-detection)</h4>
+<h4 id="csmacd-collision-detection">CSMA/CD (Collision detection)</h4>
 <p>When the collision is found (transmitting and started receiving), jam
 signal is transmitted. Then a random backoff</p>
 <p>Acks are not necessary because absence of collision means that the
@@ -990,13 +1059,11 @@ occur</p>
 <p>Minimum frame size is necessary to guarantee collision detection
 -&gt; CSMA/CD uses min frame siOld-style Ethernet was shared medium
 (either used coax cables or hubs with twisted-pair coppze 64B</p>
-<h4 data-number="1.3.2.4" id="csmaca---wifi"><span
-class="header-section-number">1.3.2.4</span> CSMA/CA - WiFi</h4>
+<h4 id="csmaca---wifi">CSMA/CA - WiFi</h4>
 <p>Acks are used to detect collisions (by abscence)</p>
 <p>Carrier sensing is used but collision detection does not always work
 (exposed terminal problem)</p>
-<h3 data-number="1.3.3" id="switched-ethernet"><span
-class="header-section-number">1.3.3</span> Switched ethernet</h3>
+<h3 id="switched-ethernet">Switched ethernet</h3>
 <p>It is based on switches = beidges</p>
 <p>Switches forward frames based on MAC addresses and they have queuing
 system (frame buffers)</p>
@@ -1004,8 +1071,7 @@ system (frame buffers)</p>
 simultaneously in both directions without having collisions.</p>
 <p>Ethernet is transparent protocol and since there are no collisions,
 CSMA/CD is desabled by default</p>
-<h4 data-number="1.3.3.1" id="forwarding-frames"><span
-class="header-section-number">1.3.3.1</span> Forwarding frames</h4>
+<h4 id="forwarding-frames">Forwarding frames</h4>
 <p>Exact match forarding algorithm:</p>
 <ul>
 <li>listen to all traffic on all ports</li>
@@ -1023,9 +1089,7 @@ origin</li>
 <p>different from IP routers that use routing algorithms</p>
 <p>This populating does not always work - if there are loops in the
 topology</p>
-<h4 data-number="1.3.3.2" id="spanning-tree-protocol-stp"><span
-class="header-section-number">1.3.3.2</span> Spanning Tree Protocol
-(STP)</h4>
+<h4 id="spanning-tree-protocol-stp">Spanning Tree Protocol (STP)</h4>
 <p>Forces the active topology to be a tree that spans all switches by
 deactivating some links</p>
 <p>Adapts to link failures and additions whenever needed</p>
@@ -1045,29 +1109,24 @@ tree, direct link between two non-root switches may not be used even if
 it is optimal</p>
 <p>It is less efficient than the shortest path Some more sophisticated
 switches implement Shortest path bridging instead of STP</p>
-<h3 data-number="1.3.4" id="ethernet-frame-format"><span
-class="header-section-number">1.3.4</span> Ethernet frame format</h3>
+<h3 id="ethernet-frame-format">Ethernet frame format</h3>
 <p>Has error detectio with Frame Check Sequence. Uses CRC 32bits If
 frame fails the check, it is dropped.</p>
-<h4 data-number="1.3.4.1" id="mac-unicast"><span
-class="header-section-number">1.3.4.1</span> MAC Unicast</h4>
+<h4 id="mac-unicast">MAC Unicast</h4>
 <p>MAC address - 48 bits - unique worldwide (adpter ID)</p>
 <p>In shared-medium LAN - all stations read all frames but keep only if
 destination address matches In switched Ethernet - switches forward only
 to ports that need it</p>
-<h4 data-number="1.3.4.2" id="mac-broadcast"><span
-class="header-section-number">1.3.4.2</span> MAC Broadcast</h4>
+<h4 id="mac-broadcast">MAC Broadcast</h4>
 <p>In shared-medium LAN all machines receive the packet and don’t
 discard it In switched ethernet - broadcast frames are sent on all nodes
 and ports on the spanning tree</p>
-<h4 data-number="1.3.4.3" id="mac-multicast"><span
-class="header-section-number">1.3.4.3</span> MAC Multicast</h4>
+<h4 id="mac-multicast">MAC Multicast</h4>
 <p>MAC addresses with 8th bit == 1 are multicast addresses</p>
 <p>makes sense only in switched Ethernet - ethernet adapter discards
 multicast packets unless host subscribes to address non-smart switches
 broadcast such frames smar switches send only to relevant nodes</p>
-<h3 data-number="1.3.5" id="virtual-lans"><span
-class="header-section-number">1.3.5</span> Virtual LANs</h3>
+<h3 id="virtual-lans">Virtual LANs</h3>
 <p>Invented to have more traffic isolation to make more efficient use of
 switches to manage users</p>
 <p>Goal: decouple who belongs to which LAN from their physical
@@ -1082,15 +1141,13 @@ communicating worlds</li>
 use VLAN tags in an ehternet’s extended header in order to correctly
 allocate frames to VLANs</li>
 </ul>
-<h3 data-number="1.3.6" id="bridges"><span
-class="header-section-number">1.3.6</span> Bridges</h3>
+<h3 id="bridges">Bridges</h3>
 <p>switches that are used between different medium access technologies
 (e.g. WiFi and ethernet)</p>
 <p><strong>Wifi access point</strong> is a bridge example. It consists
 of wifi base station and a switch with an ehernet backend (called the
 Distribution System)</p>
-<h3 data-number="1.3.7" id="security-aspects"><span
-class="header-section-number">1.3.7</span> Security aspects</h3>
+<h3 id="security-aspects">Security aspects</h3>
 <p>MAC addresses are sent in the clear, so there are possible
 attacks:</p>
 <ul>
@@ -1113,28 +1170,23 @@ personal password</li>
 <li>Encryption - MAC frame payload is encrypted (not MAC address) -
 prevents eavesdropping</li>
 </ul>
-<h2 data-number="1.4" id="tcp-and-udp"><span
-class="header-section-number">1.4</span> TCP and UDP</h2>
+<h2 id="tcp-and-udp">TCP and UDP</h2>
 <p>Transport layer makes the network services available to programs and
 is in end-systems only</p>
-<h3 data-number="1.4.1" id="udp"><span
-class="header-section-number">1.4.1</span> UDP</h3>
+<h3 id="udp">UDP</h3>
 <p>uses port numbers and the server’s port numbers must be well-known to
 clients</p>
 <p>src and dest port numbers are inside transport-layer header</p>
 <p><strong>Server</strong> - the role of a program that waits for
 requests to come (abstraction in this context)</p>
-<h4 data-number="1.4.1.1" id="udp-is-message-oriented"><span
-class="header-section-number">1.4.1.1</span> UDP is
-message-oriented</h4>
+<h4 id="udp-is-message-oriented">UDP is message-oriented</h4>
 <p>UDP delivers the exact message or nothing</p>
 <p>one message, up to 65535 bytes</p>
 <p>consecutive messages may arrive out of order messages may be lost</p>
 <p>If a UDP message is larger than the maximum size for the IP layer
 (MTU) then fragmentation is done -this is not visible to the application
 layer</p>
-<h4 data-number="1.4.1.2" id="socket-library"><span
-class="header-section-number">1.4.1.2</span> Socket library</h4>
+<h4 id="socket-library">Socket library</h4>
 <p>there are IPv4 and IPv6 sockets, so to get what we <em>can</em> have
 we do <code>socket.getaddrinfo()</code></p>
 <p>This does not affect UDPv6 - UDP and TCP are not affected by IP
@@ -1143,9 +1195,7 @@ layer</p>
 socket can be bound to both IPv6 and IPv4 addresses of the local host
 This is achieved by mapping correspondents’ IPv4 to IPv6 addresses using
 the IPv4-mapped IPv6 address format - last 32 bits are of IPv4</p>
-<h4 data-number="1.4.1.3"
-id="socket-from-operating-system-perspective"><span
-class="header-section-number">1.4.1.3</span> Socket from Operating
+<h4 id="socket-from-operating-system-perspective">Socket from Operating
 system perspective</h4>
 <p>Socket is just 2 buffers - one for sending and one for receiving.
 Sending buffer is necessary because if there is a backoff, the
@@ -1156,8 +1206,7 @@ this.</p>
 <p>At sending side OS sends the UDP datagram ASAP</p>
 <p>At receiving side OS reassembles UDP packets (if needed) and keeps
 them in buffer.</p>
-<h3 data-number="1.4.2" id="tcp"><span
-class="header-section-number">1.4.2</span> TCP</h3>
+<h3 id="tcp">TCP</h3>
 <p>Packets could be lost because of buffer overflow, physical layer
 errors, or reordered because of different paths</p>
 <p>UDP does nothing about that TCP does that at transport layer</p>
@@ -1165,8 +1214,7 @@ errors, or reordered because of different paths</p>
 loss</p>
 <p>TCP does not do data fragmentation, it makes packets of the required
 MTU size</p>
-<h4 data-number="1.4.2.1" id="tcp-delivery-guarantee"><span
-class="header-section-number">1.4.2.1</span> TCP delivery guarantee</h4>
+<h4 id="tcp-delivery-guarantee">TCP delivery guarantee</h4>
 <p>Sender sends packet with seq a:b, receiver sends back ack with b. Ack
 is a cumulative ack which means that it has received everything up to
 that ack. There are also selective acks (sack) - that received a packet
@@ -1178,8 +1226,7 @@ able to take in the data pakcets might have arrived out-of-order but
 kept invisible to application</p>
 <p><strong>Duplicate acks</strong> - acknowledgement with the same ack
 number as before (could have a <code>sack</code> in addition)</p>
-<h4 data-number="1.4.2.2" id="sliding-window"><span
-class="header-section-number">1.4.2.2</span> Sliding window</h4>
+<h4 id="sliding-window">Sliding window</h4>
 <p>the receive buffer may overflow if one piece of data “hangs”
 (myltiple losses affect the same packet, so there are multiple
 out-of-order packets fill the buffer) The sliding window limits the
@@ -1190,8 +1237,7 @@ non acknowledge sequence number upper window edge = lower edge + window
 size</p>
 <p>Fixed size window cannot prevent receive-buffer overflow, because the
 receiver application might not be fast enough to read the data.</p>
-<h4 data-number="1.4.2.3" id="flow-control"><span
-class="header-section-number">1.4.2.3</span> Flow control</h4>
+<h4 id="flow-control">Flow control</h4>
 <p>Adaptive window size is sent from the receiver to the sender to show
 how much space is currently in the receive buffer. Sender adapts
 source’s sending rate to the receiver’s buffer.</p>
@@ -1203,18 +1249,14 @@ allows sender to send 1 byte to check whether the windown has changed
 (like probing)</p>
 <p>What is the minnimum window size required for sending at the maximum
 possible rate: RTT * link capacity (bits/second)</p>
-<h3 data-number="1.4.3" id="tcp-connection-and-sockets"><span
-class="header-section-number">1.4.3</span> TCP Connection and
-sockets</h3>
+<h3 id="tcp-connection-and-sockets">TCP Connection and sockets</h3>
 <p>I know SYN sequence and FIN sequence</p>
-<h4 data-number="1.4.3.1" id="sockets"><span
-class="header-section-number">1.4.3.1</span> Sockets</h4>
+<h4 id="sockets">Sockets</h4>
 <p>Difference from UDP - they need to open and close the connection</p>
 <p>TCP connection is identified by src IP, src port, dest IP, dest
 port</p>
 <p>From OS POV the buffers are re-sequencing buffers.</p>
-<h4 data-number="1.4.3.2" id="mss-and-segmentation"><span
-class="header-section-number">1.4.3.2</span> MSS and segmentation</h4>
+<h4 id="mss-and-segmentation">MSS and segmentation</h4>
 <p>TCP avoids to segments its data at IP layer so makes segments into
 maximum segment size (MSS).</p>
 <p>Default values are:</p>
@@ -1227,8 +1269,7 @@ setup</p>
 <p>TCP offers streaming service, which is not great for connections that
 do not immediately fill up the TCP block (HTTP/2, streaming video,
 etc)</p>
-<h3 data-number="1.4.4" id="more-tcp-details"><span
-class="header-section-number">1.4.4</span> More TCP details</h3>
+<h3 id="more-tcp-details">More TCP details</h3>
 <p>Corner cases - application writes 1 byte into the socket - should TCP
 send a packet or wait for more bytes to be written? (This is an overhead
 because header is 20 bytes). Also, should it only send in when the MSS
@@ -1240,8 +1281,7 @@ RTT is small (network fast), the overhead does not make big impact.</p>
 <p>Window field is 16bits, hence the max throughput for RTT=1msec is
 approx. 524Mbps - can we increase this? <strong>yes</strong>, use
 <em>scaling factor</em> fof the window during connection setup</p>
-<h4 data-number="1.4.4.1" id="tcp-loss-detection"><span
-class="header-section-number">1.4.4.1</span> TCP loss detection</h4>
+<h4 id="tcp-loss-detection">TCP loss detection</h4>
 <p><strong>timer - retransmission timeouts (RTO)</strong> - when one
 timer expires, it is interpreted as a severe loss in the channel
 (nothing can be delivered in the channel anymore). Then all timers are
@@ -1249,8 +1289,7 @@ reset, all un-acked data is marked as needing retransmission.</p>
 <p><strong>duplicate ACK</strong> - a TCP packet where the ACK value
 repeats a previously received ACK value. Means that the daat is out of
 order.</p>
-<h5 data-number="1.4.4.1.1" id="round-trip-time-rtt-estimation"><span
-class="header-section-number">1.4.4.1.1</span> Round trip time (RTT)
+<h5 id="round-trip-time-rtt-estimation">Round trip time (RTT)
 estimation</h5>
 <p>RTO must be set at a value larger than RTT, because otherwise we
 flood the network. How to estimate RTT - moving average with the last
@@ -1259,8 +1298,7 @@ measured RTT, smoother RTT and RTT variability metric.</p>
 absolute value. Therefore it can be quite inaccurate at sometimes. So,
 it could be better to look more at duplicate acks rather than wait for a
 complete timeout.</p>
-<h4 data-number="1.4.4.2" id="fast-retransmit"><span
-class="header-section-number">1.4.4.2</span> Fast Retransmit</h4>
+<h4 id="fast-retransmit">Fast Retransmit</h4>
 <p>Instead of waiting for one duplicate ACK, we wait for <code>n</code>
 duplicate ACKs, and then declare loss.</p>
 <p>However, it fails when one of the last segments of an application
@@ -1278,10 +1316,8 @@ and p has not been ACKed after the estimated RTT + configrable
 reordering (time) window. Bases retransmissions on timers not seq
 nums</li>
 </ul>
-<h4 data-number="1.4.4.3"
-id="syn-cookies-specific-initial-seq-numbers"><span
-class="header-section-number">1.4.4.3</span> SYN Cookies (= specific
-initial SEQ numbers)</h4>
+<h4 id="syn-cookies-specific-initial-seq-numbers">SYN Cookies (=
+specific initial SEQ numbers)</h4>
 <p>To mitigate the impact of SYN flood attack - lots of bogus SYN
 packets from (spoofed) source addresses sent to a server.</p>
 <p>When server receives a SYN packet it allocates some space for the
@@ -1302,8 +1338,7 @@ SYN-ACK due to the computation required for the cryptographic hash. So
 any damage that could happen from the attack is the loss of computation
 for the hashes.</p>
 <p>Also, this does not stop the DDoS</p>
-<h4 data-number="1.4.4.4" id="tcp-fast-open-fto"><span
-class="header-section-number">1.4.4.4</span> TCP Fast Open (FTO)</h4>
+<h4 id="tcp-fast-open-fto">TCP Fast Open (FTO)</h4>
 <p>Avoid 3-way handshake when opening repeated connections.</p>
 <p>In the first SYN-ACK TCP client receives inside TCP options and
 caches a cookie that contains <strong>authentication tag t =
@@ -1313,8 +1348,7 @@ with secret key k and client IP address c.</p>
 receiving SYN and tag t, sever already knows that this client is a real
 one that has connected before. And server can send data already in
 SYN-ACK.</p>
-<h3 data-number="1.4.5" id="secure-transport"><span
-class="header-section-number">1.4.5</span> Secure Transport</h3>
+<h3 id="secure-transport">Secure Transport</h3>
 <p>TCP is not secure unless we use another sublayer on top - TLS.</p>
 <p>TLS adds to TCP:</p>
 <ul>
@@ -1328,20 +1362,17 @@ end-system us authenticated.</li>
 identity of the server. The public key of the the CA could be included
 in the certificate but it could have been tampered with so we should not
 use it.</p>
-<h5 data-number="1.4.5.0.1" id="tls-1.3"><span
-class="header-section-number">1.4.5.0.1</span> TLS 1.3</h5>
+<h5 id="tls-1.3">TLS 1.3</h5>
 <p>Does not support RSA key exchange.</p>
 <p>In principle, it needs 1-RTT handshake before sending message.</p>
 <p>Communicating parties agree on cryptographic suites, and exchange
 crypto parameters to exchange session keys.</p>
-<h5 data-number="1.4.5.0.2" id="tls-sockets"><span
-class="header-section-number">1.4.5.0.2</span> TLS sockets</h5>
+<h5 id="tls-sockets">TLS sockets</h5>
 <p>are transformetd TCP sockets, which wrap the sockets with necessary
 crypto parameters after SYN sequence - server/client hello.</p>
 <p>2 RTTs are necessary for the data transfer (from TCP perspective). 1
 RTT from TCP handshake, and 1 RTT from TLS handshake.</p>
-<h2 data-number="1.5" id="ip-multicast"><span
-class="header-section-number">1.5</span> IP Multicast</h2>
+<h2 id="ip-multicast">IP Multicast</h2>
 <p>SLAAC uses the multicast to find the prefix of the network by sending
 the messages to nearby routers.</p>
 <p>Multicast is used to send to a group of destinations. (E.g. for the
@@ -1360,8 +1391,7 @@ where m is multicast address and s is the source address. Only s can
 send to this group. By default 232.0.0.0/8 and ff3x::/96 are SSM
 addresses</li>
 </ul>
-<h3 data-number="1.5.1" id="ssm"><span
-class="header-section-number">1.5.1</span> SSM</h3>
+<h3 id="ssm">SSM</h3>
 <p>destinations subscribe via IGMP (internet group management protocol
 in IPv4) or MLD (Multicast Listener Discovery in IPv6), send join
 messages to their gateway routers. These routers will keep this
@@ -1374,9 +1404,7 @@ the source will be dropped by the router.</p>
 <p>source simply sends <strong>UDP</strong> packets to multiast address
 m <strong>packet multiplication</strong> is done by routers at the IP
 layer.</p>
-<h4 data-number="1.5.1.1"
-id="pim---protocol-independent-multicast"><span
-class="header-section-number">1.5.1.1</span> PIM - Protocol Independent
+<h4 id="pim---protocol-independent-multicast">PIM - Protocol Independent
 Multicast</h4>
 <p>most widespread multicast routing protocol, which supports ASM and
 SSM.</p>
@@ -1403,9 +1431,7 @@ information:</p>
 <p>This per-flow (per-group) state cannot be aggregated based on the
 prefix - this causes scalability issues. Therefore this creates stress
 on backbone routers.</p>
-<h4 data-number="1.5.1.2"
-id="bier---bit-index-explicit-replication"><span
-class="header-section-number">1.5.1.2</span> BIER - Bit Index Explicit
+<h4 id="bier---bit-index-explicit-replication">BIER - Bit Index Explicit
 Replication</h4>
 <p>Alternative to PIM, to not have to apply exact match</p>
 <p>BIER is aided by a centralized entity - multicast flow overlay (it
@@ -1443,8 +1469,7 @@ bitstring.</p>
 <p>There is no per-flow state kept at the routers, but there is Bier
 Index Forwarding Table (derived from router’s unicast IP forwarding
 table), which is <strong>static</strong>.</p>
-<h3 data-number="1.5.2" id="multicast-arp"><span
-class="header-section-number">1.5.2</span> Multicast ARP</h3>
+<h3 id="multicast-arp">Multicast ARP</h3>
 <p>There is no multicast MAC address is algorithmically derived from
 multicast IP address. IPv6: 33-33-XX-XX-XX-XX (last 32 bits from IP
 address) IPv4: 01-00-5e-YX-XX-XX (last 23 bits from IP address, 1st bit
@@ -1454,14 +1479,12 @@ address s, even if m is an SSM address. Several multicast IP addresses
 may yield the same MAC adddres, so there could be collisions and packets
 may arrive there even if not inteded - then the OS would drop the
 packet.</p>
-<h3 data-number="1.5.3" id="multicast-in-mac"><span
-class="header-section-number">1.5.3</span> Multicast in MAC</h3>
+<h3 id="multicast-in-mac">Multicast in MAC</h3>
 <p>non-smart switches forward the packet to all destinations.</p>
 <p>smart switches look into IGMP/MLD packets and remember the
 subscribers, and deliver only to intended recipients. They do not
 distinguish between SSM and ASM.</p>
-<h3 data-number="1.5.4" id="security-of-ip-multicast"><span
-class="header-section-number">1.5.4</span> Security of IP Multicast</h3>
+<h3 id="security-of-ip-multicast">Security of IP Multicast</h3>
 <p>IP multicast with or without BIER makes life easier for attackers
 (e.g. DoS, witty worm). To mitigate - control with access control in
 access lists.</p>
@@ -1470,8 +1493,7 @@ access lists.</p>
 ARP/NDP.</p>
 <p>Therefore multicast-capable networks must deploy extensive
 <strong>filtering</strong> and <strong>monitoring</strong></p>
-<h3 data-number="1.5.5" id="multicast-in-practice"><span
-class="header-section-number">1.5.5</span> Multicast in practice</h3>
+<h3 id="multicast-in-practice">Multicast in practice</h3>
 <p>Multicast is used in:</p>
 <ul>
 <li>EPFL and other academic networks (PIM-SM)</li>
@@ -1481,8 +1503,7 @@ class="header-section-number">1.5.5</span> Multicast in practice</h3>
 <li>industrial networks - smart grids, factory automation</li>
 </ul>
 <p>Works only with UDP</p>
-<h2 data-number="1.6" id="link-state-routing"><span
-class="header-section-number">1.6</span> Link state routing</h2>
+<h2 id="link-state-routing">Link state routing</h2>
 <p>Routing is at the Control plane Forwarding is at the Data plane.</p>
 <p>Forawrding tables can be set manually but it is time-consuming and
 error-prone</p>
@@ -1494,8 +1515,7 @@ plane.</p>
 <li>Interior - intra-domain routing (OSPF)</li>
 <li>Exterior - inter-domain routing (BGP)</li>
 </ul>
-<h4 data-number="1.6.0.1" id="taxonomy-of-routing-protocols"><span
-class="header-section-number">1.6.0.1</span> Taxonomy of routing
+<h4 id="taxonomy-of-routing-protocols">Taxonomy of routing
 protocols</h4>
 <p><strong>Link State algorithms</strong>:</p>
 <ul>
@@ -1538,10 +1558,8 @@ conducts packet inspection</p>
 <p><strong>Segment routing</strong> - does source routing but also
 applies a function (screening or traffic separation). Used in data
 centers.</p>
-<h3 data-number="1.6.1"
-id="ospf-open-shortest-path-first-with-single-area"><span
-class="header-section-number">1.6.1</span> OSPF (Open Shortest Path
-First) with Single area</h3>
+<h3 id="ospf-open-shortest-path-first-with-single-area">OSPF (Open
+Shortest Path First) with Single area</h3>
 <p>Every router has:</p>
 <ul>
 <li>interface database (physical connecitions - learnt by
@@ -1554,9 +1572,7 @@ flooding)</li>
 <p><em>Hello</em> protocol: ping-style, used to discover neighboring
 routers, and to detect failures (e.g. if neighbor did not respond after
 3 times it is considered “dead”)</p>
-<h4 data-number="1.6.1.1" id="link-state-database-and-lsas"><span
-class="header-section-number">1.6.1.1</span> Link state database and
-LSAs</h4>
+<h4 id="link-state-database-and-lsas">Link state database and LSAs</h4>
 <p>Routers <strong>synchronize</strong> their link state databases when
 they become neighbors: if one router is new and copies what the other
 already knows otherwise, they merge/concatenate their databases</p>
@@ -1580,8 +1596,7 @@ this complicates Dijkstra), so routers choose one Designated Router
 which creates the mapping. (risk - DR may fail all together - then they
 would need to rechoose DR again - detected by a missing “network LSA”
 part)</p>
-<h4 data-number="1.6.1.2" id="topology-graph"><span
-class="header-section-number">1.6.1.2</span> Topology graph</h4>
+<h4 id="topology-graph">Topology graph</h4>
 <p>the link state database descibes an oriended graph with outgoing edge
 cost = cost given in LSA.</p>
 <p>Every router and every Ethernet network corresponds to one node in
@@ -1591,9 +1606,7 @@ protocol = 89) Reliable transmission is managed by OSPF with OSPF
 <strong>acks and timers</strong></p>
 <p>OSPFv2 supports IPv4 only OSPFv3 supports IPv6 and dual-stack
 networks</p>
-<h4 data-number="1.6.1.3"
-id="path-computation-uses-dijkstras-algorithm"><span
-class="header-section-number">1.6.1.3</span> Path computation uses
+<h4 id="path-computation-uses-dijkstras-algorithm">Path computation uses
 Dijkstra’s algorithm</h4>
 <p>Performed at every router (based on link state database)</p>
 <p>Router computes one or several shortest paths to every destination
@@ -1619,16 +1632,14 @@ hop to routers</li>
 the information on how to reach the routers that lead to the stub
 networks.</li>
 </ul>
-<h4 data-number="1.6.1.4" id="equal-cost-multipath"><span
-class="header-section-number">1.6.1.4</span> Equal cost multipath</h4>
+<h4 id="equal-cost-multipath">Equal cost multipath</h4>
 <p>How should you forward paths? Use all the paths with equal
 probability because then there is load balancing. But because it may
 cause packer reordering, it’s better to have <strong>per-flow load
 balancing</strong> which would be implemented with a hash function
 applied on the flow identifier (source and destination IP and port
 tuple)</p>
-<h4 data-number="1.6.1.5" id="changes-to-topology"><span
-class="header-section-number">1.6.1.5</span> Changes to topology</h4>
+<h4 id="changes-to-topology">Changes to topology</h4>
 <p>Links fail or routers reboot - changes to topology</p>
 <p>the routers detect failures through:</p>
 <ul>
@@ -1645,8 +1656,7 @@ OSPF area</li>
 <li>all routers update their link-state databse, recompute Dijkstra and
 routing tables with the new LSA</li>
 </ol>
-<h4 data-number="1.6.1.6" id="security-of-ospf"><span
-class="header-section-number">1.6.1.6</span> Security of OSPF</h4>
+<h4 id="security-of-ospf">Security of OSPF</h4>
 <p>Attacks: send invalid routing information -&gt; disrupt network
 operation send forged routing information -&gt; change network paths DoS
 attack</p>
@@ -1656,15 +1666,12 @@ attack</p>
 the same domain. Message is appended with MAC (message authentication
 code) - Crypto sequence number (in cleartext so that neighbor could also
 compute the hash and used to avoid replay attacks), and a digest.</p>
-<h3 data-number="1.6.2" id="ospf-with-multiple-areas"><span
-class="header-section-number">1.6.2</span> OSPF with multiple areas</h3>
+<h3 id="ospf-with-multiple-areas">OSPF with multiple areas</h3>
 <p>LSA flooding does not scale in very large networks</p>
 <p>OSPF uses multiple areas and hierarchy of two routing levels: a
 backbone area (area 0) or several non-backbone areas</p>
 <p>All inter-area traffic goes through backbone area 0</p>
-<h4 data-number="1.6.2.1"
-id="principles-of-ospf-multi-area-operation"><span
-class="header-section-number">1.6.2.1</span> Principles of OSPF
+<h4 id="principles-of-ospf-multi-area-operation">Principles of OSPF
 multi-area operation</h4>
 <ol type="1">
 <li>inside one area, link state is used. One Link Stae Database per
@@ -1679,8 +1686,7 @@ area</li>
 area using Bellman-Ford formula: <span class="math display">d(self, n1)
 = \min\limits_{\text{BR} \in \text{Area0}} \{d(self, \text{BR}) +
 d(\text{BR}, n1)\}</span></p>
-<h3 data-number="1.6.3" id="other-uses-of-link-state-routing"><span
-class="header-section-number">1.6.3</span> Other uses of Link State
+<h3 id="other-uses-of-link-state-routing">Other uses of Link State
 Routing</h3>
 <p>Links tate routing (OSPF or IS-IS) provides a complete view of area
 to every node. This can provide advanced functions:</p>
@@ -1692,8 +1698,7 @@ entire path, and writes it in the packet header. This avoids transiend
 loops/supports fast re-route after failre. Used in deterministic
 networks</li>
 </ul>
-<h4 data-number="1.6.3.1" id="use---bridge-vlans-across-a-campus"><span
-class="header-section-number">1.6.3.1</span> Use - bridge VLANs across a
+<h4 id="use---bridge-vlans-across-a-campus">Use - bridge VLANs across a
 campus</h4>
 <p>Routers can hear on the MAC layer and forward the MAC frames from one
 to the other.</p>
@@ -1703,15 +1708,12 @@ the link state database. (Cisco TRILL protocol)</p>
 <p>This does not require to connect all of these routers to be connected
 by switches. Trunk architecture requires a cable to connect all of
 them.</p>
-<h3 data-number="1.6.4" id="software-defined-networks"><span
-class="header-section-number">1.6.4</span> Software defined
-networks</h3>
+<h3 id="software-defined-networks">Software defined networks</h3>
 <p>To get more control than just matching destination address with the
 longest prefix match, e.g.: handle mission critical traffic high
 priority, ban non-HTTP traffic, send suspicious/DoS traffic to a machine
 that does deep packet inspection</p>
-<h4 data-number="1.6.4.1" id="how-sdn-works"><span
-class="header-section-number">1.6.4.1</span> How SDN works</h4>
+<h4 id="how-sdn-works">How SDN works</h4>
 <ul>
 <li><strong>Deep packet inspection (DPI)</strong> - look not only at IP
 headers, but also payload</li>
@@ -1727,11 +1729,9 @@ prefix</li>
 </ul></li>
 </ul>
 <p>(same can be done in switches)</p>
-<h2 data-number="1.7" id="congestion-control-in-networks"><span
-class="header-section-number">1.7</span> Congestion Control in
+<h2 id="congestion-control-in-networks">Congestion Control in
 Networks</h2>
-<h3 data-number="1.7.1" id="congestion-collapse"><span
-class="header-section-number">1.7.1</span> Congestion Collapse</h3>
+<h3 id="congestion-collapse">Congestion Collapse</h3>
 <pre class="mermaid"><code>graph TD;
 S1 --&gt; |C1 = 100Kb/s| R1
 S2 --&gt; |C2 = 1000Kb/s| R1
@@ -1754,9 +1754,7 @@ class="math inline">\frac{10}{100} = 10\%</span></li>
 <p>Better allocation is: S1 sending 100Kb/s and S2 sending 10Kb/s
 <strong>Problem</strong> - S2 sent too much and did not know about
 it</p>
-<h4 data-number="1.7.1.1"
-id="how-much-can-node-i-send-to-its-destination"><span
-class="header-section-number">1.7.1.1</span> How much can node
+<h4 id="how-much-can-node-i-send-to-its-destination">How much can node
 <em>i</em> send to its destination?</h4>
 <pre class="mermaid"><code>graph TB
     IN[source i] --&gt; |λ| A
@@ -1793,8 +1791,7 @@ increases, the total throughput decreases</p>
 </blockquote>
 <p>Sources should limit their rates to adapt it to the network
 condition, otherwise inefficiency or congestion collapse may occur</p>
-<h3 data-number="1.7.2" id="efficiency-vs-fairness"><span
-class="header-section-number">1.7.2</span> Efficiency vs fairness</h3>
+<h3 id="efficiency-vs-fairness">Efficiency vs fairness</h3>
 <p>A network should be organize so as to aboid inefficiency However,
 being maximally efficient may be a problem</p>
 <pre class="mermaid"><code>graph TB
@@ -1814,8 +1811,7 @@ x_0 + x_1 + 9x_2</span> Maximize <span class="math inline">\theta = x_0
 class="math inline">\theta = 20</span></p>
 <p>The value of x0 when maximum throughput is 0, and x1 = 10, and x2 =
 10/9</p>
-<h4 data-number="1.7.2.1" id="pareto-efficiency"><span
-class="header-section-number">1.7.2.1</span> Pareto Efficiency</h4>
+<h4 id="pareto-efficiency">Pareto Efficiency</h4>
 <p>A feasible allocation of rates <span
 class="math inline">\overrightarrow{x}</span> is called
 <strong>Pareto-efficient</strong> iff increasing the rate of a flow must
@@ -1835,8 +1831,7 @@ allocation is always Pareto-efficient)</p>
 <p>Maximal efficiency means Pareto efficiency. MAximizing total
 throughput is Pareto effiient, but means shutting down flow; this is at
 the expense of <strong>fairness</strong></p>
-<h4 data-number="1.7.2.2" id="egalitarianism"><span
-class="header-section-number">1.7.2.2</span> Egalitarianism</h4>
+<h4 id="egalitarianism">Egalitarianism</h4>
 <p>Egalitarianism is not Pareto-efficient It allocaties as much as
 possible but same to all.</p>
 <p>It is inefficient since we could give more to one flow without
@@ -1845,8 +1840,7 @@ hurting anyone.</p>
 (Every resource has a bottlenect) and is “fair” since it gives to every
 one at least as much as egalitarianism.</p>
 <p>This is <strong>max-min fair</strong> allocation</p>
-<h4 data-number="1.7.2.3" id="max-min-fairness"><span
-class="header-section-number">1.7.2.3</span> Max-Min fairness</h4>
+<h4 id="max-min-fairness">Max-Min fairness</h4>
 <p>We say that a feasible allocation <span
 class="math inline">\overrightarrow{x}</span> is <strong>max-min
 fair</strong> iff for any other feasible allocation <span
@@ -1854,8 +1848,7 @@ class="math inline">\overrightarrow{x}&#39;, \exist i: x_i&#39;&gt;x_i
 \rightarrow \exist j: x_j \le x_i</span></p>
 <p>Intuition - for every flow <em>i</em>, increasing its rate must force
 the rate of some other (not richer) flow <em>j</em> to decrease</p>
-<h5 data-number="1.7.2.3.1" id="properties-of-max-min-fairness"><span
-class="header-section-number">1.7.2.3.1</span> Properties of max-min
+<h5 id="properties-of-max-min-fairness">Properties of max-min
 fairness</h5>
 <p>Given a set of constraints for the rates:</p>
 <ul>
@@ -1886,8 +1879,7 @@ frozen. All flows are frozen, STOP</li>
 </ol></li>
 </ul>
 <p>The max-min fair allocation is x0 = x2 = 1, x1 = 9</p>
-<h4 data-number="1.7.2.4" id="proportional-fairness"><span
-class="header-section-number">1.7.2.4</span> Proportional Fairness</h4>
+<h4 id="proportional-fairness">Proportional Fairness</h4>
 <p>A feasible allocation <span
 class="math inline">\overrightarrow{x}</span> is <strong>proportionally
 fair</strong> iff <span class="math inline">\overrightarrow{x} &gt;
@@ -1901,10 +1893,8 @@ class="math inline">\sum_i \frac{\delta x_i}{x_i} \le 0</span></p>
 allocation where the relative change is &gt; 0</p>
 <p>The effects of it: sum of all rates of changes Relative changes
 matter, not absolute</p>
-<h5 data-number="1.7.2.4.1"
-id="properties-of-proportional-fairness"><span
-class="header-section-number">1.7.2.4.1</span> Properties of
-Proportional fairness</h5>
+<h5 id="properties-of-proportional-fairness">Properties of Proportional
+fairness</h5>
 <ol type="1">
 <li>A proportionally fair allocation is Pareto-efficient</li>
 <li>Given a set of constraints for the rates that is convex - the
@@ -1913,8 +1903,7 @@ proportionally fair allocation exists and is unique</li>
 class="math inline">J(overrightarrow{x}) = \sum_i \log x_i</span> over
 all feasible allocations</li>
 </ol>
-<h4 data-number="1.7.2.5" id="utility-fairness"><span
-class="header-section-number">1.7.2.5</span> Utility fairness</h4>
+<h4 id="utility-fairness">Utility fairness</h4>
 <p>One can interpret proportional fairness as the allocation that
 <strong>maximizes a global utility</strong> <span
 class="math inline">\sum_i U_i(x_i) \text{with} U_i(x_i) = \log
@@ -1924,10 +1913,8 @@ fairness</strong> It can be shown that max-min fairness is the limit of
 unitility fairness when the utility function fonverges to a step
 function (but max-min fairness cannot be expressed exactly as a utility
 fairness)</p>
-<h3 data-number="1.7.3"
-id="additive-increase-multiplicative-decrease-aimd"><span
-class="header-section-number">1.7.3</span> Additive increase
-multiplicative decrease (AIMD)</h3>
+<h3 id="additive-increase-multiplicative-decrease-aimd">Additive
+increase multiplicative decrease (AIMD)</h3>
 <p>How congestion control can be implemented:</p>
 <ul>
 <li>Explicit (rate based) - tell every host how fast it can send (MPLS
@@ -1939,8 +1926,7 @@ robin (Cellular networks, industrial networks, in-vehicle networks)</li>
 <li>End-to-end - hosts “taste the water” and increase or decrease their
 sending rate using a host congestion control algorithm (Internet)</li>
 </ul>
-<h4 data-number="1.7.3.1" id="simple-network-model---decnet"><span
-class="header-section-number">1.7.3.1</span> Simple network model -
+<h4 id="simple-network-model---decnet">Simple network model -
 Decnet</h4>
 <p>One bit is used called <strong>congestion avoidance bit</strong>,
 which is reset by source and set by routers if it is observed that the
@@ -1951,8 +1937,7 @@ flow is causing overload.</p>
 <p>Sources reduce rate <span class="math inline">x_i(t+1) \text{if} y(t)
 = 1</span>, increase otherwise</p>
 <p>What increase/decrease we should pick?</p>
-<h5 data-number="1.7.3.1.1" id="linear-laws"><span
-class="header-section-number">1.7.3.1.1</span> Linear laws</h5>
+<h5 id="linear-laws">Linear laws</h5>
 <p>Consider linear laws: <span class="math inline">\text{if} y(t) = 1
 \text{then} x_i(t+1) = u_1 \dot x_i(t) + v_i</span> <span
 class="math inline">\text{if} y(t) = 0 \text{then} x_i(t+1) = u_0 \dot
@@ -1980,8 +1965,7 @@ increase - multiplicative decrease tends to bring the allocation towards
 fairness and efficienty</p>
 <p>This was first implemented in the internet after the first congestion
 collapses</p>
-<h3 data-number="1.7.4" id="slow-start"><span
-class="header-section-number">1.7.4</span> Slow start</h3>
+<h3 id="slow-start">Slow start</h3>
 <p>AIMD convergence can be accelerated when the initial conditions are
 very different Slow start is an additional method, added to AIMD Used at
 the beginning of connection and at losses detected by a timeout</p>
@@ -1992,8 +1976,7 @@ rate is reached or negative feedback is received.</li>
 received.</li>
 <li>Exit slow start when the target rate is reached</li>
 </ol>
-<h2 data-number="1.8" id="congestion-control-implementation"><span
-class="header-section-number">1.8</span> Congestion control
+<h2 id="congestion-control-implementation">Congestion control
 implementation</h2>
 <p>TCP is used to avoid congestion in the internet. At first it was
 without cc. After congestion collapses, it was added there.</p>
@@ -2007,8 +1990,7 @@ UDP sources imitate TCP - “TCP friendly”, or some UDP sources
 (e.g. QUIC) implement same code as TCP cc.</p>
 <p>TCP versions: Reno - selective acks Cubic (widespread today in Linux
 servers) Data center TCP BBR</p>
-<h3 data-number="1.8.1" id="tcp-reno"><span
-class="header-section-number">1.8.1</span> TCP Reno</h3>
+<h3 id="tcp-reno">TCP Reno</h3>
 <p>uses AIMD and Slow start</p>
 <p>TCP adjusts windw size based on the approximation rate <span
 class="math inline">\frac{W}{RTT}</span></p>
@@ -2021,9 +2003,7 @@ control</p>
 <p>Slow start with increase factor w = 2 per RTT (approx)</p>
 <p>loss detected by timeout -&gt; slow start Loss detected by fast
 retransmit -&gt; fast recovery</p>
-<h4 data-number="1.8.1.1"
-id="approximating-multiplicative-increase-slow-start"><span
-class="header-section-number">1.8.1.1</span> Approximating
+<h4 id="approximating-multiplicative-increase-slow-start">Approximating
 multiplicative increase (slow start)</h4>
 <p>for the initial slow start, the target window (for the target rate)
 is ssthresh (default - 64KB)</p>
@@ -2031,8 +2011,7 @@ is ssthresh (default - 64KB)</p>
 cwnd + MSS (in bytes)</p>
 <p>if cwnd <span class="math inline">\ge</span> ssthresh, then go to
 congestion avoidance</p>
-<h4 data-number="1.8.1.2" id="approximating-aimd"><span
-class="header-section-number">1.8.1.2</span> Approximating AIMD</h4>
+<h4 id="approximating-aimd">Approximating AIMD</h4>
 <p><strong>multiplicative decrease</strong> (after loss is detect -
 negative feedback) ssthresh = 0.5 x cwnd cwnd = 1 MSS (when timeout) or
 something else (e.g. fast retransmit)</p>
@@ -2043,14 +2022,12 @@ packets, this would be cwnd += 1/cwnd</p>
 approximation using ack counting) other implementations exists - for
 example, wait until the cwnd bytes are acked and then increment cwnd by
 1 MSS</p>
-<h4 data-number="1.8.1.3" id="aimd-and-slow-start-over-time"><span
-class="header-section-number">1.8.1.3</span> AIMD and slow start over
+<h4 id="aimd-and-slow-start-over-time">AIMD and slow start over
 time</h4>
 <p>target window of slow start is called ssthresh there is a slow start
 phase initially and after every packet loss detected by timeout</p>
 <p>ssthresh drops by half when loss is detected.</p>
-<h4 data-number="1.8.1.4" id="fast-recovery"><span
-class="header-section-number">1.8.1.4</span> Fast recovery</h4>
+<h4 id="fast-recovery">Fast recovery</h4>
 <p>Slow start is used when we assume that the network condition is new
 or abruptly changing (i.e. at beginning and after loss detected by
 timeout)</p>
@@ -2065,9 +2042,7 @@ ssthresh = 0.5 x cwnd (this prevents the source to send until the loss
 is repaired) but cwnd is allowed to increase beyond the target windw
 until the loss is repaired - it is increased by the value of allowable
 dup acks</p>
-<h5 data-number="1.8.1.4.1" id="fast-recovery-details"><span
-class="header-section-number">1.8.1.4.1</span> Fast recovery
-details</h5>
+<h5 id="fast-recovery-details">Fast recovery details</h5>
 <p>when loss is detected by 3 dup ACKS: ssthresh = 0.5 x current-swnd
 ssthresh = max (ssthresh, 2x MSS) cwnd = ssthresh + 3 x MSS (exponential
 increase) cwnd = min (cwnd, 64K)</p>
