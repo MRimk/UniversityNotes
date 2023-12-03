@@ -1,3 +1,9 @@
+---
+title: Understanding Modern Switzerland
+author: Martynas Rimkevicius
+date: October 27, 2023
+---
+
 <!-- markdownlint-disable MD010 MD041 MD001 MD036 MD029-->
 
 # Understanding Modern Switzerland
