@@ -57,8 +57,8 @@ function Summary({ path }) {
           `pagetitle=${filename.slice(0, -3)}`,
           "-H",
           ".github/workflows/headers_copy.html",
-          // "--css",
-          // "css/pandoc.css",
+          "--css",
+          "css/pandoc.css",
         ],
       }).status();
     })
