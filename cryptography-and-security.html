@@ -165,6 +165,7 @@
       -webkit-text-size-adjust: 100%;
       -ms-text-size-adjust: 100%;
     }
+
     body {
       color: #444;
       font-family: Georgia, Palatino, "Palatino Linotype", Times,
@@ -176,44 +177,56 @@
       max-width: 42em;
       background: #fefefe;
     }
+
     a {
       color: #0645ad;
       text-decoration: none;
     }
+
     a:visited {
       color: #0b0080;
     }
+
     a:hover {
       color: #06e;
     }
+
     a:active {
       color: #faa700;
     }
+
     a:focus {
       outline: thin dotted;
     }
-    ::-moz-selection {
+
+    *::-moz-selection {
       background: rgba(255, 255, 0, 0.3);
       color: #000;
     }
-    ::selection {
+
+    *::selection {
       background: rgba(255, 255, 0, 0.3);
       color: #000;
     }
+
     a::-moz-selection {
       background: rgba(255, 255, 0, 0.3);
       color: #0645ad;
     }
+
     a::selection {
       background: rgba(255, 255, 0, 0.3);
       color: #0645ad;
     }
+
     p {
       margin: 1em 0;
     }
+
     img {
       max-width: 100%;
     }
+
     h1,
     h2,
     h3,
@@ -223,37 +236,46 @@
       color: #111;
       line-height: 125%;
       margin-top: 2em;
-      font-weight: 400;
+      font-weight: normal;
     }
+
     h4,
     h5,
     h6 {
-      font-weight: 700;
+      font-weight: bold;
     }
+
     h1 {
       font-size: 2.5em;
     }
+
     h2 {
       font-size: 2em;
     }
+
     h3 {
       font-size: 1.5em;
     }
+
     h4 {
       font-size: 1.2em;
     }
+
     h5 {
       font-size: 1em;
     }
+
     h6 {
       font-size: 0.9em;
     }
+
     blockquote {
-      color: #666;
+      color: #666666;
       margin: 0;
       padding-left: 3em;
       border-left: 0.5em #eee solid;
     }
+
     hr {
       display: block;
       height: 2px;
@@ -263,37 +285,45 @@
       margin: 1em 0;
       padding: 0;
     }
+
+    pre,
     code,
     kbd,
-    pre,
     samp {
       color: #000;
       font-family: monospace, monospace;
+      _font-family: "courier new", monospace;
       font-size: 0.98em;
     }
+
     pre {
       white-space: pre;
       white-space: pre-wrap;
       word-wrap: break-word;
     }
+
     b,
     strong {
-      font-weight: 700;
+      font-weight: bold;
     }
+
     dfn {
       font-style: italic;
     }
+
     ins {
       background: #ff9;
       color: #000;
       text-decoration: none;
     }
+
     mark {
       background: #ff0;
       color: #000;
       font-style: italic;
-      font-weight: 700;
+      font-weight: bold;
     }
+
     sub,
     sup {
       font-size: 75%;
@@ -301,56 +331,70 @@
       position: relative;
       vertical-align: baseline;
     }
+
     sup {
       top: -0.5em;
     }
+
     sub {
       bottom: -0.25em;
     }
-    ol,
-    ul {
+
+    ul,
+    ol {
       margin: 1em 0;
       padding: 0 0 0 2em;
     }
+
     li p:last-child {
       margin-bottom: 0;
     }
-    ol ol,
-    ul ul {
+
+    ul ul,
+    ol ol {
       margin: 0.3em 0;
     }
+
     dl {
       margin-bottom: 1em;
     }
+
     dt {
-      font-weight: 700;
+      font-weight: bold;
       margin-bottom: 0.8em;
     }
+
     dd {
       margin: 0 0 0.8em 2em;
     }
+
     dd:last-child {
       margin-bottom: 0;
     }
+
     img {
       border: 0;
       -ms-interpolation-mode: bicubic;
       vertical-align: middle;
     }
+
     figure {
       display: block;
       text-align: center;
       margin: 1em 0;
     }
+
     figure img {
       border: none;
       margin: 0 auto;
     }
+
     figcaption {
       font-size: 0.8em;
       font-style: italic;
       margin: 0 0 0.8em;
     }
+
     table {
       margin-bottom: 2em;
       border-bottom: 1px solid #ddd;
@@ -358,22 +402,26 @@
       border-spacing: 0;
       border-collapse: collapse;
     }
+
     table th {
       padding: 0.2em 1em;
       background-color: #eee;
       border-top: 1px solid #ddd;
       border-left: 1px solid #ddd;
     }
+
     table td {
       padding: 0.2em 1em;
       border-top: 1px solid #ddd;
       border-left: 1px solid #ddd;
       vertical-align: top;
     }
+
     .author {
       font-size: 1.2em;
       text-align: center;
     }
+
     @media only screen and (min-width: 480px) {
       body {
         font-size: 14px;
@@ -386,60 +434,73 @@
     }
     @media print {
       * {
-        background: 0 0 !important;
-        color: #000 !important;
+        background: transparent !important;
+        color: black !important;
         filter: none !important;
         -ms-filter: none !important;
       }
+
       body {
         font-size: 12pt;
         max-width: 100%;
       }
+
       a,
       a:visited {
         text-decoration: underline;
       }
+
       hr {
         height: 1px;
         border: 0;
-        border-bottom: 1px solid #000;
+        border-bottom: 1px solid black;
       }
+
       a[href]:after {
         content: " (" attr(href) ")";
       }
+
       abbr[title]:after {
         content: " (" attr(title) ")";
       }
+
       .ir a:after,
-      a[href^="#"]:after,
-      a[href^="javascript:"]:after {
+      a[href^="javascript:"]:after,
+      a[href^="#"]:after {
         content: "";
       }
-      blockquote,
-      pre {
+
+      pre,
+      blockquote {
         border: 1px solid #999;
         padding-right: 1em;
         page-break-inside: avoid;
       }
-      img,
-      tr {
+
+      tr,
+      img {
         page-break-inside: avoid;
       }
+
       img {
         max-width: 100% !important;
       }
+
       @page :left {
         margin: 15mm 20mm 15mm 10mm;
       }
+
       @page :right {
         margin: 15mm 10mm 15mm 20mm;
       }
+
+      p,
       h2,
-      h3,
-      p {
+      h3 {
         orphans: 3;
         widows: 3;
       }
+
       h2,
       h3 {
         page-break-after: avoid;
@@ -451,7 +512,7 @@
     DarkReader.enable({
       brightness: 100,
       contrast: 90,
-      sepia: 10
+      sepia: 10,
     });
   </script>
   <link
@@ -484,18 +545,10 @@
 </head>
 <body>
 <!-- markdownlint-disable MD010 MD041 MD001 MD036 MD029-->
-<hr />
-<p>header-includes:</p>
-<ul>
-<li></li>
-</ul>
-<hr />
-<h1 data-number="1" id="cryptography-and-security"><span
-class="header-section-number">1</span> Cryptography and Security</h1>
-<h2 data-number="1.1" id="ancient-cryptography"><span
-class="header-section-number">1.1</span> Ancient cryptography</h2>
-<h3 data-number="1.1.1" id="scope-of-cyptography"><span
-class="header-section-number">1.1.1</span> Scope of Cyptography</h3>
+<h2 data-number="0.1" id="ancient-cryptography"><span
+class="header-section-number">0.1</span> Ancient cryptography</h2>
+<h3 data-number="0.1.1" id="scope-of-cyptography"><span
+class="header-section-number">0.1.1</span> Scope of Cyptography</h3>
 <p>Now it is basically any device that uses some encoding.</p>
 <p>In prehistory it was to preserve confidentiality/privacy.</p>
 <p>Modern cryptography is public and interceptable, so confidentiality
@@ -504,8 +557,8 @@ the user/access control. There are also problems such as detection of
 malicious modificaiton, data authetification, non-repudiation (no
 stepping back/denying a completed action), access control, timestamping,
 fair exchange, etc.</p>
-<h3 data-number="1.1.2" id="notions"><span
-class="header-section-number">1.1.2</span> Notions</h3>
+<h3 data-number="0.1.2" id="notions"><span
+class="header-section-number">0.1.2</span> Notions</h3>
 <p>The differenece between coding and cryptography is that crypto has
 malicious adversary whereas coding has some noise or nature that could
 affect reliable communication (= dummy adversary).</p>
@@ -514,8 +567,8 @@ systems.</p>
 <p>To cryptanalyze a cryptosystem means to probe or to disprove the
 security (but does not necessarily mean to break it). Breaking is just
 proving the insecurity.</p>
-<h3 data-number="1.1.3" id="secure-communication-problems"><span
-class="header-section-number">1.1.3</span> Secure communication
+<h3 data-number="0.1.3" id="secure-communication-problems"><span
+class="header-section-number">0.1.3</span> Secure communication
 problems</h3>
 <ol type="1">
 <li>Nobody else can read the message (sent over an insecure channel) -
@@ -525,61 +578,61 @@ sender</li>
 <li>Only the right receiver should get the message -
 authetification</li>
 </ol>
-<h3 data-number="1.1.4" id="symmetric-encryption"><span
-class="header-section-number">1.1.4</span> Symmetric encryption</h3>
+<h3 data-number="0.1.4" id="symmetric-encryption"><span
+class="header-section-number">0.1.4</span> Symmetric encryption</h3>
 <p>Assume: confidentiality.</p>
 <p>Sender will use same key to compute MAC (message authentification
 code) and the receiver will decode the MAC. This ensures
 authentification and integrity.</p>
 <p>Symmetric encryption algorithms are very efficient and quick.</p>
 <p>Problem is to have the same key.</p>
-<h3 data-number="1.1.5"
+<h3 data-number="0.1.5"
 id="establishing-symmetric-key---key-agreement-protocol"><span
-class="header-section-number">1.1.5</span> Establishing Symmetric key -
+class="header-section-number">0.1.5</span> Establishing Symmetric key -
 Key Agreement Protocol</h3>
 <p>Key should be made sure that it comes from the right receiver (is not
 modified, not known to adversary).</p>
 <p>Only assume authetication, integrity. Because the confidentiality
 does not necessarily matter during the exchange.</p>
-<h3 data-number="1.1.6" id="public-key-cryptosystem"><span
-class="header-section-number">1.1.6</span> Public-key cryptosystem</h3>
+<h3 data-number="0.1.6" id="public-key-cryptosystem"><span
+class="header-section-number">0.1.6</span> Public-key cryptosystem</h3>
 <p>Assume authentication and integrity so that it is not replaced by the
 adversary.</p>
 <p>Receiver creates generator to give public key to sender.</p>
 <p>Receiver uses secret to decode the message that is encrypted by their
 pub key.</p>
-<h3 data-number="1.1.7" id="digital-signature"><span
-class="header-section-number">1.1.7</span> Digital signature</h3>
+<h3 data-number="0.1.7" id="digital-signature"><span
+class="header-section-number">0.1.7</span> Digital signature</h3>
 <p>It is the reversed PK cryptosystem. Server signs the message with
 their secret and receiver verifies message with the sender’s pub
 key.</p>
 <p>Assume pub key is transfered in autheticated and integrity preserved
 channel.</p>
-<h3 data-number="1.1.8" id="example-of-tls-slide-24"><span
-class="header-section-number">1.1.8</span> Example of TLS (slide
+<h3 data-number="0.1.8" id="example-of-tls-slide-24"><span
+class="header-section-number">0.1.8</span> Example of TLS (slide
 24)</h3>
 <p>Browser already has some authorities.</p>
 <p>When server is created it sends its pub key to CA to sign it, and
 then server sends the message to client signed with its private key.
 Client verifies message with authority-given server’s public key
 (authority signs the public key).</p>
-<h2 data-number="1.2" id="prehistory"><span
-class="header-section-number">1.2</span> Prehistory</h2>
+<h2 data-number="0.2" id="prehistory"><span
+class="header-section-number">0.2</span> Prehistory</h2>
 <p>Hieroglyphs were understood only by some people.</p>
-<h3 data-number="1.2.1" id="techniques"><span
-class="header-section-number">1.2.1</span> Techniques</h3>
-<h4 data-number="1.2.1.1" id="transpositions"><span
-class="header-section-number">1.2.1.1</span> Transpositions</h4>
+<h3 data-number="0.2.1" id="techniques"><span
+class="header-section-number">0.2.1</span> Techniques</h3>
+<h4 data-number="0.2.1.1" id="transpositions"><span
+class="header-section-number">0.2.1.1</span> Transpositions</h4>
 <p>e.g. Spartan scytacles which reorders the message letters such that
 it is known by some key (stick with a belt)</p>
-<h4 data-number="1.2.1.2" id="substitutions"><span
-class="header-section-number">1.2.1.2</span> Substitutions</h4>
+<h4 data-number="0.2.1.2" id="substitutions"><span
+class="header-section-number">0.2.1.2</span> Substitutions</h4>
 <p>e.g. Caesar cipher (letter is moved in an alphabet), ROT13 (shifted
 by 13 positions, so it is half of alphabet), random substitution table -
 a lot of permutations 26! - to break this we can do frequency analysis
 on 1, 2, or 3 consecutive letters.</p>
-<h4 data-number="1.2.1.3" id="continuous-permutation"><span
-class="header-section-number">1.2.1.3</span> Continuous permutation</h4>
+<h4 data-number="0.2.1.3" id="continuous-permutation"><span
+class="header-section-number">0.2.1.3</span> Continuous permutation</h4>
 <p>Vigenere cipher - take a message without spaces and take a key
 (e.g. ABC) and continuously apply to each letter. E.g. “this” + “ABC” =
 t+0, h+1, i+2, s+0. One of the first cyphers with a secret key. The
@@ -608,11 +661,11 @@ independent distrbution with frequency table fc</li>
 -&gt; inf, is -&gt; 0.065, so if it close for the column, then we know
 that the key length is correct</li>
 </ul>
-<h2 data-number="1.3" id="pre-modern-industrial-cyptography"><span
-class="header-section-number">1.3</span> Pre-Modern Industrial
+<h2 data-number="0.3" id="pre-modern-industrial-cyptography"><span
+class="header-section-number">0.3</span> Pre-Modern Industrial
 Cyptography</h2>
-<h3 data-number="1.3.1" id="enigma"><span
-class="header-section-number">1.3.1</span> Enigma</h3>
+<h3 data-number="0.3.1" id="enigma"><span
+class="header-section-number">0.3.1</span> Enigma</h3>
 <p>Electro-mechanical encryption device (typewriter) which could be
 plugged into radio transmiter.</p>
 <p>It was patented in 1918, so the information about the device was
@@ -636,8 +689,8 @@ same condition (due to electrical signal symmetry (N.B. my idea))</p>
 <p>Initial state is the key. There are 5 different rotors available, so
 the 3 chosen rotors and their starting positions, and wires plugged in
 the plugboard.</p>
-<h4 data-number="1.3.1.1" id="definitions"><span
-class="header-section-number">1.3.1.1</span> Definitions</h4>
+<h4 data-number="0.3.1.1" id="definitions"><span
+class="header-section-number">0.3.1.1</span> Definitions</h4>
 <p>Fixed point - Given a permution sigma over Z, a fixed point is an
 element x in Z such that sigma(x) = x (no change)</p>
 <p>Involution over Z is a permutation sigma of Z such that
@@ -665,11 +718,11 @@ cable, then 9, then 7, then …)</p>
 <p>Number of choices for the rotors: 5 * 4 * 3 = 60</p>
 <p>Number of initial positions: 2^14</p>
 <p>It is 57 bits.</p>
-<h2 data-number="1.4" id="laws-of-modern-cryptography"><span
-class="header-section-number">1.4</span> Laws of Modern
+<h2 data-number="0.4" id="laws-of-modern-cryptography"><span
+class="header-section-number">0.4</span> Laws of Modern
 Cryptography</h2>
-<h3 data-number="1.4.1" id="law-1-the-kerckhoffs-principle"><span
-class="header-section-number">1.4.1</span> Law 1: the Kerckhoffs
+<h3 data-number="0.4.1" id="law-1-the-kerckhoffs-principle"><span
+class="header-section-number">0.4.1</span> Law 1: the Kerckhoffs
 Principle</h3>
 <p>Security should not rely on the secrecy of the cryptosystem
 itself</p>
@@ -677,38 +730,38 @@ itself</p>
 (e.g. reverse engineer) WHAT DOES IT MEAN? - security analysis starts
 with the assumption that adversary knows the cryptosystem DOES NOT MEAN
 - cryptosystem must be public.</p>
-<h3 data-number="1.4.2" id="law-2-scalability---the-n2-problem"><span
-class="header-section-number">1.4.2</span> Law 2: scalability - the n^2
+<h3 data-number="0.4.2" id="law-2-scalability---the-n2-problem"><span
+class="header-section-number">0.4.2</span> Law 2: scalability - the n^2
 problem</h3>
 <p>in a network of n users, there is a number of potential pairs of
 users within the order of magnitude of n^2</p>
 <p>We cannot assume that every pair of users share a secret key We must
 find a way for any pair of users to establish a secret key</p>
-<h3 data-number="1.4.3" id="law-3-moore-law"><span
-class="header-section-number">1.4.3</span> Law 3: Moore law</h3>
+<h3 data-number="0.4.3" id="law-3-moore-law"><span
+class="header-section-number">0.4.3</span> Law 3: Moore law</h3>
 <p>the speed of CPUs doubles ever 18-24 months.</p>
 <p>We should wonder how long a system must remain secure We must
 estimate the speed of CPU at the end of its period</p>
-<h3 data-number="1.4.4" id="bit-key"><span
-class="header-section-number">1.4.4</span> 128-bit key</h3>
+<h3 data-number="0.4.4" id="bit-key"><span
+class="header-section-number">0.4.4</span> 128-bit key</h3>
 <p>Possible key combinations - 2^128 (39 digit number)</p>
 <p>It is impossible to do an exchaustive search.</p>
 <p>In 2007, a standard PC could test 10^6 keys per second To run
 exhaustive search within 14 billion years we need 770 000 bilion
 2007-PCs</p>
 <p>if the Moore law goes on, a single 2215-PC will do it in a second</p>
-<h2 data-number="1.5" id="two-revolutions"><span
-class="header-section-number">1.5</span> Two Revolutions</h2>
+<h2 data-number="0.5" id="two-revolutions"><span
+class="header-section-number">0.5</span> Two Revolutions</h2>
 <p>Communication - information theory, mass communication (radio) -&gt;
 we need standard crypto</p>
 <p>Computing - computer science, automata -&gt; adversaries have more
 power</p>
-<h2 data-number="1.6" id="xor"><span
-class="header-section-number">1.6</span> XOR</h2>
+<h2 data-number="0.6" id="xor"><span
+class="header-section-number">0.6</span> XOR</h2>
 <p>Bit-wise exclusive or.</p>
 <p>Due to its properties forms a commutative group.</p>
-<h3 data-number="1.6.1" id="vernam-cipther"><span
-class="header-section-number">1.6.1</span> Vernam cipther</h3>
+<h3 data-number="0.6.1" id="vernam-cipther"><span
+class="header-section-number">0.6.1</span> Vernam cipther</h3>
 <p>Message is passed through a key with xor, and then decrypted with the
 same key with xor. <span class="math inline">(X \oplus K) \oplus K = X
 \oplus (K \oplus K)</span></p>
@@ -738,8 +791,8 @@ are exchanged (through slow channels) before the messages to transmit
 are known</p>
 <p>bad news for other applications - there is essentially no better
 cipher with this strong security property</p>
-<h4 data-number="1.6.1.1" id="intuition-on-perfect-security"><span
-class="header-section-number">1.6.1.1</span> Intuition on perfect
+<h4 data-number="0.6.1.1" id="intuition-on-perfect-security"><span
+class="header-section-number">0.6.1.1</span> Intuition on perfect
 security</h4>
 <p>if the adversary gets Y = y then for any x: <span
 class="math display">Pr[X = x | Y = y] = Pr[X = x | X \oplus K = y] =
@@ -748,8 +801,8 @@ Pr[X = x]</span></p>
 class="math inline">X \oplus K</span> are statisticaly independent <span
 class="math inline">\implies</span> the adversary gets no information
 about X in knowing that Y = y</p>
-<h4 data-number="1.6.1.2" id="abelian-group"><span
-class="header-section-number">1.6.1.2</span> Abelian group</h4>
+<h4 data-number="0.6.1.2" id="abelian-group"><span
+class="header-section-number">0.6.1.2</span> Abelian group</h4>
 <p>Set of G together with a mapping from G x G to G which maps (a,b) to
 an element denoted a + b</p>
 <ol type="1">
@@ -765,8 +818,8 @@ class="math inline">\oplus</span> <span
 class="math inline">\{0,1,...,n-1\}</span> with <span
 class="math inline">(a,b) \rightarrowtail \begin{cases}  a+b\ \text{if}\
 a+b &lt; n \\  a+b-n\ otherwise \end{cases}</span></p>
-<h4 data-number="1.6.1.3" id="useful-lemma-to-prove-security"><span
-class="header-section-number">1.6.1.3</span> Useful lemma to prove
+<h4 data-number="0.6.1.3" id="useful-lemma-to-prove-security"><span
+class="header-section-number">0.6.1.3</span> Useful lemma to prove
 security</h4>
 <p><strong>Lemma</strong>: Let X and K be two independent random
 variables in a given group. If K is uniformly distributed, then Y = K +
@@ -777,17 +830,17 @@ class="math display">Pr[X = x, Y = y] = Pr[X = x, K = y - x]</span></p>
 <p><span class="math display">= Pr[X=x] \frac{1}{\# group}</span></p>
 <p><span class="math display">Pr[Y=y] = \sum_x Pr[X=x, Y=y] =
 \frac{1}{\# group}</span></p>
-<h4 data-number="1.6.1.4" id="theorem"><span
-class="header-section-number">1.6.1.4</span> Theorem</h4>
+<h4 data-number="0.6.1.4" id="theorem"><span
+class="header-section-number">0.6.1.4</span> Theorem</h4>
 <p><strong>Theorem</strong> - For any distribution of X over G, Y is
 independent from X and uniformly distributed (perfect secrecy)</p>
-<h3 data-number="1.6.2" id="information-theory"><span
-class="header-section-number">1.6.2</span> Information theory</h3>
+<h3 data-number="0.6.2" id="information-theory"><span
+class="header-section-number">0.6.2</span> Information theory</h3>
 <p>Entropy - (used in this course) number of bits. But there is the
 Shannon Entropy - amount of information you have in a random
 variable.</p>
-<h3 data-number="1.6.3" id="perfect-secrecy"><span
-class="header-section-number">1.6.3</span> Perfect Secrecy</h3>
+<h3 data-number="0.6.3" id="perfect-secrecy"><span
+class="header-section-number">0.6.3</span> Perfect Secrecy</h3>
 <p><strong>Definition</strong>: Perfect secrecy means that the a
 posteriori distribution of the plaintext of X after we know the
 ciphertext Y is equal to the a priori distribution of the plaintext:
@@ -800,8 +853,8 @@ generalized Vernam cipher provides perfect secrecy.</p>
 <p><strong>Shannon theory</strong> - perfect secrecy implies <span
 class="math inline">H(K) \ge H(X)</span> Or: Perfect secrecy implies
 that the support of K is at least as large as the support of X.</p>
-<h4 data-number="1.6.3.1" id="negative-side-of-shannon-theorem"><span
-class="header-section-number">1.6.3.1</span> Negative side of Shannon
+<h4 data-number="0.6.3.1" id="negative-side-of-shannon-theorem"><span
+class="header-section-number">0.6.3.1</span> Negative side of Shannon
 Theorem</h4>
 <p>If we want ot achieve perfect secrecy, the number of possible keys
 must be at least as large as the number of possible plaintexts</p>
@@ -811,19 +864,19 @@ where <span class="math inline">p = Pr [Y=y] \ne 0</span></p>
 <p>Intuition - length of the cipher text will give some information on
 the plaintext. E.g. 1TB plaintext will be represented by approx 1TB
 ciphertext</p>
-<h4 data-number="1.6.3.2" id="summary-of-shannon-results"><span
-class="header-section-number">1.6.3.2</span> Summary of Shannon
+<h4 data-number="0.6.3.2" id="summary-of-shannon-results"><span
+class="header-section-number">0.6.3.2</span> Summary of Shannon
 results</h4>
 <p>We have mathematically formalized the notion of perfect strategy
 Vernam Cipher achieves perfect secrecy Despite Vernam Cipher is
 expensive, there is no cheaper alternative.</p>
 <p>The <strong>Complexity theory</strong> is missing, since the perfect
 secrecy is impractical.</p>
-<h2 data-number="1.7" id="diffie-hellman-cryptography"><span
-class="header-section-number">1.7</span> Diffie-Hellman
+<h2 data-number="0.7" id="diffie-hellman-cryptography"><span
+class="header-section-number">0.7</span> Diffie-Hellman
 Cryptography</h2>
-<h3 data-number="1.7.1" id="arithmetics-on-z_n"><span
-class="header-section-number">1.7.1</span> Arithmetics on <span
+<h3 data-number="0.7.1" id="arithmetics-on-z_n"><span
+class="header-section-number">0.7.1</span> Arithmetics on <span
 class="math inline">\Z_n</span></h3>
 <p><strong>Theorem</strong> - every integer n can be uniquely writen as
 a unit times product of prime numbers $n = u p^{_1}_1 … p^{_r}_r $.
@@ -926,9 +979,9 @@ any element is a factor of the order of the group. <em>Consequence</em>:
 <span class="math inline">\forall g \in G\ g^{\#G} = 1</span></p>
 <p><strong>Theorem</strong> - if a group has a prime order, all elements
 (except 1) are generators.</p>
-<h3 data-number="1.7.2"
+<h3 data-number="0.7.2"
 id="diffie-hellman-key-agrreement-protocol"><span
-class="header-section-number">1.7.2</span> Diffie-Hellman Key Agrreement
+class="header-section-number">0.7.2</span> Diffie-Hellman Key Agrreement
 Protocol</h3>
 <p>Assume a group generated by some g (g is public)</p>
 <p>Alice picks x at random, X is <span class="math inline">g^x</span>,
@@ -940,16 +993,16 @@ class="math inline">K = Y^x</span>, Bob uses <span class="math inline">K
 g^y)</span>, it must be hard to compute <span
 class="math inline">g^{xy}</span> (<strong>Computational Diffie-Hellman
 Problem</strong>)</p>
-<h4 data-number="1.7.2.1"
+<h4 data-number="0.7.2.1"
 id="using-the-diffie-hellman-key-agreement-protocol"><span
-class="header-section-number">1.7.2.1</span> Using the Diffie-Hellman
+class="header-section-number">0.7.2.1</span> Using the Diffie-Hellman
 key agreement protocol</h4>
 <p>Allows to set up a secret key over a public channel (assumening
 authetification)</p>
 <p>No further need to set up pre-shared keys: sets up keys when needed
 -&gt; pub key cryptography</p>
-<h3 data-number="1.7.3" id="algorithms-for-big-numbers"><span
-class="header-section-number">1.7.3</span> Algorithms for Big
+<h3 data-number="0.7.3" id="algorithms-for-big-numbers"><span
+class="header-section-number">0.7.3</span> Algorithms for Big
 Numbers</h3>
 <p><strong>Monoid</strong> is a set group without invertability.</p>
 <p>We want to multiple a monoid element (a = 12) by an integer (n =
@@ -959,8 +1012,8 @@ multiplying i times by 2.</p>
 <p>Double-and-add from left to right or right to left is O(l) complexity
 of monoid additions.</p>
 <p>The equivalent for squaring is multiplying.</p>
-<h3 data-number="1.7.4" id="z_n---ring-of-residues-modulo-n"><span
-class="header-section-number">1.7.4</span> <span
+<h3 data-number="0.7.4" id="z_n---ring-of-residues-modulo-n"><span
+class="header-section-number">0.7.4</span> <span
 class="math inline">\Z_n</span> - Ring of Residues Modulo n</h3>
 <p>Ring has Abelian group properties as well as closure, associativity,
 neutral element, distributivity, and commutative rings have
@@ -979,22 +1032,22 @@ which are <strong>units</strong></li>
 operations</p>
 <p>product structure - set of pairs with inverited structure
 operations</p>
-<h4 data-number="1.7.4.1" id="z-is-a-commutative-ring"><span
-class="header-section-number">1.7.4.1</span> <span
+<h4 data-number="0.7.4.1" id="z-is-a-commutative-ring"><span
+class="header-section-number">0.7.4.1</span> <span
 class="math inline">\Z</span> is a commutative ring</h4>
-<h4 data-number="1.7.4.2" id="example-zx"><span
-class="header-section-number">1.7.4.2</span> Example: <span
+<h4 data-number="0.7.4.2" id="example-zx"><span
+class="header-section-number">0.7.4.2</span> Example: <span
 class="math inline">\Z[X]</span></h4>
 <p>Z[X] is a set of polynomials with coefficients in Z.</p>
 <p>It is a commutative ring, with neutral element would be 0.</p>
-<h4 data-number="1.7.4.3" id="verifying-multiplication"><span
-class="header-section-number">1.7.4.3</span> Verifying
+<h4 data-number="0.7.4.3" id="verifying-multiplication"><span
+class="header-section-number">0.7.4.3</span> Verifying
 multiplication</h4>
 <p>Sum of first number of digits mod 9 times sum of second number digits
 mod 9, is the product digits sum mod 9.</p>
 <p>Mod 9 works because 10 to any power reduces to 1.</p>
-<h4 data-number="1.7.4.4" id="example-the-ring-of-resudues-mod-n"><span
-class="header-section-number">1.7.4.4</span> Example: the ring of
+<h4 data-number="0.7.4.4" id="example-the-ring-of-resudues-mod-n"><span
+class="header-section-number">0.7.4.4</span> Example: the ring of
 resudues mod n</h4>
 <p><span class="math inline">Z_n = \{0, 1, 2, 3, ... , n-1\}</span></p>
 <p>Cerebral <span class="math inline">\Z n</span>:</p>
@@ -1013,8 +1066,8 @@ put “mod n” reductions in the ground floor.</li>
 class="math inline">x^i\ mod\ n = x^{i\ mod\ m} mod\ n</span>, so we can
 put “mod m” reductions in the upper floor.</li>
 </ul>
-<h5 data-number="1.7.4.4.1" id="exercise"><span
-class="header-section-number">1.7.4.4.1</span> Exercise</h5>
+<h5 data-number="0.7.4.4.1" id="exercise"><span
+class="header-section-number">0.7.4.4.1</span> Exercise</h5>
 <p><span class="math inline">Z_{15}</span> has order 15.</p>
 <ul>
 <li>we have <span class="math inline">\langle 5\rangle = \{0, 5,
@@ -1039,8 +1092,8 @@ Intuition 3 and 5 are factors of 15)</li>
 <span class="math inline">\langle 2\rangle = \{0, 2, 4, 6,
 8\}</span></li>
 </ul>
-<h4 data-number="1.7.4.5" id="z_n-computations"><span
-class="header-section-number">1.7.4.5</span> <span
+<h4 data-number="0.7.4.5" id="z_n-computations"><span
+class="header-section-number">0.7.4.5</span> <span
 class="math inline">Z_n</span> computations</h4>
 <p>Efficiently computable operations:</p>
 <ul>
@@ -1053,12 +1106,12 @@ n) = 1</li>
 only) (square-and-multiply)</li>
 </ul>
 <p>And remaining problem is extracting the roots</p>
-<h5 data-number="1.7.4.5.1" id="euclidean-division"><span
-class="header-section-number">1.7.4.5.1</span> Euclidean division</h5>
+<h5 data-number="0.7.4.5.1" id="euclidean-division"><span
+class="header-section-number">0.7.4.5.1</span> Euclidean division</h5>
 <p>x = qy + r algorithm runs in <span
 class="math inline">O(l^2)</span></p>
-<h5 data-number="1.7.4.5.2" id="modular-inversion"><span
-class="header-section-number">1.7.4.5.2</span> Modular Inversion</h5>
+<h5 data-number="0.7.4.5.2" id="modular-inversion"><span
+class="header-section-number">0.7.4.5.2</span> Modular Inversion</h5>
 <p><strong>Theorem</strong> x in <span class="math inline">Z_n</span> is
 inveritible if and only if gcd(x,n) = 1. (this is why 3, 5 were not
 inverses in Z15)</p>
@@ -1070,8 +1123,8 @@ next step euclidean algorithm numbers.</p>
 <p>Running time is quadratic to the length of numbers in bits</p>
 <p><strong>Extended Euclid algorithm</strong> is used to calculate d, u,
 v, that d = au + bv = gcd(a,b).</p>
-<h4 data-number="1.7.4.6" id="orders-of-group"><span
-class="header-section-number">1.7.4.6</span> Orders of group</h4>
+<h4 data-number="0.7.4.6" id="orders-of-group"><span
+class="header-section-number">0.7.4.6</span> Orders of group</h4>
 <p><strong>Element order</strong>: n is the smallest positive such that
 <span class="math inline">x^n = 1</span> n is such that <span
 class="math inline">x^i = 1 \lrArr (n \text{ divides } i)</span></p>
@@ -1095,9 +1148,9 @@ class="math inline">p_1 , . . . , p_r</span> , we have</p>
 · · , λ(prαr )</p>
 <p><strong>application</strong>: if n is hard to factor, we can still
 find generators: find prime factors up to some bound B</p>
-<h4 data-number="1.7.4.7"
+<h4 data-number="0.7.4.7"
 id="picking-a-generator-in-a-cyclic-group-with-known-order"><span
-class="header-section-number">1.7.4.7</span> Picking a generator in a
+class="header-section-number">0.7.4.7</span> Picking a generator in a
 cyclic group with known order</h4>
 <p>This algorith is probabilistic with a bound of <span
 class="math inline">\text{Pr[output g not generator]} \le \frac{1}{B\log
@@ -1106,8 +1159,8 @@ B}\log B</span></p>
 \frac{1}{B}(r-s) \le \frac{\log q}{B\log B} \le \frac{\log n}{B\log
 B}</span> Where B is a bound for small factors, n is the order. (r-s) is
 … and q is the remainder of incomplete factorization</p>
-<h3 data-number="1.7.5" id="z_p-field"><span
-class="header-section-number">1.7.5</span> <span
+<h3 data-number="0.7.5" id="z_p-field"><span
+class="header-section-number">0.7.5</span> <span
 class="math inline">\Z_p</span> Field</h3>
 <p><strong>Field</strong> is a ring where every possible element that is
 not 0, is invertible.</p>
@@ -1130,8 +1183,8 @@ Z_p^*</span> of prime order q (if not, then it would be just even
 numbers): <span class="math inline">\langle g \rangle = \{1, g, ..,
 g^{q-1} \} \lrarr \{0, 1, ..., q-1\} \subseteq Z_p^*</span></p>
 <p>Example: SSH2 parameters</p>
-<h4 data-number="1.7.5.1" id="the-discrete-logarithm-problem"><span
-class="header-section-number">1.7.5.1</span> The discrete logarithm
+<h4 data-number="0.7.5.1" id="the-discrete-logarithm-problem"><span
+class="header-section-number">0.7.5.1</span> The discrete logarithm
 problem</h4>
 <p><strong>Definition</strong>: The DL problem, relative to Setup, is
 hard if for any (probabilistic polynomial-time) algrorithm A, the
@@ -1177,8 +1230,8 @@ smaller by a constant in exponent</li>
 <li>Pollard p algorithm</li>
 </ul></li>
 </ul>
-<h4 data-number="1.7.5.2" id="baby-step-giant-step-algorithm"><span
-class="header-section-number">1.7.5.2</span> Baby-step giant-step
+<h4 data-number="0.7.5.2" id="baby-step-giant-step-algorithm"><span
+class="header-section-number">0.7.5.2</span> Baby-step giant-step
 algorithm</h4>
 <p>Be given some x and know which power of g it is. Take a giant step -
 size of l = <span class="math inline">\lceil \sqrt{B} \rceil</span> for
@@ -1188,21 +1241,21 @@ then yielf x = il +j and stop</p>
 <p>This means that this algorithm is O(l) = <span
 class="math inline">O(\sqrt{B})</span></p>
 <p>Pollar p algorithm is also in similar complexity.</p>
-<h4 data-number="1.7.5.3" id="attacks-based-on-precomputation"><span
-class="header-section-number">1.7.5.3</span> Attacks based on
+<h4 data-number="0.7.5.3" id="attacks-based-on-precomputation"><span
+class="header-section-number">0.7.5.3</span> Attacks based on
 precomputation</h4>
 <p>for example for p length of 512 bits precomputation (on 1 core) will
 take 10.2 years, and attack (on 1 core) will take 10 minutes. whereas
 1024 bits, precomputation 45 million years, and attack 30 days.</p>
 <p>SSH2 uses a fixed p of 1024 bits.</p>
-<h3 data-number="1.7.6" id="diffie-hellman-key-agreement-protocol"><span
-class="header-section-number">1.7.6</span> Diffie-Hellman key agreement
+<h3 data-number="0.7.6" id="diffie-hellman-key-agreement-protocol"><span
+class="header-section-number">0.7.6</span> Diffie-Hellman key agreement
 protocol</h3>
 <p>Both compute K=g^xy.</p>
 <p>Adversary knows the group, g, and all messages exchanged - X, Y (g^x,
 g^y). Computational Diffie-Hellman Problem.</p>
-<h4 data-number="1.7.6.1" id="unavoidable-active-attack"><span
-class="header-section-number">1.7.6.1</span> Unavoidable active
+<h4 data-number="0.7.6.1" id="unavoidable-active-attack"><span
+class="header-section-number">0.7.6.1</span> Unavoidable active
 attack</h4>
 <p>MITM attack: Eve replaces the communication with their key and runs
 Diffie-Hellman with Alice, Bob and they will not know that they are
@@ -1211,9 +1264,9 @@ talking to Eve.</p>
 passive should be avoided.</p>
 <p>Diffie-Hellman shall resist to passive attack, so must be
 computationally hard.</p>
-<h4 data-number="1.7.6.2"
+<h4 data-number="0.7.6.2"
 id="computational-diffie-hellman-problem"><span
-class="header-section-number">1.7.6.2</span> Computational
+class="header-section-number">0.7.6.2</span> Computational
 Diffie-Hellman problem</h4>
 <p>CDH(λ): 1: Setup(1^λ) → (group, q, g) 2: pick x, y ∈ Zq 3: X ← g^x ,
 Y ← g^y 4: A(group, q, g, X , Y ) → K 5: return 1 if K=g^xy</p>
@@ -1221,8 +1274,8 @@ Y ← g^y 4: A(group, q, g, X , Y ) → K 5: return 1 if K=g^xy</p>
 <p>hardness of this problem requires the Discrete Logarithm Problem to
 be hard Examples: subgroup of <span class="math inline">Z_p^*</span> of
 prime order q elliptic curve</p>
-<h4 data-number="1.7.6.3" id="cdh-hard-implies-dl-hard"><span
-class="header-section-number">1.7.6.3</span> CDH hard <span
+<h4 data-number="0.7.6.3" id="cdh-hard-implies-dl-hard"><span
+class="header-section-number">0.7.6.3</span> CDH hard <span
 class="math inline">\implies</span> DL hard</h4>
 <ul>
 <li>assume CDH is hard</li>
@@ -1233,8 +1286,8 @@ class="math inline">\le</span> Pr[Modified CDH -&gt; 1] = negl</li>
 <li><span class="math inline">X = g^{x&#39;} \implies K = Y^{x&#39;} =
 g^{yx&#39;} = X^y = g^{xy}</span></li>
 </ul>
-<h4 data-number="1.7.6.4" id="decisional-diffie-hellman-problem"><span
-class="header-section-number">1.7.6.4</span> Decisional Diffie-Hellman
+<h4 data-number="0.7.6.4" id="decisional-diffie-hellman-problem"><span
+class="header-section-number">0.7.6.4</span> Decisional Diffie-Hellman
 problem</h4>
 <p>there is an extra input to the game - bit b.</p>
 <p>if the bit is 1, z is xy, otherwise z is totally random number. The
@@ -1244,8 +1297,8 @@ means that the goal is for them to not distinguish from these cases:</p>
 class="math inline">\lambda</span>, 1) -&gt; 1] - Pr[DDH(<span
 class="math inline">\lambda</span>, 0) -&gt; 1] = negl(<span
 class="math inline">\lambda</span>)</p>
-<h4 data-number="1.7.6.5" id="ddh-hard-implies-cdh-hard"><span
-class="header-section-number">1.7.6.5</span> DDH hard <span
+<h4 data-number="0.7.6.5" id="ddh-hard-implies-cdh-hard"><span
+class="header-section-number">0.7.6.5</span> DDH hard <span
 class="math inline">\implies</span> CDH hard</h4>
 <p>assume DDH is hard consider C(group,q,g,X,Y,Z): pick x’ in <span
 class="math inline">Z_q</span> return 1 if X=g^x’, Z=Y^x’</p>
@@ -1260,15 +1313,15 @@ q,g,X,Y,Z): run A(group,g,X,Y) -&gt; K return 1 if K=Z</p>
 <p>hence Adv B (<span class="math inline">\lambda</span>) = Adv A (<span
 class="math inline">\lambda</span>) - negl we know that Adv B (λ) =
 negl(λ) (since DDH is hard) hence Pr[A wins] = negl(λ)</p>
-<h4 data-number="1.7.6.6"
+<h4 data-number="0.7.6.6"
 id="ddh-easy-case-of-a-group-whose-order-has-a-smooth-factor"><span
-class="header-section-number">1.7.6.6</span> DDH easy case of a group
+class="header-section-number">0.7.6.6</span> DDH easy case of a group
 whose order has a smooth factor</h4>
 <p>That is why we need prime factors.</p>
-<h3 data-number="1.7.7" id="exercises-3"><span
-class="header-section-number">1.7.7</span> Exercises 3</h3>
-<h4 data-number="1.7.7.1" id="exercise-1"><span
-class="header-section-number">1.7.7.1</span> Exercise 1</h4>
+<h3 data-number="0.7.7" id="exercises-3"><span
+class="header-section-number">0.7.7</span> Exercises 3</h3>
+<h4 data-number="0.7.7.1" id="exercise-1"><span
+class="header-section-number">0.7.7.1</span> Exercise 1</h4>
 <p>Latin square of order 4 l: 1234 2341 3412 4123 p = 3, k = 2 c(p) =
 l_kx = 4</p>
 <p>Perfect secrecy proof: for all x, y, where Pr[Y=y] <span
@@ -1290,8 +1343,8 @@ one value k such that y. On the other hand: <span
 class="math display">Pr[Y=y] = \sum_{x=1}^{n}Pr[Y=y, X=x] =
 \frac{1}{n}</span></p>
 <p>We conclude that Pr[X=x | Y=y] = Pr[X=x].</p>
-<h4 data-number="1.7.7.2" id="exercise-2"><span
-class="header-section-number">1.7.7.2</span> Exercise 2</h4>
+<h4 data-number="0.7.7.2" id="exercise-2"><span
+class="header-section-number">0.7.7.2</span> Exercise 2</h4>
 <ol type="1">
 <li><p>Why is it insecure: the distribution is not uniform because the
 likelyhood of k mod 12 being 2 is 1/12 and k mod 12 being 7 is
@@ -1304,8 +1357,8 @@ scheme is not secure for mod 12. For mod 4:</p></li>
 <p>k1 mod 4 and k2 mod 4 have a distribution for i={0,3} = 1/6, for i=
 {1,2} = 1/3, so for i = 0 it’s 1/4, for i=1 it’s 2/9 … so the
 distribution is not uniform for n=4</p>
-<h4 data-number="1.7.7.3" id="exercise-3"><span
-class="header-section-number">1.7.7.3</span> Exercise 3</h4>
+<h4 data-number="0.7.7.3" id="exercise-3"><span
+class="header-section-number">0.7.7.3</span> Exercise 3</h4>
 <p>G is multiplicative group. <span class="math inline">S \subseteq
 G</span> and S <span class="math inline">\ne</span> 0, such that for all
 <span class="math inline">a, b \in S</span>, we have <span
@@ -1325,8 +1378,8 @@ class="math inline">a(b^{-1})^{-1} = ab \in S</span></li>
 <li>associativity: it is inherited from G</li>
 </ol>
 <p>Thus S is a group.</p>
-<h4 data-number="1.7.7.4" id="exercise-4"><span
-class="header-section-number">1.7.7.4</span> Exercise 4</h4>
+<h4 data-number="0.7.7.4" id="exercise-4"><span
+class="header-section-number">0.7.7.4</span> Exercise 4</h4>
 <p>For all i,j in {1,2,3,4,5,6}, i <span class="math inline">\ne</span>
 j we have yi <span class="math inline">\ne</span> yj. (intuition - all
 are different) total combinations = 6^12 allowed events in x: assume
@@ -1337,16 +1390,16 @@ class="math inline">\ne</span> j we have yi <span
 class="math inline">\ne</span> yj. (intuition - there exists a pair that
 is different)</p>
 <p>1 - 6^2 / 6^12 = 1 - 6^-10</p>
-<h4 data-number="1.7.7.5" id="hardness-depending-on-groups"><span
-class="header-section-number">1.7.7.5</span> Hardness depending on
+<h4 data-number="0.7.7.5" id="hardness-depending-on-groups"><span
+class="header-section-number">0.7.7.5</span> Hardness depending on
 groups</h4>
 <p>DL hard (easy if order is smooth) <span
 class="math inline">\lArr</span> CDH hard <span
 class="math inline">\lArr</span> DDH hard (easy if order has any
 smooth/small factor &gt;1)</p>
-<h4 data-number="1.7.7.6"
+<h4 data-number="0.7.7.6"
 id="problems-when-not-checking-group-membership"><span
-class="header-section-number">1.7.7.6</span> Problems when not checking
+class="header-section-number">0.7.7.6</span> Problems when not checking
 group membership</h4>
 <p>Assume: Bob uses a static key Y Bob’s algorithm run even though X
 does not belong to the group. we can select X outside of the group, with
@@ -1355,18 +1408,18 @@ small order q’.</p>
 key K = X^y, when y is static</p>
 <p>Alice then can do an exhaustive search on y_q’ because if X is of
 small factor, it can do an operation modulo factor of X</p>
-<h3 data-number="1.7.8" id="unavoidable-active-attack---mitm"><span
-class="header-section-number">1.7.8</span> Unavoidable Active Attack -
+<h3 data-number="0.7.8" id="unavoidable-active-attack---mitm"><span
+class="header-section-number">0.7.8</span> Unavoidable Active Attack -
 MITM</h3>
 <p>Eve stays in the middle during the entire communication between alice
 and bob.</p>
-<h4 data-number="1.7.8.1" id="mitm-attack-making-k1-k2---i"><span
-class="header-section-number">1.7.8.1</span> MITM attack making K1 = K2
+<h4 data-number="0.7.8.1" id="mitm-attack-making-k1-k2---i"><span
+class="header-section-number">0.7.8.1</span> MITM attack making K1 = K2
 - i</h4>
 <p>Eve uses it’s generator as 1 - makes Alice’s and Bob’s keys known to
 them, but easy to avoid - check if not 1</p>
-<h4 data-number="1.7.8.2" id="mitm-attack-making-k1-k2---ii"><span
-class="header-section-number">1.7.8.2</span> MITM attack making K1 = K2
+<h4 data-number="0.7.8.2" id="mitm-attack-making-k1-k2---ii"><span
+class="header-section-number">0.7.8.2</span> MITM attack making K1 = K2
 - ii</h4>
 <p>Using groups of order divisible by w such that DL is easy in <span
 class="math inline">\langle g^w\rangle</span></p>
@@ -1374,28 +1427,28 @@ class="math inline">\langle g^w\rangle</span></p>
 g<sup>x’w</sup>, K = Y<sup>x’w</sup> K = g<sup>xyw</sup></p>
 <p>Y<sup>x’w</sup> = g<sup>xyw</sup> = ..</p>
 <p>Avoided - if the group is of prime order</p>
-<h4 data-number="1.7.8.3" id="problems-with-subgroups"><span
-class="header-section-number">1.7.8.3</span> Problems with
+<h4 data-number="0.7.8.3" id="problems-with-subgroups"><span
+class="header-section-number">0.7.8.3</span> Problems with
 Subgroups</h4>
 <p>we can compute log X modulo the small factors of the order</p>
 <p>…</p>
-<h4 data-number="1.7.8.4" id="other-issues-weird-key-distribution"><span
-class="header-section-number">1.7.8.4</span> Other issues: Weird key
+<h4 data-number="0.7.8.4" id="other-issues-weird-key-distribution"><span
+class="header-section-number">0.7.8.4</span> Other issues: Weird key
 distribution</h4>
 <p>the final key K is random in <span class="math inline">\langle g
 \rangle</span> which has its own representation We need a bitstring with
 a reliable distribution solution - use Key derivation function (KDF)</p>
-<h4 data-number="1.7.8.5"
+<h4 data-number="0.7.8.5"
 id="summary---problems-with-the-original-dh-protocol"><span
-class="header-section-number">1.7.8.5</span> Summary - problems with the
+class="header-section-number">0.7.8.5</span> Summary - problems with the
 original DH protocol</h4>
 <p>nobody is checking the group membership X and Y problems with
 subgroups of <span class="math inline">\langle g \rangle</span> subgroup
 {1} (unavoidable) other subgroups of <span class="math inline">\langle g
 \rangle</span></p>
 <p>problem with g^xy having a bad distribution</p>
-<h4 data-number="1.7.8.6" id="hard-cases"><span
-class="header-section-number">1.7.8.6</span> Hard cases</h4>
+<h4 data-number="0.7.8.6" id="hard-cases"><span
+class="header-section-number">0.7.8.6</span> Hard cases</h4>
 <p>the DDH problem is believed to be hard relative to:</p>
 <ul>
 <li>large subgroup of prime order of <span
@@ -1411,8 +1464,8 @@ q</li>
 </ol></li>
 <li>large supgroup of prime order of a “regular” elliptic curve</li>
 </ul>
-<h3 data-number="1.7.9" id="correct-dh-key-exchange"><span
-class="header-section-number">1.7.9</span> Correct DH key exchange</h3>
+<h3 data-number="0.7.9" id="correct-dh-key-exchange"><span
+class="header-section-number">0.7.9</span> Correct DH key exchange</h3>
 <p>Assume group <span class="math inline">\langle g \rangle</span>
 generated by some g of prime order q</p>
 <p>Alice picks <span class="math inline">x \in Z_q^*</span> Bob checks
@@ -1420,11 +1473,11 @@ if <span class="math inline">X \notin \langle g \rangle - {1}</span>, if
 so, abort Bob creates <span class="math inline">y \in Z_q^*</span>, and
 K = KDF(X^y) Alice checks if <span class="math inline">Y \notin \langle
 g \rangle - {1}</span>, if so, abort Alice sets K = KDF(Y^x)</p>
-<h3 data-number="1.7.10" id="standard-rfc-2631"><span
-class="header-section-number">1.7.10</span> Standard RFC 2631</h3>
-<h4 data-number="1.7.10.1"
+<h3 data-number="0.7.10" id="standard-rfc-2631"><span
+class="header-section-number">0.7.10</span> Standard RFC 2631</h3>
+<h4 data-number="0.7.10.1"
 id="group-parameter-generation-in-rfc-2631"><span
-class="header-section-number">1.7.10.1</span> Group parameter generation
+class="header-section-number">0.7.10.1</span> Group parameter generation
 in RFC 2631</h4>
 <figure>
 <img src="Images/Screenshot%20from%202023-10-11%2008-52-35.png"
@@ -1433,8 +1486,8 @@ alt="Algorithm" />
 </figure>
 <p>Line 5 is such that we get large odd number</p>
 <p>Line 13 is such that we get an odd number</p>
-<h4 data-number="1.7.10.2" id="parameter-validation-in-rfc-2631"><span
-class="header-section-number">1.7.10.2</span> Parameter Validation in
+<h4 data-number="0.7.10.2" id="parameter-validation-in-rfc-2631"><span
+class="header-section-number">0.7.10.2</span> Parameter Validation in
 RFC 2631</h4>
 <p>Group parameters validation:</p>
 <ul>
@@ -1443,34 +1496,34 @@ RFC 2631</h4>
 </ul>
 <p>Public key validation: check 2 <span class="math inline">\le</span> y
 <span class="math inline">\le</span> p -1 and y^p mod p = 1</p>
-<h4 data-number="1.7.10.3" id="ssh2-example"><span
-class="header-section-number">1.7.10.3</span> SSH2 example</h4>
+<h4 data-number="0.7.10.3" id="ssh2-example"><span
+class="header-section-number">0.7.10.3</span> SSH2 example</h4>
 <p>It uses g = 2 generator, which is convenient</p>
 <p>It executes the Diffie-Hellman key exchange, with server creates a
 hash for Ks (DSA using p,q,g signature), and client computing hash to
 verify the signature from the server.</p>
 <p>The MITM is removed because they can only alter Ks, which would be
 detected when verifying the signature</p>
-<h3 data-number="1.7.11" id="elgamal-public-key-cryptosystem"><span
-class="header-section-number">1.7.11</span> ElGamal Public key
+<h3 data-number="0.7.11" id="elgamal-public-key-cryptosystem"><span
+class="header-section-number">0.7.11</span> ElGamal Public key
 cryptosystem</h3>
-<h4 data-number="1.7.11.1" id="non-deterministic-encryption"><span
-class="header-section-number">1.7.11.1</span> Non-deterministic
+<h4 data-number="0.7.11.1" id="non-deterministic-encryption"><span
+class="header-section-number">0.7.11.1</span> Non-deterministic
 Encryption</h4>
 <p>The cipher text is a larger space than plaintext -&gt; encryption
 could be probabilistic, decryption has to be deterministic</p>
-<h4 data-number="1.7.11.2" id="semi-static-dh-pubkey-encryption"><span
-class="header-section-number">1.7.11.2</span> Semi-static-DH Pubkey
+<h4 data-number="0.7.11.2" id="semi-static-dh-pubkey-encryption"><span
+class="header-section-number">0.7.11.2</span> Semi-static-DH Pubkey
 encryption</h4>
 <p>Alice has Bob’s pubkey, picks x random Bob’s key K=KDF(<span
 class="math inline">x^y</span>)</p>
-<h4 data-number="1.7.11.3" id="plain-elgamal-encryption-case"><span
-class="header-section-number">1.7.11.3</span> Plain ElGamal Encryption
+<h4 data-number="0.7.11.3" id="plain-elgamal-encryption-case"><span
+class="header-section-number">0.7.11.3</span> Plain ElGamal Encryption
 case</h4>
 <p>in the original: it was in <span class="math inline">Z_p^*</span>, so
 not prime order no KDF and symEnc was one time pad</p>
-<h4 data-number="1.7.11.4" id="elgamal-cryptosystem"><span
-class="header-section-number">1.7.11.4</span> ElGamal cryptosystem</h4>
+<h4 data-number="0.7.11.4" id="elgamal-cryptosystem"><span
+class="header-section-number">0.7.11.4</span> ElGamal cryptosystem</h4>
 <p>Public parameter: (g, n), a group <span class="math inline">\langle g
 \rangle</span> of order n generated by some g</p>
 <p>Set up: generate a random x in <span class="math inline">Z_n</span>,
@@ -1484,57 +1537,57 @@ u = <span class="math inline">g^r</span>, and vernam cipher v = <span
 class="math inline">my^r</span>. Cipher text is (u,v)</p>
 <p>Decrypt: extract the u and v parts of the ciphertext and compute m =
 <span class="math inline">vu^{−x}</span></p>
-<h4 data-number="1.7.11.5" id="complexity"><span
-class="header-section-number">1.7.11.5</span> Complexity</h4>
+<h4 data-number="0.7.11.5" id="complexity"><span
+class="header-section-number">0.7.11.5</span> Complexity</h4>
 <p>Domain parameters: Typically O(<span class="math inline">l^4</span>)
 - the complexity of generating a prime number Generator - O(<span
 class="math inline">l^3</span>) - complexity of multiplication l^2, and
 power is complexity of the size of the power. Encryption - O(<span
 class="math inline">l^3</span>) Decryption - O(<span
 class="math inline">l^3</span>)</p>
-<h4 data-number="1.7.11.6" id="related-problems"><span
-class="header-section-number">1.7.11.6</span> Related problems</h4>
-<h5 data-number="1.7.11.6.1"
+<h4 data-number="0.7.11.6" id="related-problems"><span
+class="header-section-number">0.7.11.6</span> Related problems</h4>
+<h5 data-number="0.7.11.6.1"
 id="egkr-elgamal-key-recovery-problem"><span
-class="header-section-number">1.7.11.6.1</span> EGKR (ElGamal Key
+class="header-section-number">0.7.11.6.1</span> EGKR (ElGamal Key
 Recovery Problem)</h5>
 <p>recovering secret key</p>
 <p>game where we set up the group, pubkey, and give them to adversary to
 get the secret</p>
-<h5 data-number="1.7.11.6.2" id="egd-elgamal-decryption-problem"><span
-class="header-section-number">1.7.11.6.2</span> EGD (ElGamal Decryption
+<h5 data-number="0.7.11.6.2" id="egd-elgamal-decryption-problem"><span
+class="header-section-number">0.7.11.6.2</span> EGD (ElGamal Decryption
 Problem)</h5>
 <p>game where we set up the group, pubkey, plaintext, we encrypt it, and
 the goal is to retrieve the plaintext</p>
 <p>we can show that key recovery problem to DL problem (just change of
 notation) and that decryption problem to CDH problem</p>
-<h4 data-number="1.7.11.7" id="egd-hard-rarr-cdh-hard"><span
-class="header-section-number">1.7.11.7</span> EGD hard <span
+<h4 data-number="0.7.11.7" id="egd-hard-rarr-cdh-hard"><span
+class="header-section-number">0.7.11.7</span> EGD hard <span
 class="math inline">\rArr</span> CDH hard</h4>
 <p>assume EGD is hard to prove CDH hardnes, consider a CDH algorithm A
 construct B s.t. A wins CDH <span class="math inline">\rArr</span> B
 wins EGD:</p>
 <p>if A succeeds computing the K, they obtain the correct plaintext.
 Therefore, CDH is hard</p>
-<h4 data-number="1.7.11.8" id="cdh-hard-rarr-egd-hard"><span
-class="header-section-number">1.7.11.8</span> CDH hard <span
+<h4 data-number="0.7.11.8" id="cdh-hard-rarr-egd-hard"><span
+class="header-section-number">0.7.11.8</span> CDH hard <span
 class="math inline">\rArr</span> EGD hard</h4>
 <p>assume CDH hard to prove EGD hardness, consider EGD algorithm A
 construct B s.t. A wins EGD <span class="math inline">\rArr</span> B
 wins CDH</p>
 <p>we pick random v in B and then when the m is obtained in EDH, CDH is
 also solved.</p>
-<h5 data-number="1.7.11.8.1" id="elgamal-encryption-security"><span
-class="header-section-number">1.7.11.8.1</span> ElGamal Encryption
+<h5 data-number="0.7.11.8.1" id="elgamal-encryption-security"><span
+class="header-section-number">0.7.11.8.1</span> ElGamal Encryption
 Security</h5>
 <p>key recovery is equivalent to solving DL decryption is equivalent to
 the solving CDH INDCPA security is equivalent solving DDH</p>
 <p>how to map a bitstring to a group element, because we only know how
 to encrypt that</p>
-<h2 data-number="1.8" id="rsa-cryptography"><span
-class="header-section-number">1.8</span> RSA Cryptography</h2>
-<h3 data-number="1.8.1" id="euler-totient-function"><span
-class="header-section-number">1.8.1</span> Euler Totient Function</h3>
+<h2 data-number="0.8" id="rsa-cryptography"><span
+class="header-section-number">0.8</span> RSA Cryptography</h2>
+<h3 data-number="0.8.1" id="euler-totient-function"><span
+class="header-section-number">0.8.1</span> Euler Totient Function</h3>
 <p><span class="math inline">\phi(n)</span> is the order of <span
 class="math inline">Z_n^*</span></p>
 <p>Theorem: given an integer n, we have the following results:</p>
