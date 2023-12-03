@@ -44,7 +44,6 @@ function Summary({ path }) {
 
   pandocExec.push(
     ...files.map((filename) => {
-      if (filename.includes("temp")) return true;
       Deno.run({
         cmd: [
           "pandoc",
@@ -78,13 +77,15 @@ function Summary({ path }) {
               <a href={dirname}>{dirname}</a>
             </li>
           ))}
-          {files.map((filename) => (
+          {files.map((filename) => {
+            if (filename.includes("temp")) return true;
+
             <li>
               <a href={filename.replace(/md$/, "html")}>
                 {filename.replace(/\.md$/, "")}
               </a>
-            </li>
-          ))}
+            </li>;
+          })}
         </ul>
       </Helmet>,
     ]);
@@ -109,7 +110,9 @@ function Summary({ path }) {
   );
 }
 
-const headerContent = await Deno.readTextFile(".github/workflows/headers.html");
+const headerContent = await Deno.readTextFile(
+  ".github/workflows/headers_copy.html"
+);
 
 function Helmet({ title, children }) {
   return (
