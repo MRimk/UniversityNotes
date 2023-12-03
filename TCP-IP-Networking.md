@@ -107,6 +107,13 @@
       - [Simple network model - Decnet](#simple-network-model---decnet)
         - [Linear laws](#linear-laws)
     - [Slow start](#slow-start)
+  - [Congestion control implementation](#congestion-control-implementation)
+    - [TCP Reno](#tcp-reno)
+      - [Approximating multiplicative increase (slow start)](#approximating-multiplicative-increase-slow-start)
+      - [Approximating AIMD](#approximating-aimd)
+      - [AIMD and slow start over time](#aimd-and-slow-start-over-time)
+      - [Fast recovery](#fast-recovery)
+        - [Fast recovery details](#fast-recovery-details)
 
 # TCP/IP Networking
 
@@ -1336,3 +1343,98 @@ Used at the beginning of connection and at losses detected by a timeout
 1. **Increase the rate multiplicatively** until a target rate is reached or negative feedback is received.
 2. Apply multiplicative decrease to target rate if negative feedback is received.
 3. Exit slow start when the target rate is reached
+
+## Congestion control implementation
+
+TCP is used to avoid congestion in the internet. At first it was without cc. After congestion collapses, it was added there.
+
+TCP sources adjust its window to the congestion status of the Internet (AIMD, slow startm congestion avoidance), which avoids congestion collapse and ensures some fairness.
+TCP sources interpret **losses** as a **negative feedback** (timeouts and dup acks are the losses)
+
+UDP sources have to implement their own congestion control, e.g. some UDP sources imitate TCP - "TCP friendly", or some UDP sources (e.g. QUIC) implement same code as TCP cc.
+
+TCP versions:
+Reno - selective acks
+Cubic (widespread today in Linux servers)
+Data center TCP
+BBR
+
+### TCP Reno
+
+uses AIMD and Slow start
+
+TCP adjusts windw size based on the approximation rate $\frac{W}{RTT}$
+
+W = min (cwnd, offeredWindow)
+offeredWindow = window obtained by TCP’s window field (advertizement)
+cwnd = controlled by TCP congestion control
+
+Negative feedback = loss
+positive feedback = ACK received
+
+increase ~= additive (~=+1 MSS per RTT),
+multiplicative decrease (u = 0.5)
+
+Slow start with increase factor w = 2 per RTT (approx)
+
+loss detected by timeout -> slow start
+Loss detected by fast retransmit -> fast recovery
+
+#### Approximating multiplicative increase (slow start)
+
+for the initial slow start, the target window (for the target rate) is ssthresh (default - 64KB)
+
+for every non duplicate ack received during slow start -> cwnd = cwnd + MSS (in bytes)
+
+if cwnd $\ge$ ssthresh, then go to congestion avoidance
+
+#### Approximating AIMD
+
+**multiplicative decrease** (after loss is detect - negative feedback)
+ssthresh = 0.5 x cwnd
+cwnd = 1 MSS (when timeout) or something else (e.g. fast retransmit)
+
+**additive increase** ("congestion avoidance" phase)
+for every ack received - cwnd = cwnd + MSS x MSS / cwnd
+if we counted in packets, this would be cwnd += 1/cwnd
+
+this is slightly less than additive increase (because this is the approximation using ack counting)
+other implementations exists - for example, wait until the cwnd bytes are acked and then increment cwnd by 1 MSS
+
+#### AIMD and slow start over time
+
+target window of slow start is called ssthresh
+there is a slow start phase initially and after every packet loss detected by timeout
+
+ssthresh drops by half when loss is detected.
+
+#### Fast recovery
+
+Slow start is used when we assume that the network condition is new or abruptly changing (i.e. at beginning and after loss detected by timeout)
+
+In all other packet loss detection events, slow start is not used, but fast recovery is used instead
+
+Problem: the formula $\text{rate} \approx \frac{W}{RTT}$ is not true when there is a single isolated packet loss - sliding window operation may even stop sending if the first packet of a batch is lost
+
+With **fast recovery**:
+target window is halved: ssthresh = 0.5 x cwnd (this prevents the source to send until the loss is repaired)
+but cwnd is allowed to increase beyond the target windw until the loss is repaired - it is increased by the value of allowable dup acks
+
+##### Fast recovery details
+
+when loss is detected by 3 dup ACKS:
+ssthresh = 0.5 x current-swnd
+ssthresh = max (ssthresh, 2x MSS)
+cwnd = ssthresh + 3 x MSS (exponential increase)
+cwnd = min (cwnd, 64K)
+
+For each **duplicate ACK** received:
+cwnd = cwnd + MSS (exp. increase)
+cwnd = min (cwnd, 64K)
+
+If loss is repaired:
+cwnd = ssthresh
+goto: congestion avoidance
+
+else (timeout):
+goto slow start
