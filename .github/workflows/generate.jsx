@@ -49,7 +49,7 @@ function Summary({ path }) {
           "pandoc",
           base + filename,
           "-s",
-          "--number-sections",
+          "--toc",
           "--katex",
           "-o",
           outFolder + "/" + base + filename.replace(/md$/, "html"),
@@ -57,6 +57,8 @@ function Summary({ path }) {
           `pagetitle=${filename.slice(0, -3)}`,
           "-H",
           ".github/workflows/headers_copy.html",
+          // "--css",
+          // "css/pandoc.css",
         ],
       }).status()
     )
