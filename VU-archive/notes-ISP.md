@@ -163,7 +163,7 @@ Vulnerabilities only cross process throygh explicit interfaces (networking, file
 
 **Principle of least privilege (POLP)**
 
-_Every program and every privileged user of the system should operate using the least amount of privilege necessary to complete the job_\
+_Every program and every privileged user of the system should operate using the least amount of privilege necessary to complete the job_
 
 If a web-server is compromised. Solution is to drop privileges.
 
@@ -428,7 +428,7 @@ Checking certificate:
 
 **Symmetric encryption key establishment**\
 With symmetric encryption, we must first agree on a key.\
-It is possible to find a shared key over the network without sending any info from which that key can be derived\
+It is possible to find a shared key over the network without sending any info from which that key can be derived
 
 Diffie-Hellman Key Exchange: this is a setup of a two keys (from both sides) that cannot be decrypted by anyone else. This is because it is hard to undo exponentiation. \
 Key part of this is that Alice has key g^a mod m, Bob has g^b mod m, then they exchange these, and both now have a key g^(a\*b) mod m. \
@@ -517,11 +517,11 @@ What should the server verify before trusting data sent by the client for:
 
 ## Smart car key example
 
-If key is close to the car, car automatically unlocks. So if the key is far away but the signal is amplified, the car still can be unlocked. Assumption is that the key, thus the owner is close.\
+If key is close to the car, car automatically unlocks. So if the key is far away but the signal is amplified, the car still can be unlocked. Assumption is that the key, thus the owner is close.
 
-There are a lot of programming assumptions. Such as: person's age fits in three characters, string holds the path to a file we are allowed to read, the object has not been freed yet (this is common for use-after-free vulnerabilities)\
+There are a lot of programming assumptions. Such as: person's age fits in three characters, string holds the path to a file we are allowed to read, the object has not been freed yet (this is common for use-after-free vulnerabilities)
 
-**Use assert for the assumption that you make**\
+**Use assert for the assumption that you make**
 
 If the assumption is violated, there is no need to keep the program running, because the program is no longer safe.
 
@@ -557,24 +557,24 @@ Even if an error happens we should ensure:
 - Program remains secure (does not give a chance to bypass authentication)
 - Program state remains consistent
 
-Usually is it also desirable to inform the user and/or log the error for later analysis or debugging. But it might cause some vulnerabilities.\
+Usually is it also desirable to inform the user and/or log the error for later analysis or debugging. But it might cause some vulnerabilities.
 
 ## How not to do error handling
 
-Terminating immediately leaves no way to clean up resources and persistent state \
+Terminating immediately leaves no way to clean up resources and persistent state
 
 ```PHP
 $handle = fopen('myfile.txt', 'r') or die('open failed');
 ```
 
-Ignoring is easy in C but means state will be inconsistent with expectations, which may threaten security\
+Ignoring is easy in C but means state will be inconsistent with expectations, which may threaten security
 
 ```C
 FILE *file = fopen("myfile.txt", "r");
 fread(buf, sizeof(buf), 1, file); // buf uninitialized
 ```
 
-Bash is one of the languages that ignores errors and continues execution, which might lead to some big problems\
+Bash is one of the languages that ignores errors and continues execution, which might lead to some big problems
 
 Functions report errors by: return value (C, PHP, UNIX API, Windows API); Excpetion (C++, C#, Java, Javascript, Python); Error code in memory (many third-party libraries)
 
