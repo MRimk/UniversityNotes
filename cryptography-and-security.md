@@ -1,15 +1,5 @@
 <!-- markdownlint-disable MD010 MD041 MD001 MD036 MD029-->
 
----
-
-header-includes:
-
-- \usepackage{algorithm2e}
-
----
-
-# Cryptography and Security
-
 ## Ancient cryptography
 
 ### Scope of Cyptography

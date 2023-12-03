@@ -56,7 +56,7 @@ function Summary({ path }) {
           "--metadata",
           `pagetitle=${filename.slice(0, -3)}`,
           "-H",
-          ".github/workflows/headers.html",
+          ".github/workflows/headers copy.html",
         ],
       }).status()
     )
@@ -150,4 +150,3 @@ await Promise.all(
 );
 
 await Promise.all(pandocExec);
-
