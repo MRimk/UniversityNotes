@@ -1,4 +1,6 @@
-# Meeting with Sara and Mentoring Programme
+---
+title: Meeting with Sara and Mentoring Programme 02-03
+---
 
 Sara thinks that it is better not to mix paid and unpaid staff, e.g. have mentors for studying paid, and for activities - no.
 

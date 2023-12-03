@@ -1,6 +1,8 @@
-<!-- markdownlint-disable MD010 MD041 MD001 MD036 MD029 MD007-->
+---
+title: Compiler Construction
+---
 
-# Compiler Construction
+<!-- markdownlint-disable MD010 MD041 MD001 MD036 MD029 MD007-->
 
 ## Lecture 1
 

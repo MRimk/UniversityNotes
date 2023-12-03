@@ -1,6 +1,8 @@
-<!-- markdownlint-disable MD010 MD041 MD001 MD036-->
+---
+title: Assignment 2 - Vulnerabilities - Martynas Rimkevicius
+---
 
-# Assignment 2 - Vulnerabilities - Martynas Rimkevicius 2708302
+<!-- markdownlint-disable MD010 MD041 MD001 MD036-->
 
 ## Vulnerability 1 (program 1)
 

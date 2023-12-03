@@ -52,6 +52,7 @@ function Summary({ path }) {
           "--number-sections",
           "--katex",
           "-o",
+          "--toc",
           outFolder + "/" + base + filename.replace(/md$/, "html"),
           "--metadata",
           `pagetitle=${filename.slice(0, -3)}`,

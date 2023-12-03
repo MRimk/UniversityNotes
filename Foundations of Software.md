@@ -1,6 +1,8 @@
-<!-- markdownlint-disable MD010 MD041 MD001 MD036 MD029-->
+---
+title: Foundations of Software
+---
 
-# Foundations of Software
+<!-- markdownlint-disable MD010 MD041 MD001 MD036 MD029-->
 
 ## Models
 

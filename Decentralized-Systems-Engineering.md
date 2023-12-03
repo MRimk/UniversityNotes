@@ -1,6 +1,8 @@
-<!-- markdownlint-disable MD010 MD041 MD001 MD036 MD029 MD034-->
+---
+title: Decentralized Systems Engineering
+---
 
-# Distributed Systems Engineering
+<!-- markdownlint-disable MD010 MD041 MD001 MD036 MD029 MD034-->
 
 ## Definitions
 

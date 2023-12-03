@@ -1,12 +1,8 @@
 ---
 title: Understanding Modern Switzerland
-author: Martynas Rimkevicius
-date: October 27, 2023
 ---
 
 <!-- markdownlint-disable MD010 MD041 MD001 MD036 MD029-->
-
-# Understanding Modern Switzerland
 
 ## From the Old Confederation to Modern Switzerland: The emergence of a national identity (1291-1848)
 

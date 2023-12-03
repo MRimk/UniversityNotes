@@ -1,4 +1,6 @@
-# BoLo notes 2023-01-13
+---
+title: BoLo notes 2023-01-13
+---
 
 ## Bo
 

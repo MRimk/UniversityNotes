@@ -1,3 +1,7 @@
+---
+title: Advanced Network Programming
+---
+
 <!-- markdownlint-disable MD010 MD041 MD001 MD036 MD029-->
 
 # 1. Lecture 2
@@ -411,7 +415,7 @@ Handling connections:
 
 Connecting two hosts - put data into frames (in link layer), send it over the digital signals, and take the data from frames.
 
-## 6.1. Link layer**
+## 6.1. Link layer\*\*
 
 It is responsible over framing, error detection and medium access control (to avoid or detect connections).
 
@@ -554,7 +558,7 @@ How to adapt to the available space in the path accordingly - _sliding window me
 for every ACK you get, you send as many as the ACKs you got. (exp growth - 1, 2, 4, 8...) the window size is min(congestion windown and recv window)
 do that until packets start dropping - then restart and remember the max window size, and half of max.
 
-how long does it take to reach a window of size W with slow-start - R*logW
+how long does it take to reach a window of size W with slow-start - R\*logW
 
 TCP AIMD - in the begining TCP does slow-start and then after first reset, do slow-start until half of the max congestion window and then do additive increase until the max.
 optimization of this is making the reset just to half of max cwindow and then doing additive increase from there (do not re-enter slow-start).

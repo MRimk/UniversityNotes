@@ -1,4 +1,6 @@
-# Funding
+---
+title: DLab meeting 2022-12-15 - Funding
+---
 
 ## General idea
 
@@ -78,7 +80,7 @@ find people what are the competitors or what are similar products. \
 Compariso with them should be realistic, and in the end show why you are the better one.
 
 Financials: \
-add a timeline of the financial position change, and maybe show how it was changing. 
+add a timeline of the financial position change, and maybe show how it was changing.
 
 Aesthetics: \
 try to use a font size a min of 15pt
