@@ -52,12 +52,11 @@ function Summary({ path }) {
           "--number-sections",
           "--katex",
           "-o",
-          "--toc",
           outFolder + "/" + base + filename.replace(/md$/, "html"),
           "--metadata",
           `pagetitle=${filename.slice(0, -3)}`,
           "-H",
-          ".github/workflows/headers copy.html",
+          ".github/workflows/headers_copy.html",
         ],
       }).status()
     )
