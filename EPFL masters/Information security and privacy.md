@@ -4247,3 +4247,424 @@ int dotproduct ( int *veca , int *vecb , int len) {
 }
 
 ```
+
+## Privacy
+
+Privacy is not about hiding, but more about protecting ourselves.
+
+### Why privacy matters
+
+To not be influenced/manipulated
+
+We don't want our information used in ways we did not authorize
+
+We want to avoid people making money out of our information
+
+We want systems to avoid using our information where we would be **interfered** with
+
+### So what if they know
+
+Targeted advertising - what you buy, when you buy, how often, etc.
+
+In the US all the data can be bought and then use it for advertising such that it tailors to the buyer
+
+This information can also be used to discriminate (found through the study where different profiles were browsing the internet. High-paying jobs were way more advertised to male users. Another study also analysed the jobs ads discrimination on gender/race. Another study found ecommerce prices differences, even between people who have a mac and people who don't)
+
+#### Cambridge analytica
+
+Facebook game was collecting data about you and friends, and then CA was able to build profiles on the people and server targeted political advertisements.
+This was the case for 2016 US elections and UK Brexit vote
+
+UK and US were polarized and UK fined FB only 500k pounds
+
+Facebook has likes and "pixels" which load on other pages, and even without interactions, Facebook knows where you are.
+
+#### Attribute-based targetting
+
+Facebook computes attributes based on likes, and they are bought from "Partner" companies.
+
+Advertised can bulk-upload database (bought from data brokers, etc) to FB, who tells how many users are present on the system and allows to target them
+
+Then Facebook discovers similar people based on interests or browsing patterns. This can be tailored per region, sex, marital status, etc.
+
+#### EU CSA regulation debate
+
+Proposal where the REGULATION OF THE EUROPEAN PARLIAMENT AND OF THE COUNCIL laying down rules to prevent and combat child sexual abuse.
+
+However, this was advertised using targeted ads to people who would react to this well. This was a breach of GDPR, because it used private information.
+
+#### Privacy is essential for our society
+
+**A society without privacy protection would be suffocation**
+
+People should not be manipulated.
+
+### Privacy of whom?
+
+**Individuals** - protection against profiling and manipulation, protection against crime / identity theft
+
+Privacy is a Security property - there is no security without privacy
+
+**Companies** - protection of trade secrets, business strategy, internal operations, …
+
+**Governments / military** - protection of national secrets, confidentiality of law enforcement investigation, diplomatic activities, political negotiations
+
+**Privacy must be for all** - since the infrastructure is shared (same cloud services, industry). We share it indirectly - all the companies and governments are made out of people. (e.g. strava heatmap scandal)
+It's very easy to have leaks of information because of e.g. diplomats have phones, or their families have phones etc.
+Flight data is not encrypted so there could be diplomat meetings or company mergers could be predicted.
+
+> Denying privacy to some is denying privacy to all
+
+#### Security vs Privacy - misconception
+
+We need to tradeoff security for privacy
+
+More surveillance -> more security -> safer world
+
+But:
+
+- Surveillance may be not **effective** - smart adversaries evade surveillance
+  - criminals use since long Telegram, Tor, Signal, but average citizens do not!!
+- Surveillance tools can be **abused** - lack of transparency and safeguards
+  - Snowden revelations: NSA spying on citizens, companies, etc.
+- Surveillance tools can be **subverted** for crime / terrorism
+  - Greek Vodafone scandal (2006): “someone” used the legal interception functionalities (backdoors) to monitor 106 key people: Greek PM, ministers, senior military, diplomats, journalists, etc.
+
+### What is Privacy?
+
+Privacy is subjective: hard to define
+
+#### Privacy as Confidentiality
+
+**Goal**: Minimize data disclosure (which includes distributing trust)
+
+- PETs (privacy enchancing technologies): encryption, privacy-preserving computation, obfuscation, decentralization
+  - Homomorphic encryption, Secure Multi-party computation, Differential privacy
+  - Tor: anonymous communication network
+- Mathematical privacy definitions and strong proofs of security
+
+"The right to be let alone"
+
+#### Privacy as Control
+
+**Goal**: Let the user decide how data will be shared and used
+
+- PETs: privacy settings, (automated) privacy policies, logging
+  - Secure logging, Sticky policies,
+- Organizational compliance and fines (GDPR, US Fair Information principles)
+
+"The claim of individuals, groups, or institutions to determine for themselves when, how, and to what extent information about them is communicated to others"
+
+#### Privacy as Practice
+
+**Goal**: Improve user agency with respect to private information
+
+PETs: contextual feedback, privacy nudges
+
+"The freedom from unreasonable constraints on the construction of one’s own identity"
+
+### Adversary of privacy
+
+State-level / Global Adversaries (global view - they can see everything (through subpoenas or not)) - Government
+
+Institutional Adversaries - companies, advertisers, organizations we work for
+
+Adversaries from Social Context - colleagues, family and friends, strangers
+
+#### Adversaries from social context
+
+Concerns: problems from using technology - what are others going to think?
+
+PETs Goals - do not surprise the user - support decision making
+e.g. easy defaults, contextual feedback, privacy nudges
+
+Limitations: only protects from other users, service provider is trusted
+
+- limited by user's capability to understand policies (you need to set the settings yourself - what other users see from your post?)
+- based on user expectations, what if they are off?
+
+Common industry approach - make users comfortable
+
+##### Function creep
+
+**Function creep** - expansion of a process or system where data collected for one specific purpose is subsequently used for another unintended or unauthorized purpose.
+
+Example: Aadhaar - India's "optional" Unique Identity id number scheme.
+
+It became: mandatory for basic needs (benefits system, buying a SIM card, opening bank account, pay taxes, no education without UID).
+
+It was designed to "provide the poor with an identity"
+
+**EURODAC** - fingerprint database for asylum seekers.
+
+Goal - store fingerprints from all people who cross the border into European country withou permission
+
+It became - database for police and public prosecutors such as Europol
+
+More data was added - facial images and alphanumerical data( name, ID, passport number) of asylum seekers and irregular migrands
+
+#### Institutional adversaries
+
+Concerns - data should not be collected without user consent (it is not the only way to collect data) or processed for illegitimate uses. Data should be secured: correct, integrity, deletion.
+
+PETs Goals - compliance with data protection principles
+
+- Informed consent: valid, freely given, specific, and active consent
+- Purpose limitation: data can only be used for the purpose it was collected
+- Data minimization: only collect data strictly necessary for service (proportionality)
+- Subject access rights: user knows what information is stored/processed and how, user has right to modification and deletion
+- Preserving the security of data: auditability and accountability
+
+Access rights - ask the company for what they have, to delete the data, etc.
+
+Limitations:
+
+- assumes: collection is necessary, organizations are (semi)trusted and honest, relies on punishment (fines - problem for giants), no mandated technique for the protection of the data
+- Focuses on limiting misuse, no collection, and easy to circumvent minimization to collect in bulk
+
+**Real-time Bidding** - bid to appear on different websites. There is a lot of movement happening on-the-fly who is bidding on what and where the users are.
+There is also information about the high political figures flying around.
+
+This is GDPR controlled but it is out there
+
+Anonymization?
+
+#### Global adversary
+
+Concern - how to evade / fool a global adversary?
+
+PETs goals: minimize the need to trust others, minimize the amount of revealed information
+
+End-to-end encryption (Signal, PGP, OTR (off the record messaging)), anonymous comms (tor, mixnets), obfuscation (dummy actions, hiding, generalization, differential privacy), advanced crypto (private information retrieval, etc.)
+
+Limitations:
+
+- difficult to evolve, cobine/compose
+- usability problems both for devs and users (because of crypto, etc)
+- Lack of incentives:
+  - industry - loses the data
+  - government - national security, fraud detection
+
+Spotify is very valuable advertiser tool because music is good representation of mood and personality
+
+### Building privacy-preserving systems
+
+#### Privacy engineering process
+
+1. define "**desired uses**" - the purpose of the application
+2. identify the **minimal data** need for this purpose
+3. build a system that achieves the prupose of minimizing the misuse possibilities of the minimal data -- use PET!
+4. evaluate the system against a **strategic adversary** (try to find the most optimal way to attack the system, also assume the adversary knows the system)
+
+#### Systematic privacy evaluation
+
+1. Model the privacy-preserving mechanism as a probabilistic transformation
+   1. What is the probability that, given an input the privacy mechanism returns a given output?
+2. Determine what the adversary will see
+   1. Threat model: who is the adversary? what are her “observations”? what is her prior knowledge?
+3. “Invert” the mechanism, in the way the adversary would do
+   1. Always assume the adversary knows the mechanism and would try to undo its effect
+4. Evaluate property after inversion
+   1. This is the real probability the adversary can compute
+5. Quantify the probability of success of the adversary
+   1. Non trivial!
+
+#### Where can PETs help?
+
+Users interact with Internet with data, data goes to service provider, which publish.
+
+PETs should be put everywhere - privacy at all layers.
+We leak a lot of data even when it is safeguarded - metadata (images -> location), aggregated data (strava example)
+
+#### PETs example
+
+Users connect to services:
+Authorization: Attribute-based credentials - show authorization without identity or attributes
+Network protection: autonymous communications - eliminate network metadata
+
+Users provide data to services
+Privacy preserving computations: Homomorphic encryption (outsourcing), Secure multi-party computation (peer to peer or peer to server)
+Obfuscate data - differential privacy
+
+Users obtain data from services:
+Privacy preserving computations: Private information retrieval (search), Private set intersection (comparison)
+
+Servers publish data:
+Obfuscate data: differential privacy
+
+### Example of evalutation
+
+#### PETs for data anonymization
+
+Scenario:
+You have a set of data that contains personal data and you would like to anonymize it to:
+
+- not be subject to data protection while processing
+- make it public for profit
+- make it public for researchers
+
+Goal:
+Produce a dataset that preserves the utility of the original dataset **without leaking information** about individuals. This process is known as _“database sanitization”_
+
+#### Privacy properties: **anonymity**
+
+“Anonymity is the state of being not identifiable within a set of subjects, the anonymity set [...] The anonymity set is the set of all possible subjects who might cause an action”
+
+**Decoupling identities from user attributes**:
+
+- make users psedonymous
+  - This is not sufficient - there is a possible existence of other databases (medical data -- voter registration data)
+- Remove identities
+  - some attributes are quasi-identifiers
+- Let's remove some attributes
+  - impossible to know what will be a QID
+
+##### k-anonymity
+
+k-anonymity - Each person contained in the database cannot be distinguished from at least k-1 other individuals whose information also appears in the released database.
+
+Key atrribute - identifier
+Quasi-idetifier - gender + zip code
+Sensitive attribute - problem
+
+Generalization: replace attributes with less specific, but semantically consistent values
+
+Removal of attributes:
+
+- to improve anonymity, identifying attributes can be suppressed
+- suppression is the ultimate generalization
+
+Limitations:
+3-anonymous patient table. Does not provide privacy when sensitive values lack diversity - homogeneity attack could be done - it does not matter who Bob is, anyone with zipcode smt \*\* in their 20s has a heart disease
+
+##### L-diversity
+
+**L-diversity** - An equivalence class has l-diversity if there are at least **l well-represented values for the sensitive attribute**.
+
+A database has l-diversity if every equiv class has l-diversity
+
+Limitations: : if the attacker knows that the targeted individual has a low income or is in her 20s, he will know that she has a stomach-related disease.
+
+##### t-closeness
+
+An equivalence class has **𝚝-closeness** if the distance between the distribution of a sensitive attribute in this class and the distribution of the attribute in the whole table is no more than a threshold 𝚝.
+● A table has t-closeness if all equivalence classes have 𝚝-closeness.
+● The distance is usually measured as earth mover’s distance (EMD), also known as Wasserstein metric.
+
+##### quasi-identifier takeaways
+
+- Anonymizing a dataset via generalization and suppression is extremely hard
+  - The k-anonymity idea focuses on transforming the dataset not its semantics
+  - Achieving k-anonymity, l-diversity, t-closeness is hard, and still does not guarantee privacy
+- The adversary’s **background can be anything**
+
+The more cloumns dataset has, the more adversary can abuse the dataset
+
+### Interactive scenation
+
+many times we do not want the data, we want the stats
+
+Redefined goal for the interactivecase:
+produce an answer that preserves the utility of the statistics without leaking information about individuals.
+
+Problem - query might be very specific and reveals private information.
+
+Let's audit the queries, if the query will leak, deny!
+Etieher answer truthfully or state that there will be no answer
+
+Database assumed to contain numeric values
+
+Not answering the query is in itself information.
+
+#### When denying fails
+
+**Exact values**:
+Adv asks give me sum (d1, d2, d3), query answers 15
+Adv asks max(d1, d2, d3), query denies
+It was denied that if the max is 5, we reveal, but if don't it is 5
+
+**Intervals**: (d1 in 0,100)
+adv asks give me sum(d1, d2), query denies
+Adv asks sum(d2, d3), query answers 50
+So now it is possible to know the intervals
+
+#### Auditing has problems
+
+- Privacy definition? Privacy of Values? Groups? Exact?
+  - Algorithmic limitations
+  - Secure deniability implies using algorithms computationally prohibitive
+- Feasible focus mostly on simple queries
+- Collusion? Either high cost or no security
+- Utility?
+  - Percentage of denials may not be the best meas
+
+#### Differential privacy
+
+Produce answer that preverves the utility of the staticstic without leaking informatio nabout individuals
+
+To have any utility we **must allow the leakage** of some information, but we can set a bound on the extent of leakage!
+
+**Differential privacy** - Output is similar whether any single individual’s record is included in the database or not.
+
+**Basic philosophy**: instead of the real answer to a query, add random noise to output, such that by a small change in the database (someone joins or leaves), the distribution of the answer does not change much.
+
+**A new privacy goal**: minimize the increased risk incurred by an individual when joining (or leaving) a given database.
+
+Differential Privacy is a privacy notion **NOT** a mechanism
+
+##### Formal definitoin of $\epsilon$-differential privacy
+
+Principle: the removal/addition of a single record in the database should/does not substantially affect the values of the computed funciton/statistics
+
+Formalization:
+Let A be randomized function to be computed on a set of records (A is the actual function + noise)
+Let S be a subset of the possible values taken by A
+A provides $\epsilon$-differential privacy if for all r,S:
+$P[A(D)\in S] \le e^\epsilon \times P[A(D_{-r})\in S]$
+
+##### How to achieve?
+
+Add radnomized noise with Laplacian distribution of parameter $\frac{\delta f}{\epsilon}$, where $\epsilon$ is the security parameter, $\delta f$ is the sensitivity function of f (this accounts for how much it needs to obfuscate the data) - $\delta f = \max_{r} |f(D) - f(D_{-r})|$
+
+If the sensitivity is high, we need to put a lot of noise.
+
+##### How to choose the parameters
+
+The parameter $\epsilon$ is public, and we want it to be small (0.01, 0.1).
+
+Utility depends on the sensitivity - if we have a lot of outliers, we need higher sensitivity.
+
+##### What is the sensitivity of...?
+
+For any two neighboring databases (D, D\_{-r})
+
+Sensitivity of counting queries:
+
+- the number of elements in the database with a given property P
+- by adding or deleting one element of the database, F can change by at most 1
+- delta f (counting) = 1
+
+##### Composability of differential privacy
+
+If there are different algorithms that use independent randomness, and each algo satisfies epsilon differential pricacy, then all the answers together outputted is with epsilon = sum of epsilons
+
+##### How to ensure differential privacy
+
+- Input perturbation
+  - Add noise directly to the database ( ≠ perturbed dataset can be published)
+    - (+) independent of the algorithm & easy to reproduce
+    - (-) determining the amount of required noise is difficult
+- Output perturbation
+  - Add noise to the function (statistic) output
+    - (+) easier to control privacy & better guarantees than input perturbation
+    - (-) results cannot be reproduced
+- Algorithm Perturbation
+  - Inherently add noise to the algo
+    - (+) algorithm can be optimized with the noise addition
+    - (-) difficult to generalize & depends on the inputs
+
+##### Differential privacy comes at a cost
+
+- **Impact on accuracy**: we still add noise!
+- **Impact is disparate**: we preserve the average signal… but not the outliers
+- **Very hard to implement in practice**: sensitivity is not always obvious to compute, independence is not always guaranteed
