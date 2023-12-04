@@ -643,6 +643,26 @@ id="toc-microarchitectural-side-channels">Microarchitectural
 side-channels</a></li>
 </ul></li>
 <li><a href="#exercises-10" id="toc-exercises-10">Exercises 10</a></li>
+<li><a href="#privacy" id="toc-privacy">Privacy</a>
+<ul>
+<li><a href="#why-privacy-matters" id="toc-why-privacy-matters">Why
+privacy matters</a></li>
+<li><a href="#so-what-if-they-know" id="toc-so-what-if-they-know">So
+what if they know</a></li>
+<li><a href="#privacy-of-whom" id="toc-privacy-of-whom">Privacy of
+whom?</a></li>
+<li><a href="#what-is-privacy" id="toc-what-is-privacy">What is
+Privacy?</a></li>
+<li><a href="#adversary-of-privacy"
+id="toc-adversary-of-privacy">Adversary of privacy</a></li>
+<li><a href="#building-privacy-preserving-systems"
+id="toc-building-privacy-preserving-systems">Building privacy-preserving
+systems</a></li>
+<li><a href="#example-of-evalutation"
+id="toc-example-of-evalutation">Example of evalutation</a></li>
+<li><a href="#interactive-scenation"
+id="toc-interactive-scenation">Interactive scenation</a></li>
+</ul></li>
 </ul>
 </nav>
 <!-- markdownlint-disable MD010 MD041 MD001 MD036 MD029-->
@@ -4915,5 +4935,492 @@ class="sourceCode java"><code class="sourceCode java"><span id="cb16-1"><a href=
 <span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a>        acc <span class="op">+=</span> <span class="op">(</span>veca<span class="op">[</span>i<span class="op">]</span> <span class="op">+</span> vecb<span class="op">[</span>i<span class="op">]);</span></span>
 <span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> sum <span class="op">;</span></span>
 <span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<h2 id="privacy">Privacy</h2>
+<p>Privacy is not about hiding, but more about protecting ourselves.</p>
+<h3 id="why-privacy-matters">Why privacy matters</h3>
+<p>To not be influenced/manipulated</p>
+<p>We don’t want our information used in ways we did not authorize</p>
+<p>We want to avoid people making money out of our information</p>
+<p>We want systems to avoid using our information where we would be
+<strong>interfered</strong> with</p>
+<h3 id="so-what-if-they-know">So what if they know</h3>
+<p>Targeted advertising - what you buy, when you buy, how often,
+etc.</p>
+<p>In the US all the data can be bought and then use it for advertising
+such that it tailors to the buyer</p>
+<p>This information can also be used to discriminate (found through the
+study where different profiles were browsing the internet. High-paying
+jobs were way more advertised to male users. Another study also analysed
+the jobs ads discrimination on gender/race. Another study found
+ecommerce prices differences, even between people who have a mac and
+people who don’t)</p>
+<h4 id="cambridge-analytica">Cambridge analytica</h4>
+<p>Facebook game was collecting data about you and friends, and then CA
+was able to build profiles on the people and server targeted political
+advertisements. This was the case for 2016 US elections and UK Brexit
+vote</p>
+<p>UK and US were polarized and UK fined FB only 500k pounds</p>
+<p>Facebook has likes and “pixels” which load on other pages, and even
+without interactions, Facebook knows where you are.</p>
+<h4 id="attribute-based-targetting">Attribute-based targetting</h4>
+<p>Facebook computes attributes based on likes, and they are bought from
+“Partner” companies.</p>
+<p>Advertised can bulk-upload database (bought from data brokers, etc)
+to FB, who tells how many users are present on the system and allows to
+target them</p>
+<p>Then Facebook discovers similar people based on interests or browsing
+patterns. This can be tailored per region, sex, marital status, etc.</p>
+<h4 id="eu-csa-regulation-debate">EU CSA regulation debate</h4>
+<p>Proposal where the REGULATION OF THE EUROPEAN PARLIAMENT AND OF THE
+COUNCIL laying down rules to prevent and combat child sexual abuse.</p>
+<p>However, this was advertised using targeted ads to people who would
+react to this well. This was a breach of GDPR, because it used private
+information.</p>
+<h4 id="privacy-is-essential-for-our-society">Privacy is essential for
+our society</h4>
+<p><strong>A society without privacy protection would be
+suffocation</strong></p>
+<p>People should not be manipulated.</p>
+<h3 id="privacy-of-whom">Privacy of whom?</h3>
+<p><strong>Individuals</strong> - protection against profiling and
+manipulation, protection against crime / identity theft</p>
+<p>Privacy is a Security property - there is no security without
+privacy</p>
+<p><strong>Companies</strong> - protection of trade secrets, business
+strategy, internal operations, …</p>
+<p><strong>Governments / military</strong> - protection of national
+secrets, confidentiality of law enforcement investigation, diplomatic
+activities, political negotiations</p>
+<p><strong>Privacy must be for all</strong> - since the infrastructure
+is shared (same cloud services, industry). We share it indirectly - all
+the companies and governments are made out of people. (e.g. strava
+heatmap scandal) It’s very easy to have leaks of information because of
+e.g. diplomats have phones, or their families have phones etc. Flight
+data is not encrypted so there could be diplomat meetings or company
+mergers could be predicted.</p>
+<blockquote>
+<p>Denying privacy to some is denying privacy to all</p>
+</blockquote>
+<h4 id="security-vs-privacy---misconception">Security vs Privacy -
+misconception</h4>
+<p>We need to tradeoff security for privacy</p>
+<p>More surveillance -&gt; more security -&gt; safer world</p>
+<p>But:</p>
+<ul>
+<li>Surveillance may be not <strong>effective</strong> - smart
+adversaries evade surveillance
+<ul>
+<li>criminals use since long Telegram, Tor, Signal, but average citizens
+do not!!</li>
+</ul></li>
+<li>Surveillance tools can be <strong>abused</strong> - lack of
+transparency and safeguards
+<ul>
+<li>Snowden revelations: NSA spying on citizens, companies, etc.</li>
+</ul></li>
+<li>Surveillance tools can be <strong>subverted</strong> for crime /
+terrorism
+<ul>
+<li>Greek Vodafone scandal (2006): “someone” used the legal interception
+functionalities (backdoors) to monitor 106 key people: Greek PM,
+ministers, senior military, diplomats, journalists, etc.</li>
+</ul></li>
+</ul>
+<h3 id="what-is-privacy">What is Privacy?</h3>
+<p>Privacy is subjective: hard to define</p>
+<h4 id="privacy-as-confidentiality">Privacy as Confidentiality</h4>
+<p><strong>Goal</strong>: Minimize data disclosure (which includes
+distributing trust)</p>
+<ul>
+<li>PETs (privacy enchancing technologies): encryption,
+privacy-preserving computation, obfuscation, decentralization
+<ul>
+<li>Homomorphic encryption, Secure Multi-party computation, Differential
+privacy</li>
+<li>Tor: anonymous communication network</li>
+</ul></li>
+<li>Mathematical privacy definitions and strong proofs of security</li>
+</ul>
+<p>“The right to be let alone”</p>
+<h4 id="privacy-as-control">Privacy as Control</h4>
+<p><strong>Goal</strong>: Let the user decide how data will be shared
+and used</p>
+<ul>
+<li>PETs: privacy settings, (automated) privacy policies, logging
+<ul>
+<li>Secure logging, Sticky policies,</li>
+</ul></li>
+<li>Organizational compliance and fines (GDPR, US Fair Information
+principles)</li>
+</ul>
+<p>“The claim of individuals, groups, or institutions to determine for
+themselves when, how, and to what extent information about them is
+communicated to others”</p>
+<h4 id="privacy-as-practice">Privacy as Practice</h4>
+<p><strong>Goal</strong>: Improve user agency with respect to private
+information</p>
+<p>PETs: contextual feedback, privacy nudges</p>
+<p>“The freedom from unreasonable constraints on the construction of
+one’s own identity”</p>
+<h3 id="adversary-of-privacy">Adversary of privacy</h3>
+<p>State-level / Global Adversaries (global view - they can see
+everything (through subpoenas or not)) - Government</p>
+<p>Institutional Adversaries - companies, advertisers, organizations we
+work for</p>
+<p>Adversaries from Social Context - colleagues, family and friends,
+strangers</p>
+<h4 id="adversaries-from-social-context">Adversaries from social
+context</h4>
+<p>Concerns: problems from using technology - what are others going to
+think?</p>
+<p>PETs Goals - do not surprise the user - support decision making
+e.g. easy defaults, contextual feedback, privacy nudges</p>
+<p>Limitations: only protects from other users, service provider is
+trusted</p>
+<ul>
+<li>limited by user’s capability to understand policies (you need to set
+the settings yourself - what other users see from your post?)</li>
+<li>based on user expectations, what if they are off?</li>
+</ul>
+<p>Common industry approach - make users comfortable</p>
+<h5 id="function-creep">Function creep</h5>
+<p><strong>Function creep</strong> - expansion of a process or system
+where data collected for one specific purpose is subsequently used for
+another unintended or unauthorized purpose.</p>
+<p>Example: Aadhaar - India’s “optional” Unique Identity id number
+scheme.</p>
+<p>It became: mandatory for basic needs (benefits system, buying a SIM
+card, opening bank account, pay taxes, no education without UID).</p>
+<p>It was designed to “provide the poor with an identity”</p>
+<p><strong>EURODAC</strong> - fingerprint database for asylum
+seekers.</p>
+<p>Goal - store fingerprints from all people who cross the border into
+European country withou permission</p>
+<p>It became - database for police and public prosecutors such as
+Europol</p>
+<p>More data was added - facial images and alphanumerical data( name,
+ID, passport number) of asylum seekers and irregular migrands</p>
+<h4 id="institutional-adversaries">Institutional adversaries</h4>
+<p>Concerns - data should not be collected without user consent (it is
+not the only way to collect data) or processed for illegitimate uses.
+Data should be secured: correct, integrity, deletion.</p>
+<p>PETs Goals - compliance with data protection principles</p>
+<ul>
+<li>Informed consent: valid, freely given, specific, and active
+consent</li>
+<li>Purpose limitation: data can only be used for the purpose it was
+collected</li>
+<li>Data minimization: only collect data strictly necessary for service
+(proportionality)</li>
+<li>Subject access rights: user knows what information is
+stored/processed and how, user has right to modification and
+deletion</li>
+<li>Preserving the security of data: auditability and
+accountability</li>
+</ul>
+<p>Access rights - ask the company for what they have, to delete the
+data, etc.</p>
+<p>Limitations:</p>
+<ul>
+<li>assumes: collection is necessary, organizations are (semi)trusted
+and honest, relies on punishment (fines - problem for giants), no
+mandated technique for the protection of the data</li>
+<li>Focuses on limiting misuse, no collection, and easy to circumvent
+minimization to collect in bulk</li>
+</ul>
+<p><strong>Real-time Bidding</strong> - bid to appear on different
+websites. There is a lot of movement happening on-the-fly who is bidding
+on what and where the users are. There is also information about the
+high political figures flying around.</p>
+<p>This is GDPR controlled but it is out there</p>
+<p>Anonymization?</p>
+<h4 id="global-adversary">Global adversary</h4>
+<p>Concern - how to evade / fool a global adversary?</p>
+<p>PETs goals: minimize the need to trust others, minimize the amount of
+revealed information</p>
+<p>End-to-end encryption (Signal, PGP, OTR (off the record messaging)),
+anonymous comms (tor, mixnets), obfuscation (dummy actions, hiding,
+generalization, differential privacy), advanced crypto (private
+information retrieval, etc.)</p>
+<p>Limitations:</p>
+<ul>
+<li>difficult to evolve, cobine/compose</li>
+<li>usability problems both for devs and users (because of crypto,
+etc)</li>
+<li>Lack of incentives:
+<ul>
+<li>industry - loses the data</li>
+<li>government - national security, fraud detection</li>
+</ul></li>
+</ul>
+<p>Spotify is very valuable advertiser tool because music is good
+representation of mood and personality</p>
+<h3 id="building-privacy-preserving-systems">Building privacy-preserving
+systems</h3>
+<h4 id="privacy-engineering-process">Privacy engineering process</h4>
+<ol type="1">
+<li>define “<strong>desired uses</strong>” - the purpose of the
+application</li>
+<li>identify the <strong>minimal data</strong> need for this
+purpose</li>
+<li>build a system that achieves the prupose of minimizing the misuse
+possibilities of the minimal data – use PET!</li>
+<li>evaluate the system against a <strong>strategic adversary</strong>
+(try to find the most optimal way to attack the system, also assume the
+adversary knows the system)</li>
+</ol>
+<h4 id="systematic-privacy-evaluation">Systematic privacy
+evaluation</h4>
+<ol type="1">
+<li>Model the privacy-preserving mechanism as a probabilistic
+transformation
+<ol type="1">
+<li>What is the probability that, given an input the privacy mechanism
+returns a given output?</li>
+</ol></li>
+<li>Determine what the adversary will see
+<ol type="1">
+<li>Threat model: who is the adversary? what are her “observations”?
+what is her prior knowledge?</li>
+</ol></li>
+<li>“Invert” the mechanism, in the way the adversary would do
+<ol type="1">
+<li>Always assume the adversary knows the mechanism and would try to
+undo its effect</li>
+</ol></li>
+<li>Evaluate property after inversion
+<ol type="1">
+<li>This is the real probability the adversary can compute</li>
+</ol></li>
+<li>Quantify the probability of success of the adversary
+<ol type="1">
+<li>Non trivial!</li>
+</ol></li>
+</ol>
+<h4 id="where-can-pets-help">Where can PETs help?</h4>
+<p>Users interact with Internet with data, data goes to service
+provider, which publish.</p>
+<p>PETs should be put everywhere - privacy at all layers. We leak a lot
+of data even when it is safeguarded - metadata (images -&gt; location),
+aggregated data (strava example)</p>
+<h4 id="pets-example">PETs example</h4>
+<p>Users connect to services: Authorization: Attribute-based credentials
+- show authorization without identity or attributes Network protection:
+autonymous communications - eliminate network metadata</p>
+<p>Users provide data to services Privacy preserving computations:
+Homomorphic encryption (outsourcing), Secure multi-party computation
+(peer to peer or peer to server) Obfuscate data - differential
+privacy</p>
+<p>Users obtain data from services: Privacy preserving computations:
+Private information retrieval (search), Private set intersection
+(comparison)</p>
+<p>Servers publish data: Obfuscate data: differential privacy</p>
+<h3 id="example-of-evalutation">Example of evalutation</h3>
+<h4 id="pets-for-data-anonymization">PETs for data anonymization</h4>
+<p>Scenario: You have a set of data that contains personal data and you
+would like to anonymize it to:</p>
+<ul>
+<li>not be subject to data protection while processing</li>
+<li>make it public for profit</li>
+<li>make it public for researchers</li>
+</ul>
+<p>Goal: Produce a dataset that preserves the utility of the original
+dataset <strong>without leaking information</strong> about individuals.
+This process is known as <em>“database sanitization”</em></p>
+<h4 id="privacy-properties-anonymity">Privacy properties:
+<strong>anonymity</strong></h4>
+<p>“Anonymity is the state of being not identifiable within a set of
+subjects, the anonymity set […] The anonymity set is the set of all
+possible subjects who might cause an action”</p>
+<p><strong>Decoupling identities from user attributes</strong>:</p>
+<ul>
+<li>make users psedonymous
+<ul>
+<li>This is not sufficient - there is a possible existence of other
+databases (medical data – voter registration data)</li>
+</ul></li>
+<li>Remove identities
+<ul>
+<li>some attributes are quasi-identifiers</li>
+</ul></li>
+<li>Let’s remove some attributes
+<ul>
+<li>impossible to know what will be a QID</li>
+</ul></li>
+</ul>
+<h5 id="k-anonymity">k-anonymity</h5>
+<p>k-anonymity - Each person contained in the database cannot be
+distinguished from at least k-1 other individuals whose information also
+appears in the released database.</p>
+<p>Key atrribute - identifier Quasi-idetifier - gender + zip code
+Sensitive attribute - problem</p>
+<p>Generalization: replace attributes with less specific, but
+semantically consistent values</p>
+<p>Removal of attributes:</p>
+<ul>
+<li>to improve anonymity, identifying attributes can be suppressed</li>
+<li>suppression is the ultimate generalization</li>
+</ul>
+<p>Limitations: 3-anonymous patient table. Does not provide privacy when
+sensitive values lack diversity - homogeneity attack could be done - it
+does not matter who Bob is, anyone with zipcode smt ** in their 20s has
+a heart disease</p>
+<h5 id="l-diversity">L-diversity</h5>
+<p><strong>L-diversity</strong> - An equivalence class has l-diversity
+if there are at least <strong>l well-represented values for the
+sensitive attribute</strong>.</p>
+<p>A database has l-diversity if every equiv class has l-diversity</p>
+<p>Limitations: : if the attacker knows that the targeted individual has
+a low income or is in her 20s, he will know that she has a
+stomach-related disease.</p>
+<h5 id="t-closeness">t-closeness</h5>
+<p>An equivalence class has <strong>𝚝-closeness</strong> if the distance
+between the distribution of a sensitive attribute in this class and the
+distribution of the attribute in the whole table is no more than a
+threshold 𝚝. ● A table has t-closeness if all equivalence classes have
+𝚝-closeness. ● The distance is usually measured as earth mover’s
+distance (EMD), also known as Wasserstein metric.</p>
+<h5 id="quasi-identifier-takeaways">quasi-identifier takeaways</h5>
+<ul>
+<li>Anonymizing a dataset via generalization and suppression is
+extremely hard
+<ul>
+<li>The k-anonymity idea focuses on transforming the dataset not its
+semantics</li>
+<li>Achieving k-anonymity, l-diversity, t-closeness is hard, and still
+does not guarantee privacy</li>
+</ul></li>
+<li>The adversary’s <strong>background can be anything</strong></li>
+</ul>
+<p>The more cloumns dataset has, the more adversary can abuse the
+dataset</p>
+<h3 id="interactive-scenation">Interactive scenation</h3>
+<p>many times we do not want the data, we want the stats</p>
+<p>Redefined goal for the interactivecase: produce an answer that
+preserves the utility of the statistics without leaking information
+about individuals.</p>
+<p>Problem - query might be very specific and reveals private
+information.</p>
+<p>Let’s audit the queries, if the query will leak, deny! Etieher answer
+truthfully or state that there will be no answer</p>
+<p>Database assumed to contain numeric values</p>
+<p>Not answering the query is in itself information.</p>
+<h4 id="when-denying-fails">When denying fails</h4>
+<p><strong>Exact values</strong>: Adv asks give me sum (d1, d2, d3),
+query answers 15 Adv asks max(d1, d2, d3), query denies It was denied
+that if the max is 5, we reveal, but if don’t it is 5</p>
+<p><strong>Intervals</strong>: (d1 in 0,100) adv asks give me sum(d1,
+d2), query denies Adv asks sum(d2, d3), query answers 50 So now it is
+possible to know the intervals</p>
+<h4 id="auditing-has-problems">Auditing has problems</h4>
+<ul>
+<li>Privacy definition? Privacy of Values? Groups? Exact?
+<ul>
+<li>Algorithmic limitations</li>
+<li>Secure deniability implies using algorithms computationally
+prohibitive</li>
+</ul></li>
+<li>Feasible focus mostly on simple queries</li>
+<li>Collusion? Either high cost or no security</li>
+<li>Utility?
+<ul>
+<li>Percentage of denials may not be the best meas</li>
+</ul></li>
+</ul>
+<h4 id="differential-privacy">Differential privacy</h4>
+<p>Produce answer that preverves the utility of the staticstic without
+leaking informatio nabout individuals</p>
+<p>To have any utility we <strong>must allow the leakage</strong> of
+some information, but we can set a bound on the extent of leakage!</p>
+<p><strong>Differential privacy</strong> - Output is similar whether any
+single individual’s record is included in the database or not.</p>
+<p><strong>Basic philosophy</strong>: instead of the real answer to a
+query, add random noise to output, such that by a small change in the
+database (someone joins or leaves), the distribution of the answer does
+not change much.</p>
+<p><strong>A new privacy goal</strong>: minimize the increased risk
+incurred by an individual when joining (or leaving) a given
+database.</p>
+<p>Differential Privacy is a privacy notion <strong>NOT</strong> a
+mechanism</p>
+<h5 id="formal-definitoin-of-epsilon-differential-privacy">Formal
+definitoin of <span class="math inline">\epsilon</span>-differential
+privacy</h5>
+<p>Principle: the removal/addition of a single record in the database
+should/does not substantially affect the values of the computed
+funciton/statistics</p>
+<p>Formalization: Let A be randomized function to be computed on a set
+of records (A is the actual function + noise) Let S be a subset of the
+possible values taken by A A provides <span
+class="math inline">\epsilon</span>-differential privacy if for all r,S:
+<span class="math inline">P[A(D)\in S] \le e^\epsilon \times
+P[A(D_{-r})\in S]</span></p>
+<h5 id="how-to-achieve">How to achieve?</h5>
+<p>Add radnomized noise with Laplacian distribution of parameter <span
+class="math inline">\frac{\delta f}{\epsilon}</span>, where <span
+class="math inline">\epsilon</span> is the security parameter, <span
+class="math inline">\delta f</span> is the sensitivity function of f
+(this accounts for how much it needs to obfuscate the data) - <span
+class="math inline">\delta f = \max_{r} |f(D) - f(D_{-r})|</span></p>
+<p>If the sensitivity is high, we need to put a lot of noise.</p>
+<h5 id="how-to-choose-the-parameters">How to choose the parameters</h5>
+<p>The parameter <span class="math inline">\epsilon</span> is public,
+and we want it to be small (0.01, 0.1).</p>
+<p>Utility depends on the sensitivity - if we have a lot of outliers, we
+need higher sensitivity.</p>
+<h5 id="what-is-the-sensitivity-of">What is the sensitivity of…?</h5>
+<p>For any two neighboring databases (D, D_{-r})</p>
+<p>Sensitivity of counting queries:</p>
+<ul>
+<li>the number of elements in the database with a given property P</li>
+<li>by adding or deleting one element of the database, F can change by
+at most 1</li>
+<li>delta f (counting) = 1</li>
+</ul>
+<h5 id="composability-of-differential-privacy">Composability of
+differential privacy</h5>
+<p>If there are different algorithms that use independent randomness,
+and each algo satisfies epsilon differential pricacy, then all the
+answers together outputted is with epsilon = sum of epsilons</p>
+<h5 id="how-to-ensure-differential-privacy">How to ensure differential
+privacy</h5>
+<ul>
+<li>Input perturbation
+<ul>
+<li>Add noise directly to the database ( ≠ perturbed dataset can be
+published)
+<ul>
+<li>(+) independent of the algorithm &amp; easy to reproduce</li>
+<li>(-) determining the amount of required noise is difficult</li>
+</ul></li>
+</ul></li>
+<li>Output perturbation
+<ul>
+<li>Add noise to the function (statistic) output
+<ul>
+<li>(+) easier to control privacy &amp; better guarantees than input
+perturbation</li>
+<li>(-) results cannot be reproduced</li>
+</ul></li>
+</ul></li>
+<li>Algorithm Perturbation
+<ul>
+<li>Inherently add noise to the algo
+<ul>
+<li>(+) algorithm can be optimized with the noise addition</li>
+<li>(-) difficult to generalize &amp; depends on the inputs</li>
+</ul></li>
+</ul></li>
+</ul>
+<h5 id="differential-privacy-comes-at-a-cost">Differential privacy comes
+at a cost</h5>
+<ul>
+<li><strong>Impact on accuracy</strong>: we still add noise!</li>
+<li><strong>Impact is disparate</strong>: we preserve the average
+signal… but not the outliers</li>
+<li><strong>Very hard to implement in practice</strong>: sensitivity is
+not always obvious to compute, independence is not always
+guaranteed</li>
+</ul>
 </body>
 </html>
