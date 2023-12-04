@@ -1452,3 +1452,202 @@ Probabilistic finality - 6 blocks (1h) - instead of saying "we have the transact
 Economic incentive compatibility - bitcoin gives economic incetives to miners
 
 Safety assumption - assuming that messages arrive in very short time - **synchronicity**
+
+## Skipped bitcoin and ethereum
+
+## Advanced Blockchain architectures
+
+### Limitations of mainstream blockchain platforms
+
+Weak finality - probabilistic (~1h for Bitcoin)
+
+Transaction throughput and cost - few TPS
+
+Transaction commit latencry
+
+Fairness - Power distributed by investment, not by people (a lot of hw - wins proof of work, a lot of money - wins proof of stake)
+
+Energy waste (PoW)
+
+Privacy - TX identities, amounts, data, computations
+
+Following blockchains efficiently (to verify it, i need to keep the whole blockchain, or verfied cache)
+
+Bridging between chains
+
+Governance - upgrade, replace
+
+### Current state of throughput
+
+Bitcoin: 4-7 TPS (transactions per second) (around 2400-10000 transactions per block)
+
+Ethereum: 20-30 TPS
+
+VISA: 1500-4000 TPS (pre-2020) and ~8000 TPS (now, and says that they can scale up to 65,000TPS)
+
+Solutions:
+Sharding it,
+Speed up the blockchain algorithm,
+Increase the block size,
+Have a smaller blockchain where the transactions are done
+
+### Scaling throughput - Approaches
+
+Tweaks:
+
+- scale up the nodes (faster links)
+- Reduce block time (bitcoin's 10min, ethereum 15s)
+- Make use of wasted effort (when the block is not on the longest chain, and gets lost)
+  - use orphaned/competing heads in blockchain
+  - Turn blockchain into a DAG (there could be double spending between parallel blocks but there are algorithms to stop it)
+
+Bypassing blockcahin / batching transaactions:
+
+- payment channels - e.g. Lightning network
+- Layer 2 chains - separate consensus mechanism
+  - rapi transactions, instant finality, periodically committed to main chain
+  - ZK (zero-knowledge proofs) rollups: verify transaction history, not just hash
+  - optimistic rollups: claim, can be challenged during time window
+- Side chains (-> bridging problem - how to convert my currency to the other)
+
+Rethinking consensus:
+
+- Hybrid consensus mechanisms - Bitcoin-NG, ByzCoin
+  - Can we achieve (permissionless) performance closer to PBFT?
+- Sharding - OmniLedger, Cardano (Ouroboros), Ethereum (past roadmap)
+  - can we scale up?
+
+#### Bitcoin-NG (Next Generation)
+
+Bitcoin transactions are very much included in the block (because of the merkle tree). Uses PoW for transactions
+
+Bitcoin-NG still uses the PoW, but it is used for the election of the leader.
+PubKey is included in NG Block, and it is used to generate micro-blocks of transactions + signatures, until the main block gets created again.
+if the leader is acting up, and leader 2 can discard that, and leader 3 can follow 2's decision
+Problems:
+
+- because of the insentive to have transactions as fast as possible
+- maximum value problem because we have a dictator
+- the new leader can ignore previous TXs, so there is an insentive that past leader pays new leader
+- there can be DoS attack against the leader
+
+PoW becomes a form of leader election
+Transaction processing is separate from PoW
+Incentives need to be adjusted
+
+Pro: higher TPS
+
+Con: "temporary dictator" (DoS-able)
+
+#### ByzCoin
+
+Built on Bitcoin-NG, and tries to avoid "temporary dictator"
+
+Form a consensus committee out of 100-1000 last PoW winners (it's not a huge amount of nodes, and does fair amout of sampling from the system (more NSA-proof))
+
+Operate with BFT consensus within the committee (e.g. PBFT)
+
+PoW chain is for the committee members
+PBFT chain is for the transactions - signed (quorum signed) micro-blocks
+
+Challenges:
+
+- How do clients know and verify which micro-blocks were committed?
+  - collective signing (threshold of committee)
+- How do you rotate the committee?
+  - Option 1: via PBFT commit a transaction of "new transaction" => guarantees safety (there is no ambiguity what is the new committee) with large enough committee.
+    - problem - committee is small or likely to go offline
+  - Option 2: via PoW alone (you could go through the last 1000ish blocks to find all the pubkeys, but it needs a lot of state) => guarantees liveness
+
+Attack example: old committee selects itself
+
+#### Sharding
+
+Problem: no "scale out" in blockchain, everyone processes everything
+
+Desired state: more miners = more aggregate capacity
+
+Potential solution: shard across UTXO
+
+UTXOs are assigned to different shards.
+If I am only doing the TX in Shard A, the miners in only Shard A can execute it.
+
+Challenges:
+
+- how big should a shard be?
+  - To distribute the nodes in the shard we need something verifiably random
+- cross-shard transactions
+- threat: shard takeover
+
+##### Cross-shard transactions
+
+- two-phase transaction lock
+- request all shards to lock a TX, then execute
+- on failure/lack of responses - abort
+- on success - commit
+
+Problems:
+multiple miners need the same TX - double-spend problem, then it would be either aborted or already locked
+if one of the shards stop responding (the lock was sent out and it stopped responding)
+
+If shards are untrusted:
+Time lock
+Revert unless TX goes through
+This is much more complex protocol, guarantees safety + liveness
+
+### Approaches to energy efficiency
+
+**Proof of Burn** - based on other PoW blockchains (the motivation behind PoW is making it costly to do Sybil attack).
+Idea behind Proof of Burn - create unspendable outputs, which basically is burning the coin
+
+**Proof of Storage** - Chia - (hard disks instead of electricity) - solving a problem which requires a lot of space instead of mathematical problem
+One of the approaches - mathematical pebbles
+Storing some useful data, and at any point you have to be able to prove that you have the data
+Or having a ton of stuff in RAM.
+
+**Proof of Sequential Work** - Verifiable Delay Functions (VDF). Create a sequence of operations and verify that they were done in order.
+
+**Proof of Elapsed Time** - spend time waiting. Requires specific hw for TEE
+
+**Proof of Stake** - most deployed solution
+
+#### Proof of Stake
+
+If I misbehave, I lose my stake, otherwise I get rewarded.
+
+How to form a consensus group?
+Ethereum: RANDAO (smart contracts which create some randomness). People will create some hashes, and put money in, and after some time people are forced to reveal the numbers under the hashes (or they lose money). And these numbers are put together and used as a seed.
+
+Algorand:
+
+- random sample of stakeholders
+- use Verifiable Random Funciton to genetrate a unique "lotery ticket" per node, per round
+- Ticket "wins" if below a threshold value. A node knows if it won (above the threshold), or not, it is private
+- Reveal winning ticket along with consensus vote (this prevents DoS attack)
+
+Why change acnsensus group at every block?
+
+- protect against fast, adaptive adversary
+- prevents DoS attacks, nodes hacking
+
+### Following blockchains efficiently - Skipchains
+
+Problem: retrieving information from a blockchain requires following it actively, fully
+
+Solution:
+
+- ByzCoin-like collective signatures
+- add "forward links" in addition to backward (hash) links (such that we can traverse the blockchain from the first to last)
+
+Sill requires O(n)
+
+How can we do better?
+
+Blocks reference previous blocks, and skip links which are of different levels.
+This skip list is in each block, and you can traverse the blocks at any speed.
+Multi-level links enable O(log n) retrieval
+
+There is the only time when you need to go to specific node, is when the committee changes, where the signatures change.
+In principle, this allows you to go very fast.
+
+This can be used for reliable software distribution (connect to the internet sometimes and get the latest version).
