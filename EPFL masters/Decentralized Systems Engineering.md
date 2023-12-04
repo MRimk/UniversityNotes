@@ -1453,7 +1453,7 @@ Economic incentive compatibility - bitcoin gives economic incetives to miners
 
 Safety assumption - assuming that messages arrive in very short time - **synchronicity**
 
-## Skipped bitcoin and ethereum
+## Skipped bitcoin and ethereum (slides are quite explicit, but i should rewrite that)
 
 ## Advanced Blockchain architectures
 
@@ -1651,3 +1651,72 @@ There is the only time when you need to go to specific node, is when the committ
 In principle, this allows you to go very fast.
 
 This can be used for reliable software distribution (connect to the internet sometimes and get the latest version).
+
+## Design patterns for Decentralized & Distributed Systems
+
+### Decentralized patterns
+
+Assume no single trusted party
+
+**Identity and Agency** - how to assign a user in a system like Usenet? (e.g. Mastadon)
+
+- Host roulette (randomizing is good idea to distribute the workload over bunch of servers)
+- Composite address - communicatein has to be tied to one of the nodes
+
+**Network Construction and Health**:
+
+- Discovery servers - address the need of finding peers (BitTorrent)
+- Age indicators (is the data stale?)
+- Heartbeats (how do we know that the system is running well?) - ensure that there is a continuous communication with peers
+  - heartbeat could be implemented such that all the peers are connected (even though in gossip data sharing it would not be the case), so that network faults could be detected before the whole system breaks down
+
+**Moderation and incentives**
+Incentives - prisoner's dilemma - 2 prisoners caught, and 2 choices: rat or not on the other. The incentive for the prisoner for themselves is to rat, because either they go free or the sentence is reduced.
+In decentralized system, it is the repeat of prisoner's dilema, as in it happens again and again. That's why incentives are hard.
+Therefore, we use the "Trust but verify" ("cautious optimism") - assume everyone behaves well, but if someone does not, then they get punished (e.g. BitTorrent choke the user which does not seed). It's like "fool me once, shame on you, fool me twice - shame on me", but instead of "shame on me", it is straight up block of you
+
+**Versioning**
+
+- Vector clocks - associate the clock to each the participating node, and the clock is incremented with each action on data. This shows causal dependency between events. It shows the causal order.
+  - Problem: ...
+- Hybrid logical clock - if on the local machine clock is monotonously increasing, the high bits would be timestamp, the low bits as a counter.
+- Versioned values - seeing each new version of something, and a pointer what is the newest
+
+**Scaling**
+
+- Sharding
+- Split consensus / data - it's impossible to have consensus when it's gigabytes of data. Consensus could be seen as a service
+- Hierarchical organization
+
+### Distributed Patterns
+
+Assume there is an authority
+
+**Managing workload** (data/workload going through the system)
+
+- throttling (input) - we say that the input need to slow down when there is a bottleneck (apply back pressure)
+- rate limit (output) - we slow down if the receiving system needs us to.
+- Pool of workers
+
+**Managing failures**
+
+- Bulkhead (in boats it's compartments that are sealed of if flooded, but the boat keeps afloat) - if certain services get flooded, we control the failure. e.g. for database - applications access database through bulkheads (additional access control), and if one application floods the bulkhead it stops only that rather than taking down the whole database.
+- Circuit breaker - if the system is getting bombarded by the requests, and the system is too overwhelmed, we should not retry. Therefore, the system breaks the circuit to that resource, applies the backpressure, and then the system retries slowly - semi open breaker (such that the resource does not go down) (similar to TCP Slow Start, just with backpressure)
+- Idempotent receivers - not reacting twice to the same thing - the system reaches a stable state
+- Compensating transaction - executing service A, B, C.., but if one of them fails, I can undo the transaction
+
+**Managing time**
+TrueTime (Google's) - machine's are in sync within some uncertainty. Instead of a timestamp, it is [t0, t0 + uncertainty]. Google can bound this because it is happening in their system. If the intervals overlap, then the events happened concurrently, otherwise can be causal.
+
+**Monitoring**
+In drand: combine heartbeats of two nodes and have the age of the last communication, and show the link connectivity.
+
+- Correlation IDs - with each request have a unique ID, which is traced over smaller services (and therefore see where it failed). Also it can record response times for each request
+
+### Large-scale systems
+
+Alibaba Scalog - needs a total ordering relationship inside the system because of the amount of services it offers. Ordering is done with Paxos, but it is as a service, and data is in shards which are communicating with ordering layer. The paxos works with aggregators, not each shard.
+
+Google Spanner
+
+Google Zanzibar
