@@ -608,6 +608,29 @@ consensus (Bitcoin and Proof-of-work)</a>
 <li><a href="#bitcoin-assumptions" id="toc-bitcoin-assumptions">Bitcoin
 assumptions</a></li>
 </ul></li>
+<li><a href="#skipped-bitcoin-and-ethereum"
+id="toc-skipped-bitcoin-and-ethereum">Skipped bitcoin and
+ethereum</a></li>
+<li><a href="#advanced-blockchain-architectures"
+id="toc-advanced-blockchain-architectures">Advanced Blockchain
+architectures</a>
+<ul>
+<li><a href="#limitations-of-mainstream-blockchain-platforms"
+id="toc-limitations-of-mainstream-blockchain-platforms">Limitations of
+mainstream blockchain platforms</a></li>
+<li><a href="#current-state-of-throughput"
+id="toc-current-state-of-throughput">Current state of
+throughput</a></li>
+<li><a href="#scaling-throughput---approaches"
+id="toc-scaling-throughput---approaches">Scaling throughput -
+Approaches</a></li>
+<li><a href="#approaches-to-energy-efficiency"
+id="toc-approaches-to-energy-efficiency">Approaches to energy
+efficiency</a></li>
+<li><a href="#following-blockchains-efficiently---skipchains"
+id="toc-following-blockchains-efficiently---skipchains">Following
+blockchains efficiently - Skipchains</a></li>
+</ul></li>
 </ul>
 </nav>
 <!-- markdownlint-disable MD010 MD041 MD001 MD036 MD029 MD034-->
@@ -1980,5 +2003,205 @@ comes from probability of a fork happening.</p>
 to miners</p>
 <p>Safety assumption - assuming that messages arrive in very short time
 - <strong>synchronicity</strong></p>
+<h2 id="skipped-bitcoin-and-ethereum">Skipped bitcoin and ethereum</h2>
+<h2 id="advanced-blockchain-architectures">Advanced Blockchain
+architectures</h2>
+<h3 id="limitations-of-mainstream-blockchain-platforms">Limitations of
+mainstream blockchain platforms</h3>
+<p>Weak finality - probabilistic (~1h for Bitcoin)</p>
+<p>Transaction throughput and cost - few TPS</p>
+<p>Transaction commit latencry</p>
+<p>Fairness - Power distributed by investment, not by people (a lot of
+hw - wins proof of work, a lot of money - wins proof of stake)</p>
+<p>Energy waste (PoW)</p>
+<p>Privacy - TX identities, amounts, data, computations</p>
+<p>Following blockchains efficiently (to verify it, i need to keep the
+whole blockchain, or verfied cache)</p>
+<p>Bridging between chains</p>
+<p>Governance - upgrade, replace</p>
+<h3 id="current-state-of-throughput">Current state of throughput</h3>
+<p>Bitcoin: 4-7 TPS (transactions per second) (around 2400-10000
+transactions per block)</p>
+<p>Ethereum: 20-30 TPS</p>
+<p>VISA: 1500-4000 TPS (pre-2020) and ~8000 TPS (now, and says that they
+can scale up to 65,000TPS)</p>
+<p>Solutions: Sharding it, Speed up the blockchain algorithm, Increase
+the block size, Have a smaller blockchain where the transactions are
+done</p>
+<h3 id="scaling-throughput---approaches">Scaling throughput -
+Approaches</h3>
+<p>Tweaks:</p>
+<ul>
+<li>scale up the nodes (faster links)</li>
+<li>Reduce block time (bitcoin’s 10min, ethereum 15s)</li>
+<li>Make use of wasted effort (when the block is not on the longest
+chain, and gets lost)
+<ul>
+<li>use orphaned/competing heads in blockchain</li>
+<li>Turn blockchain into a DAG (there could be double spending between
+parallel blocks but there are algorithms to stop it)</li>
+</ul></li>
+</ul>
+<p>Bypassing blockcahin / batching transaactions:</p>
+<ul>
+<li>payment channels - e.g. Lightning network</li>
+<li>Layer 2 chains - separate consensus mechanism
+<ul>
+<li>rapi transactions, instant finality, periodically committed to main
+chain</li>
+<li>ZK (zero-knowledge proofs) rollups: verify transaction history, not
+just hash</li>
+<li>optimistic rollups: claim, can be challenged during time window</li>
+</ul></li>
+<li>Side chains (-&gt; bridging problem - how to convert my currency to
+the other)</li>
+</ul>
+<p>Rethinking consensus:</p>
+<ul>
+<li>Hybrid consensus mechanisms - Bitcoin-NG, ByzCoin
+<ul>
+<li>Can we achieve (permissionless) performance closer to PBFT?</li>
+</ul></li>
+<li>Sharding - OmniLedger, Cardano (Ouroboros), Ethereum (past roadmap)
+<ul>
+<li>can we scale up?</li>
+</ul></li>
+</ul>
+<h4 id="bitcoin-ng-next-generation">Bitcoin-NG (Next Generation)</h4>
+<p>Bitcoin transactions are very much included in the block (because of
+the merkle tree). Uses PoW for transactions</p>
+<p>Bitcoin-NG still uses the PoW, but it is used for the election of the
+leader. PubKey is included in NG Block, and it is used to generate
+micro-blocks of transactions + signatures, until the main block gets
+created again. if the leader is acting up, and leader 2 can discard
+that, and leader 3 can follow 2’s decision Problems:</p>
+<ul>
+<li>because of the insentive to have transactions as fast as
+possible</li>
+<li>maximum value problem because we have a dictator</li>
+<li>the new leader can ignore previous TXs, so there is an insentive
+that past leader pays new leader</li>
+<li>there can be DoS attack against the leader</li>
+</ul>
+<p>PoW becomes a form of leader election Transaction processing is
+separate from PoW Incentives need to be adjusted</p>
+<p>Pro: higher TPS</p>
+<p>Con: “temporary dictator” (DoS-able)</p>
+<h4 id="byzcoin">ByzCoin</h4>
+<p>Built on Bitcoin-NG, and tries to avoid “temporary dictator”</p>
+<p>Form a consensus committee out of 100-1000 last PoW winners (it’s not
+a huge amount of nodes, and does fair amout of sampling from the system
+(more NSA-proof))</p>
+<p>Operate with BFT consensus within the committee (e.g. PBFT)</p>
+<p>PoW chain is for the committee members PBFT chain is for the
+transactions - signed (quorum signed) micro-blocks</p>
+<p>Challenges:</p>
+<ul>
+<li>How do clients know and verify which micro-blocks were committed?
+<ul>
+<li>collective signing (threshold of committee)</li>
+</ul></li>
+<li>How do you rotate the committee?
+<ul>
+<li>Option 1: via PBFT commit a transaction of “new transaction” =&gt;
+guarantees safety (there is no ambiguity what is the new committee) with
+large enough committee.
+<ul>
+<li>problem - committee is small or likely to go offline</li>
+</ul></li>
+<li>Option 2: via PoW alone (you could go through the last 1000ish
+blocks to find all the pubkeys, but it needs a lot of state) =&gt;
+guarantees liveness</li>
+</ul></li>
+</ul>
+<p>Attack example: old committee selects itself</p>
+<h4 id="sharding">Sharding</h4>
+<p>Problem: no “scale out” in blockchain, everyone processes
+everything</p>
+<p>Desired state: more miners = more aggregate capacity</p>
+<p>Potential solution: shard across UTXO</p>
+<p>UTXOs are assigned to different shards. If I am only doing the TX in
+Shard A, the miners in only Shard A can execute it.</p>
+<p>Challenges:</p>
+<ul>
+<li>how big should a shard be?
+<ul>
+<li>To distribute the nodes in the shard we need something verifiably
+random</li>
+</ul></li>
+<li>cross-shard transactions</li>
+<li>threat: shard takeover</li>
+</ul>
+<h5 id="cross-shard-transactions">Cross-shard transactions</h5>
+<ul>
+<li>two-phase transaction lock</li>
+<li>request all shards to lock a TX, then execute</li>
+<li>on failure/lack of responses - abort</li>
+<li>on success - commit</li>
+</ul>
+<p>Problems: multiple miners need the same TX - double-spend problem,
+then it would be either aborted or already locked if one of the shards
+stop responding (the lock was sent out and it stopped responding)</p>
+<p>If shards are untrusted: Time lock Revert unless TX goes through This
+is much more complex protocol, guarantees safety + liveness</p>
+<h3 id="approaches-to-energy-efficiency">Approaches to energy
+efficiency</h3>
+<p><strong>Proof of Burn</strong> - based on other PoW blockchains (the
+motivation behind PoW is making it costly to do Sybil attack). Idea
+behind Proof of Burn - create unspendable outputs, which basically is
+burning the coin</p>
+<p><strong>Proof of Storage</strong> - Chia - (hard disks instead of
+electricity) - solving a problem which requires a lot of space instead
+of mathematical problem One of the approaches - mathematical pebbles
+Storing some useful data, and at any point you have to be able to prove
+that you have the data Or having a ton of stuff in RAM.</p>
+<p><strong>Proof of Sequential Work</strong> - Verifiable Delay
+Functions (VDF). Create a sequence of operations and verify that they
+were done in order.</p>
+<p><strong>Proof of Elapsed Time</strong> - spend time waiting. Requires
+specific hw for TEE</p>
+<p><strong>Proof of Stake</strong> - most deployed solution</p>
+<h4 id="proof-of-stake-1">Proof of Stake</h4>
+<p>If I misbehave, I lose my stake, otherwise I get rewarded.</p>
+<p>How to form a consensus group? Ethereum: RANDAO (smart contracts
+which create some randomness). People will create some hashes, and put
+money in, and after some time people are forced to reveal the numbers
+under the hashes (or they lose money). And these numbers are put
+together and used as a seed.</p>
+<p>Algorand:</p>
+<ul>
+<li>random sample of stakeholders</li>
+<li>use Verifiable Random Funciton to genetrate a unique “lotery ticket”
+per node, per round</li>
+<li>Ticket “wins” if below a threshold value. A node knows if it won
+(above the threshold), or not, it is private</li>
+<li>Reveal winning ticket along with consensus vote (this prevents DoS
+attack)</li>
+</ul>
+<p>Why change acnsensus group at every block?</p>
+<ul>
+<li>protect against fast, adaptive adversary</li>
+<li>prevents DoS attacks, nodes hacking</li>
+</ul>
+<h3 id="following-blockchains-efficiently---skipchains">Following
+blockchains efficiently - Skipchains</h3>
+<p>Problem: retrieving information from a blockchain requires following
+it actively, fully</p>
+<p>Solution:</p>
+<ul>
+<li>ByzCoin-like collective signatures</li>
+<li>add “forward links” in addition to backward (hash) links (such that
+we can traverse the blockchain from the first to last)</li>
+</ul>
+<p>Sill requires O(n)</p>
+<p>How can we do better?</p>
+<p>Blocks reference previous blocks, and skip links which are of
+different levels. This skip list is in each block, and you can traverse
+the blocks at any speed. Multi-level links enable O(log n) retrieval</p>
+<p>There is the only time when you need to go to specific node, is when
+the committee changes, where the signatures change. In principle, this
+allows you to go very fast.</p>
+<p>This can be used for reliable software distribution (connect to the
+internet sometimes and get the latest version).</p>
 </body>
 </html>
