@@ -608,9 +608,11 @@ consensus (Bitcoin and Proof-of-work)</a>
 <li><a href="#bitcoin-assumptions" id="toc-bitcoin-assumptions">Bitcoin
 assumptions</a></li>
 </ul></li>
-<li><a href="#skipped-bitcoin-and-ethereum"
-id="toc-skipped-bitcoin-and-ethereum">Skipped bitcoin and
-ethereum</a></li>
+<li><a
+href="#skipped-bitcoin-and-ethereum-slides-are-quite-explicit-but-i-should-rewrite-that"
+id="toc-skipped-bitcoin-and-ethereum-slides-are-quite-explicit-but-i-should-rewrite-that">Skipped
+bitcoin and ethereum (slides are quite explicit, but i should rewrite
+that)</a></li>
 <li><a href="#advanced-blockchain-architectures"
 id="toc-advanced-blockchain-architectures">Advanced Blockchain
 architectures</a>
@@ -630,6 +632,17 @@ efficiency</a></li>
 <li><a href="#following-blockchains-efficiently---skipchains"
 id="toc-following-blockchains-efficiently---skipchains">Following
 blockchains efficiently - Skipchains</a></li>
+</ul></li>
+<li><a href="#design-patterns-for-decentralized-distributed-systems"
+id="toc-design-patterns-for-decentralized-distributed-systems">Design
+patterns for Decentralized &amp; Distributed Systems</a>
+<ul>
+<li><a href="#decentralized-patterns"
+id="toc-decentralized-patterns">Decentralized patterns</a></li>
+<li><a href="#distributed-patterns"
+id="toc-distributed-patterns">Distributed Patterns</a></li>
+<li><a href="#large-scale-systems"
+id="toc-large-scale-systems">Large-scale systems</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -2003,7 +2016,10 @@ comes from probability of a fork happening.</p>
 to miners</p>
 <p>Safety assumption - assuming that messages arrive in very short time
 - <strong>synchronicity</strong></p>
-<h2 id="skipped-bitcoin-and-ethereum">Skipped bitcoin and ethereum</h2>
+<h2
+id="skipped-bitcoin-and-ethereum-slides-are-quite-explicit-but-i-should-rewrite-that">Skipped
+bitcoin and ethereum (slides are quite explicit, but i should rewrite
+that)</h2>
 <h2 id="advanced-blockchain-architectures">Advanced Blockchain
 architectures</h2>
 <h3 id="limitations-of-mainstream-blockchain-platforms">Limitations of
@@ -2203,5 +2219,114 @@ the committee changes, where the signatures change. In principle, this
 allows you to go very fast.</p>
 <p>This can be used for reliable software distribution (connect to the
 internet sometimes and get the latest version).</p>
+<h2 id="design-patterns-for-decentralized-distributed-systems">Design
+patterns for Decentralized &amp; Distributed Systems</h2>
+<h3 id="decentralized-patterns">Decentralized patterns</h3>
+<p>Assume no single trusted party</p>
+<p><strong>Identity and Agency</strong> - how to assign a user in a
+system like Usenet? (e.g. Mastadon)</p>
+<ul>
+<li>Host roulette (randomizing is good idea to distribute the workload
+over bunch of servers)</li>
+<li>Composite address - communicatein has to be tied to one of the
+nodes</li>
+</ul>
+<p><strong>Network Construction and Health</strong>:</p>
+<ul>
+<li>Discovery servers - address the need of finding peers
+(BitTorrent)</li>
+<li>Age indicators (is the data stale?)</li>
+<li>Heartbeats (how do we know that the system is running well?) -
+ensure that there is a continuous communication with peers
+<ul>
+<li>heartbeat could be implemented such that all the peers are connected
+(even though in gossip data sharing it would not be the case), so that
+network faults could be detected before the whole system breaks
+down</li>
+</ul></li>
+</ul>
+<p><strong>Moderation and incentives</strong> Incentives - prisoner’s
+dilemma - 2 prisoners caught, and 2 choices: rat or not on the other.
+The incentive for the prisoner for themselves is to rat, because either
+they go free or the sentence is reduced. In decentralized system, it is
+the repeat of prisoner’s dilema, as in it happens again and again.
+That’s why incentives are hard. Therefore, we use the “Trust but verify”
+(“cautious optimism”) - assume everyone behaves well, but if someone
+does not, then they get punished (e.g. BitTorrent choke the user which
+does not seed). It’s like “fool me once, shame on you, fool me twice -
+shame on me”, but instead of “shame on me”, it is straight up block of
+you</p>
+<p><strong>Versioning</strong></p>
+<ul>
+<li>Vector clocks - associate the clock to each the participating node,
+and the clock is incremented with each action on data. This shows causal
+dependency between events. It shows the causal order.
+<ul>
+<li>Problem: …</li>
+</ul></li>
+<li>Hybrid logical clock - if on the local machine clock is monotonously
+increasing, the high bits would be timestamp, the low bits as a
+counter.</li>
+<li>Versioned values - seeing each new version of something, and a
+pointer what is the newest</li>
+</ul>
+<p><strong>Scaling</strong></p>
+<ul>
+<li>Sharding</li>
+<li>Split consensus / data - it’s impossible to have consensus when it’s
+gigabytes of data. Consensus could be seen as a service</li>
+<li>Hierarchical organization</li>
+</ul>
+<h3 id="distributed-patterns">Distributed Patterns</h3>
+<p>Assume there is an authority</p>
+<p><strong>Managing workload</strong> (data/workload going through the
+system)</p>
+<ul>
+<li>throttling (input) - we say that the input need to slow down when
+there is a bottleneck (apply back pressure)</li>
+<li>rate limit (output) - we slow down if the receiving system needs us
+to.</li>
+<li>Pool of workers</li>
+</ul>
+<p><strong>Managing failures</strong></p>
+<ul>
+<li>Bulkhead (in boats it’s compartments that are sealed of if flooded,
+but the boat keeps afloat) - if certain services get flooded, we control
+the failure. e.g. for database - applications access database through
+bulkheads (additional access control), and if one application floods the
+bulkhead it stops only that rather than taking down the whole
+database.</li>
+<li>Circuit breaker - if the system is getting bombarded by the
+requests, and the system is too overwhelmed, we should not retry.
+Therefore, the system breaks the circuit to that resource, applies the
+backpressure, and then the system retries slowly - semi open breaker
+(such that the resource does not go down) (similar to TCP Slow Start,
+just with backpressure)</li>
+<li>Idempotent receivers - not reacting twice to the same thing - the
+system reaches a stable state</li>
+<li>Compensating transaction - executing service A, B, C.., but if one
+of them fails, I can undo the transaction</li>
+</ul>
+<p><strong>Managing time</strong> TrueTime (Google’s) - machine’s are in
+sync within some uncertainty. Instead of a timestamp, it is [t0, t0 +
+uncertainty]. Google can bound this because it is happening in their
+system. If the intervals overlap, then the events happened concurrently,
+otherwise can be causal.</p>
+<p><strong>Monitoring</strong> In drand: combine heartbeats of two nodes
+and have the age of the last communication, and show the link
+connectivity.</p>
+<ul>
+<li>Correlation IDs - with each request have a unique ID, which is
+traced over smaller services (and therefore see where it failed). Also
+it can record response times for each request</li>
+</ul>
+<h3 id="large-scale-systems">Large-scale systems</h3>
+<p>Alibaba Scalog - needs a total ordering relationship inside the
+system because of the amount of services it offers. Ordering is done
+with Paxos, but it is as a service, and data is in shards which are
+communicating with ordering layer. The paxos works with aggregators, not
+each shard.</p>
+<p>Google Spanner</p>
+<p>Google Zanzibar</p>
 </body>
 </html>
