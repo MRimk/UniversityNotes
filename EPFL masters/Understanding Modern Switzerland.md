@@ -1027,3 +1027,80 @@ This overall worked to repair the image of Switzerland.
 Nigeria became independent in 1960 and was divided in 3 sections. Biafra declared independence and the country evolved into the country.
 It was very mediatized war, and Switzerland decided to launch a big humanitarian campaign through Red Cross to help Biafra.
 However, there was a scandal when one Red Cross plain with aid was shot down by Nigeria, and the weapons to shoot down the plain were supplied by Switzerland.
+
+## Switzerland and the "Global South"
+
+Louis Agassiz (from Canton of Fribourg) - started/promoted the movement of scientific racism - belief that we are not different races but different species. This is a one of the root causes of the racism in the US or even here.
+
+### Who writes history?
+
+The voices and the naratives of white rich men.
+
+Even though the history could be from marginalized groups - women and other races.
+
+### Swiss involvement in "colonial project"
+
+Spivak - "to be active in society, you have to have economical, cultural and political participation" -> migrants don't really participate because either their not represented in culture or they cannot vote or similar
+
+#### Economic involvement
+
+- Manufacturers and traders (products trading with South America)
+- Investors (financing) - Swiss invested in the voyages
+- Landowners plantations
+- Consumer market for cash crops - Switzerland is a big producer of chocolate, and fabric production so needed to buy cocoa and cotton (16-19 century)
+
+Heinrich Escher - founder of Credit Suisse, whose ancestor's money came from Coffee plantations
+
+City of Bern was investing in trafficing of enslaved people (XVI century).
+
+Christophe Bourcard (Basel) was financing trafficing people (XVIII century)
+
+#### Political and military involvement
+
+- foreign services and mercenaries
+- settlers - lots of settlements created by Swiss in colonies
+- Political exclusion - Tilo Frey
+- Agents in colonised territories
+
+Mercenaries in Republic of Congo, which was fighting against Belgians
+
+Missionaries asking money to finance kids in africa.
+
+#### Cultural implication
+
+- Human exhibitions, safaris, travellogues, advertisements (publicised in a very exterioticized way)
+- Naturalist - science production
+- Invisibilization of experiences of resistance and knowledge produced by racialised people
+- Christian missions
+
+Haitian revolution is invisibilized - it abolished slavery in 1804 and gave rights to everyone (all races). In French revolution it was way more conservative.
+
+#### Swiss Civil Society
+
+Was pressing in 2000s the academy and politics to talk more about the racial, invisibilized history.
+
+### Switzerland in Brazil
+
+There are Swiss colonies and settlers who were in Brazil. Especially in the region of Bahia.
+Lineus was an important region of cacao production in XIX century and one of the main plantations (Vitoria) was owned by two Swiss men - Gabriel May and Ferdinand von Steiger.
+Marquize of Barbacena - slave trader and plantation owner, diplomat who attracted these Swiss men. One of the people who made it possible for Brazil to be independent from England. He wanted to attract European settlers so that they could work the land, (be like him - white aristocrat), and be educated people.
+
+**Table of enslaved people in Victoria plantation**:
+Approx 60 adult men and 30 women.
+It contains the day bought, the day died, the cost, and sometimes the cause of death.
+For kids, the same - but also the name of the mother/father (if known) and some observations.
+
+These tables contain also the number of kids next to women so that they would get bonuses/prizes if they had more than 6 kids in the plantation.
+Slavery is something inheritted - if the mother is a slave, then the child is a slave (independent from the father status).
+
+Some of them belonged directly to Gabriel May, so even if the plantation is sold, they still were private property of his.
+
+All of the kids names are Christian names and they never repeat, so probably they were baptized.
+There are 3 generations of people living in the same plantation - stable plantation. <- the more stable families you have in a plantation, less escape attempts you wil have.
+Some slaves had cause of death: "eating dirt". This may have been even as a suicide method.
+The women would get paid for children and the average over the years could be equated to a price of a dog (= 6000 hay). This was so that they could save up and buy their freedom (the price that was paid for them), buy food, buy parties.
+The rent out of an adult would be ~214 hay, a child - ~120 hay.
+
+There were some Swiss women workers for example as sewers.
+
+Abolishing of slavery in Brazil - 1821 (lasted only 2 years because of coffee boom), and then 1851.
