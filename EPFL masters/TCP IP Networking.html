@@ -518,6 +518,16 @@ id="toc-congestion-control-implementation">Congestion control
 implementation</a>
 <ul>
 <li><a href="#tcp-reno" id="toc-tcp-reno">TCP Reno</a></li>
+<li><a
+href="#tcp-cubic---improving-performance-in-long-fat-networks-lfns"
+id="toc-tcp-cubic---improving-performance-in-long-fat-networks-lfns">TCP
+Cubic - improving performance in Long Fat Networks (LFNs)</a></li>
+<li><a href="#ecn-and-aqm-active-queue-management"
+id="toc-ecn-and-aqm-active-queue-management">ECN and AQM (active queue
+management)</a></li>
+<li><a href="#data-centers-and-tcp" id="toc-data-centers-and-tcp">Data
+centers and TCP</a></li>
+<li><a href="#tcp-bbr" id="toc-tcp-bbr">TCP-BBR</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -1911,5 +1921,203 @@ increase) cwnd = min (cwnd, 64K)</p>
 (exp. increase) cwnd = min (cwnd, 64K)</p>
 <p>If loss is repaired: cwnd = ssthresh goto: congestion avoidance</p>
 <p>else (timeout): goto slow start</p>
+<h4 id="fairness-of-tcp-reno">Fairness of TCP Reno</h4>
+<p>For long lived flows, the rates obtained with TCP Reno are as if they
+were distributed according to utility fairness.</p>
+<p>For <strong>flows that have same RTT</strong>, the fairness of TCP is
+between max-min fairness and proportional fairness, closer to
+proportional fairness. I.e. reaches close to theoretical AIMD</p>
+<p>Utility function is a decreasing funciton of RTT. This means that
+<strong>flows that have higher RTT have a smaller utility</strong>.
+Therefore in utility maximization, the flows with high RTT will
+lose.</p>
+<p>This is called RTT Bias of TCP Reno.</p>
+<p>A flow that uses many hops obtains less rate because of two combined
+factors:</p>
+<ol type="1">
+<li>if this flow goes toer many congested links, it uses more resources.
+The mechanic of TCP Reno that is close to proportional fairness leads to
+this source having less rate - which is desirable in view of the theory
+of fairness.</li>
+<li>If this flow has simply a larger RTT, then things are different. The
+mechanics of additive increase leads to this source having less rate -
+this is undesired bias in the design of TCP Reno.</li>
+</ol>
+<p>additive increase is one packet per RTT (instead of constand time
+interval)</p>
+<h4 id="tcp-reno-loss-throughput-formula">TCP Reno Loss-throughput
+formula</h4>
+<p>Assuming large TCP flow size. Assume we observe that, in average a
+fraction q of packets is lost (or marked with ECN)</p>
+<p>The throughput is close to <span class="math inline">\theta =
+\frac{MSS 1.22}{RTT \sqrt{q}}</span></p>
+<p>Formula assumes:</p>
+<ul>
+<li>transmission time is negligible compared to RTT</li>
+<li>losses are rare and occur periodically</li>
+<li>time spent in Slow Start and Fast Recovery is neglogigle</li>
+</ul>
+<h4 id="congestion-control-in-udp-applications">Congestion control in
+UDP Applications</h4>
+<p>UDP applications that can adapt their rate have to implement
+congestion control</p>
+<p>One method is to use the <strong>congestion control module</strong>
+of TCP: e.g. QUIC, which is over UDP, uses Cubic’s cc (in original
+version) or Reno’s cc (in standard version)</p>
+<p>Another method method (e.g. for videoconferencing) is to control the
+rate by computing the rate that TCP Reno would obtain. E.g. <strong>TFRC
+(TCP-Friencly Rate Control)</strong> protocol:</p>
+<ul>
+<li>application adapts the sending rate (by modifying the coding rate
+for audio and video)</li>
+<li>feedback is received in form of count of lost packts, used by source
+to estimate drop probability q</li>
+<li>source sets rate to <span class="math inline">x = \frac{MSS
+1.22}{RTT \sqrt{q}}</span> (TCP Reno loss throughput formula)</li>
+</ul>
+<h4 id="tcp-reno-shortcomings">TCP Reno shortcomings</h4>
+<p><strong>RTT bias</strong> - not nice for users in remote places (New
+Zealand)</p>
+<p>Periodic losses must occur, not nice for application (e.g. video
+streaming)</p>
+<p>TCP controls the windown, not the rate. Large bursts typically occur
+when packets are released by host following e.g. window increase - not
+nice for queues in the internet, makes non smooth behaviour</p>
+<p><strong>Self inflicted delay</strong> - if network buffers (in
+routers and switches) are large, TCP first fills buffers before adapting
+the rate. The RTT is increased unnecessarily. Buffers are constantly
+full, which reduces their usefulness (<strong>bufferbload
+syndrome</strong>) and increases delay for all users.
+<strong>Interactive, short flows</strong> experience large latency when
+buffers are large and full.</p>
+<h3 id="tcp-cubic---improving-performance-in-long-fat-networks-lfns">TCP
+Cubic - improving performance in Long Fat Networks (LFNs)</h3>
+<p>LFN - long (large RTT value) and fat (huge transmission rates).
+Mostly used in companies between data centers, e.g. in transatlantic
+links.</p>
+<p>In an LFN, additive increase can be too slow because it is 1 MSS per
+round trip.</p>
+<p>TCP Cubic modifies Congestion Control. To increase TCP rate faster on
+LFNs.</p>
+<p>TCP Cubic keeps the same slow start, congestion avoidance, fast
+recovery phases as TCP Reno, but:</p>
+<ul>
+<li>During congestion avoidance the increase is not additive but
+<strong>cubic</strong> (as independent of RTT)</li>
+<li>Multiplicative decrease it x0.7 (decrease by 30%) (instead of
+x0.5)</li>
+</ul>
+<p>Say the congestion avoidance in entered at time t0 = 0 and let <span
+class="math inline">W_{max} = \text{value of cwnd, when loss is
+detect}</span>. Let <span class="math inline">W(t) = W_{max} +
+0.4(t-K)^3</span>, where K is such that <span class="math inline">W(0) =
+0.7 W_{max}</span> Then the window increases like W(t) until a loss
+occurs again.</p>
+<p>Cubic increases window in concave way until reaches $ W_{max} $ then
+increases in a convex way</p>
+<p>Cubic’s window function is independent of RTT. It is faster when RTT
+is large (long networks) but may be slower than Reno when RTT is small
+(non-LFNs)</p>
+<h4 id="cubic-window-increase">Cubic window increase</h4>
+<p>Cubic is at least as fast as additive icrease with an additive
+increase term <span class="math inline">r_{cubic}</span>: it was a
+function for congestion window $ W<em>{CUBIC}(t) = {W(t),
+W</em>{AIMD}(t)} $, where <span class="math inline">W_{AIMD}(t) = W(0) +
+r_{cubic} \frac{t}{RTT}</span></p>
+<p>So, when RTT or bandwidth-delay product is small, Cubic does the same
+as a hypothetical Reno with additive increase <span
+class="math inline">r_{cubic}</span> MSS per RTT (instead of 1) and
+multiplicative decrease <span class="math inline">\beta_{cubic} =
+0.7</span></p>
+<p><strong>Cubic’s throughput <span class="math inline">\ge</span>
+Reno’s throughput</strong> with equality when RTT or bandwidth-delay
+produt is small</p>
+<p>Cubic’s <strong>throughput formula</strong> is same as Reno for small
+RTTs and small BW-delay products. A TCP Cubic connection gets more
+throughput than TCP Reno when <strong>bit-rate and RTT are
+large</strong></p>
+<h3 id="ecn-and-aqm-active-queue-management">ECN and AQM (active queue
+management)</h3>
+<p>Using loss and congestion indication has major drawback -
+<strong>self-inflicted delay</strong>: increased latencies and buffers
+are not well utilized due to <strong>bufferbloat</strong></p>
+<p>Initially all flows can increase their delivery rate until they hit
+bottlenec link capacity. At that moment all flows send at maximum speed
+but there is no queue. &lt;- this is the optimal operating point Since
+no loss was detected, the flows are still increasing window size, and
+then the queues form, which mean the RTT increases, queues overflow and
+RTT reaches max. &lt;- this is the congestion control operating
+point</p>
+<h4 id="ecn">ECN</h4>
+<p><strong>Excplicit Congestion Notification (ECN)</strong> aims at
+avoiding these problems</p>
+<p>It signals congestion without dropping packets</p>
+<p>Router marks packet instead of dropping, then TCP destination echoes
+the mark back to the source. At the source, TCP interprets a marked
+packet aas if there would be a loss detected by fast retransmit.</p>
+<h5 id="ecn-in-ip-and-tcp-headers">ECN in IP and TCP headers</h5>
+<p>2 bits in IP header, so there are 4 possible indications:</p>
+<ul>
+<li>non ECN Capable (non ECT)</li>
+<li>ECN capable ECT(0) and ECT(1)
+<ul>
+<li>historically used at random</li>
+<li>today uesd to differentiate cc - TCP Cubic vs DCTCP</li>
+</ul></li>
+<li>ECN capable and congestion experienced (CE)</li>
+<li><strong>if congested, router marks ECT(0) or ECT(1) packets,
+discards non ECT packets</strong></li>
+</ul>
+<p>2 bits in TCP header:</p>
+<ul>
+<li>ECE is set by R to inform S of congestion</li>
+<li>CWR (congestion window reduced) set by S to inform R that ECE was
+received and R can stop sending ECE until receiver receives a TCP header
+with CWR set</li>
+<li>When receiving ECE, S reduces window only once per RTT. R sets ECE
+in all TCP headers until CWR is received or until new CE packet
+received.</li>
+</ul>
+<h4 id="red-random-early-detection">RED (Random Early Detection)</h4>
+<p>It decides when to mark a packet with ECN, and more generally, avoids
+buffer bloat syndrome</p>
+<p>Queue estimates its average queue length (moving average) Incoming
+packet is marked with probability given by RED curve - before threshold
+min we don’t mark packets, between thershold min and max we mark packets
+in relation to how much packets we have. At the full queue, all packets
+are marked.</p>
+<p>This is <strong>active queue management</strong> in contrast to “drop
+a packet when queue is full = <strong>Tail drop</strong>”</p>
+<h4 id="aqm">AQM</h4>
+<p>AQM can also be applied even if ECN is not supported In such case,
+e.g. with RED a packet is <strong>dropped</strong> with probability q
+computer by the RED curve. – packet may be discarded even if there is
+some space available</p>
+<p>Expected benefit:</p>
+<ul>
+<li>avoid bufferbload - reduce latency</li>
+<li>avoid irregular drop patterns</li>
+</ul>
+<h3 id="data-centers-and-tcp">Data centers and TCP</h3>
+<p>Data centers:</p>
+<ul>
+<li>most traffic is TCP</li>
+<li>very small latencies</li>
+<li>lots of bandwidth</li>
+<li>lots of traffic (internal traffic, external traffic, may short flows
+with low latency requirements, some jumbo flows)</li>
+</ul>
+<p>We need ECN in these flows to avoid bufferbloat</p>
+<h4 id="dctcp">DCTCP</h4>
+<p>it improves jumbo flows when ECN is used</p>
+<p>It avoids the brutal multiplicative decrease by t0% or 30%</p>
+<p>TCP source estimates probabiltiy of congestion p from ECN echoes</p>
+<ul>
+<li>ECN echo is modified so that the proportion of CE marked acks ~= the
+prob of congestion p</li>
+<li>multiplicative decrease is <span class="math inline">\times
+\beta_{DCTCP} = (1- \frac{p}{2})</span></li>
+</ul>
+<h3 id="tcp-bbr">TCP-BBR</h3>
 </body>
 </html>
