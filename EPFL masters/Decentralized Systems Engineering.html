@@ -644,6 +644,27 @@ id="toc-distributed-patterns">Distributed Patterns</a></li>
 <li><a href="#large-scale-systems"
 id="toc-large-scale-systems">Large-scale systems</a></li>
 </ul></li>
+<li><a href="#suff-about-hw-and-project"
+id="toc-suff-about-hw-and-project">Suff about hw and project</a></li>
+<li><a
+href="#software-quality-for-decentralized-and-distributed-systems"
+id="toc-software-quality-for-decentralized-and-distributed-systems">Software
+Quality for Decentralized and Distributed Systems</a>
+<ul>
+<li><a href="#why-should-you-care" id="toc-why-should-you-care">Why
+should you care?</a></li>
+<li><a href="#quality" id="toc-quality">Quality</a></li>
+<li><a href="#managing-software-quality"
+id="toc-managing-software-quality">Managing Software Quality</a></li>
+<li><a href="#testing-and-breaking-stuff"
+id="toc-testing-and-breaking-stuff">Testing and breaking stuff</a></li>
+<li><a href="#distributed-and-decentralized-testing"
+id="toc-distributed-and-decentralized-testing">Distributed and
+Decentralized testing</a></li>
+<li><a href="#what-applies-to-the-project"
+id="toc-what-applies-to-the-project">What applies to the
+project</a></li>
+</ul></li>
 </ul>
 </nav>
 <!-- markdownlint-disable MD010 MD041 MD001 MD036 MD029 MD034-->
@@ -2328,5 +2349,412 @@ communicating with ordering layer. The paxos works with aggregators, not
 each shard.</p>
 <p>Google Spanner</p>
 <p>Google Zanzibar</p>
+<h2 id="suff-about-hw-and-project">Suff about hw and project</h2>
+<p>If needed we can ask to be graded on a different commit, not the last
+The runners are grading the hw, so they will be busy in the next 24
+hours.</p>
+<p>Project: Coaches are there to help you stay on track, they’re not
+omniscient experts. Expectation - we can reasonanbly read the
+literature</p>
+<h2
+id="software-quality-for-decentralized-and-distributed-systems">Software
+Quality for Decentralized and Distributed Systems</h2>
+<h3 id="why-should-you-care">Why should you care?</h3>
+<p>Examples of things going wrong: When converting 64-bit float into a
+signed 16-bit integer Ariane 5 in 1996 exploaded during launch -&gt;
+$370 million explosion There was a race condition which caused patients
+to receive 100x radiation dosage by Therac-25 in 1980s Fujitsu’s Horizon
+software said UK Post Office staff were stealing money. Bugs led to
+lawsuits and 700+ people were found guilty. A lot of people were sent to
+jail, some face bankruptcy, and some committed suicide.</p>
+<h3 id="quality">Quality</h3>
+<p>Definition:</p>
+<ol type="1">
+<li>the non-inferiority or superiotrity of something (being as expected
+- not better, not worse)</li>
+<li>being suitable for its intended use (fitness for purpose)</li>
+</ol>
+<p>Simpler view:</p>
+<ol type="1">
+<li>building the right thing, satisfuing customer needs</li>
+<li>Building the thing right, to specification and within tolerant</li>
+<li>preventing defects</li>
+</ol>
+<p>When should one think about the quality in a project? - all the time
+(from the begining until the project is retired), even when writing some
+throw-away code</p>
+<h4 id="how-to-check-the-quality">How to check the quality?</h4>
+<p>Tools: IDE autocompletion, static analysis, linters, tesing,
+CI/CD</p>
+<p>Processes: code review, pair programming, test-driven development</p>
+<p>Measurements: software complexity, code coverage, measuring how often
+the tests are passing, how flaky the tests are</p>
+<p>Documentation: requirements documents, code style, traceability
+matrix, etc (basically linking what the customer said, to what has been
+built)</p>
+<h4 id="software-quality">Software quality</h4>
+<p>Continuous improvement process: CI: Identify opportunities -&gt; plan
+for improvement -&gt; execute the change -&gt; measure the results -&gt;
+(loop back around)</p>
+<p>It requires an investment - time, money (e.g. git copilot),
+productivity (or money if CI takes a long time to run)</p>
+<h3 id="managing-software-quality">Managing Software Quality</h3>
+<h4 id="managing-software-project">Managing software project</h4>
+<p>Like any proejct, need to:</p>
+<ul>
+<li>manage limited resources</li>
+<li>keep costs under control</li>
+<li>manage risks (something possibly bad that could possibly happen) -
+managing impact, probability and detectability (if it does happen, can
+anyone notice)
+<ul>
+<li>reduce the probability</li>
+<li>retuce the impact</li>
+</ul></li>
+<li>quality supports this (shows whether we are building the wrong
+thing, or building the thing wrong)</li>
+</ul>
+<p>Development cycle: requirement analysis, planning, architectual
+design, software development, testing, deployment, (loop around)</p>
+<h4 id="quality-and-cost---a-balance">Quality and cost - a balance</h4>
+<p>Quality assurance measures are not free, but defects are even more
+expensive - so what is the tradeoff?</p>
+<p>Cost of catching a bug in different processes:</p>
+<ul>
+<li>&lt;1 unit during requirements phase</li>
+<li>1 unit during design phase</li>
+<li>10 units during development phase</li>
+<li>25 units during testing phase</li>
+<li>50 units during staging phase (because developer forgets what
+happened way long ago)</li>
+<li>150 units during production (when there is a problem, customer would
+call customer support, then it goes to engineering management, and it
+comes to the developer, who needs to fix the bug)</li>
+</ul>
+<p><strong>Goal</strong> - <em>shift is to the left</em> - catch the
+problem as early as possible</p>
+<p><strong>Technical debt</strong> - idea is to accept that something
+will need to be fixed later, with the same idea as normal debt - paying
+interest.</p>
+<table>
+<colgroup>
+<col style="width: 12%" />
+<col style="width: 35%" />
+<col style="width: 51%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>Reckless</th>
+<th>Prudent</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Deliberate</td>
+<td>“we don’t have time for design”</td>
+<td>“we must ship now and deal with consequences”</td>
+</tr>
+<tr class="even">
+<td>Inadvertent</td>
+<td>“what’s layering?”</td>
+<td>“now we know how we should have done it”</td>
+</tr>
+</tbody>
+</table>
+<h4 id="requirements-and-specifications">Requirements and
+Specifications</h4>
+<p>Functional (“user can do smt”) and non-functional (security,
+performance, etc.) requirements</p>
+<p>Quality impact:</p>
+<ul>
+<li>informs the security of the system (threat model)</li>
+<li>shared understanding of the project</li>
+<li>evaluation of the project</li>
+</ul>
+<h4 id="architecture-and-design">Architecture and Design</h4>
+<p>Why and when is architecture important for quality?</p>
+<ul>
+<li>when doing divide and conquer - for working on parts of the
+project</li>
+<li>when the project is complex (could be small and complex) - design
+could break down the complexity</li>
+<li>risk management - architecture is a way to manage risk</li>
+<li>when making future evolutions of the system - architecture allows to
+build-in the flexibility for future requirements</li>
+</ul>
+<p>It creates a shared understanding of the software, and makes it
+easier to reason about the code</p>
+<h4 id="implementation---why-clean-code-matters">Implementation - why
+clean code matters</h4>
+<p>Code should be written for readability - a lot of people will be
+reading it, and few writing it</p>
+<p>Reviewwers will detect bugs more easily</p>
+<p>Automatic tools will understand it better</p>
+<p>Maintainers will find it easy tomodify</p>
+<p>Quality impact -&gt; bad implementation will kill your project</p>
+<h4 id="testing---why">Testing - why</h4>
+<p>Detect bugs at all levels</p>
+<p>Detect defects with respect to specification (arch back to the
+requirements)</p>
+<p>Testing is system documentation which you could run</p>
+<p>Quality impact -&gt; limited, poor or absent testing will cost you
+down the road</p>
+<h4 id="deployment---code-is-still-buggy">Deployment - code is still
+buggy</h4>
+<p>Ensure repeatability and consistency</p>
+<p>Detect defects in production, ideally before the users (you can crash
+as many time as you want as long as the user does not see)</p>
+<p>Observability - making the application behaviour “visible” in
+production:</p>
+<ul>
+<li>metrics,</li>
+<li>logs,</li>
+<li>stack traces,</li>
+<li>traces (if something goes wrong, you want your debugging information
+to address this; e.g. correlation IDs with each operation is in a span
+which is timed)</li>
+</ul>
+<h3 id="testing-and-breaking-stuff">Testing and breaking stuff</h3>
+<h4 id="testing-basics">Testing basics</h4>
+<p>Test is a way to determine if an artifact meets its requirements</p>
+<p>Along a specific axis: functionality, performance, security,
+resilience, etc.</p>
+<p>Types: unit, integration, user acceptance, exploratory, smoke,
+staging (pre-production), A/B testing</p>
+<h4 id="how-are-testers-and-developers-different">How are testers and
+developers different?</h4>
+<p>Developer: wants t o see thing work, build them; focuses on what the
+system should be doing -&gt; <em>solution</em>-oriented work</p>
+<p>Tester: wants to break things, focuses on what the <em>user</em>
+expects -&gt; <em>problem</em>-oriented work</p>
+<h4 id="manual-test-case">(Manual) Test case</h4>
+<p>Has scenario ID, test case ID, test case description, test priority,
+pre-requisite, post-requisite, and execution steps.</p>
+<h4 id="automated-tests">Automated tests</h4>
+<ul>
+<li>Reproducible (not “flaky”)</li>
+<li>Isolated (testing one thing only)</li>
+<li>Independent from each other</li>
+<li>Self-contained</li>
+<li>Same code quality as production code</li>
+</ul>
+<p>Tests are an investment, aim for a good return-on-investment</p>
+<p><strong>Naive</strong> test case automation:</p>
+<ul>
+<li>hard to develop</li>
+<li>hard to debug</li>
+<li>they come in too late in the development</li>
+</ul>
+<h4 id="metrics">Metrics</h4>
+<ul>
+<li>Code coverage</li>
+<li>Mutation coverage - randomly change the production code and run the
+unit tests to see whether unit tests are crashing</li>
+<li>Code complexity - if code is complex, the chances of the bug being
+there are higher</li>
+<li>Historical bug location</li>
+<li>Automatic ratings</li>
+<li>Risk - if the UI crashes - not a big deal, but if sensitive data
+leaks - bad</li>
+</ul>
+<h4 id="basic-concepts">Basic concepts</h4>
+<ul>
+<li>unit, integration, end-to-end test</li>
+<li>mocking</li>
+<li>dependency injection (in Go, to enable easy testing, you can have
+<strong>interface concretion</strong>)</li>
+<li>fuzzing</li>
+<li>property-based tests</li>
+<li>formal verificaiton</li>
+<li>model checking (one step short of formal verification)</li>
+</ul>
+<h4 id="property-based-testing">Property-based testing</h4>
+<p>Define a test as:</p>
+<ul>
+<li>a given input data shape</li>
+</ul>
+<p>——- MISSED, SO LOOK AT THE SLIDES</p>
+<p>It will try to break the system on your behalf</p>
+<p>It exists in Go, as part of the fuzzing extensions</p>
+<h4 id="which-tests-to-start-with">Which tests to start with?</h4>
+<ul>
+<li>unit tests, because make sure that smaller blocks work before they
+work together</li>
+<li>user input validation, such that user data works later</li>
+<li>manual test - check if this thing is completely broken</li>
+<li>integration test - check on higher level whether the system as a
+whole works (but does not narrow down the problem)</li>
+</ul>
+<p>But it always depends on the risk and the system.</p>
+<p>Also, beware of writing many tests at the begining because the code
+could be thrown away.</p>
+<h3 id="distributed-and-decentralized-testing">Distributed and
+Decentralized testing</h3>
+<p>Assuming basic practices are implemented and being used - testing at
+all levels, separate environments (development, staging, produciton),
+and full observability in production (centralized log, traces)</p>
+<p>What is the testing objective? How to translate requirement
+(e.g. safety) to an actual test case? What are the parameters we want to
+control? And if we don’t test for the network, does it relate to real
+life? How do you make the tests reliable?</p>
+<h4 id="case-study---a-distributed-embedded-system">Case study - a
+distributed, embedded system</h4>
+<p>Covid contact-tracing system in CERN</p>
+<p>Specification:</p>
+<ol type="1">
+<li>radio-based distance measure</li>
+<li>support up to 16 devices</li>
+</ol>
+<p>System had to report if two devices were in contact for more than
+30s</p>
+<p>Implementation:</p>
+<ol type="1">
+<li>Separate HW boards</li>
+<li>Finite State MAchine-based communication protocol</li>
+</ol>
+<p>How to test this?</p>
+<ol type="1">
+<li>Check if FSM (specification) does not have issues</li>
+<li>Check FSM test transitions &lt;- unit test</li>
+<li>Have two state machines interact with each other &lt;- integration
+test</li>
+<li>Model the system in software program - simulation (done later) &lt;-
+end-to-end test</li>
+</ol>
+<blockquote>
+<p>QA effort is highly driven by the environment, so it’s always
+different</p>
+</blockquote>
+<h4 id="challenges-in-distributeddecentralized-systems">Challenges in
+distributed/decentralized systems</h4>
+<p>The network is an uncontrolled variable</p>
+<p>(virtually) infinite number of states - hard to account for any
+possible state transitions</p>
+<p>Failures can happen at any layer (network, HW, OS, application,
+etc)</p>
+<p>may software versions may coexist: so backward/forward compatibility,
+application invariants across versions</p>
+<p>Subtle environment differeces (between development, staging and
+production) can mask issues - so a lot of companies test in production
+(e.g. for existing security implementations in production)</p>
+<h4 id="jepsent---testing-distributed-storage-systems">Jepsent - testing
+distributed storage systems</h4>
+<p>[https://jepsen.io]</p>
+<p>Full suite of tools to evaluate distributed systems</p>
+<p>Approach:</p>
+<ul>
+<li>they test real systems, running on real clusters (1-4 months of
+work)</li>
+<li>they test under failure modes - faulty networks, unsunc’d clocks,
+etc.</li>
+<li>they make abundant use of generative testing
+<ol type="1">
+<li>apply (many, many) randonw operations to the system</li>
+<li>build “concurrent history” of the results</li>
+<li>check history against a model to ensure correctness / verify
+invariants (if through these operation i broke some system specification
+- the system is broken)</li>
+</ol></li>
+</ul>
+<h4 id="testing-permissioned-blockchain-nodes">Testing (permissioned)
+Blockchain Nodes</h4>
+<p>Unique challenges:</p>
+<ul>
+<li>Node robustness during upgrades?</li>
+<li>Can old and new versions communicate without failures?</li>
+<li>Smart contract determinism across versions?</li>
+<li>Impact of failures?</li>
+</ul>
+<p>Solutions:</p>
+<ul>
+<li>Formal verification (where feasible)</li>
+<li>Testing latest version against baseline – different versions should
+behave the same way (maybe the output is slightly different); the state
+should persist</li>
+<li>Testing mixed environments, including under failure scenarios</li>
+<li>Testing upgrade paths, including under failure scenarios</li>
+</ul>
+<h4 id="case-study---netflix">Case Study - Netflix</h4>
+<p>Key metric - Stream “play” Per Second (SPS)</p>
+<p>Actual video data comes from their CDN</p>
+<p>All the logic (incl Stream play) comes from their microservices</p>
+<p>Hundreds of microservice clusters - how to test this?</p>
+<p><strong>Chaos Monkey</strong>: test that a VM’s unavailability has no
+consequences? -&gt; Kill them at random and the service should be able
+to withstand this and reparable (automatically or by engineers)</p>
+<p><strong>Chaos Kong</strong>: Test that an application is resilient to
+a cloud region’s unavailability? - kill it and run “Chaos Kong” exercise
+- instead of development spend time observing the damage/fixing the
+damage.</p>
+<p>This could even unveil software bugs because there might be some bugs
+related to other available services.</p>
+<p>Amazon/Azure/GCP make sure the durability but not necessarily
+availability. They can offer having the second region in a different DC
+but that could be read-only. So to be sure that microservices are
+available, the developer themselves has to handle this, not the service
+provider.</p>
+<p>Chaos Monkey and Chaos Kong are limited by granularity so you wan to
+have <strong>Fault Injection Testing</strong></p>
+<h5 id="granularity-with-fault-injection-testing">Granularity with Fault
+Injection Testing</h5>
+<p>How can we test a hypothesis: Redirect traffic to
+control/experimental group resources - to API block where we can test
+the control and experiment parts. And the experiment can be without
+connectivity to another service.</p>
+<p>Hypotheses: Arbitrary failures: client, server, network, OS, etc
+Arbitrary scope: single VM, whole cluster, whole region, etc</p>
+<p>How do you minimize the blast radius?</p>
+<ul>
+<li>if control/experimental group deviate, abort experiment
+automatically</li>
+<li>deviations are measured locally, upstream and globally</li>
+</ul>
+<p>E.g. make the clients sticky - if a client went to experiment group,
+it will stay in that group as long as the experiment is running. Then we
+avoid the deviation, which could impact the data.</p>
+<p>Many non-trivial engineering considerations:</p>
+<ul>
+<li>assigning requests to groups</li>
+<li>dealing with “retry” mechanisms</li>
+<li>analyzing <em>only</em> experimental data</li>
+<li>how do we inject faults – in dockerized environment is kind of easy
+from underlying OS</li>
+</ul>
+<h4 id="chaos-engineering">Chaos Engineering</h4>
+<p>Goal: run scientific experiments on production systems</p>
+<p>Requirements:</p>
+<ul>
+<li>strong observability of the system (= good monitoring)</li>
+<li>“Mature” testing environment (= moderately reliable software)</li>
+<li>Enough usage to measure a “steady state” in the system hypothesis -
+“steady state” will continue in both experimental and control
+groups</li>
+<li>infrastructure-level separation between experimental and control
+groups</li>
+</ul>
+<p>Them: inject a failure in the experimental group and observe</p>
+<p>(Netflix both collects data on these experiments not only on backend
+but also on frontend – most data is aggregate)</p>
+<p>Advanced Principles:</p>
+<ul>
+<li>Risk Management - focus on likely / impactful events</li>
+<li>Run experiments in production</li>
+<li>Automate: experiments should run periodically/continuously</li>
+<li>Minimize the blast radius</li>
+</ul>
+<p>Tools and resources: <a
+href="https://github.com/dastergon/awesome-chaos-engineering"><code>repo</code></a></p>
+<h3 id="what-applies-to-the-project">What applies to the project</h3>
+<p>Go - <code>testing</code> - contains fuzzing,
+<code>testify/require</code>, <code>gomock</code> - build mocks for
+interface, <code>gremlins</code> - mutation-based testing</p>
+<p>Prometheus library - based on how Google was doing monitoring
+internally. Machines only expose some values to be accessed by the
+server, and don’t need to be aware of access control. The only thing we
+need to do to use it - install docker, add the library to go. It also
+works with <code>go/tracing</code> library</p>
+<p>We should show performance numbers, even if the performance is
+bad.</p>
 </body>
 </html>
