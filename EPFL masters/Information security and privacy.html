@@ -663,6 +663,19 @@ id="toc-example-of-evalutation">Example of evalutation</a></li>
 <li><a href="#interactive-scenation"
 id="toc-interactive-scenation">Interactive scenation</a></li>
 </ul></li>
+<li><a href="#ml-security" id="toc-ml-security">ML Security</a>
+<ul>
+<li><a href="#machine-learning" id="toc-machine-learning">Machine
+learning</a></li>
+<li><a href="#model-stealing" id="toc-model-stealing">Model
+stealing</a></li>
+<li><a href="#privacy-challenges-in-ml"
+id="toc-privacy-challenges-in-ml">Privacy challenges in ML</a></li>
+<li><a href="#altering-the-output" id="toc-altering-the-output">Altering
+the Output</a></li>
+<li><a href="#biases-and-fallacies" id="toc-biases-and-fallacies">Biases
+and Fallacies</a></li>
+</ul></li>
 </ul>
 </nav>
 <!-- markdownlint-disable MD010 MD041 MD001 MD036 MD029-->
@@ -5422,5 +5435,242 @@ signal… but not the outliers</li>
 not always obvious to compute, independence is not always
 guaranteed</li>
 </ul>
+<h2 id="ml-security">ML Security</h2>
+<h3 id="machine-learning">Machine learning</h3>
+<h4 id="ml-taxonomy">ML Taxonomy</h4>
+<p>3 areas:</p>
+<ul>
+<li>supervised learning (labeled data, direct feedback, predict
+outcome/future, example - estimate house price) <strong>Most used and
+wehere security has been mostly studied</strong>. silo.com lost a lot of
+money by evaluating houses using ML model; or HFT</li>
+<li>unsupervised learning (decision process, reward system, learn series
+of actions, example: learning to play a game)</li>
+<li>reinforcement learning (no labels, no feedbacks, “find hidden
+structures”, example: customer segmentation)</li>
+</ul>
+<h4 id="supervised-learning">Supervised learning</h4>
+<p>A lot of data points with labels. Then the features are extracted.
+Then the weights are applied during training to get a model.</p>
+<p>And then using a sample of data and extracted features, they can be
+passed through the model to get the label back.</p>
+<h4 id="adversary-goals">Adversary goals</h4>
+<ul>
+<li>give fake input samples (if there is a feedback loop); disturbing
+the model to make it misclassify</li>
+<li>violate property - steal the model</li>
+<li>by querying, could try to extract information that the model
+has</li>
+<li>violate privacy - steal information or recovering samples</li>
+<li>fool the user - Alter the output of the model</li>
+</ul>
+<h4 id="ml-under-adversarial-conditions">ML under adversarial
+conditions</h4>
+<p>Confidentiality and privacy: Confidentiality of the model itself
+(E.g. intellectual property or it was expensive to train the model)
+Privacy of the training or test data (e.g. medical records)</p>
+<p>Integrity and availability: Integrity of the predicitons (wrt
+expected outcome) Availability of the system deploying machine
+learning</p>
+<p><strong>Opaque-box attacks</strong>: model arch and parameters
+unknown, can only interact blindly with the model</p>
+<p><strong>Grey-box attacks</strong>: model arch is known, parameters
+unknown Can only interact with the model but has informatio nabout the
+type of model</p>
+<p><strong>Clear-box attacks</strong>: known arch and parameters Can
+replicate the model and use the model’s unternal parameters in the
+attack</p>
+<p>Opaque-box attacks -&gt; Grey-box attacks -&gt; Clear-box attacks
+(higher success rate, but more threatening is the opposite way)</p>
+<h3 id="model-stealing">Model stealing</h3>
+<h4 id="ml-as-a-service">ML as a service</h4>
+<p>it’s not usually run on local, but on cloud</p>
+<ol type="1">
+<li>Cloud (pre-)trains a classifier using their own data</li>
+<li>Make this classifier available as a service for users to query</li>
+<li>the user makes a query “given their profile (photos, posts,
+metadata) what per has this fb user?”</li>
+</ol>
+<h4 id="adversary-for-model-stealing">Adversary for model stealing</h4>
+<p>so that they don’t have to pay for each query</p>
+<p>Confidentiality of the model itself (e.g. intellectual property)</p>
+<p>Good ML models require investment:</p>
+<ul>
+<li>collecting data takes time and money</li>
+<li>training infrastructure is expensive</li>
+</ul>
+<p>goal: “steal” the expensive model by observing its outputs with lower
+cost than obtaining the data and training</p>
+<h4 id="stealing-a-linear-model">Stealing a linear model</h4>
+<p>Assuming the adv knows the model is a linear arch (grey-box model)
+and assuming x is two dimensional</p>
+<p>Adversary’s goald steal parameters w, b</p>
+<p>For n-dimentional x, we need n+1 queries</p>
+<h4 id="stealing-non-linear-model">Stealing non-linear model</h4>
+<p>Assuming the adv knows the model arch (grey-box model)</p>
+<p>Goal: steal parameters w</p>
+<p>Do <strong>retraining attack</strong> - observe many queries
+X=(x,f(x)) and fit the model on X like on any other training data</p>
+<p>Takes many queries, For a nn with 2K parameters, need 11K queries to
+get 99.9% similarity. More recent work has reduced these numbers</p>
+<p>Given (oracle) query access to a nn, learned through stochastic
+gradient descent, we can extract a functionally equivalent model -
+locaktion of the critical hyperplanes almost completely determines the
+nn</p>
+<p><strong>Implication of this attack</strong>: assumption of the field
+of secure inference - observing the output of a nn does not reveal the
+weights &lt;- this is false, and therefore the field os secure inference
+will need to develop new techniques to protect models</p>
+<h4 id="preventing-model-stealing">Preventing model stealing</h4>
+<p>first attack 2016, first defences - 2017</p>
+<p>Output perturbation - add noise to the probabilities output by the
+model to hinder reconstruction but not accuracy</p>
+<p>Detect suspicious queries - pattern matching technique Identify
+deviations from expected on distribution of successive queries from a
+client</p>
+<h4 id="takeaways-on-model-stealing">Takeaways on model stealing</h4>
+<ul>
+<li>Many models are susceptible to stealing (recovering parameters or at
+minimum extracting sufficient training data)</li>
+<li>Complex topic, lots of ongoing research</li>
+<li>Crucial issue for MLaaS</li>
+<li>Many problems, some solutions</li>
+<li>Very young field</li>
+</ul>
+<h3 id="privacy-challenges-in-ml">Privacy challenges in ML</h3>
+<p>There’s always some sort of leakage in models</p>
+<p>Privacy-preserving Machine Learning is an active research area</p>
+<h4 id="privacy-risks">Privacy risks</h4>
+<p>Training: information leaks about data used for training (membership
+inference attacks)</p>
+<p>Testing: Testing data (or the result) might be sensitive in MLaaS</p>
+<p>Tay - MS chatbot which was supposed to have a personality of a
+teenage person, and it took a day to make it very racist.</p>
+<h4 id="privacy-risks-of-ml">Privacy risks of ML</h4>
+<p><strong>Before ML era</strong> user’s data -&gt; services Privacy
+threats: colletion of sensitive personal data, re-identification,
+inference attacks</p>
+<p>Now: user’s data -&gt; ML -&gt; services Do trained models leak
+sensiteve data? Can we train good privacy-preserving models?</p>
+<h4 id="typical-task---classification">Typical task -
+classification</h4>
+<p>Training set -&gt; ML model Query -&gt; model -&gt; prediction</p>
+<p><strong>Membership inference</strong>: figure out if a certain target
+data was in the “sensitive” dataset? E.g. more similar to “reference”
+dataset or the “summary statistics” (this would show that it is more in
+the sensitive data)</p>
+<p><strong>Assumption</strong>: we don’t know the model’s parameters For
+ML we don’t know the model’s parameters, but we can classify by inputs
+in the training set and inputs not in it.</p>
+<p>The attacker can train a similar model to recognize the differences
+between the two distributions <strong>without knowing the parameters of
+the actual model</strong>. The idea of attacker - leverage sufficient
+public data to train the model and then compare.</p>
+<p><strong>Assumption</strong>: we don’t know the parameters and we
+don’t have access to training data</p>
+<p>We train shadow models with the distributions, and with them we train
+the attack model to predict if an input wasa member of the training set
+(in) or a non-member (out)</p>
+<p><strong>Assumption</strong>: we have no knowledge of the underlying
+distribution of training data</p>
+<p>Use data synthesis to create the data for us. We train on random data
+and adjust the random data accordingly, and then retrain the model.</p>
+<h4 id="why-do-these-attacks-work">Why do these attacks work?</h4>
+<p>Originally the training the the companies do, it
+<strong>overfits</strong>, and then the attacker can retrieve a large
+amout of the infomation.</p>
+<p>Privacy and utility are not in conflict: overfitting is the common
+enemy (overfitted models leak training data, and overfitted models lack
+preditctive power) Need generalizability and accuracy</p>
+<h3 id="altering-the-output">Altering the Output</h3>
+<p><strong>Adversarial examples</strong> - inputs that will make ML
+fail. working definition: Inputs to a model that an attacker has
+designed to cause the model to make a mistake</p>
+<p>e.g. Panda image + .007 x Adversarial Perturbation = Panda gets
+identified as Gibbon (slightly change the saturation)</p>
+<p><strong>Independent and identically distributed (IID) assumptions no
+longer hold</strong></p>
+<ol type="1">
+<li>Identical: inputs are intentionally manipulated to not belong to the
+training distribution</li>
+<li>Independence: inputs are no longer drawn independently; the attacker
+may sample from a single input repeatedly.</li>
+</ol>
+<h4 id="adversarial-example-problem">Adversarial example problem</h4>
+<p>ML training: Objective: find model parameters that minimize empirical
+loss</p>
+<p>x, y in training data X with some loss function which takes x, y and
+parameters w These weights are trained using gradient descent to
+<strong>minimize</strong> loss</p>
+<p>Adversarial example problem <strong>goal</strong>: find a
+perturbation that <strong>maximizes</strong> loss, that pushes the
+sample in another feature space find maximized loss such that the, that
+pushes the sample in another feature space</p>
+<p>Similarity relation is often represented as adversarial cost
+constraint.</p>
+<p>Constraint on perturbation norm assumes that similar images are close
+in e.g. Euclidean distance (this is not always true) For example,
+similarity could be defined as small affine transformation, and then
+gets misclassified. Feature extraction could be wrong because of the
+transformation.</p>
+<p>Attacks don’t have to be imperceptible - sometimes image can be
+altered even it is seen and that makes the model misclassify.</p>
+<p>How to solve optimization problem where there are limited pixel
+changes: define the problem as gradient descent attack, where the
+direction is taken towards maximum loss, and project to meet
+constraint.</p>
+<h4 id="transferability-property">Transferability property</h4>
+<p>Adversarial examples have a <strong>transferability</strong> property
+- samples crafted to mislead a model A are likely to mislead a model
+B</p>
+<p>In the most extreme case, it is possible to construct a single
+perturbation that will fool a model when added to any image. -&gt;
+Attackers need minimal resources to attack the system</p>
+<h4 id="defending-against-adversarial-examples">Defending against
+adversarial examples</h4>
+<p>Defending in general is very hard. - you cannot add noise to defend
+Can only defend against a particular threat model (e.g. perturbations up
+to epsilon norm), and normally no guarantees</p>
+<p>Sandard way is <strong>adversarial training</strong> (based on
+<em>robust optimization</em>). It means training on simulated
+adversarial examples.</p>
+<h4 id="preventing-adversarial-examples">Preventing adversarial
+examples</h4>
+<p>Certified defenses: ensure that no example can exist inside a ball
+with radius the norm used for the perturbation (train multiple models
+and have the answer that the models have to agree on)</p>
+<p>Detect suspicious queries: identify deviations from expected on
+distribution of successive queries form a client</p>
+<p>(unclear whether they are really effective)</p>
+<p><strong>Attackers are not restricted to computer vision</strong></p>
+<h3 id="biases-and-fallacies">Biases and Fallacies</h3>
+<h4 id="base-rate-fallacy-prosecutors-fallacy">Base rate fallacy /
+Prosecutor’s fallacy</h4>
+<p>We assume equal distribution of cases, if they are not we falsely
+interpret results</p>
+<p>AI performance metrics - example of hate speech detection - sets are
+not the same</p>
+<p>TP: prediction prediction hate speech in hate speech FN: prediction
+prediciton not hate speech in hate speech TN: prediction not hate speech
+in not hate speech FP: prediction hate speech - in not hate speech</p>
+<h4 id="distributional-shift">Distributional shift</h4>
+<p>Because of the size of the training set certain classes could be
+classified less accurately</p>
+<h4 id="transparency">Transparency</h4>
+<p>Classification Task: Should we send a patient with Bronchitis home?
+Rule-Based Learning If x, then y Human readable rules: causation is
+intrinsic</p>
+<p>Machine Learning Better accuracy Not directly possible to understand
+why a decision is made</p>
+<h4 id="bias-reinforcement">Bias reinforcement</h4>
+<p>it is a bigger problem because bias gets completely implemented in
+reinforcement learning</p>
+<p><strong>Bias</strong> Statistical bias: difference between an
+estimator expected value and the true value Very limited! Nothing about
+errors, nothing about distributional shift</p>
+<p>Group fairness: outcome should not differ between demographic
+groups</p>
+<p>Individual fairness: similar? individuals should be treated
+similarly?</p>
 </body>
 </html>
