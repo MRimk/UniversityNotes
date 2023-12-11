@@ -1720,3 +1720,382 @@ Alibaba Scalog - needs a total ordering relationship inside the system because o
 Google Spanner
 
 Google Zanzibar
+
+## Suff about hw and project
+
+If needed we can ask to be graded on a different commit, not the last
+The runners are grading the hw, so they will be busy in the next 24 hours.
+
+Project:
+Coaches are there to help you stay on track, they're not omniscient experts. Expectation - we can reasonanbly read the literature
+
+## Software Quality for Decentralized and Distributed Systems
+
+### Why should you care?
+
+Examples of things going wrong:
+When converting 64-bit float into a signed 16-bit integer Ariane 5 in 1996 exploaded during launch -> $370 million explosion
+There was a race condition which caused patients to receive 100x radiation dosage by Therac-25 in 1980s
+Fujitsu's Horizon software said UK Post Office staff were stealing money. Bugs led to lawsuits and 700+ people were found guilty. A lot of people were sent to jail, some face bankruptcy, and some committed suicide.
+
+### Quality
+
+Definition:
+
+1. the non-inferiority or superiotrity of something (being as expected - not better, not worse)
+2. being suitable for its intended use (fitness for purpose)
+
+Simpler view:
+
+1. building the right thing, satisfuing customer needs
+2. Building the thing right, to specification and within tolerant
+3. preventing defects
+
+When should one think about the quality in a project? - all the time (from the begining until the project is retired), even when writing some throw-away code
+
+#### How to check the quality?
+
+Tools: IDE autocompletion, static analysis, linters, tesing, CI/CD
+
+Processes: code review, pair programming, test-driven development
+
+Measurements: software complexity, code coverage, measuring how often the tests are passing, how flaky the tests are
+
+Documentation: requirements documents, code style, traceability matrix, etc (basically linking what the customer said, to what has been built)
+
+#### Software quality
+
+Continuous improvement process:
+CI: Identify opportunities -> plan for improvement -> execute the change -> measure the results -> (loop back around)
+
+It requires an investment - time, money (e.g. git copilot), productivity (or money if CI takes a long time to run)
+
+### Managing Software Quality
+
+#### Managing software project
+
+Like any proejct, need to:
+
+- manage limited resources
+- keep costs under control
+- manage risks (something possibly bad that could possibly happen) - managing impact, probability and detectability (if it does happen, can anyone notice)
+  - reduce the probability
+  - retuce the impact
+- quality supports this (shows whether we are building the wrong thing, or building the thing wrong)
+
+Development cycle:
+requirement analysis, planning, architectual design, software development, testing, deployment, (loop around)
+
+#### Quality and cost - a balance
+
+Quality assurance measures are not free, but defects are even more expensive - so what is the tradeoff?
+
+Cost of catching a bug in different processes:
+
+- <1 unit during requirements phase
+- 1 unit during design phase
+- 10 units during development phase
+- 25 units during testing phase
+- 50 units during staging phase (because developer forgets what happened way long ago)
+- 150 units during production (when there is a problem, customer would call customer support, then it goes to engineering management, and it comes to the developer, who needs to fix the bug)
+
+**Goal** - _shift is to the left_ - catch the problem as early as possible
+
+**Technical debt** - idea is to accept that something will need to be fixed later, with the same idea as normal debt - paying interest.
+
+|             | Reckless                        | Prudent                                       |
+| ----------- | ------------------------------- | --------------------------------------------- |
+| Deliberate  | "we don't have time for design" | "we must ship now and deal with consequences" |
+| Inadvertent | "what's layering?"              | "now we know how we should have done it"      |
+
+#### Requirements and Specifications
+
+Functional ("user can do smt") and non-functional (security, performance, etc.) requirements
+
+Quality impact:
+
+- informs the security of the system (threat model)
+- shared understanding of the project
+- evaluation of the project
+
+#### Architecture and Design
+
+Why and when is architecture important for quality?
+
+- when doing divide and conquer - for working on parts of the project
+- when the project is complex (could be small and complex) - design could break down the complexity
+- risk management - architecture is a way to manage risk
+- when making future evolutions of the system - architecture allows to build-in the flexibility for future requirements
+
+It creates a shared understanding of the software, and makes it easier to reason about the code
+
+#### Implementation - why clean code matters
+
+Code should be written for readability - a lot of people will be reading it, and few writing it
+
+Reviewwers will detect bugs more easily
+
+Automatic tools will understand it better
+
+Maintainers will find it easy tomodify
+
+Quality impact -> bad implementation will kill your project
+
+#### Testing - why
+
+Detect bugs at all levels
+
+Detect defects with respect to specification (arch back to the requirements)
+
+Testing is system documentation which you could run
+
+Quality impact -> limited, poor or absent testing will cost you down the road
+
+#### Deployment - code is still buggy
+
+Ensure repeatability and consistency
+
+Detect defects in production, ideally before the users (you can crash as many time as you want as long as the user does not see)
+
+Observability - making the application behaviour "visible" in production:
+
+- metrics,
+- logs,
+- stack traces,
+- traces (if something goes wrong, you want your debugging information to address this; e.g. correlation IDs with each operation is in a span which is timed)
+
+### Testing and breaking stuff
+
+#### Testing basics
+
+Test is a way to determine if an artifact meets its requirements
+
+Along a specific axis: functionality, performance, security, resilience, etc.
+
+Types: unit, integration, user acceptance, exploratory, smoke, staging (pre-production), A/B testing
+
+#### How are testers and developers different?
+
+Developer: wants t o see thing work, build them; focuses on what the system should be doing -> _solution_-oriented work
+
+Tester: wants to break things, focuses on what the _user_ expects -> _problem_-oriented work
+
+#### (Manual) Test case
+
+Has scenario ID, test case ID, test case description, test priority, pre-requisite, post-requisite, and execution steps.
+
+#### Automated tests
+
+- Reproducible (not "flaky")
+- Isolated (testing one thing only)
+- Independent from each other
+- Self-contained
+- Same code quality as production code
+
+Tests are an investment, aim for a good return-on-investment
+
+**Naive** test case automation:
+
+- hard to develop
+- hard to debug
+- they come in too late in the development
+
+#### Metrics
+
+- Code coverage
+- Mutation coverage - randomly change the production code and run the unit tests to see whether unit tests are crashing
+- Code complexity - if code is complex, the chances of the bug being there are higher
+- Historical bug location
+- Automatic ratings
+- Risk - if the UI crashes - not a big deal, but if sensitive data leaks - bad
+
+#### Basic concepts
+
+- unit, integration, end-to-end test
+- mocking
+- dependency injection (in Go, to enable easy testing, you can have **interface concretion**)
+- fuzzing
+- property-based tests
+- formal verificaiton
+- model checking (one step short of formal verification)
+
+#### Property-based testing
+
+Define a test as:
+
+- a given input data shape
+
+------- MISSED, SO LOOK AT THE SLIDES
+
+It will try to break the system on your behalf
+
+It exists in Go, as part of the fuzzing extensions
+
+#### Which tests to start with?
+
+- unit tests, because make sure that smaller blocks work before they work together
+- user input validation, such that user data works later
+- manual test - check if this thing is completely broken
+- integration test - check on higher level whether the system as a whole works (but does not narrow down the problem)
+
+But it always depends on the risk and the system.
+
+Also, beware of writing many tests at the begining because the code could be thrown away.
+
+### Distributed and Decentralized testing
+
+Assuming basic practices are implemented and being used - testing at all levels, separate environments (development, staging, produciton), and full observability in production (centralized log, traces)
+
+What is the testing objective?
+How to translate requirement (e.g. safety) to an actual test case?
+What are the parameters we want to control?
+And if we don't test for the network, does it relate to real life?
+How do you make the tests reliable?
+
+#### Case study - a distributed, embedded system
+
+Covid contact-tracing system in CERN
+
+Specification:
+
+1. radio-based distance measure
+2. support up to 16 devices
+
+System had to report if two devices were in contact for more than 30s
+
+Implementation:
+
+1. Separate HW boards
+2. Finite State MAchine-based communication protocol
+
+How to test this?
+
+1. Check if FSM (specification) does not have issues
+2. Check FSM test transitions <- unit test
+3. Have two state machines interact with each other <- integration test
+4. Model the system in software program - simulation (done later) <- end-to-end test
+
+> QA effort is highly driven by the environment, so it's always different
+
+#### Challenges in distributed/decentralized systems
+
+The network is an uncontrolled variable
+
+(virtually) infinite number of states - hard to account for any possible state transitions
+
+Failures can happen at any layer (network, HW, OS, application, etc)
+
+may software versions may coexist: so backward/forward compatibility, application invariants across versions
+
+Subtle environment differeces (between development, staging and production) can mask issues - so a lot of companies test in production (e.g. for existing security implementations in production)
+
+#### Jepsent - testing distributed storage systems
+
+[https://jepsen.io]
+
+Full suite of tools to evaluate distributed systems
+
+Approach:
+
+- they test real systems, running on real clusters (1-4 months of work)
+- they test under failure modes - faulty networks, unsunc'd clocks, etc.
+- they make abundant use of generative testing
+  1. apply (many, many) randonw operations to the system
+  2. build "concurrent history" of the results
+  3. check history against a model to ensure correctness / verify invariants (if through these operation i broke some system specification - the system is broken)
+
+#### Testing (permissioned) Blockchain Nodes
+
+Unique challenges:
+
+- Node robustness during upgrades?
+- Can old and new versions communicate without failures?
+- Smart contract determinism across versions?
+- Impact of failures?
+
+Solutions:
+
+- Formal verification (where feasible)
+- Testing latest version against baseline -- different versions should behave the same way (maybe the output is slightly different); the state should persist
+- Testing mixed environments, including under failure scenarios
+- Testing upgrade paths, including under failure scenarios
+
+#### Case Study - Netflix
+
+Key metric - Stream "play" Per Second (SPS)
+
+Actual video data comes from their CDN
+
+All the logic (incl Stream play) comes from their microservices
+
+Hundreds of microservice clusters - how to test this?
+
+**Chaos Monkey**:
+test that a VM's unavailability has no consequences? -> Kill them at random and the service should be able to withstand this and reparable (automatically or by engineers)
+
+**Chaos Kong**:
+Test that an application is resilient to a cloud region's unavailability? - kill it and run "Chaos Kong" exercise - instead of development spend time observing the damage/fixing the damage.
+
+This could even unveil software bugs because there might be some bugs related to other available services.
+
+Amazon/Azure/GCP make sure the durability but not necessarily availability. They can offer having the second region in a different DC but that could be read-only. So to be sure that microservices are available, the developer themselves has to handle this, not the service provider.
+
+Chaos Monkey and Chaos Kong are limited by granularity so you wan to have **Fault Injection Testing**
+
+##### Granularity with Fault Injection Testing
+
+How can we test a hypothesis:
+Redirect traffic to control/experimental group resources - to API block where we can test the control and experiment parts.
+And the experiment can be without connectivity to another service.
+
+Hypotheses:
+Arbitrary failures: client, server, network, OS, etc
+Arbitrary scope: single VM, whole cluster, whole region, etc
+
+How do you minimize the blast radius?
+
+- if control/experimental group deviate, abort experiment automatically
+- deviations are measured locally, upstream and globally
+
+E.g. make the clients sticky - if a client went to experiment group, it will stay in that group as long as the experiment is running. Then we avoid the deviation, which could impact the data.
+
+Many non-trivial engineering considerations:
+
+- assigning requests to groups
+- dealing with "retry" mechanisms
+- analyzing _only_ experimental data
+- how do we inject faults -- in dockerized environment is kind of easy from underlying OS
+
+#### Chaos Engineering
+
+Goal: run scientific experiments on production systems
+
+Requirements:
+
+- strong observability of the system (= good monitoring)
+- "Mature" testing environment (= moderately reliable software)
+- Enough usage to measure a "steady state" in the system hypothesis - "steady state" will continue in both experimental and control groups
+- infrastructure-level separation between experimental and control groups
+
+Them: inject a failure in the experimental group and observe
+
+(Netflix both collects data on these experiments not only on backend but also on frontend -- most data is aggregate)
+
+Advanced Principles:
+
+- Risk Management - focus on likely / impactful events
+- Run experiments in production
+- Automate: experiments should run periodically/continuously
+- Minimize the blast radius
+
+Tools and resources: [`repo`](https://github.com/dastergon/awesome-chaos-engineering)
+
+### What applies to the project
+
+Go - `testing` - contains fuzzing, `testify/require`, `gomock` - build mocks for interface, `gremlins` - mutation-based testing
+
+Prometheus library - based on how Google was doing monitoring internally. Machines only expose some values to be accessed by the server, and don't need to be aware of access control.
+The only thing we need to do to use it - install docker, add the library to go.
+It also works with `go/tracing` library
+
+We should show performance numbers, even if the performance is bad.
