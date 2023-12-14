@@ -1665,7 +1665,7 @@ Common example:
 2. Highest LOCAL-PREF
 3. Shortest AS-PATH
 4. Lowest MED, if taken seriously by this nework
-5. E-BGP > I-BGP
+5. E-BGP > I-BGP (external knowledge has priority)
 6. Shortest path to NEXT-HOP, accourding to IGP
 7. Lowest BGP id (if everything is the same, pick randomly - pick lowest ID)
 
