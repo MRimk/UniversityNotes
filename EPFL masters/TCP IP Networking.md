@@ -1490,3 +1490,183 @@ TCP source estimates probabiltiy of congestion p from ECN echoes
 - multiplicative decrease is $\times \beta_{DCTCP} = (1- \frac{p}{2})$
 
 ### TCP-BBR
+
+Main motivation: Bufferbloat syndrome and **buffer drain time** = buffer capacity / link rate
+
+We want to keep buffer drain time constant for fairness, even though the technology increases - we have big buffers that are slow, or small buffers that are fast.
+
+When the buffer is big and slow -> Bufferbloat unless ECN is used
+
+When the buffer is fast ( << RTT) -> impossible to react to react correctly in RTT, and feedback control might not be accurate
+
+**TCP-BBR** avoids per packet feedback, target max throughput with minimal delay
+
+How:
+
+1. estimates the bottlenecek and the min RTT separately
+2. controls directly the rate (not the window) uusing pacing (= packet spacing)
+3. tries to keep amount of inflight data close to bottlenect bandwidth x minRTT (optimal operating point)
+
+- It views the network as a single link (bottleneck link)
+- estimates min RTT by taking the min over the last 10s = RTprop
+- estimates bottleneck rate (bandwidth) - max of delivery rate over last 10 RTTs, where delivery rate = amount of ACKed data per time period
+- sends data at rate max of delivery x pacing gain. First send at 1.25 during one RTprop (to probe the bandwidth), then 0.75 during one RTprop (to drain the queue), then 1 during 6 RTprops
+- If no new RTprop value in last 10s, the source enters ProbeRTT state - send only 4 packets to drain any possible queue and get a real estimateion of RTprop
+- for safety, max data in flight is limited to 2 x max delivery rate x RTT estimateion (2 x bandwidth delay product) and by offered window
+- there is also a startup phase (like Cubic/Reno) with exponential increase of rate
+- **no reaction** to losses or ECN
+
+There is a reported improvement of throughput when using BBRv1
+
+BBRv1 can be unfair:
+
+- when there are different BBR flows of different RTTs and when BBR vs other TCPs
+- in-flight cap is determinant, which means it it was not 2, it would behave differently
+
+### Per-class queuing
+
+Router classify packets (using access list): each class is guaranteed a queue and a height (specific rate); classes may exceed the guaranteed rate by "borrowing" from other classes if there is spare capacity
+
+this is implemented in routers with dedicated queues for every class and scheduler such as Weighted Round Robin or Dficit Round Robin
+
+It is used in enterprise or industrial networks to support non congestion flows (e.g. real-time flows - sensors); provider networks to sepatrte customers / isolate suspicious flows (network virtualization)
+
+### Future of cc
+
+Past TCP version relied on loss or ECN. Some versions relied on delay only (TCP Vegas) or use delay as well as loss (PCC).
+
+CC today wants to also achieve "per-flow fairness", but each flow may use different cc algorithm:
+
+- is fairness achieved? is every flow "TCP friendly"? (now BBR sends more)
+- is the "flow" the right abstraction/fairness-actor? (should it be user instead?)
+- what are the alternatives?
+
+**Traffic isolation** (with per-class traffic shapers or per-class queuing) is a possible future alternative.
+packet dropping/ECN marking becomes a function of the traffic aggretate/class a packet belongs to.
+In this, however, **network neutrality** (= ISPs provide no competitive advantage to specific apps/services, either through pricing or QoS) should be maintained.
+
+## BGP (Border Gateway Protocol)
+
+**Domain** - network under the same administrative entity
+
+### Inter-domain routing
+
+Why inventer? - the internet is too large (cannot run dijkstra and stuff) and heterogeneous (many domains) to be run by one routing protocol
+
+#### ARD and AS
+
+ARD - Autonomous Routing Domain = routing domain under one single administration
+
+AS - Autonomous System - ARD with a number
+
+AS number is 32 bits denoted with dotted 16 bit integer notation
+
+ARDs that do not need a number are typically served by one single ISP (E.g. EPFL, since all external traffic goes via Switch)
+
+#### BGP and IGP
+
+ARDs can be transit, stub, or multihomed. Only non stub domains need an AS number
+
+An IGP is used inside a domain, BGP is used between domains
+
+#### what does BGP do?
+
+BGP is a routing protocol between ARDs. It is used to compute paths from one router in one ARD to any network prefix anywhere in the world
+
+BGP can handle both IPv4 and IPv6 addresses in a single process
+
+Used routing protocols: Path vector, With policy
+
+#### Path Vector Routing
+
+It finds the best AS-level routes, in a sense that can be decided by every ARD using their own criteria
+
+How: AS-level route is where path is a sequence of AS numbers and dest is an IP prefic.
+
+Every AS appends its number to the path it exports; Every AS uses its own rules for deciding which path is better (different policies)
+
+#### Border Gateways, e- and i-BGP
+
+A router that runs BGP is a **BGP speaker** - at the boudary between 2 ARDs, there are 2 BGP speakers for each domain (they are on the same link, so same subnet). Inside ARD there are usually several BGP speakers
+
+BGP speakers speak (over TCP connections):
+
+- externally (e-BGP) - to advertise routes to neighbor domains
+- internally (i-BGP) - to exchange what they have learnt
+
+In i-BGP, peers:
+
+- communicate via a mesh network (**BGP mesh**) - every BGP router has a connection to every BGP router
+- do the same as in e-BGP but they **don't**:
+  - repeat the routes learnt from i-BGP
+  - prepend own AS number over i-BGP
+  - modify the NEXT-HOP of a route
+- know about all inter-domain link subnets via IGP
+
+#### Policy Routing
+
+Interconnection of ASs (= peering) is self-organized:
+
+- point to point links between networks
+- interconnection points - all participants un a BGP router in the same LAN. NAP (Network Access Point), MAE (Metropolitan Area Ethernet), CIX, GIX, IXP, ...
+
+Mainly 2 types of relations:
+
+- customer-provided (hierarchy) - EPFL is customer os Switch
+- Shared Cost peer (same level) - Swisscome and Switch are peers. They collaborate to serve their customers, typically without paying each other
+- many others
+
+**Goal**: implement these relations and business agreements
+
+If ISPs apply a rule that traffic is not propagated to other peers and provided, then traffic cannot be transmitted.
+
+Solution: internet backbone providers (called tier-1) must connect all peers with each other and all ISPs need to be connected to tier-1
+
+### How it works
+
+BGP routers talk to each other over TCP connections
+
+BGP messages: OPEN, NOTIFICATION (=RESET), KEEPALIVE, UPDATE
+
+UPDATE messages contains modifications: a BGP router transmits only modifications **additions and withdrawals**
+
+#### BGP router
+
+- it receives and stores candidate routes from its BGP peers and from itself
+- it applies the decision process to select at most one route per destination prefix
+- it exports the selected routes to BGP neighbors, after applying export policy rules and possibly aggregation
+
+(only routes learnt from e-BGP are sent to an i-BGP neighbor)
+
+#### Routes
+
+tje records sent/received in BGP messages are called **routes**
+
+Route is made of:
+
+- destination (subnetwork prefix)
+- path to dest (AS-PATH or BGPsec_Path)
+- NEXT-JOP (set by e-BGP, left unchanged by i-BGP)
+- origin - route learnt from IGP, BGP, static
+- other attributes
+
+Routing Information Bases (RIB) stores routes and their attributes
+
+#### Decision process
+
+Decision process that decides which route is selected. At most one best route to exactly the same prefix is chosen
+
+A route can be selected only if its next-hop is reachable
+
+Routes' attirbutes are compared against each other using sequence of criteria until only one route remains.
+Common example:
+
+1. Highest weight (Cisco proprietary)
+2. Highest LOCAL-PREF
+3. Shortest AS-PATH
+4. Lowest MED, if taken seriously by this nework
+5. E-BGP > I-BGP
+6. Shortest path to NEXT-HOP, accourding to IGP
+7. Lowest BGP id (if everything is the same, pick randomly - pick lowest ID)
+
+The result of the decision process is stored in Adj-RIB-out (one per BGP peer) and the router sends updates when Adj-RIB-out changes
