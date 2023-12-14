@@ -528,6 +528,16 @@ management)</a></li>
 <li><a href="#data-centers-and-tcp" id="toc-data-centers-and-tcp">Data
 centers and TCP</a></li>
 <li><a href="#tcp-bbr" id="toc-tcp-bbr">TCP-BBR</a></li>
+<li><a href="#per-class-queuing" id="toc-per-class-queuing">Per-class
+queuing</a></li>
+<li><a href="#future-of-cc" id="toc-future-of-cc">Future of cc</a></li>
+</ul></li>
+<li><a href="#bgp-border-gateway-protocol"
+id="toc-bgp-border-gateway-protocol">BGP (Border Gateway Protocol)</a>
+<ul>
+<li><a href="#inter-domain-routing"
+id="toc-inter-domain-routing">Inter-domain routing</a></li>
+<li><a href="#how-it-works" id="toc-how-it-works">How it works</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -2119,5 +2129,200 @@ prob of congestion p</li>
 \beta_{DCTCP} = (1- \frac{p}{2})</span></li>
 </ul>
 <h3 id="tcp-bbr">TCP-BBR</h3>
+<p>Main motivation: Bufferbloat syndrome and <strong>buffer drain
+time</strong> = buffer capacity / link rate</p>
+<p>We want to keep buffer drain time constant for fairness, even though
+the technology increases - we have big buffers that are slow, or small
+buffers that are fast.</p>
+<p>When the buffer is big and slow -&gt; Bufferbloat unless ECN is
+used</p>
+<p>When the buffer is fast ( &lt;&lt; RTT) -&gt; impossible to react to
+react correctly in RTT, and feedback control might not be accurate</p>
+<p><strong>TCP-BBR</strong> avoids per packet feedback, target max
+throughput with minimal delay</p>
+<p>How:</p>
+<ol type="1">
+<li>estimates the bottlenecek and the min RTT separately</li>
+<li>controls directly the rate (not the window) uusing pacing (= packet
+spacing)</li>
+<li>tries to keep amount of inflight data close to bottlenect bandwidth
+x minRTT (optimal operating point)</li>
+</ol>
+<ul>
+<li>It views the network as a single link (bottleneck link)</li>
+<li>estimates min RTT by taking the min over the last 10s = RTprop</li>
+<li>estimates bottleneck rate (bandwidth) - max of delivery rate over
+last 10 RTTs, where delivery rate = amount of ACKed data per time
+period</li>
+<li>sends data at rate max of delivery x pacing gain. First send at 1.25
+during one RTprop (to probe the bandwidth), then 0.75 during one RTprop
+(to drain the queue), then 1 during 6 RTprops</li>
+<li>If no new RTprop value in last 10s, the source enters ProbeRTT state
+- send only 4 packets to drain any possible queue and get a real
+estimateion of RTprop</li>
+<li>for safety, max data in flight is limited to 2 x max delivery rate x
+RTT estimateion (2 x bandwidth delay product) and by offered window</li>
+<li>there is also a startup phase (like Cubic/Reno) with exponential
+increase of rate</li>
+<li><strong>no reaction</strong> to losses or ECN</li>
+</ul>
+<p>There is a reported improvement of throughput when using BBRv1</p>
+<p>BBRv1 can be unfair:</p>
+<ul>
+<li>when there are different BBR flows of different RTTs and when BBR vs
+other TCPs</li>
+<li>in-flight cap is determinant, which means it it was not 2, it would
+behave differently</li>
+</ul>
+<h3 id="per-class-queuing">Per-class queuing</h3>
+<p>Router classify packets (using access list): each class is guaranteed
+a queue and a height (specific rate); classes may exceed the guaranteed
+rate by “borrowing” from other classes if there is spare capacity</p>
+<p>this is implemented in routers with dedicated queues for every class
+and scheduler such as Weighted Round Robin or Dficit Round Robin</p>
+<p>It is used in enterprise or industrial networks to support non
+congestion flows (e.g. real-time flows - sensors); provider networks to
+sepatrte customers / isolate suspicious flows (network
+virtualization)</p>
+<h3 id="future-of-cc">Future of cc</h3>
+<p>Past TCP version relied on loss or ECN. Some versions relied on delay
+only (TCP Vegas) or use delay as well as loss (PCC).</p>
+<p>CC today wants to also achieve “per-flow fairness”, but each flow may
+use different cc algorithm:</p>
+<ul>
+<li>is fairness achieved? is every flow “TCP friendly”? (now BBR sends
+more)</li>
+<li>is the “flow” the right abstraction/fairness-actor? (should it be
+user instead?)</li>
+<li>what are the alternatives?</li>
+</ul>
+<p><strong>Traffic isolation</strong> (with per-class traffic shapers or
+per-class queuing) is a possible future alternative. packet dropping/ECN
+marking becomes a function of the traffic aggretate/class a packet
+belongs to. In this, however, <strong>network neutrality</strong> (=
+ISPs provide no competitive advantage to specific apps/services, either
+through pricing or QoS) should be maintained.</p>
+<h2 id="bgp-border-gateway-protocol">BGP (Border Gateway Protocol)</h2>
+<p><strong>Domain</strong> - network under the same administrative
+entity</p>
+<h3 id="inter-domain-routing">Inter-domain routing</h3>
+<p>Why inventer? - the internet is too large (cannot run dijkstra and
+stuff) and heterogeneous (many domains) to be run by one routing
+protocol</p>
+<h4 id="ard-and-as">ARD and AS</h4>
+<p>ARD - Autonomous Routing Domain = routing domain under one single
+administration</p>
+<p>AS - Autonomous System - ARD with a number</p>
+<p>AS number is 32 bits denoted with dotted 16 bit integer notation</p>
+<p>ARDs that do not need a number are typically served by one single ISP
+(E.g. EPFL, since all external traffic goes via Switch)</p>
+<h4 id="bgp-and-igp">BGP and IGP</h4>
+<p>ARDs can be transit, stub, or multihomed. Only non stub domains need
+an AS number</p>
+<p>An IGP is used inside a domain, BGP is used between domains</p>
+<h4 id="what-does-bgp-do">what does BGP do?</h4>
+<p>BGP is a routing protocol between ARDs. It is used to compute paths
+from one router in one ARD to any network prefix anywhere in the
+world</p>
+<p>BGP can handle both IPv4 and IPv6 addresses in a single process</p>
+<p>Used routing protocols: Path vector, With policy</p>
+<h4 id="path-vector-routing">Path Vector Routing</h4>
+<p>It finds the best AS-level routes, in a sense that can be decided by
+every ARD using their own criteria</p>
+<p>How: AS-level route is where path is a sequence of AS numbers and
+dest is an IP prefic.</p>
+<p>Every AS appends its number to the path it exports; Every AS uses its
+own rules for deciding which path is better (different policies)</p>
+<h4 id="border-gateways-e--and-i-bgp">Border Gateways, e- and i-BGP</h4>
+<p>A router that runs BGP is a <strong>BGP speaker</strong> - at the
+boudary between 2 ARDs, there are 2 BGP speakers for each domain (they
+are on the same link, so same subnet). Inside ARD there are usually
+several BGP speakers</p>
+<p>BGP speakers speak (over TCP connections):</p>
+<ul>
+<li>externally (e-BGP) - to advertise routes to neighbor domains</li>
+<li>internally (i-BGP) - to exchange what they have learnt</li>
+</ul>
+<p>In i-BGP, peers:</p>
+<ul>
+<li>communicate via a mesh network (<strong>BGP mesh</strong>) - every
+BGP router has a connection to every BGP router</li>
+<li>do the same as in e-BGP but they <strong>don’t</strong>:
+<ul>
+<li>repeat the routes learnt from i-BGP</li>
+<li>prepend own AS number over i-BGP</li>
+<li>modify the NEXT-HOP of a route</li>
+</ul></li>
+<li>know about all inter-domain link subnets via IGP</li>
+</ul>
+<h4 id="policy-routing">Policy Routing</h4>
+<p>Interconnection of ASs (= peering) is self-organized:</p>
+<ul>
+<li>point to point links between networks</li>
+<li>interconnection points - all participants un a BGP router in the
+same LAN. NAP (Network Access Point), MAE (Metropolitan Area Ethernet),
+CIX, GIX, IXP, …</li>
+</ul>
+<p>Mainly 2 types of relations:</p>
+<ul>
+<li>customer-provided (hierarchy) - EPFL is customer os Switch</li>
+<li>Shared Cost peer (same level) - Swisscome and Switch are peers. They
+collaborate to serve their customers, typically without paying each
+other</li>
+<li>many others</li>
+</ul>
+<p><strong>Goal</strong>: implement these relations and business
+agreements</p>
+<p>If ISPs apply a rule that traffic is not propagated to other peers
+and provided, then traffic cannot be transmitted.</p>
+<p>Solution: internet backbone providers (called tier-1) must connect
+all peers with each other and all ISPs need to be connected to
+tier-1</p>
+<h3 id="how-it-works">How it works</h3>
+<p>BGP routers talk to each other over TCP connections</p>
+<p>BGP messages: OPEN, NOTIFICATION (=RESET), KEEPALIVE, UPDATE</p>
+<p>UPDATE messages contains modifications: a BGP router transmits only
+modifications <strong>additions and withdrawals</strong></p>
+<h4 id="bgp-router">BGP router</h4>
+<ul>
+<li>it receives and stores candidate routes from its BGP peers and from
+itself</li>
+<li>it applies the decision process to select at most one route per
+destination prefix</li>
+<li>it exports the selected routes to BGP neighbors, after applying
+export policy rules and possibly aggregation</li>
+</ul>
+<p>(only routes learnt from e-BGP are sent to an i-BGP neighbor)</p>
+<h4 id="routes">Routes</h4>
+<p>tje records sent/received in BGP messages are called
+<strong>routes</strong></p>
+<p>Route is made of:</p>
+<ul>
+<li>destination (subnetwork prefix)</li>
+<li>path to dest (AS-PATH or BGPsec_Path)</li>
+<li>NEXT-JOP (set by e-BGP, left unchanged by i-BGP)</li>
+<li>origin - route learnt from IGP, BGP, static</li>
+<li>other attributes</li>
+</ul>
+<p>Routing Information Bases (RIB) stores routes and their
+attributes</p>
+<h4 id="decision-process">Decision process</h4>
+<p>Decision process that decides which route is selected. At most one
+best route to exactly the same prefix is chosen</p>
+<p>A route can be selected only if its next-hop is reachable</p>
+<p>Routes’ attirbutes are compared against each other using sequence of
+criteria until only one route remains. Common example:</p>
+<ol type="1">
+<li>Highest weight (Cisco proprietary)</li>
+<li>Highest LOCAL-PREF</li>
+<li>Shortest AS-PATH</li>
+<li>Lowest MED, if taken seriously by this nework</li>
+<li>E-BGP &gt; I-BGP</li>
+<li>Shortest path to NEXT-HOP, accourding to IGP</li>
+<li>Lowest BGP id (if everything is the same, pick randomly - pick
+lowest ID)</li>
+</ol>
+<p>The result of the decision process is stored in Adj-RIB-out (one per
+BGP peer) and the router sends updates when Adj-RIB-out changes</p>
 </body>
 </html>
