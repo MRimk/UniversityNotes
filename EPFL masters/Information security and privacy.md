@@ -4669,6 +4669,48 @@ If there are different algorithms that use independent randomness, and each algo
 - **Impact is disparate**: we preserve the average signal… but not the outliers
 - **Very hard to implement in practice**: sensitivity is not always obvious to compute, independence is not always guaranteed
 
+## Exercises 11
+
+**Exercise 11.1**
+
+• Are the following statements true or false? Justify.
+
+1. It is possible to deploy surveillance only on end-users of systems.
+2. Privacy as control ensures that only the minimal amount of information is provided to the service.
+3. To provide users with anonymity when accessing a web all accesses from one user must be unlinkable.
+4. Fine-grained accountability and auditability make it difficult to implement systems with strong privacy protection.
+
+Solution:
+
+1. False. Developers and CEOs of companies, government employees, and in general everyone is at the end of the day an end-user. Once the surveillance infrastructure is deployed, everyone will be under surveillance.
+2. False. The paradigm of privacy as control does not really focus on quantity. It focuses on the user knowing how the information is going to be used, but not on minimizing the amount of information disclosed.
+3. True. If accesses by a user are linkable, even if we do not know the identity, these accesses become a pseudonym. We cannot anymore say that it is truly anonymous. Thus, in general, unlinkability is needed for anonymity.
+4. True. Accountability and auditability mainly rely on logging actions. These logs typically record all actions in the system, becoming an extra source of information that can be used to infer private information about users.
+
+**Exercise 11.2**
+
+• Consider a privacy-preserving forum to ask questions in the class. To provide privacy, when a student posts a question, instead of publishing the student’s name, it chooses uniformly at random another name in the class that starts by the same letter. Discuss what is the privacy this mechanism gives in terms of error the professor for the following students. Who has more protection?
+– Charlie, who is in the class with Celia, Carla, Constantin, and Colin.
+– Louisa, who is in the class with Lorenz, Lex, and other two Louisas.
+
+Solution:
+
+In both cases the students enjoy anonymity among the other 5 students. The professor has 1/5 probability of guessing correctly, and 4/5 of making an error. In the case of Louisa, the professor succeeds in guessing the correct name 3/5 of the time, but he still cannot know with certainty which of the two Louisas wrote the question. Both students have the same protection.
+
+**Exercise 11.3**
+
+• Aggregation is a privacy-protection technique consisting in regrouping data before processing (more on this in the machine learning lectures). Discuss what kind of privacy is this from the point of view of the paradigms (confidentiality, control, practice) or adversary (social, institutional, anti-surveillance) when:
+
+1. the aggregation is made locally by the user before releasing her data.
+2. the aggregation by all users is made by a third party.
+
+Solution:
+
+We have two cases here:
+
+1. If aggregation is local, from the point of view of the paradigms, aggregation can be seen as an obfuscation mechanism that aims at achieving privacy as confidentiality. The idea is to not give the adversary any information about individuals. As such, we can also categorize it as anti-surveillance privacy.
+2. When aggregation is on a third party, then, with respect to this party that sees all the data the protection is privacy as control: we give the data to this party to only perform the aggregation, and only share with other parties the aggregated value. We could still say this is an anti-surveillance privacy mechanism from the point of view of the final entity that receives the data, but with respect to the aggregator we would be under institutional privacy assuming that this aggregator is semi-trusted and will do what is agreed upon and nothing else.
+
 ## ML Security
 
 ### Machine learning
@@ -4936,3 +4978,46 @@ Very limited! Nothing about errors, nothing about distributional shift
 Group fairness: outcome should not differ between demographic groups
 
 Individual fairness: similar? individuals should be treated similarly?
+
+## Exercises 12
+
+**Exercise 12.1**
+
+• Are the following statements true or false? Justify.
+
+1. Stealing non-linear models is impossible because models are too complex.
+2. As a defender of a machine learning model you should be more worried about black-box
+   effective attacks than white-box effective attacks.
+3. Privacy problems in machine learning stem solely from the need for data to train models.
+4. Poisoning attacks can be used to increase vulnerability to adversarial examples.
+
+Solution:
+
+1. False. Stealing non-linear models is more costly than stealing linear models, but can be done. Linear models can be stolen by solving a simple system of linear equations, which is not possible for non-linear functions. However, one can steal the model by using the target as a "labeler" in order to train a new model that performs similarly to the target itself.
+2. True. An adversary performing a black-box attack needs much less resources and capabilities than a white-box adversary. This is much more dangerous, as the adversary only needs the ability to interact with the model.
+3. False. Data collection for training is one of many privacy attack vectors in machine learning. There exist attacks on models and outputs; and naturally exposing data for test is a risk in itself.
+4. True. By providing poisoning inputs, the adversary gets to shape the boundaries of the model. Thus, she can carve this boundary to facilitate classification errors. In fact, you can understand a backdoor attack as a particular instance of an adversarial example.
+
+**Exercise 12.2**
+
+• A typical approach to avoid the processing of individual’s personal data is aggregation.
+Discuss whether this is a good technique to avoid privacy risks when collecting data for
+training machine learning models.
+
+Solution:
+
+Aggregation is a poor choice to enable privacy-preserving training of machine learning models.
+Three main issues:
+
+1. Where / when do you do the aggregation? To aggregate you still need to collect the data. How to aggregate in a privacy-preserving way is also a hard problem as we explained in the next lectures. Also, on what groups should one aggregate? Depending on the task it may be better to aggregate on some users or on others. Deciding on which patients and how often to aggregate may affect both the privacy properties and utility of the aggregation (see the following two points).
+2. The privacy provided by aggregation depends on the adversary’s knowledge. We can learn membership/attributes from aggregates (think of the aggregates as a very, very simple machine learning model). Also, aggregates only protect when there is something to aggregate. Imagine a situation in which all samples in a dataset have cancer. Aggregation will not protect the privacy of these patients.
+3. Aggregation has great impact on utility, in particular for personalization-oriened tasks.
+
+**Exercise 12.3**
+
+• Can we prevent adversarial examples using encryption?
+• And poisoning attacks?
+
+Solution:
+
+No. None of them can be solved by encryption. The problem is derived from weaknesses in the model introduced by training or testing samples. Encrypting these samples does not change
