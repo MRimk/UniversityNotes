@@ -1658,15 +1658,141 @@ Decision process that decides which route is selected. At most one best route to
 
 A route can be selected only if its next-hop is reachable
 
-Routes' attirbutes are compared against each other using sequence of criteria until only one route remains.
+Routes' attributes are compared against each other using sequence of criteria until only one route remains.
 Common example:
 
-1. Highest weight (Cisco proprietary)
-2. Highest LOCAL-PREF
-3. Shortest AS-PATH
-4. Lowest MED, if taken seriously by this nework
-5. E-BGP > I-BGP (external knowledge has priority)
-6. Shortest path to NEXT-HOP, accourding to IGP
-7. Lowest BGP id (if everything is the same, pick randomly - pick lowest ID)
+0. Highest weight (Cisco proprietary)
+1. Highest LOCAL-PREF
+2. Shortest AS-PATH
+3. Lowest MED, if taken seriously by this nework
+4. E-BGP > I-BGP (external knowledge has priority)
+5. Shortest path to NEXT-HOP, according to IGP
+6. Lowest BGP id (if everything is the same, pick randomly - pick lowest ID)
 
 The result of the decision process is stored in Adj-RIB-out (one per BGP peer) and the router sends updates when Adj-RIB-out changes
+
+Example process:
+
+1. R1 receives announcement from R3 in different AS
+2. It writes the address to Adj-RIB0in, and runs decision process, which picks that one since it's the only route
+3. R1 puts the route in Adj-RIB-out and advertises it to peers R22 and R21
+
+In parallel:
+
+1. R22 advertizes its link to the same AS as R3, route through R4 to R1.
+2. R1 does not advertize this route to its peers because it has learnt it through i-BGP, and does not advertize to R3 because it would create AS-path loop
+
+In the decision process, if OSPF is used, the shortest path takes into account the route cost (that is why it says "according to IGP")
+
+**Hot potato routing** - routers advertise all the prefixes that they know. Everything is just thrown to the other domain.
+
+**Cold potato routing** - routers advertise only the prefixes that they are directly attached to. Route through my own domain and then jump to the other domain.
+
+If both ISPs do hot potato routing, the routing in the global internet may be asymmetric.
+
+**How are routes originated (sourced)?**
+
+- Static configuration: tell this BGP router which are the prefixes to originate (“network” command in FRR)
+- Redistribute connected: tell this BGP router to originate all prefixes that are on-link with this router (all routers in network may run i-BGP, no need for IGP)
+- Redistribute from IGP: tell this BGP router to originate all prefixes that IGP has learnt
+  - Example: redistribute OSPF into BGP.
+  - In BGP, such routes have attribute ORIGIN=IGP.
+  - When originated, the BGP NEXT-HOP of a route is its _IGP next-hop_
+
+#### Aggregation (of routes)
+
+Routes usually overlap - expected to be frequent with IPv6 (switch delegates prefixes by splitting in half), less with IPv4
+
+Aggregation can reduce the number of routes in IP forwarding tables and in BGP announcements (otherwise there will be hundreds of thousands of entries or announcements)
+
+AS can aggregate routes on the longest prefix
+
+Overlapping prefixes are considered different, therefore if there is /47 and /48, both will be kept
+
+#### Routes learnt by BGP in Forwarding Tables
+
+##### Redistribution of BGP into IGP
+
+routes learnt by BGP are apssed to IGP (e.g. OSPF)
+
+Typically only routes learnt by e-BGP are redistributed (unless BGP redistribute-internal is used)
+
+IGP propagates the routes to all routers in domain
+
+Works with OSPF, might not work with other IGPs (because the table could become too large for IGP)
+
+##### Injection (most widely used)
+
+Routes learnt from BGP are directly written/copied into forwarding router of this BGP router
+
+Routing information is not propagated to other intro-domain routers, so injeciton only helps the specific BGP router
+
+Why? - IGP avoids dealing with large number of routing entries (convergence issues with in path-vector algorithms such as RIP because path-vectors become huge and are not scalable)
+
+Typically used in Cisco routers and FRR
+
+Since it is injected in the IP forwarding table, so it just puts the IP in the table without corresponding interface, and there is no association to the IGP router. This is solved with **recursive table lookup**.
+
+**Recursive table lookup**:
+
+Why? - BGP router injects a route into its forwarding table which means it copies the BGP NEXT-HOP into the forwarding table's next-hop. Therefore, forwarding table indicates that "next-hop" is not on-link (same subnet)
+
+How? - to resolve the non on-link next-hop into an on-link next-hop neighbor, a second lookup is done into the forwarding table (this can be done in advance, not real-time, by preprocessing the routing table).
+
+The recursive lookup after using injection cannot be done in the routers that don't run BGP, because they do not have any mapping for the outside IP addresses.
+
+This means all routers should run BGP (at least i-BGP) if we use injection.
+
+Problem:
+
+- everyone is connected to everyone (TCP mesh), so this would be very big
+- IGP would still be needed to discover paths to next-hops, but handles only internal networks
+
+##### Alternative - BGP with Source routing
+
+Routing table at R2 contains next-hop flag "insert next-hop as source routing header" - we instruct the traffic in the IP header with the path it should follow
+
+And R1 forwards packet using source routing info, needs only small routing table
+
+This is implemented in SCION
+
+##### Alternative - BGP with MPLS
+
+Associate MPLS labels to exit points (kind of layer 2.5 protocol)
+
+MPLS labels are similar to VLAN tags and are used by MPLS-capable routers to forward the packet without looking at the IP header
+
+##### Injection conflicts
+
+Many routers use both injection and redistribution to OSPF
+
+These conflicts are resolved by the **administrative distance**.
+It is set inside the router and basically determines the priority of routing protocols.
+
+#### Other route attributes
+
+##### LOCAL-PREF
+
+used inside an AS to express preference. Assigned by BGP router when _receiving_ route over E-BGP
+
+Propagated without change over I-BGP, and not used over E-BGP
+
+##### Weight
+
+This is route attribute given by Cisco or similar router
+
+it remains local to this router (never propagated to other routers)
+
+##### MULTI-EXIT-DISC (MED)
+
+One AS connected to anohter over several links
+
+AS y advertises its prefixes with different MEDs (low = preferred). If AS x accepts to use MEDs put by AS y: traffic goes on preferred link
+
+So this could be used in Hot potato routing, as to say "take this traffic and route it that way", but MED can be ignored.
+
+##### Convergence of BGP
+
+BGP converges, but there acan be configuration with no equilibrium (oscillations) or with multiple equillibria. Example: three domains that advertises to the other one and this creates a loop; or there is an advertisement that arrives faster than the other advertisement, and is propagated, because of the AS-loop avoidance back advertisement is not sent and then a long path is composed.
+
+Nowadays, this is solved by the customer/peer/provider hierarchy and policies.
