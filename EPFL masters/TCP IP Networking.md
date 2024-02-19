@@ -1404,7 +1404,7 @@ It is faster when RTT is large (long networks) but may be slower than Reno when 
 
 #### Cubic window increase
 
-Cubic is at least as fast as additive icrease with an additive increase term $r_{cubic}$: it was a function for congestion window $ W*{CUBIC}(t) = \max \{W(t), W*{AIMD}(t)\} $, where $W_{AIMD}(t) = W(0) + r_{cubic} \frac{t}{RTT}$
+Cubic is at least as fast as additive icrease with an additive increase term $r_{cubic}$: it was a function for congestion window $ W*{CUBIC}(t) = \max \{W(t), W*{AIMD}(t)\} $, where $W_{AIMD}(nt) = W(0) + r_{cubic} \frac{t}{RTT}$
 
 So, when RTT or bandwidth-delay product is small, Cubic does the same as a hypothetical Reno with additive increase $r_{cubic}$ MSS per RTT (instead of 1) and multiplicative decrease $\beta_{cubic} = 0.7$
 
