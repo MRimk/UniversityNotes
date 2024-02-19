@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Systems for data management and data science</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="css/pandoc.css" />
+  <style>
+    html {
+      font-size: 100%;
+      overflow-y: scroll;
+      -webkit-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+    }
+
+    body {
+      color: #444;
+      font-family: Georgia, Palatino, "Palatino Linotype", Times,
+        "Times New Roman", serif;
+      font-size: 12px;
+      line-height: 1.7;
+      padding: 1em;
+      margin: auto;
+      max-width: 42em;
+      background: #fefefe;
+    }
+
+    a {
+      color: #0645ad;
+      text-decoration: none;
+    }
+
+    a:visited {
+      color: #0b0080;
+    }
+
+    a:hover {
+      color: #06e;
+    }
+
+    a:active {
+      color: #faa700;
+    }
+
+    a:focus {
+      outline: thin dotted;
+    }
+
+    *::-moz-selection {
+      background: rgba(255, 255, 0, 0.3);
+      color: #000;
+    }
+
+    *::selection {
+      background: rgba(255, 255, 0, 0.3);
+      color: #000;
+    }
+
+    a::-moz-selection {
+      background: rgba(255, 255, 0, 0.3);
+      color: #0645ad;
+    }
+
+    a::selection {
+      background: rgba(255, 255, 0, 0.3);
+      color: #0645ad;
+    }
+
+    p {
+      margin: 1em 0;
+    }
+
+    img {
+      max-width: 100%;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      color: #111;
+      line-height: 125%;
+      margin-top: 2em;
+      font-weight: normal;
+    }
+
+    h4,
+    h5,
+    h6 {
+      font-weight: bold;
+    }
+
+    h1 {
+      font-size: 2.5em;
+    }
+
+    h2 {
+      font-size: 2em;
+    }
+
+    h3 {
+      font-size: 1.5em;
+    }
+
+    h4 {
+      font-size: 1.2em;
+    }
+
+    h5 {
+      font-size: 1em;
+    }
+
+    h6 {
+      font-size: 0.9em;
+    }
+
+    blockquote {
+      color: #666666;
+      margin: 0;
+      padding-left: 3em;
+      border-left: 0.5em #eee solid;
+    }
+
+    hr {
+      display: block;
+      height: 2px;
+      border: 0;
+      border-top: 1px solid #aaa;
+      border-bottom: 1px solid #eee;
+      margin: 1em 0;
+      padding: 0;
+    }
+
+    pre,
+    code,
+    kbd,
+    samp {
+      color: #000;
+      font-family: monospace, monospace;
+      _font-family: "courier new", monospace;
+      font-size: 0.98em;
+    }
+
+    pre {
+      white-space: pre;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+
+    b,
+    strong {
+      font-weight: bold;
+    }
+
+    dfn {
+      font-style: italic;
+    }
+
+    ins {
+      background: #ff9;
+      color: #000;
+      text-decoration: none;
+    }
+
+    mark {
+      background: #ff0;
+      color: #000;
+      font-style: italic;
+      font-weight: bold;
+    }
+
+    sub,
+    sup {
+      font-size: 75%;
+      line-height: 0;
+      position: relative;
+      vertical-align: baseline;
+    }
+
+    sup {
+      top: -0.5em;
+    }
+
+    sub {
+      bottom: -0.25em;
+    }
+
+    ul,
+    ol {
+      margin: 1em 0;
+      padding: 0 0 0 2em;
+    }
+
+    li p:last-child {
+      margin-bottom: 0;
+    }
+
+    ul ul,
+    ol ol {
+      margin: 0.3em 0;
+    }
+
+    dl {
+      margin-bottom: 1em;
+    }
+
+    dt {
+      font-weight: bold;
+      margin-bottom: 0.8em;
+    }
+
+    dd {
+      margin: 0 0 0.8em 2em;
+    }
+
+    dd:last-child {
+      margin-bottom: 0;
+    }
+
+    img {
+      border: 0;
+      -ms-interpolation-mode: bicubic;
+      vertical-align: middle;
+    }
+
+    figure {
+      display: block;
+      text-align: center;
+      margin: 1em 0;
+    }
+
+    figure img {
+      border: none;
+      margin: 0 auto;
+    }
+
+    figcaption {
+      font-size: 0.8em;
+      font-style: italic;
+      margin: 0 0 0.8em;
+    }
+
+    table {
+      margin-bottom: 2em;
+      border-bottom: 1px solid #ddd;
+      border-right: 1px solid #ddd;
+      border-spacing: 0;
+      border-collapse: collapse;
+    }
+
+    table th {
+      padding: 0.2em 1em;
+      background-color: #eee;
+      border-top: 1px solid #ddd;
+      border-left: 1px solid #ddd;
+    }
+
+    table td {
+      padding: 0.2em 1em;
+      border-top: 1px solid #ddd;
+      border-left: 1px solid #ddd;
+      vertical-align: top;
+    }
+
+    .author {
+      font-size: 1.2em;
+      text-align: center;
+    }
+
+    @media only screen and (min-width: 480px) {
+      body {
+        font-size: 14px;
+      }
+    }
+    @media only screen and (min-width: 768px) {
+      body {
+        font-size: 16px;
+      }
+    }
+    @media print {
+      * {
+        background: transparent !important;
+        color: black !important;
+        filter: none !important;
+        -ms-filter: none !important;
+      }
+
+      body {
+        font-size: 12pt;
+        max-width: 100%;
+      }
+
+      a,
+      a:visited {
+        text-decoration: underline;
+      }
+
+      hr {
+        height: 1px;
+        border: 0;
+        border-bottom: 1px solid black;
+      }
+
+      a[href]:after {
+        content: " (" attr(href) ")";
+      }
+
+      abbr[title]:after {
+        content: " (" attr(title) ")";
+      }
+
+      .ir a:after,
+      a[href^="javascript:"]:after,
+      a[href^="#"]:after {
+        content: "";
+      }
+
+      pre,
+      blockquote {
+        border: 1px solid #999;
+        padding-right: 1em;
+        page-break-inside: avoid;
+      }
+
+      tr,
+      img {
+        page-break-inside: avoid;
+      }
+
+      img {
+        max-width: 100% !important;
+      }
+
+      @page :left {
+        margin: 15mm 20mm 15mm 10mm;
+      }
+
+      @page :right {
+        margin: 15mm 10mm 15mm 20mm;
+      }
+
+      p,
+      h2,
+      h3 {
+        orphans: 3;
+        widows: 3;
+      }
+
+      h2,
+      h3 {
+        page-break-after: avoid;
+      }
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/darkreader@4.7.15/darkreader.min.js"></script>
+  <script>
+    DarkReader.enable({
+      brightness: 100,
+      contrast: 90,
+      sepia: 10,
+    });
+  </script>
+  <link
+    rel="icon"
+    type="image/png"
+    href="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTJg97A-Sa8mxjkRCmjR51WjHATLvq2aF89Z1CprR2WcQ60qYZC"
+  />
+  <meta name="theme-color" content="#252525" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Systems for data management and data science</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#storage" id="toc-storage">Storage</a>
+<ul>
+<li><a href="#storage-hierarchy" id="toc-storage-hierarchy">Storage
+hierarchy</a></li>
+<li><a href="#file-storage" id="toc-file-storage">File storage</a></li>
+<li><a href="#page-layout-for-relational-data"
+id="toc-page-layout-for-relational-data">Page layout (for relational
+data)</a></li>
+<li><a href="#partition-attributes-across-pax"
+id="toc-partition-attributes-across-pax">Partition Attributes Across
+(PAX)</a></li>
+</ul></li>
+</ul>
+</nav>
+<!-- markdownlint-disable MD010 MD041 MD001 MD036 MD029 MD034-->
+<h2 id="storage">Storage</h2>
+<h3 id="storage-hierarchy">Storage hierarchy</h3>
+<p>Hierarchy (smaller and faster to bigger and slower): CPU registers
+&lt; CPU Caches &lt; DRAM &lt; SSD &lt; HDD &lt; Network storage</p>
+<p>Out-of-orderness is hard in processors because of the data
+dependencies.</p>
+<p>Hierarchy is a thing because of the locality - processors want to
+reuse the program’s locality in the CPU registers, caches.</p>
+<h4 id="non-volatile-memory-vs-solid-state-drive">Non-Volatile Memory vs
+Solid-State Drive</h4>
+<p>NVM:</p>
+<p>Goals - data persists after power-cycle and to reduce
+random/sequential access gap and no seek/ rotational delays</p>
+<p>like DRAM, low latency loads and stores</p>
+<p>like SSD, persistent writes and high density</p>
+<p>byte-addressible</p>
+<p>SSD:</p>
+<p>it uses non-volatile flash chips and SSD controller (embedded
+processor, which bridges flash chips to SSD IO interfaces)</p>
+<p>block-addressible</p>
+<h3 id="file-storage">File storage</h3>
+<p>Files are made of pages (the communication DRAM to/from SSD), and in
+pages there are fields that are individual informations.</p>
+<p>The goal is to get the page such that it would favor locality (would
+have more useful material in it).</p>
+<h4 id="different-file-organizations">Different file organizations</h4>
+<p>Heap files: best when typical access is a full file scan. Hard to
+find a file. Simplest implementation is doubly-linked list.</p>
+<p>Sorted files: Best for retrieval in an order, or for retrieving a
+range. You have to choose a way to sort by.</p>
+<p>Log-structured files: it works with an idea of immutability - fast to
+insert/delete/update, but for reading file needs to be reconstructed
+from logs.</p>
+<h3 id="page-layout-for-relational-data">Page layout (for relational
+data)</h3>
+<h4 id="n-ary-storage-model-nsm">N-ary Storage Model (NSM)</h4>
+<p>Taking every row and writing it out in the page. You assume that the
+data will be needed in a row manner.</p>
+<p>It has a page header, record headers (useful for variable size
+records).</p>
+<p>When the records are fixed-length, then it is easy to find n-th
+record.</p>
+<p>When the records are variable-length - it used to be separated by
+special chars, but now it uses record headers with pointers.</p>
+<p>And now variable-length records use slot array, which also points to
+free space, such that the page can be reorganized to use more space
+efficiently.</p>
+<h4 id="decomposition-storage-model-dsm">Decomposition Storage Model
+(DSM)</h4>
+<p>Taking columns and put them in the pages.</p>
+<p>Initial idea was to decompose all columns and store value of the
+column + row ID (for reconstruction)</p>
+<p>Pros: saves IO by bringing only relevant attributes (but there are a
+lot of infrastucture for that) and very memory compressing columns is
+typically easier.</p>
+<p>Cons: Writes are more expensive, and need tuple reconstruction.</p>
+<p>It is good for compression. Could be Run-length encoding (count the
+value and store the count + value), Bit-vector encoding (translate value
+into a bit in the bitstring), Partitioning - Dictionary (value -&gt;
+number), Frequency partitioning (value -&gt; number only in the page,
+where dictionaries are smaller).</p>
+<h3 id="partition-attributes-across-pax">Partition Attributes Across
+(PAX)</h3>
+<p>Decompose a slotted-page internally in mini pages per attribute.</p>
+<p>It is cache-friendly, compatible with slotted-pages, retains NSM IO
+pattern, and brings only relevant attributes to the cache.</p>
+</body>
+</html>

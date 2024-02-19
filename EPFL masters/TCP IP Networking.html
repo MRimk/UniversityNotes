@@ -2032,8 +2032,8 @@ is large (long networks) but may be slower than Reno when RTT is small
 <p>Cubic is at least as fast as additive icrease with an additive
 increase term <span class="math inline">r_{cubic}</span>: it was a
 function for congestion window $ W<em>{CUBIC}(t) = {W(t),
-W</em>{AIMD}(t)} $, where <span class="math inline">W_{AIMD}(t) = W(0) +
-r_{cubic} \frac{t}{RTT}</span></p>
+W</em>{AIMD}(t)} $, where <span class="math inline">W_{AIMD}(nt) = W(0)
++ r_{cubic} \frac{t}{RTT}</span></p>
 <p>So, when RTT or bandwidth-delay product is small, Cubic does the same
 as a hypothetical Reno with additive increase <span
 class="math inline">r_{cubic}</span> MSS per RTT (instead of 1) and
