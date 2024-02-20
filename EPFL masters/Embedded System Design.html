@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Embedded System Design</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="css/pandoc.css" />
+  <style>
+    html {
+      font-size: 100%;
+      overflow-y: scroll;
+      -webkit-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+    }
+
+    body {
+      color: #444;
+      font-family: Georgia, Palatino, "Palatino Linotype", Times,
+        "Times New Roman", serif;
+      font-size: 12px;
+      line-height: 1.7;
+      padding: 1em;
+      margin: auto;
+      max-width: 42em;
+      background: #fefefe;
+    }
+
+    a {
+      color: #0645ad;
+      text-decoration: none;
+    }
+
+    a:visited {
+      color: #0b0080;
+    }
+
+    a:hover {
+      color: #06e;
+    }
+
+    a:active {
+      color: #faa700;
+    }
+
+    a:focus {
+      outline: thin dotted;
+    }
+
+    *::-moz-selection {
+      background: rgba(255, 255, 0, 0.3);
+      color: #000;
+    }
+
+    *::selection {
+      background: rgba(255, 255, 0, 0.3);
+      color: #000;
+    }
+
+    a::-moz-selection {
+      background: rgba(255, 255, 0, 0.3);
+      color: #0645ad;
+    }
+
+    a::selection {
+      background: rgba(255, 255, 0, 0.3);
+      color: #0645ad;
+    }
+
+    p {
+      margin: 1em 0;
+    }
+
+    img {
+      max-width: 100%;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      color: #111;
+      line-height: 125%;
+      margin-top: 2em;
+      font-weight: normal;
+    }
+
+    h4,
+    h5,
+    h6 {
+      font-weight: bold;
+    }
+
+    h1 {
+      font-size: 2.5em;
+    }
+
+    h2 {
+      font-size: 2em;
+    }
+
+    h3 {
+      font-size: 1.5em;
+    }
+
+    h4 {
+      font-size: 1.2em;
+    }
+
+    h5 {
+      font-size: 1em;
+    }
+
+    h6 {
+      font-size: 0.9em;
+    }
+
+    blockquote {
+      color: #666666;
+      margin: 0;
+      padding-left: 3em;
+      border-left: 0.5em #eee solid;
+    }
+
+    hr {
+      display: block;
+      height: 2px;
+      border: 0;
+      border-top: 1px solid #aaa;
+      border-bottom: 1px solid #eee;
+      margin: 1em 0;
+      padding: 0;
+    }
+
+    pre,
+    code,
+    kbd,
+    samp {
+      color: #000;
+      font-family: monospace, monospace;
+      _font-family: "courier new", monospace;
+      font-size: 0.98em;
+    }
+
+    pre {
+      white-space: pre;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+
+    b,
+    strong {
+      font-weight: bold;
+    }
+
+    dfn {
+      font-style: italic;
+    }
+
+    ins {
+      background: #ff9;
+      color: #000;
+      text-decoration: none;
+    }
+
+    mark {
+      background: #ff0;
+      color: #000;
+      font-style: italic;
+      font-weight: bold;
+    }
+
+    sub,
+    sup {
+      font-size: 75%;
+      line-height: 0;
+      position: relative;
+      vertical-align: baseline;
+    }
+
+    sup {
+      top: -0.5em;
+    }
+
+    sub {
+      bottom: -0.25em;
+    }
+
+    ul,
+    ol {
+      margin: 1em 0;
+      padding: 0 0 0 2em;
+    }
+
+    li p:last-child {
+      margin-bottom: 0;
+    }
+
+    ul ul,
+    ol ol {
+      margin: 0.3em 0;
+    }
+
+    dl {
+      margin-bottom: 1em;
+    }
+
+    dt {
+      font-weight: bold;
+      margin-bottom: 0.8em;
+    }
+
+    dd {
+      margin: 0 0 0.8em 2em;
+    }
+
+    dd:last-child {
+      margin-bottom: 0;
+    }
+
+    img {
+      border: 0;
+      -ms-interpolation-mode: bicubic;
+      vertical-align: middle;
+    }
+
+    figure {
+      display: block;
+      text-align: center;
+      margin: 1em 0;
+    }
+
+    figure img {
+      border: none;
+      margin: 0 auto;
+    }
+
+    figcaption {
+      font-size: 0.8em;
+      font-style: italic;
+      margin: 0 0 0.8em;
+    }
+
+    table {
+      margin-bottom: 2em;
+      border-bottom: 1px solid #ddd;
+      border-right: 1px solid #ddd;
+      border-spacing: 0;
+      border-collapse: collapse;
+    }
+
+    table th {
+      padding: 0.2em 1em;
+      background-color: #eee;
+      border-top: 1px solid #ddd;
+      border-left: 1px solid #ddd;
+    }
+
+    table td {
+      padding: 0.2em 1em;
+      border-top: 1px solid #ddd;
+      border-left: 1px solid #ddd;
+      vertical-align: top;
+    }
+
+    .author {
+      font-size: 1.2em;
+      text-align: center;
+    }
+
+    @media only screen and (min-width: 480px) {
+      body {
+        font-size: 14px;
+      }
+    }
+    @media only screen and (min-width: 768px) {
+      body {
+        font-size: 16px;
+      }
+    }
+    @media print {
+      * {
+        background: transparent !important;
+        color: black !important;
+        filter: none !important;
+        -ms-filter: none !important;
+      }
+
+      body {
+        font-size: 12pt;
+        max-width: 100%;
+      }
+
+      a,
+      a:visited {
+        text-decoration: underline;
+      }
+
+      hr {
+        height: 1px;
+        border: 0;
+        border-bottom: 1px solid black;
+      }
+
+      a[href]:after {
+        content: " (" attr(href) ")";
+      }
+
+      abbr[title]:after {
+        content: " (" attr(title) ")";
+      }
+
+      .ir a:after,
+      a[href^="javascript:"]:after,
+      a[href^="#"]:after {
+        content: "";
+      }
+
+      pre,
+      blockquote {
+        border: 1px solid #999;
+        padding-right: 1em;
+        page-break-inside: avoid;
+      }
+
+      tr,
+      img {
+        page-break-inside: avoid;
+      }
+
+      img {
+        max-width: 100% !important;
+      }
+
+      @page :left {
+        margin: 15mm 20mm 15mm 10mm;
+      }
+
+      @page :right {
+        margin: 15mm 10mm 15mm 20mm;
+      }
+
+      p,
+      h2,
+      h3 {
+        orphans: 3;
+        widows: 3;
+      }
+
+      h2,
+      h3 {
+        page-break-after: avoid;
+      }
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/darkreader@4.7.15/darkreader.min.js"></script>
+  <script>
+    DarkReader.enable({
+      brightness: 100,
+      contrast: 90,
+      sepia: 10,
+    });
+  </script>
+  <link
+    rel="icon"
+    type="image/png"
+    href="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTJg97A-Sa8mxjkRCmjR51WjHATLvq2aF89Z1CprR2WcQ60qYZC"
+  />
+  <meta name="theme-color" content="#252525" />
+  <script defer=""
+  src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <link rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Embedded System Design</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#embedded-system" id="toc-embedded-system">Embedded
+System</a>
+<ul>
+<li><a href="#how-to-design-the-system"
+id="toc-how-to-design-the-system">How to design the system</a></li>
+<li><a href="#virtual-prototype" id="toc-virtual-prototype">Virtual
+prototype</a></li>
+<li><a href="#embedded-system-components"
+id="toc-embedded-system-components">Embedded system components</a></li>
+<li><a href="#hwsw-partitioning" id="toc-hwsw-partitioning">HW/SW
+partitioning</a></li>
+</ul></li>
+</ul>
+</nav>
+<!-- markdownlint-disable MD010 MD041 MD001 MD036 MD029 MD034-->
+<h2 id="embedded-system">Embedded System</h2>
+<p>There is no exact definition, but the embedded system is a type of
+computer designed to solve a specific problem or task.</p>
+<p>It typically use a microprocessor combined with other hw and sw to
+solve a specific computing problem. Microprocessor range from simple
+8-big verision to 64-bit or multi-cores.</p>
+<p>Embedded system software ranges from a small executive to a large
+real-time operating system with a GUI.</p>
+<p>Typically, the embedded system software must respond to events and
+must not crash.</p>
+<h3 id="how-to-design-the-system">How to design the system</h3>
+<p>Waterfall model:</p>
+<ol type="1">
+<li>System specification</li>
+<li>ASIC design (black boxes drawings)</li>
+<li>HW prototype design</li>
+<li>Firmware design</li>
+<li>Software design</li>
+<li>System integration and test</li>
+<li>Industrialisation (optimize for production)</li>
+<li>Support and maintain the product in the market</li>
+</ol>
+<p>This takes way too long. Nowadays time to market is very
+important.</p>
+<p>Therefore now a different method is used: Hardware/Software
+co-design:</p>
+<ol type="1">
+<li>System specification</li>
+<li>Architecture exploration and Hw/Sw parititioning using virtual
+prototyping</li>
+<li>In parallel:<br />
+ASIC design -&gt; hardware prototype design<br />
+Firmware design -&gt; Software design</li>
+<li>System integration and test</li>
+<li>Industrialisation (optimize for production)</li>
+<li>Support and maintain the product in the market</li>
+</ol>
+<h3 id="virtual-prototype">Virtual prototype</h3>
+<p>A system that emulates the complete system on a functional level (not
+necessarily cycle-true).</p>
+<p>VP is based on the OpenRISC micro-controller. Is completely written
+Verilog and is running on the GECKO4Education EPFL-Edition.</p>
+<h3 id="embedded-system-components">Embedded system components</h3>
+<p>The VP has similar components to the usual systems.</p>
+<p>It has:</p>
+<ul>
+<li>RS232 UART which is used to debug and control the system.</li>
+<li>Simple 32-bit based bus architecture, to which it is easy to attach
+own systems (e.g. DMA controller)</li>
+<li>VGA text and GUI controller (720p)</li>
+<li>SPI-flash interface wher you can store the program</li>
+<li>OpenRISC CPU, which has instruction cache and 4kByte Scratch pad
+memory</li>
+</ul>
+<h3 id="hwsw-partitioning">HW/SW partitioning</h3>
+<p>For now it is usual to take one microcontroller (usually an overkill)
+and then put as much software as it requires. The problem is when it is
+put under a battery power.</p>
+<p>Standard hardware is not sufficient, so application-specific hw is
+necessary. To have this, hardware/software partitioning is used, and
+trade-offs are adhered to.</p>
+<p>There is no one way to partition the system.</p>
+<h4 id="the-tradeoffs">The tradeoffs</h4>
+<p>Performance, Area, Energy, and the biggest - Time-to-market</p>
+<p>The most expensive is the engineer.</p>
+<h4 id="how-to-do-it---example">How to do it - example</h4>
+<p>Take a camera module. It provides data in RGB565 (because we are most
+sensitive to green). It gives an image of 640x480 pixels. It produces 15
+images each second.</p>
+<p>Storage inside the chip is very expensive, thus we transfer the date
+using DMA-master to SDRAM controller.</p>
+<p>We also have VGA controller that has HDMI connector of 60 images each
+second. DMA-master transfers the information from SDRAM controller.</p>
+<p>We want to have edge detection on the live stream.</p>
+<p>It is done on the OpenRISC processor. Make the grayscale and then
+with the Sobel algorithm we get the edges.</p>
+<p>How does edge detection work: if there is a big difference between
+two columns (or rows) of the pixels, and if the contrast is above the
+threshold, then there is an edge. This is Sobel algorithm.</p>
+<p>For vertical edges there is a matrix filter (note that it shrinks the
+image by an removing outer pixels):</p>
+<p><span class="math display">
+\begin{matrix}
+-1 &amp; 0 &amp; 1 \\
+-2 &amp; 0 &amp; 2 \\
+-1 &amp; 0 &amp; 1
+\end{matrix}
+</span></p>
+<p>And for horizontal edges there is this filter:</p>
+<p><span class="math display">
+\begin{matrix}
+-1 &amp; -2 &amp; -1 \\
+0 &amp; 0 &amp; 0 \\
+-1 &amp; -2 &amp; -1
+\end{matrix}
+</span></p>
+<p>And then the pixels with edges are estimated <span
+class="math inline">\sqrt{dX^^2 + dY^^2}</span> with <span
+class="math inline">|dX| + |dY|</span>. And then put this estimation on
+the threshold, which either gives a 1 or 0 (draws the pixel or does
+not).</p>
+<p>This is an inefficient way of doing this algorithm, because you need
+to read the image twice (transfer the image over the bus twice).</p>
+<p>To optimize this algorithm: we take the 9 pixels, compute dX, dY in
+registers, compute the threshold, and save the pixel. Thus it saves the
+work for DRAM and the bus.</p>
+<p>It is still impossible to do this, because the cpu cycles per pixel
+for the Sobel algorithm is 30 cycles, and the available cycles
+(calculated for hw), it is only 16 cycles. So it is not real time edge
+detection.</p>
+</body>
+</html>
