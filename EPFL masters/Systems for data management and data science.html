@@ -17,6 +17,69 @@
       margin: 0 0.8em 0.2em -1.6em;
       vertical-align: middle;
     }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="css/pandoc.css" />
   <style>
@@ -382,6 +445,24 @@
     href="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTJg97A-Sa8mxjkRCmjR51WjHATLvq2aF89Z1CprR2WcQ60qYZC"
   />
   <meta name="theme-color" content="#252525" />
+  <script defer=""
+  src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <link rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css" />
   <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
   <![endif]-->
@@ -403,6 +484,15 @@ data)</a></li>
 <li><a href="#partition-attributes-across-pax"
 id="toc-partition-attributes-across-pax">Partition Attributes Across
 (PAX)</a></li>
+</ul></li>
+<li><a href="#query-execution-and-optimization"
+id="toc-query-execution-and-optimization">Query execution and
+optimization</a>
+<ul>
+<li><a href="#query-execution" id="toc-query-execution">Query
+execution</a></li>
+<li><a href="#query-optimization" id="toc-query-optimization">Query
+optimization</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -473,5 +563,240 @@ where dictionaries are smaller).</p>
 <p>Decompose a slotted-page internally in mini pages per attribute.</p>
 <p>It is cache-friendly, compatible with slotted-pages, retains NSM IO
 pattern, and brings only relevant attributes to the cache.</p>
+<h2 id="query-execution-and-optimization">Query execution and
+optimization</h2>
+<h3 id="query-execution">Query execution</h3>
+<p>The <strong>processing model</strong> of a DBMS defines how the
+system executes a query plan</p>
+<h4 id="extreme-1-iterator-model">Extreme 1: iterator model</h4>
+<p>Each query operator implements its <strong>next</strong>
+function.</p>
+<p>On each invocation, the operator returns a single tuple, or empty.
+Next recursively calls other operators’ next functions. This way it
+passes the tuple through the pipeline and adds it to the query
+return.</p>
+<p>The DBMS traverses the tree. For each node that it visits, it has to
+figure out what the operator needs to do. Same for expressions. This is
+done for <strong>every single tuple</strong></p>
+<p>Result:</p>
+<ul>
+<li>Many function calls - save/restore contents of CPU registers, and
+force a new instruction stream into the pipeline (which is bad for
+instruction cache)</li>
+<li>Generic code - has to cover every table, datatype and query</li>
+</ul>
+<p>It’s like getting one beer at the time and storing it.</p>
+<h4 id="extreme-2-block-oriented-model">Extreme 2: block-oriented
+model</h4>
+<p>Each operator processes its input all at once and emits its output
+all at once The operator “materializes” its output as a single result.
+Often bottom-up plan processing.</p>
+<p>Naive solution for output materialization problem: process a filters
+separately for columns and then join them.</p>
+<p>Another version: add the filter as extra to the produced filter
+result instead of joining them.</p>
+<p>It can also use selection vector, which is a bitmap which then is
+joined on</p>
+<p><strong>Tuple materialization problem</strong> - when joining tables,
+the columns can get shuffled, and it cannot use virtual ids and stiching
+becomes random access.</p>
+<p>Solutions for this:</p>
+<ul>
+<li>Stich columns before join</li>
+<li>Sort lists of table ids before projection</li>
+<li>Use order-preserving joins (jive-joins), but this is not always
+applicable</li>
+</ul>
+<p>Pros of block oriented:</p>
+<ul>
+<li>no next() calls - no per-tuple overhead</li>
+<li>typically combined with columnar storage</li>
+<li>avoid interpretation when evaluating expressions (most of the
+time)</li>
+</ul>
+<p>Con: ouput materialization is costly in terms of memory bandwidth</p>
+<p>It’s like getting beers in full amount, e.g. 100 beers - heavy to
+carry</p>
+<h4 id="middle-ground-vectorized-iterator-model">Middle ground:
+vectorized iterator model</h4>
+<p>It’s like getting beers in crates - best of both worlds.</p>
+<p>Operator emits vector of tuples instead of a single tuple. The size
+of vector must fit in the CPU cache.</p>
+<p>It is ideal for OLAP queries - Greatly reduces the number of
+invocations per operator. Allows for operators to use vectorized (SIMD)
+instructions to process batches of tuples</p>
+<h3 id="query-optimization">Query optimization</h3>
+<p>For a given query, find the execution plan with the lowest
+“cost”.</p>
+<p>It is the hardest DBMS component to design/implement correctly. No
+optimizer truly produces the “optimal” plan, since it is expensive to
+consider all plans (NP-complete), and impossible to get accurate cost of
+a plan without executing it!</p>
+<p>Optimizers make a huge difference in terms of: Performance,
+Scalability, Resource utilization, Database capabilities</p>
+<h4 id="multi-dimensional-decision-space">Multi-dimensional decision
+space</h4>
+<p>In what order to execute operations? (Particularly: relative order of
+joins)</p>
+<p>Which implementation is best for each operation? (E.g., hash joins,
+nested loop joins, sort-merge joins…)</p>
+<p>Which access methods to use? (E.g., scan, use of an index)</p>
+<p>Suboptimal decisions can have a huge impact! e.g. use of one join
+algorithm vs the other, or pushing down selections (that make indexes
+useless)</p>
+<h4 id="io-of-query-optimizer">IO of query optimizer</h4>
+<p>Input - abstract syntax tree created from the query</p>
+<p>Output - full physical plan translatable to code.</p>
+<h4 id="classic-architecture">Classic architecture</h4>
+<p>Cost estimation is used in logical-physical plan loop</p>
+<pre class="mermaid"><code>graph TD;
+User --SQL query--&gt; parser
+parser --AST--&gt; A((Logical plan))
+A((Logical plan)) --&gt; B((Physical plan))
+B((Physical plan)) --&gt; A((Logical plan))
+B((Physical plan)) --&gt; Result</code></pre>
+<h4 id="relational-algebra-equivalences">Relational algebra
+equivalences</h4>
+<p>Key concept in optimization: <strong>Equivalences</strong>. Two
+relational algebra <strong>expressions</strong> are said to be
+equivalent if on every legal database instance, the two expressions
+generate the same set of tuples.</p>
+<p>Selections (WHERE clause in SQL) are cascading (s1 and s2 and … of R
+=== s1(s2(…(R)))) and commutative (s1(s2(R))===s2(s1(R)))</p>
+<p>Projections (SELECT clause in SQL) are cascading on the attributes:
+<span class="math inline">\pi_{a_1}(R) \equiv
+\pi_{a_1}(...(\pi_{a_n}(R)))</span>, where <span
+class="math inline">a_1</span> is a subset of up to <span
+class="math inline">a_n</span> projection.</p>
+<p>These equivalences allow the push down of selections and projections
+before the joins</p>
+<p>Joins are commutative and associative. This allows us to choose
+different join order.</p>
+<h4 id="io-cost-example---naive-example">IO cost example - naive
+example</h4>
+<p>S: 16000 tuples = 320 pages. T: 256000 tuples = 5120 pages. C: 1600
+tuples = 32 pages. Each student takes 16 courses. Each course has 160
+students.</p>
+<p>Super-Worst scenario / tuple-by-tuple it takes &gt; 500 years:
+Cartesian product of fetching a page for each tuple (1 seek per tuple):
+#tuples(C) * #tuples(S) * #tuples(T) = 1’600 * 16’000 * 256’000 =
+6’553’600’000’000 I/Os. At 2.5ms per I/O -&gt; query takes 519.5
+years</p>
+<p>Not-Worst-But-Very-Bad scenario (page-by-page) it takes 36 hours:
+Cartesian product reading pages at a time, not tuples (1 seek per page)
+#pages(C) * #pages(S) * #pages(T) = 32 * 320 * 5120 = 52428800 I/Os
+52428800 * 2.5ms = 131072 s -&gt; query takes 36 hours</p>
+<h4 id="io-cost-example---educated-approach">IO cost example - educated
+approach</h4>
+<p>S: 16000 tuples = 320 pages. T: 256000 tuples = 5120 pages. C: 1600
+tuples = 32 pages.</p>
+<p>Use Block-nested loop joins instead of cross product and push down
+projection - 18s</p>
+<p>Push down selection and reorder joins - 1s</p>
+<h4 id="simple-queries-straightforward-plan">Simple queries,
+straightforward plan</h4>
+<p>Query planning for OLTP queries is easy because they are
+<strong>sargable</strong> (search argument able)</p>
+<p>This means just picking the best index, joins are almost always on
+foreign key relationships with a small cardinality and can be
+implemented with simple heuristics</p>
+<h4 id="heuristic-based-optimization">Heuristic-based optimization</h4>
+<p>Static rules that transform logical operators into physical plan</p>
+<ul>
+<li>Perform most restrictive selections early</li>
+<li>Perform all selections before joins</li>
+<li>Predicate/Limit/Projection pushdowns</li>
+<li>Join ordering based on cardinality</li>
+</ul>
+<p>Example INGRES and Oracle</p>
+<p>INGRES has simple relational tables where it’s FK to FK relation.
+Therefore it is possible for optimizer to split the query into two,
+e.g.:</p>
+<p>Goal: Retrieve the names of artists that appear on Joy’s mixtape</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode sql"><code class="sourceCode sql"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> ARTIST.NAME</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">FROM</span> ARTIST, APPEARS, ALBUM</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">WHERE</span> ARTIST.<span class="kw">ID</span><span class="op">=</span>APPEARS.ARTIST_ID</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        <span class="kw">AND</span> APPEARS.ALBUM_ID<span class="op">=</span>ALBUM.<span class="kw">ID</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        <span class="kw">AND</span> ALBUM.NAME<span class="op">=</span><span class="ot">&quot;Joy&#39;s Slag Remix&quot;</span></span></code></pre></div>
+<p>Step 1: Decompose into single-variable queries</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode sql"><code class="sourceCode sql"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">-- Q1</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> ALBUM.<span class="kw">ID</span> <span class="kw">AS</span> ALBUM_ID <span class="kw">INTO</span> TEMP1</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">FROM</span> ALBUM</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">WHERE</span> ALBUM.NAME<span class="op">=</span><span class="ot">&quot;Joy&#39;s Slag Remix&quot;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">-- Q3</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> APPEARS.ARTIST_ID <span class="kw">INTO</span> TEMP2</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">FROM</span> APPEARS, TEMP1</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">WHERE</span> APPEARS.ALBUM_ID<span class="op">=</span>TEMP1.ALBUM_ID</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co">-- Q4</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> ARTIST.NAME</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">FROM</span> ARTIST, TEMP2</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">WHERE</span> ARTIST.ARTIST_ID<span class="op">=</span>TEMP2.ARTIST_ID</span></code></pre></div>
+<p>Step 2: Substitute the values from Q1→Q3→Q4</p>
+<p>Advantages:</p>
+<ul>
+<li>Easy to implement and debug.</li>
+<li>Works reasonably well and is fast for simple queries &amp; small
+tables.</li>
+</ul>
+<p>Disadvantages:</p>
+<ul>
+<li>Doesn’t <em>truly</em> handle joins.</li>
+<li>Join ordering based only on cardinalities.</li>
+<li>Naïve, nearly impossible to generate good plans when operators have
+complex interdependencies.</li>
+<li>Could get stuck at local minima/maxima</li>
+</ul>
+<h4 id="heuristics-cost-based-optimization">Heuristics + cost-based
+optimization</h4>
+<p>Use static rules to perform initial optimization. Then use dynamic
+programming to determine best join order for tables.</p>
+<h5 id="cost-estimation">Cost estimation</h5>
+<p>Generate an estimate of the cost of executing a plan for the current
+state of the database.</p>
+<ul>
+<li>Resource utilization (CPU, I/O, network)</li>
+<li>Size of intermediate results</li>
+<li>Choices of algorithms, access methods</li>
+<li>Interactions with other work in DBMS</li>
+<li>Data properties (skew, order, placement)</li>
+</ul>
+<p><strong>Selection without index unsorted</strong>. Cost will change
+if. Records are sorted based on the condition attribute. We can utilize
+an index to filter out some records. We need to materialize the output
+result.</p>
+<p><strong>Page-oriented loop join</strong>: For each tuple in the outer
+relation R, we scan the entire inner relation S (but use page-loading).
+I/O Cost: #pages of R + #pages of R * #pages of S.</p>
+<p>How to choose the outer relation to minimize the cost? - Choose order
+of R, S, so that #pages of R &lt; #pages of S and Order benefits cost if
+tables are of different size</p>
+<h5 id="selectivity-estimates">Selectivity estimates</h5>
+<p>Estimating intermediary results of query</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode sql"><code class="sourceCode sql"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">SELECT</span> <span class="op">*</span> <span class="kw">FROM</span> R <span class="kw">WHERE</span> r.age<span class="op">=</span><span class="dv">18</span></span></code></pre></div>
+<p>First necessary to estimate cost of operations (e.g. join)</p>
+<p>Crude estimation: selectivity = 1/#keys(R.age), estimated #results =
+#Records(R)/#keys(R.age). Range queries: length of the range/length of
+the domain. Free if there is an index. It is good estimate when values
+are uniformly distributed.</p>
+<p>Histograms: equi-width and equi-depth. It is higher cost to build and
+maintain but higher accuracy.</p>
+<h5 id="join-cardinality-estimates">Join cardinality estimates</h5>
+<p>Important to reorder joins so that records are filtered as fast as
+possible.</p>
+<p>Selectivity = 1/max(#keys(R.sid), #keys(S.sid))</p>
+<p>Cardinality estimate = #records(R) * #records(S) / max(#keys(R.sid),
+#keys(S.sid))</p>
+<h4 id="system-r-optimizer">System R Optimizer</h4>
+<p>High level idea:</p>
+<ul>
+<li>Iterate over the possible plans</li>
+<li>Estimate the cost of each plan</li>
+<li>Return the cheapest to the user</li>
+</ul>
 </body>
 </html>
