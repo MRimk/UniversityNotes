@@ -17,6 +17,69 @@
       margin: 0 0.8em 0.2em -1.6em;
       vertical-align: middle;
     }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="css/pandoc.css" />
   <style>
@@ -421,6 +484,10 @@ prototype</a></li>
 id="toc-embedded-system-components">Embedded system components</a></li>
 <li><a href="#hwsw-partitioning" id="toc-hwsw-partitioning">HW/SW
 partitioning</a></li>
+<li><a href="#memories" id="toc-memories">Memories</a></li>
+<li><a href="#how-to-use-these-memories"
+id="toc-how-to-use-these-memories">How to use these memories?</a></li>
+<li><a href="#testbenching" id="toc-testbenching">Testbenching</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -535,5 +602,217 @@ work for DRAM and the bus.</p>
 for the Sobel algorithm is 30 cycles, and the available cycles
 (calculated for hw), it is only 16 cycles. So it is not real time edge
 detection.</p>
+<h3 id="memories">Memories</h3>
+<p>Accelerating in hardware - custom instructions, accelerators, stream
+processing. They often require some memory for temporal storage.</p>
+<h4 id="synchronous-static-random-access-memories-ssrams">Synchronous
+Static Random Access Memories (SSRAMs)</h4>
+<p>SSRAMs are the only mmeory found in digital technology nodes.</p>
+<p>These memories on-chip usually have unidirectional data-buses, hence
+<code>dataIn</code> and <code>dataOut</code>. Because if we have any
+directional bus, we need capacitors to store buffers, thus it becomes
+slow. The signal <code>address</code> selects the memory cell and the
+signal <code>writeEnable</code> indicates if the cell should be
+written.</p>
+<p>There are two behaviours in case of a write (since they are
+synchronous):</p>
+<ul>
+<li><strong>write before read</strong> - the value written to the memory
+cell is also available on the output. Flip flop is in the address
+lines.</li>
+<li><strong>read before write</strong> - the value in the memory cell
+prior the write operation is available on the output. Flip flop is after
+the multiplexer.</li>
+</ul>
+<p>Address and dataIn is stored in the flipflop at the posedge of the
+clock and then at the next posedge it write the data into the memory
+cell. Memories are completely synchronous, therefore we can use them as
+flipflops, which is good.</p>
+<p>For the read, due to the synchronous behaviour, we have a delay of 1
+clock cycle from when the address is put into the flipflop. This
+decalation of clock cycle has to be accounted.</p>
+<p>SSRAMs can be found in different configs:</p>
+<ul>
+<li>single-ported (one address in, one data in, one data out) - this is
+the smallest memory, but arguably, most used.</li>
+<li>semi-dual-ported (A address with data in and data out, and B address
+with only data out) - two read-ports but only one can write</li>
+<li>true-dual-ported (A and B port can write and read), two complete
+ports that access the same memory array, but can have different clocks.
+This can result in undefined behaviour if the write on both busses to
+the same location is not prevented. Solution - block A port on the
+rising edge, block B port on the falling edge</li>
+</ul>
+<h5 id="verilog-single-ported-ssram">Verilog single-ported SSRAM</h5>
+<p>SSRAM has parameters - bitwidth (how many bits data in and out have),
+nrOfEntries (how many entries can be stored in the memory),
+readAfterWrite (parametrization for later reuse)</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode verilog"><code class="sourceCode verilog"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">module</span> singlePortSSRAM #<span class="op">(</span> <span class="dt">parameter</span> bitwidth <span class="op">=</span> <span class="dv">8</span><span class="op">,</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>                        <span class="dt">parameter</span> nrOfEntries <span class="op">=</span> <span class="dv">512</span><span class="op">,</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>                        <span class="dt">parameter</span> readAfterWrite <span class="op">=</span> <span class="dv">0</span> <span class="op">)</span></span></code></pre></div>
+<p>Input is clock, writeEnable (bit), address (size is log2 of number of
+entries), dataIn and dataOut (size of bitwidth)</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode verilog"><code class="sourceCode verilog"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="op">(</span><span class="dt">input</span> <span class="dt">wire</span> clock<span class="op">,</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>            writeEnable<span class="op">,</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="dt">input</span> <span class="dt">wire</span> <span class="op">[</span><span class="dt">$clog2</span><span class="op">(</span>nrOfEntries<span class="op">)-</span><span class="dv">1</span> <span class="op">:</span> <span class="dv">0</span><span class="op">]</span> address<span class="op">,</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="dt">input</span> <span class="dt">wire</span> <span class="op">[</span>bitwidth<span class="dv">-1</span> <span class="op">:</span> <span class="dv">0</span><span class="op">]</span> dataIn<span class="op">,</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="dt">output</span> <span class="dt">reg</span> <span class="op">[</span>bitwidth<span class="dv">-1</span> <span class="op">:</span> <span class="dv">0</span><span class="op">]</span> dataOut<span class="op">);</span></span></code></pre></div>
+<p>memoryContent is a 2D array of entries of size bitwidth</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode verilog"><code class="sourceCode verilog"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="dt">reg</span> <span class="op">[</span>bitwidth<span class="dv">-1</span> <span class="op">:</span> <span class="dv">0</span><span class="op">]</span> memoryContent <span class="op">[</span>nrOfEntries<span class="dv">-1</span> <span class="op">:</span> <span class="dv">0</span><span class="op">];</span></span></code></pre></div>
+<p>It works as a flipflop but is conditional on the write:</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode verilog"><code class="sourceCode verilog"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">always</span> <span class="op">@(</span><span class="kw">posedge</span> clock<span class="op">)</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>   <span class="kw">begin</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>      <span class="kw">if</span> <span class="op">(</span>readAfterWrite <span class="op">!=</span> <span class="dv">0</span><span class="op">)</span> dataOut <span class="op">&lt;=</span> memoryContent<span class="op">[</span>address<span class="op">];</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>      <span class="kw">if</span> <span class="op">(</span>writeEnable <span class="op">==</span> 1’b1<span class="op">)</span> memoryContent<span class="op">[</span>address<span class="op">]</span> <span class="op">&lt;=</span> dataIn<span class="op">;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>      <span class="kw">if</span> <span class="op">(</span>readAfterWrite <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> dataOut <span class="op">&lt;=</span> memoryContent<span class="op">[</span>address<span class="op">];</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>   <span class="kw">end</span></span></code></pre></div>
+<h5 id="verilog-semi-dual-ported">Verilog semi-dual-ported</h5>
+<p>It only adds a new address and new dataOut:</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode verilog"><code class="sourceCode verilog"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="op">(</span><span class="dt">input</span> <span class="dt">wire</span> clock<span class="op">,</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>            writeEnable<span class="op">,</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="dt">input</span> <span class="dt">wire</span> <span class="op">[</span><span class="dt">$clog2</span><span class="op">(</span>nrOfEntries<span class="op">)-</span><span class="dv">1</span> <span class="op">:</span> <span class="dv">0</span><span class="op">]</span> addressA<span class="op">,</span> addressB</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="dt">input</span> <span class="dt">wire</span> <span class="op">[</span>bitwidth<span class="dv">-1</span> <span class="op">:</span> <span class="dv">0</span><span class="op">]</span> dataIn<span class="op">,</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="dt">output</span> <span class="dt">reg</span> <span class="op">[</span>bitwidth<span class="dv">-1</span> <span class="op">:</span> <span class="dv">0</span><span class="op">]</span> dataOutA<span class="op">,</span> dataOutB<span class="op">);</span></span></code></pre></div>
+<p>And it has a new clock:</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode verilog"><code class="sourceCode verilog"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">always</span> <span class="op">@(</span><span class="kw">posedge</span> clockB<span class="op">)</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>   dataOutB <span class="op">=</span> memoryContent<span class="op">[</span>addressB<span class="op">];</span></span></code></pre></div>
+<h5 id="verilog-true-dual-ported">Verilog true-dual-ported</h5>
+<p>It only adds a new address and new dataOut, new writeEnable and new
+dataIn:</p>
+<p>And it has a new clock:</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode verilog"><code class="sourceCode verilog"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">always</span> <span class="op">@(</span><span class="kw">posedge</span> clockB<span class="op">)</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>   <span class="kw">begin</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>      <span class="kw">if</span> <span class="op">(</span>readAfterWrite <span class="op">!=</span> <span class="dv">0</span><span class="op">)</span> dataOutB <span class="op">=</span> memoryContent<span class="op">[</span>addressB<span class="op">];</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>      <span class="kw">if</span> <span class="op">(</span>writeEnableB <span class="op">==</span> 1’b1<span class="op">)</span> memoryContent<span class="op">[</span>addressB<span class="op">]</span> <span class="op">=</span> dataInB<span class="op">;</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>      <span class="kw">if</span> <span class="op">(</span>readAfterWrite <span class="op">==</span> <span class="dv">0</span><span class="op">)</span> dataOutB <span class="op">=</span> memoryContent<span class="op">[</span>addressB<span class="op">];</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>   <span class="kw">end</span></span></code></pre></div>
+<h4 id="ssrams-in-asic-and-fpga">SSRAMs in ASIC and FPGA</h4>
+<p>In ASIC-design the size of the SSRAms is dependent on the
+memory-generator and the <strong>area</strong> you have available. Using
+memory is good but it takes up space.</p>
+<p>In FPGA-design it is more restricted as the memories are already
+implemented. You can only use what you have (for us it is EP4CE30) - 66
+SSRAMs available.</p>
+<p>Each of this SSRAMs can be used in such configs (all of them are 1KB
+in size): 8k x 1bit to 256x32bit or 256x36bit, there could also be 1k x
+9bit (where the redundant 1bit is used for error
+detection/correction)</p>
+<p>Other configs are possible by using partially/multiple of these
+SSRAMs</p>
+<p>Synthesis tool will map verilog descriptions to these SSRAMs
+configs.</p>
+<p><strong>However</strong>, if the design uses more SSRAM memory bits
+than available on your FPGA, the synthesis tool will implement parts of
+the memory bits as flipflops and multiplexers. This will explode the
+size of the design (often it cannot be mapped any more on the FPGA) and
+have a sever impact on the critical path of the design (<em>read the
+speed you can operate your design</em>)</p>
+<p>For small memories most FPGAs provide also the LUT-RAMs , which have
+most of the a 16x1bit configs.</p>
+<h4 id="lut-rams">LUT-RAMs</h4>
+<p>LUT-RAMs have the same synchronous write behaviour as SSRAMs but
+there is an asynchronous read. This is useful of softcore for the
+register file. This is just 16 flipflops.</p>
+<p>To get the same behaviour on the synchronous system, you can get
+reads on the falling edge of the clock</p>
+<h5 id="verilog-lut-rams">Verilog LUT-RAMs</h5>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode verilog"><code class="sourceCode verilog"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">module</span> singlePortLUTRAM #<span class="op">(</span> <span class="dt">parameter</span> bitwidth <span class="op">=</span> <span class="dv">8</span><span class="op">,</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>                           <span class="dt">parameter</span> nrOfEntries <span class="op">=</span> <span class="dv">32</span><span class="op">)</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>   <span class="op">(</span> <span class="dt">input</span> <span class="dt">wire</span> clock<span class="op">,</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>                writeEnable<span class="op">,</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>      <span class="dt">input</span> <span class="dt">wire</span> <span class="op">[</span><span class="dt">$clog2</span><span class="op">(</span>nrOfEntries<span class="op">)-</span><span class="dv">1</span> <span class="op">:</span> <span class="dv">0</span><span class="op">]</span> address<span class="op">,</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>      <span class="dt">input</span> <span class="dt">wire</span> <span class="op">[</span>bitwidth<span class="dv">-1</span> <span class="op">:</span> <span class="dv">0</span><span class="op">]</span> dataIn<span class="op">,</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>      <span class="dt">output</span> <span class="dt">wire</span> <span class="op">[</span>bitwidth<span class="dv">-1</span> <span class="op">:</span> <span class="dv">0</span><span class="op">]</span> dataOut<span class="op">);</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>   <span class="dt">reg</span> <span class="op">[</span>bitwidth<span class="dv">-1</span> <span class="op">:</span> <span class="dv">0</span><span class="op">]</span> memoryContent <span class="op">[</span>nrOfEntries<span class="dv">-1</span> <span class="op">:</span> <span class="dv">0</span><span class="op">];</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>   <span class="kw">assign</span> dataOut <span class="op">=</span> memoryContent<span class="op">[</span>address<span class="op">];</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>   <span class="kw">always</span> <span class="op">@(</span><span class="kw">posedge</span> clock<span class="op">)</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>     <span class="kw">if</span> <span class="op">(</span>writeEnable <span class="op">==</span> 1’b1<span class="op">)</span> memoryContent<span class="op">[</span>address<span class="op">]</span> <span class="op">=</span> dataIn<span class="op">;</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="kw">endmodule</span></span></code></pre></div>
+<h3 id="how-to-use-these-memories">How to use these memories?</h3>
+<p>Each of the buffers are used for particular data-accesses in the
+system.</p>
+<h4 id="ping-pong-buffers">Ping-Pong buffers</h4>
+<p>Producer writes its data in one memory whilst the consumer reads form
+the other memory. The moment both are done, the memories are
+switched.</p>
+<p>Applications:</p>
+<ul>
+<li>data-transfer calculation overlap - calculating when transfering
+data (e.g. DMA transfering data when CPU is calculating)</li>
+<li>the acces pattern of the producer is different from the consumer.
+E.g. in Sobel algorithm, producer gives lines whereas consumer needs
+matrices</li>
+<li>the push/pop frequency is different hence the producer/consumer have
+other timely accesses. E.g. camera only getting pop only when the data
+is pushed which is rare.</li>
+<li>the consumer needs to access certain data multiple times, whilst the
+producer only provides it once.</li>
+</ul>
+<p>Pro: they are the most versatile kind of buffers</p>
+<p>Cons: need to have two SSRAMs and hard to derermine the size of
+them?</p>
+<p>There is an inferred delay as the consumer always performs the
+calculations when already one set of data is provided by the producer.
+In the high-frequency environment this could be negligible, but it could
+be also important dependant on the application.</p>
+<p>What is the influence on <em>area</em>, <em>performance</em>,
+<em>power consumption</em> and <em>complexity</em>? (e.g. testing
+time)</p>
+<p>Everything depends on the requirements and trade-offs.</p>
+<h4 id="lifo-buffers">LIFO buffers</h4>
+<p>It has an up/down counter that generates the addresses for the SSRAM.
+With a push it counts up, and with a pop you count down and that way you
+get the information.</p>
+<p>Typical applications:</p>
+<ul>
+<li>data reordering (e.g. camera gives data from left to right, and
+screen is drawing right to left)</li>
+<li>temporal storage of values (stack or hardware stack)</li>
+</ul>
+<p>In practice they are not that often used, more preffered are FIFO
+buffers.</p>
+<h4 id="fifo-buffers">FIFO buffers</h4>
+<p>SSRAM is transformed into a circular buffer. This uses binary counter
+which can overflow and therefore become circular.</p>
+<p>At the beginning the FIFO is empty, so push and pop pointers are
+equal.</p>
+<p>When the producer pushes, the push pointer is incremented. However,
+if the push pointer is equal to pop pointer - 1, the buffer is full,
+which makes it lose one slot.</p>
+<p>The consumer can pop until the queue is empty.</p>
+<p>The consumer and producer has both actions such that state of FIFO
+changes continuously</p>
+<p>These are the most used buffers.</p>
+<p>Applications:</p>
+<ul>
+<li>timely access pattern buffering</li>
+<li>save clock-boundary crossings (one part works at freq x, and another
+works at freq y, so use the FIFO buffer to pass the data in
+between)</li>
+</ul>
+<h3 id="testbenching">Testbenching</h3>
+<p>Design is Device under test (DUT)</p>
+<p>At the input there is input stimuli generator, which provides test
+vectors</p>
+<p>At the output, the correctness is verified by Output reachtion
+checker</p>
+<p>The input generator and the output reaction checker form the
+test-harnas</p>
+<p>The test-harnas is described in a new module, where DUT is used as a
+component.</p>
+<p>Testbench requires a timescale - simulation for after-synthesis</p>
+<p><code>$dumpvars</code> indicates which signals we see: 0 - see inputs
+and outputs only, 1 - everything inside of the DUT, 2 - ??</p>
 </body>
 </html>
