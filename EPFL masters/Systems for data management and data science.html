@@ -494,6 +494,32 @@ execution</a></li>
 <li><a href="#query-optimization" id="toc-query-optimization">Query
 optimization</a></li>
 </ul></li>
+<li><a href="#execution-models-for-distributed-computing"
+id="toc-execution-models-for-distributed-computing">Execution models for
+distributed computing</a>
+<ul>
+<li><a href="#big-data" id="toc-big-data">Big data</a></li>
+<li><a href="#query-models" id="toc-query-models">Query models</a></li>
+<li><a href="#mapreduce" id="toc-mapreduce">MapReduce</a></li>
+<li><a href="#spark" id="toc-spark">Spark</a></li>
+</ul></li>
+<li><a href="#concurrency-control"
+id="toc-concurrency-control">Concurrency control</a>
+<ul>
+<li><a href="#first-19-slides-skipped"
+id="toc-first-19-slides-skipped">FIRST 19 SLIDES SKIPPED</a></li>
+<li><a href="#pessimistic-concurrency-control-protocols"
+id="toc-pessimistic-concurrency-control-protocols">Pessimistic
+concurrency control protocols</a></li>
+<li><a href="#optimistic-concurrency-control-protocols"
+id="toc-optimistic-concurrency-control-protocols">Optimistic concurrency
+control protocols</a></li>
+<li><a href="#timestamp-based-cc"
+id="toc-timestamp-based-cc">Timestamp-based CC</a></li>
+<li><a href="#multiversion-cc" id="toc-multiversion-cc">Multiversion
+CC</a></li>
+<li><a href="#bottlenecks" id="toc-bottlenecks">Bottlenecks</a></li>
+</ul></li>
 </ul>
 </nav>
 <!-- markdownlint-disable MD010 MD041 MD001 MD036 MD029 MD034-->
@@ -798,5 +824,310 @@ possible.</p>
 <li>Estimate the cost of each plan</li>
 <li>Return the cheapest to the user</li>
 </ul>
+<p>Essentially is programs that write other programs.</p>
+<h5 id="abstract-steps">Abstract Steps</h5>
+<p><strong>Step 1</strong>: break the query up into blocks and generate
+the logical opereators for each block - this reduces complexity of each
+plan.</p>
+<p>Block definition: no nested queries, exactly one SELECT and FROM and
+at most one WHERE, GROUPBY, HAVING</p>
+<p><strong>Step 2</strong>: for each individual block: for each logical
+operator, consider a set of physical operators and offered access paths.
+Then iteraticely construct a “left-deep” tree that minimizes the
+estimated amount of work to execute the plan. Join order is important
+because it gets rid of the most amount of data. Left-join mostly offers
+the best performance benefit because the rightmost file can be parsed
+and immediately shown. It also offers dynamical programming due to the
+fact that BNL can incrementally join together.</p>
+<p>Access path - data scan.</p>
+<h5 id="system-r-optimizer-steps">System R Optimizer Steps</h5>
+<p><strong>Step 1</strong>: Choose the best access path to each
+table</p>
+<p><strong>Step 2</strong>: Enumerate all possible join orderings for
+the tables</p>
+<p><strong>Step 3</strong>: Determine the join ordering with the lowest
+cost.</p>
+<p>At every step only keep the lowest cost or most interesting
+order.</p>
+<p>If this was Naive - try all possible orders, it would be N! (for N
+joins)</p>
+<p><strong>Principle of optimality</strong> - the optimal plan for k
+joins is produces by extending the optimal plan(s) for k-1 joins. This,
+with dynamic programming, ends up being <span class="math inline">O(N
+\times 2^^{N-1})</span></p>
+<p>This is a very aggressive optimizer, meaning it leaves out some paths
+that could be more efficient down the road, but it’s designed to be
+faster.</p>
+<h4 id="revisited-principle-of-optimality">Revisited principle of
+optimality</h4>
+<p>Principle of optimality may lead to suboptimal plans - e.g. order is
+not considered -&gt; additional cost at the end (avoided by sort merge
+join)</p>
+<p><strong>Relaxed principle of optimality</strong> - aimed at what the
+output is expected to be, e.g. for the ordered output - a plan is
+compared with all other plans that produce the same order</p>
+<h4 id="revisited-selectivity-estimates">Revisited selectivity
+estimates</h4>
+<p>if there is no index and no histogram or complex predicates, we
+cannot estimate #Keys(R.age).</p>
+<p>When everything else fails, revert to magic #Keys(R.age)=10.</p>
+<h2 id="execution-models-for-distributed-computing">Execution models for
+distributed computing</h2>
+<h3 id="big-data">Big data</h3>
+<p>The three (plus two) Vs: Big data is high <em>volume</em>, high
+<em>velocity</em>, and/or high <em>variety</em> information assets that
+require new forms of processing to enable enhanced decision making.</p>
+<ul>
+<li><em>Volume</em>: The quantity of generated and stored data.</li>
+<li><em>Velocity</em>: The speed at which the data is generated and
+processed.</li>
+<li><em>Variety</em>: The type and nature of the data.</li>
+<li><em>Variability</em>: Inconsistency of the data set.</li>
+<li><em>Veracity</em>: The quality of captured data.</li>
+</ul>
+<h3 id="query-models">Query models</h3>
+<ul>
+<li>Shared-nothing model - Each machine does not share any resources
+with any other machine. To communicate to another machine only through
+network.</li>
+<li>Shared-everything model - Each machine shares everything with other,
+therefore all cpus can talk with each other, and access any memory</li>
+<li>Shared-memory model - There is a unified memory space for all,
+coherency is very easy, but there are problems.</li>
+</ul>
+<h4 id="shared-nothing-model-message-passing-model">Shared-nothing model
+(message-passing model)</h4>
+<p>No shared data, therefore we need declustering (spreading data
+between disks).</p>
+<p>Ways to do it:</p>
+<ul>
+<li>Attribute-less partitioning (random, round-robin)</li>
+<li>Single Attribute Schemes (Hash declustering, Range declustering) -
+like sorting</li>
+<li>Multiple Attributes schemes possible (MAGIC, BERD etc)</li>
+</ul>
+<h5 id="hash-declustering">Hash declustering</h5>
+<p>Essentially creates a skewed distribution.</p>
+<p>Selections with equality predicates referencing the partitioning
+attribute are directed to a single node. Therefore less queries are
+made</p>
+<p>Equality predicates referencing a non-partitioning attribute and
+range predicates are directed to all nodes.</p>
+<h5 id="range-declustering">Range declustering</h5>
+<p>Partition depending on the range.</p>
+<p>The more you know about your data or, better, the more you know about
+your queries, the better is the distribution.</p>
+<p>Equality and range predicates referencing the partitioning attribute
+are directed to a subset of nodes.</p>
+<p>Predicates referencing a non-partitioning attribute are directed to
+all nodes.</p>
+<h5 id="declustering-tradeoffs">Declustering tradeoffs</h5>
+<p>Range selection predicate using a clustered B+-tree 0.01% selectivity
+(result is 10 records). (B+-tree is the tree, where the attributes are
+never interfering). The range declustering method is way better than
+hash/random/round-robin methods.</p>
+<p>If the selectivity goes up to 1% selectivity (result is 1000
+records), then ranges drops very quickly, below hash/random/round-robin
+methods.</p>
+<p>This is because at low selectivity range was distributing the data
+all over, so the specific records were found, but then
+hash/random/round-robin kept the same spread.</p>
+<h4 id="distributed-join">Distributed Join</h4>
+<p>partition inputs to buckets, eahc bucket fits in join processors’
+aggregate memory</p>
+<p>Partition and join each bucket pair across join processors</p>
+<h4 id="distributed-aggregation">Distributed Aggregation</h4>
+<p>Compute aggregate locally for each node</p>
+<p>redistribute by hashing group attribute and aggregate partial
+results</p>
+<h3 id="mapreduce">MapReduce</h3>
+<p>MapReduce approach - code using functional model, hide complexity
+behind a library.</p>
+<p>It is simple distributed computation on a complex data.</p>
+<p>e.g. convert all text to upper case:</p>
+<p>Simple mapping:</p>
+<ol type="1">
+<li>split data file into splits (can be stored in different nodes)</li>
+<li>apply map operation to each split</li>
+<li>collect all outputs together to get the result</li>
+</ol>
+<p>MapReduce:</p>
+<ol type="1">
+<li>split data file into splits (can be stored in different nodes)</li>
+<li>apply map operation to each split</li>
+<li>use reducers to collect the data in smaller maps</li>
+<li>collect all outputs together to get the result</li>
+</ol>
+<p>MapReduce is simple and scales very well. Problem is the amount of
+reads and writes (which is because map and reduces are agnostic to each
+other), and the problem is reducer waiting for mapper to finish.</p>
+<h3 id="spark">Spark</h3>
+<p>Goals:</p>
+<ul>
+<li>Improve expressiveness and extensibility of model</li>
+<li>Make coding easier: strive for high-level code</li>
+<li>Enable additional optimizations</li>
+<li>Improve performance by better utilizing the hardware</li>
+</ul>
+<p>It implements very interesting abstractions that help maintain
+MapReduce and improves some issues of it.</p>
+<h4 id="resilient-distributed-datasets-rdd">Resilient Distributed
+Datasets (RDD)</h4>
+<p>Collection of elements that is distributed across the network and
+it’s single.</p>
+<p>It is immutable.</p>
+<p>Distributed, fault-tolerant collections of elements that can be
+operated in parallel</p>
+<p>There is a lineage maintained, because when it is changed the history
+can be kept due to its immutability.</p>
+<p>Lazily evaluated.</p>
+<p>RDDs contain: details about the data, leneage (history) information
+to enable recreating a lost split of an RDD (dependencies from other
+RDDs and functions/transformations)</p>
+<p>Essentially it is dataflow programming.</p>
+<h4 id="limitations-of-vanilla-spark">Limitations of vanilla Spark</h4>
+<p>RDDs are schema-less, which makes it inefficient (same as accessing
+raw text files), and expensive (high space overhead)</p>
+<p>Spark has an extension which translates RDDs to data frames.</p>
+<h2 id="concurrency-control">Concurrency control</h2>
+<h3 id="first-19-slides-skipped">FIRST 19 SLIDES SKIPPED</h3>
+<h3 id="pessimistic-concurrency-control-protocols">Pessimistic
+concurrency control protocols</h3>
+<h4 id="lock-based-concurrency-control">Lock-based concurrency
+control</h4>
+<p>There are 2 ways to prevent incosistencies. Preventing - lock
+everything, or detection + correction - let it happen and then fix
+everything if anyting goes wrong.</p>
+<p>Locking protocol guarantees that schedule will be conflict
+serializatble (correct) if it completes. And the question is when to
+hold the lock.</p>
+<p>Locking granularity can be anything: tables, indexes, pages,
+records.</p>
+<h5 id="two-pahse-locking-2pl-protocol">Two-pahse locking (2PL)
+Protocol</h5>
+<p>Rule 1: Shared and exclusive locking (corresponds to read/write
+locks)</p>
+<p>Rule 2: a transaction (txn) cannot request additional locks once it
+releases any locks.</p>
+<p>2PL allows only schedules who precedence graph is acyclic, therefore
+it’s serializable</p>
+<p>Strict 2PL only allows locking (meaning no unlocking), and unlocks
+only when transaction is committed.</p>
+<p>Deadlock - T1 is waiting for a lock which is held by T2, T2 is
+waiting for T3, and T3 is waiting for T1. To get out of this everything
+needs to be killed. Deadlock detection is very expensive, but there is
+deadlock prevention algorithm</p>
+<h3 id="optimistic-concurrency-control-protocols">Optimistic concurrency
+control protocols</h3>
+<p>No locking because conflicts are rare.</p>
+<h4 id="kung-robinson-model">Kung-Robinson Model</h4>
+<p><strong>Idea</strong>: Every txn is ordered by the exact time it
+arrived to the system. While txn exectes, it collects its write set and
+read set. After which there is a validation phase. Validation phase
+checks that all conflicting actions occurred in the same order. Either
+it gets validated and writes are commited to the storage, or invalidated
+and not written.</p>
+<p>This relies on the timestamps of the txns.</p>
+<p>There are 4 cases for a txn that arrives for it to check previous
+txns, For all i and j such that Ti &lt; Tj, check that Ti completes
+before Tj begins.:</p>
+<ul>
+<li>that Ti already finished</li>
+<li>that Ti writes before Tj writes
+<ul>
+<li>does Tj read dirty data? -&gt; to check, the Tj read set does not
+intersect with write set of Ti</li>
+</ul></li>
+<li>that Ti reads before Tj reads
+<ul>
+<li>does Ti overwrite Tj’s writes? -&gt; to check, the Tj write set does
+not intersect with write set of Ti (Tj’s one should persist)</li>
+</ul></li>
+</ul>
+<h4 id="comments-on-validation">Comments on validation</h4>
+<p>Validation is a critical section, and nothing else goes on
+concurrently. BUT if the validation/write phase is long, then it is
+major drawback.</p>
+<p>Optimization for read-only txns: shorter critical section because
+there is no Write phase.</p>
+<h3 id="timestamp-based-cc">Timestamp-based CC</h3>
+<p><strong>Continuous validation</strong> - not a distinct phase</p>
+<p>Read and write timestamps per object, which means the validation
+happens after each action. If the validation fails, we abort the
+transaction</p>
+<p>There are 4 actions to choose after the comparison of txn timestamp
+with read/write timestamps of the objects: continue, abort, commit, skip
+write</p>
+<blockquote>
+<p>When the validation fails, the new txn is created with a new
+timestamp. Then validation is running again with newly completed
+txns.</p>
+</blockquote>
+<p><strong>Idea:</strong> txn timestamp TS begin time</p>
+<p><strong>Object</strong>: read-timestamp (RTS) and a write-timestamp
+(WTS)</p>
+<p>When txt T wants to <strong>READ</strong> object O:</p>
+<ul>
+<li>TS(T) &lt; WTS(O): violates timestamp order of T w.r.t. writer of O.
+<ul>
+<li>Abort T and restart it with a new, higher TS.</li>
+</ul></li>
+<li>TS(T) &gt;= WTS(O):
+<ul>
+<li>Allow T to read O.</li>
+<li>Reset RTS(O) to max(RTS(O), TS(T))</li>
+</ul></li>
+<li>Change to RTS(O) on reads must be written in some persistent fashion
+🡪 overhead.</li>
+</ul>
+<p>When txt T wants to <strong>WRITE</strong> object O:</p>
+<ul>
+<li>TS(T) &lt; RTS(O): violates timestamp order of T w.r.t. reader of O
+🡪 abort and restart T.</li>
+<li>TS(T) &lt; WTS(O) 🡪 violates timestamp order of T w.r.t. writer of
+O. 🡪 ???
+<ul>
+<li>Thomas Write Rule: Outdated write 🡪 Safely ignore the write – it’s
+as if the write happened before and was overwritten</li>
+<li>need not restart T!</li>
+<li>Allows some serializable schedules (correct) that are not conflict
+serializable.</li>
+</ul></li>
+<li>Else, allow T to write O (and update WTS(O)).</li>
+</ul>
+<h3 id="multiversion-cc">Multiversion CC</h3>
+<p>Recognising the fact that most transactions read all the time.</p>
+<p>Goal: txn never waits on read</p>
+<p><strong>Idea</strong>: Maintain several versions of each database
+object (multi-version), each with a read and a write timestamp.
+Transaction Ti reads the most recent version whose write timestamp
+precedes TS(Ti).</p>
+<h4 id="writer-txn">Writer txn</h4>
+<p>To read an object, follow reader protocol</p>
+<p>To write an object:</p>
+<ul>
+<li>finds newest version V</li>
+<li>RTS(V) &gt; TS(T) - reject write</li>
+<li>RTS(V) &lt;= TS(T) - T makes a copy CV of V, with a pointer to V,
+with WTS(CV) = TS(T), RTS(CV) = TS(T) (write is buffered/locked until T
+commits, other txns cannot read version CV, such that every txn’s effect
+need to persist for the txns that follow)</li>
+</ul>
+<h3 id="bottlenecks">Bottlenecks</h3>
+<p>lock thrashing - 2PL, strict 2PL</p>
+<p>timestamp allocation - all T/O algorithms + deadlock prevention</p>
+<p>memory allocation - MVCC, OCC</p>
+<h4 id="improving-performance">Improving performance</h4>
+<p><strong>Snapshot isolation</strong> - take the whole database
+snapshot, and if no conflicting writes were made, take the whole
+snapshot.</p>
+<p>Snapshot isolation (SI) is the most popular isolation guarantee in
+real DBMS.</p>
+<ul>
+<li>all txn reads will see a consistent snapshot of the database</li>
+<li>the txn successfully commits only if no updates it has made conflict
+with any concurrent updates made since that snapshot.</li>
+</ul>
+<p>SI does not guarantee serializability!</p>
 </body>
 </html>
