@@ -313,3 +313,288 @@ High level idea:
 - Iterate over the possible plans
 - Estimate the cost of each plan
 - Return the cheapest to the user
+
+Essentially is programs that write other programs.
+
+##### Abstract Steps
+
+**Step 1**: break the query up into blocks and generate the logical opereators for each block - this reduces complexity of each plan.
+
+Block definition: no nested queries, exactly one SELECT and FROM and at most one WHERE, GROUPBY, HAVING
+
+**Step 2**: for each individual block: for each logical operator, consider a set of physical operators and offered access paths. Then iteraticely construct a "left-deep" tree that minimizes the estimated amount of work to execute the plan.
+Join order is important because it gets rid of the most amount of data.
+Left-join mostly offers the best performance benefit because the rightmost file can be parsed and immediately shown. It also offers dynamical programming due to the fact that BNL can incrementally join together.
+
+Access path - data scan.
+
+##### System R Optimizer Steps
+
+**Step 1**: Choose the best access path to each table
+
+**Step 2**: Enumerate all possible join orderings for the tables
+
+**Step 3**: Determine the join ordering with the lowest cost.
+
+At every step only keep the lowest cost or most interesting order.
+
+If this was Naive - try all possible orders, it would be N! (for N joins)
+
+**Principle of optimality** - the optimal plan for k joins is produces by extending the optimal plan(s) for k-1 joins. This, with dynamic programming, ends up being $O(N \times 2^^{N-1})$
+
+This is a very aggressive optimizer, meaning it leaves out some paths that could be more efficient down the road, but it's designed to be faster.
+
+#### Revisited principle of optimality
+
+Principle of optimality may lead to suboptimal plans - e.g. order is not considered -> additional cost at the end (avoided by sort merge join)
+
+**Relaxed principle of optimality** - aimed at what the output is expected to be, e.g. for the ordered output - a plan is compared with all other plans that produce the same order
+
+#### Revisited selectivity estimates
+
+if there is no index and no histogram or complex predicates, we cannot estimate #Keys(R.age).
+
+When everything else fails, revert to magic #Keys(R.age)=10.
+
+## Execution models for distributed computing
+
+### Big data
+
+The three (plus two) Vs: Big data is high _volume_, high _velocity_, and/or high _variety_ information assets that require new forms of processing to enable enhanced decision making.
+
+- _Volume_: The quantity of generated and stored data.
+- _Velocity_: The speed at which the data is generated and processed.
+- _Variety_: The type and nature of the data.
+- _Variability_: Inconsistency of the data set.
+- _Veracity_: The quality of captured data.
+
+### Query models
+
+- Shared-nothing model - Each machine does not share any resources with any other machine. To communicate to another machine only through network.
+- Shared-everything model - Each machine shares everything with other, therefore all cpus can talk with each other, and access any memory
+- Shared-memory model - There is a unified memory space for all, coherency is very easy, but there are problems.
+
+#### Shared-nothing model (message-passing model)
+
+No shared data, therefore we need declustering (spreading data between disks).
+
+Ways to do it:
+
+- Attribute-less partitioning (random, round-robin)
+- Single Attribute Schemes (Hash declustering, Range declustering) - like sorting
+- Multiple Attributes schemes possible (MAGIC, BERD etc)
+
+##### Hash declustering
+
+Essentially creates a skewed distribution.
+
+Selections with equality predicates referencing the partitioning attribute are directed to a single node. Therefore less queries are made
+
+Equality predicates referencing a non-partitioning attribute and range predicates are directed to all nodes.
+
+##### Range declustering
+
+Partition depending on the range.
+
+The more you know about your data or, better, the more you know about your queries, the better is the distribution.
+
+Equality and range predicates referencing the partitioning attribute are directed to a subset of nodes.
+
+Predicates referencing a non-partitioning attribute are directed to all nodes.
+
+##### Declustering tradeoffs
+
+Range selection predicate using a clustered B+-tree 0.01% selectivity (result is 10 records). (B+-tree is the tree, where the attributes are never interfering).
+The range declustering method is way better than hash/random/round-robin methods.
+
+If the selectivity goes up to 1% selectivity (result is 1000 records), then ranges drops very quickly, below hash/random/round-robin methods.
+
+This is because at low selectivity range was distributing the data all over, so the specific records were found, but then hash/random/round-robin kept the same spread.
+
+#### Distributed Join
+
+partition inputs to buckets, eahc bucket fits in join processors' aggregate memory
+
+Partition and join each bucket pair across join processors
+
+#### Distributed Aggregation
+
+Compute aggregate locally for each node
+
+redistribute by hashing group attribute and aggregate partial results
+
+### MapReduce
+
+MapReduce approach - code using functional model, hide complexity behind a library.
+
+It is simple distributed computation on a complex data.
+
+e.g. convert all text to upper case:
+
+Simple mapping:
+
+1. split data file into splits (can be stored in different nodes)
+2. apply map operation to each split
+3. collect all outputs together to get the result
+
+MapReduce:
+
+1. split data file into splits (can be stored in different nodes)
+2. apply map operation to each split
+3. use reducers to collect the data in smaller maps
+4. collect all outputs together to get the result
+
+MapReduce is simple and scales very well. Problem is the amount of reads and writes (which is because map and reduces are agnostic to each other), and the problem is reducer waiting for mapper to finish.
+
+### Spark
+
+Goals:
+
+- Improve expressiveness and extensibility of model
+- Make coding easier: strive for high-level code
+- Enable additional optimizations
+- Improve performance by better utilizing the hardware
+
+It implements very interesting abstractions that help maintain MapReduce and improves some issues of it.
+
+#### Resilient Distributed Datasets (RDD)
+
+Collection of elements that is distributed across the network and it's single.
+
+It is immutable.
+
+Distributed, fault-tolerant collections of elements that can be operated in parallel
+
+There is a lineage maintained, because when it is changed the history can be kept due to its immutability.
+
+Lazily evaluated.
+
+RDDs contain: details about the data, leneage (history) information to enable recreating a lost split of an RDD (dependencies from other RDDs and functions/transformations)
+
+Essentially it is dataflow programming.
+
+#### Limitations of vanilla Spark
+
+RDDs are schema-less, which makes it inefficient (same as accessing raw text files), and expensive (high space overhead)
+
+Spark has an extension which translates RDDs to data frames.
+
+## Concurrency control
+
+### FIRST 19 SLIDES SKIPPED
+
+### Pessimistic concurrency control protocols
+
+#### Lock-based concurrency control
+
+There are 2 ways to prevent incosistencies. Preventing - lock everything, or detection + correction - let it happen and then fix everything if anyting goes wrong.
+
+Locking protocol guarantees that schedule will be conflict serializatble (correct) if it completes. And the question is when to hold the lock.
+
+Locking granularity can be anything: tables, indexes, pages, records.
+
+##### Two-pahse locking (2PL) Protocol
+
+Rule 1: Shared and exclusive locking (corresponds to read/write locks)
+
+Rule 2: a transaction (txn) cannot request additional locks once it releases any locks.
+
+2PL allows only schedules who precedence graph is acyclic, therefore it's serializable
+
+Strict 2PL only allows locking (meaning no unlocking), and unlocks only when transaction is committed.
+
+Deadlock - T1 is waiting for a lock which is held by T2, T2 is waiting for T3, and T3 is waiting for T1. To get out of this everything needs to be killed. Deadlock detection is very expensive, but there is deadlock prevention algorithm
+
+### Optimistic concurrency control protocols
+
+No locking because conflicts are rare.
+
+#### Kung-Robinson Model
+
+**Idea**: Every txn is ordered by the exact time it arrived to the system. While txn exectes, it collects its write set and read set. After which there is a validation phase. Validation phase checks that all conflicting actions occurred in the same order. Either it gets validated and writes are commited to the storage, or invalidated and not written.
+
+This relies on the timestamps of the txns.
+
+There are 4 cases for a txn that arrives for it to check previous txns, For all i and j such that Ti < Tj, check that Ti completes before Tj begins.:
+
+- that Ti already finished
+- that Ti writes before Tj writes
+  - does Tj read dirty data? -> to check, the Tj read set does not intersect with write set of Ti
+- that Ti reads before Tj reads
+  - does Ti overwrite Tj's writes? -> to check, the Tj write set does not intersect with write set of Ti (Tj's one should persist)
+
+#### Comments on validation
+
+Validation is a critical section, and nothing else goes on concurrently. BUT if the validation/write phase is long, then it is major drawback.
+
+Optimization for read-only txns: shorter critical section because there is no Write phase.
+
+### Timestamp-based CC
+
+**Continuous validation** - not a distinct phase
+
+Read and write timestamps per object, which means the validation happens after each action. If the validation fails, we abort the transaction
+
+There are 4 actions to choose after the comparison of txn timestamp with read/write timestamps of the objects: continue, abort, commit, skip write
+
+> When the validation fails, the new txn is created with a new timestamp. Then validation is running again with newly completed txns.
+
+**Idea:** txn timestamp TS begin time
+
+**Object**: read-timestamp (RTS) and a write-timestamp (WTS)
+
+When txt T wants to **READ** object O:
+
+- TS(T) < WTS(O): violates timestamp order of T w.r.t. writer of O.
+  - Abort T and restart it with a new, higher TS.
+- TS(T) >= WTS(O):
+  - Allow T to read O.
+  - Reset RTS(O) to max(RTS(O), TS(T))
+- Change to RTS(O) on reads must be written in some persistent fashion 🡪 overhead.
+
+When txt T wants to **WRITE** object O:
+
+- TS(T) < RTS(O): violates timestamp order of T w.r.t. reader of O
+  🡪 abort and restart T.
+- TS(T) < WTS(O) 🡪 violates timestamp order of T w.r.t. writer of O. 🡪 ???
+  - Thomas Write Rule: Outdated write 🡪 Safely ignore the write – it’s as if the write happened before and was overwritten
+  - need not restart T!
+  - Allows some serializable schedules (correct) that are not conflict serializable.
+- Else, allow T to write O (and update WTS(O)).
+
+### Multiversion CC
+
+Recognising the fact that most transactions read all the time.
+
+Goal: txn never waits on read
+
+**Idea**: Maintain several versions of each database object (multi-version), each with a read and a write timestamp. Transaction Ti reads the most recent version whose write timestamp precedes TS(Ti).
+
+#### Writer txn
+
+To read an object, follow reader protocol
+
+To write an object:
+
+- finds newest version V
+- RTS(V) > TS(T) - reject write
+- RTS(V) <= TS(T) - T makes a copy CV of V, with a pointer to V, with WTS(CV) = TS(T), RTS(CV) = TS(T) (write is buffered/locked until T commits, other txns cannot read version CV, such that every txn's effect need to persist for the txns that follow)
+
+### Bottlenecks
+
+lock thrashing - 2PL, strict 2PL
+
+timestamp allocation - all T/O algorithms + deadlock prevention
+
+memory allocation - MVCC, OCC
+
+#### Improving performance
+
+**Snapshot isolation** - take the whole database snapshot, and if no conflicting writes were made, take the whole snapshot.
+
+Snapshot isolation (SI) is the most popular isolation guarantee in real DBMS.
+
+- all txn reads will see a consistent snapshot of the database
+- the txn successfully commits only if no updates it has made conflict with any concurrent updates made since that snapshot.
+
+SI does not guarantee serializability!
