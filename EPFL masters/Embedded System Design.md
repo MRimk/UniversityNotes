@@ -322,3 +322,176 @@ The test-harnas is described in a new module, where DUT is used as a component.
 Testbench requires a timescale - simulation for after-synthesis
 
 `$dumpvars` indicates which signals we see: 0 - see inputs and outputs only, 1 - everything inside of the DUT, 2 - ??
+
+## Custom instructions
+
+### ALU
+
+it is the heart of the microC
+
+it receives two data (Ra, Rb) from the register-file and produces one result (Rd) to the register-file.
+
+The operation done is selected by the control signals (Cimm, Ccsel, Cminus, Copp), that are set depending the instruction.
+
+Note that only one operation can be selected, although all operations are performed.
+
+E.g. this line:
+
+```C
+result = (((rgb565 & 0xF800) >> 8) * 5) >> 4;
+```
+
+would result in these operations in ALU:
+
+```asm
+l.andi r5,r5,0xF800     # rgb565 & 0xF800
+l.sri r5,r5,8           # (rgb565 & 0xF800) >> 8
+l.muli r5,r5,5          # ((rgb565 & 0xF800) >> 8) * 5
+l.sri r5,r5,4           # (((rgb565 & 0xF800) >> 8) * 5) >> 4
+```
+
+However, in HW it's way simpler: select wires for the first instr, a\*5 translate to a\*2 + a (so only 10-bit adder), and then b>>4 which is just wiring.
+
+### Custom instruction hw interface
+
+The minimal set of signals that the µC provides us with to create custom instruction hardware is (note: input/output is from the perspective of the µC):
+
+|Name|Direction|#bits|Function|
+|-|-|-|-|
+|ciStart|output|1|Indicates an active custom instruction|
+|ciN|output|8|The custom instruction identifier code.|
+|ciDataA|output|32|The value of register A (Ra) going into the ALU/CI.|
+|ciDataB|output|32|The value of register B (Rb) going into the ALU/CI.|
+|ciResult|input|32|The result value to be written to the register file (Rd).|
+|ciDone|input|1|The signal indicating that the CI performed it’s operation|
+
+The `ciDone` signal is a very important signal. If the µC activates a custom instruction by the `ciStart` signal it will wait (stall) till an activation of the `ciDone`. If the `ciDone` is not activated your system will **DEADLOCK**!
+
+The signal `ciN`` indicates which custom instruction is activated. As this signal is 8-bit wide we can implement up to 256 custom instructions.
+
+#### ci example
+
+We can implement multiple custom instructions. Why not "multiplexing" the ciDone and the ciResult signals by using the ciN signal?
+
+Very simple: multiplexers have more logic as simple or-gates (or and-gates, the alternative)...
+
+This poses, however, some restrictions that we have to take into account when designing a custom instruction module....
+
+Timing requirements: assume that the custom instruction hw has the custom instruction identifier 0x17.
+
+When the `ciN` does not correspond to the custom instruction identifier no `done` is generated.
+
+If it does correspond, we can have a single-cycle or a multi-cycle response (any number of cycles between the start and done). For example, stall for some delay, and the ci will stall the CPU for specified number of microseconds
+
+> Note that in case of a multi-cycle response the µC is stalled!
+
+### Custom instruction SW interface
+
+To interact with the ci, we need to activate them with assembly instruction, since compiler does not know it. E.g. (note that 0x17 is the ci identifier):
+
+```C
+uint32_t result, regA, regB;
+asm volatile ("l.nios_rrr %[rd],%[ra],%[rb],0x17":[rd]"=r"(result): [ra]"r"(regA),[rb]"r"(regB) );
+```
+
+Some variations:
+
+```C
+// ci with only inputs, e.g. for a flipflop outputs to another flipflop (this is defined in hw)
+// :: is required because after the first : are the registers that are written, and after the second : are the registers that are read
+asm volatile ("l.nios_rrr r0,%[ra],%[rb],0x1A"::[ra]"r"(regA),[rb]"r"(regB) );
+
+// ci with only an output, e.g. output of several chained flipflop
+// second : is not required here
+asm volatile ("l.nios_rrr %[rd],r0,r0,0x72":[rd]"=r"(result) );
+```
+
+`r0` is used as a replacement for `rd`, since it is the dummy register in RISC arch (writing to it does nothing, reading always gives 0)
+
+Compiler looking into this code cannot infer if it can apply any optimizations, since it does not know what it happening.
+
+#### ci Usage
+
+Example, for converting rgb to grayscale:
+
+```C
+void rgbToGrayscale( int width,
+                     int height,
+                     const uint32_t *rgb_source,
+                     uint32_t *grayscale_destination ) {
+
+   int loop;
+   uint32_t temp, grayscale;
+
+   for (loop = 0; loop < width*height; loop++) {
+      temp = rgb_source[loop] & 0x3F; // red value
+      grayscale = temp*77;
+      temp = (rgb_source[loop] >> 8) & 0x3F; // green value
+      grayscale += temp*151;
+      temp = (rgb_source[loop] >> 16) & 0x3F; // blue value
+      grayscale += temp*28;
+      grayscale &= 0xFF00;
+      grayscale_destination[loop] = (grayscale << 8) | grayscale | (grayscale >> 8);
+   }
+}
+```
+
+This is a lot of operations: mask, multiply, shift + mask, multiply ....
+
+In DFG (data flow graph), we can group actions into groups:
+
+- reading: software load of RGB-values
+- putting values into expected formats: shifting and masking has no cost in hw (just wiring)
+- calculating grayscale: fixed coefficient multiplication of 8x6 bits and addtition can be performed in less than 1 CPU clock cycle in hw
+- result value: shifting and formatting has no cost in hw (just wiring)
+- storing: software store
+
+We reduce this algorithm to the: load, ci, store. And the speedup is the number of instructions removed.
+
+### Profiling
+
+Profiling is used to see the hotspots and see what the hw enhancements influence is.
+
+Examples of it is gprof of the GNU-tool-chain, or valgrind and kcachegrind.
+
+However these tools gives use just info on execution time, not the limitations/hotspots due to hw.
+
+#### Profiling limitations
+
+Software:
+
+- It requires representative data-sets to profile as:
+   1. a given data-set might not trigger some parts of the code resulting in improper profiling information
+   2. a given dataset might be a corner case only banging on one function resulting in improper profiling info
+   3. in general: garbage-in => garbage-out
+- Profiling should be performed on the target hw, as compilers optimize different
+- the program should behave properly, e.g. profiling might be useless due to the use of function pointers
+
+Hardware:
+
+- If profiling is done on another architecture the results can be bogus as it does not represent the dynamic behavior of the target system.
+- Modeling of all parameters in the virtual prototype has to been done correctly, otherwise the real SOC can behave completely different.
+
+#### Profiling information
+
+- On fixed systems we are only interested in the number of cpu-cycles burned, as we cannot change the underlying architecture.
+- This is very often accomplished by using performance counters. Performance counters are hardware counters that count clock-cycles (your I3/I5/i/ for example has such counters build in).
+- in SOC design we have the liberty to modify the arch and the sw
+- here we are often also interested in more hw speficific parameters as:
+   - bus occupation (natural bottleneck)
+   - cpu stall cycles
+   - cache hit/miss ratio
+   - cache thrashing latencies
+
+All of this can be accomplished with performance (hw) counters
+
+#### Performance counters limitations
+
+Limited by the number of bits they have (hence the "time" they can measure)
+
+They take area on the FPGA, so usually you have two versions - with and without perf counters
+
+The hardware needs to be observable (as in our case where everything is available in verilog) in many cases it is not the case as some parts are provided as IP-cores, in which case the perf counters can use "models"
+
+sets of models known are: worst case, typical case, best case.
+
