@@ -489,6 +489,18 @@ partitioning</a></li>
 id="toc-how-to-use-these-memories">How to use these memories?</a></li>
 <li><a href="#testbenching" id="toc-testbenching">Testbenching</a></li>
 </ul></li>
+<li><a href="#custom-instructions" id="toc-custom-instructions">Custom
+instructions</a>
+<ul>
+<li><a href="#alu" id="toc-alu">ALU</a></li>
+<li><a href="#custom-instruction-hw-interface"
+id="toc-custom-instruction-hw-interface">Custom instruction hw
+interface</a></li>
+<li><a href="#custom-instruction-sw-interface"
+id="toc-custom-instruction-sw-interface">Custom instruction SW
+interface</a></li>
+<li><a href="#profiling" id="toc-profiling">Profiling</a></li>
+</ul></li>
 </ul>
 </nav>
 <!-- markdownlint-disable MD010 MD041 MD001 MD036 MD029 MD034-->
@@ -814,5 +826,226 @@ component.</p>
 <p>Testbench requires a timescale - simulation for after-synthesis</p>
 <p><code>$dumpvars</code> indicates which signals we see: 0 - see inputs
 and outputs only, 1 - everything inside of the DUT, 2 - ??</p>
+<h2 id="custom-instructions">Custom instructions</h2>
+<h3 id="alu">ALU</h3>
+<p>it is the heart of the microC</p>
+<p>it receives two data (Ra, Rb) from the register-file and produces one
+result (Rd) to the register-file.</p>
+<p>The operation done is selected by the control signals (Cimm, Ccsel,
+Cminus, Copp), that are set depending the instruction.</p>
+<p>Note that only one operation can be selected, although all operations
+are performed.</p>
+<p>E.g. this line:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> <span class="op">(((</span>rgb565 <span class="op">&amp;</span> <span class="bn">0xF800</span><span class="op">)</span> <span class="op">&gt;&gt;</span> <span class="dv">8</span><span class="op">)</span> <span class="op">*</span> <span class="dv">5</span><span class="op">)</span> <span class="op">&gt;&gt;</span> <span class="dv">4</span><span class="op">;</span></span></code></pre></div>
+<p>would result in these operations in ALU:</p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode asm"><code class="sourceCode fasm"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>l<span class="op">.</span>andi r5<span class="op">,</span>r5<span class="op">,</span><span class="bn">0xF800</span>     <span class="op">#</span> rgb565 <span class="op">&amp;</span> <span class="bn">0xF800</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>l<span class="op">.</span>sri r5<span class="op">,</span>r5<span class="op">,</span><span class="dv">8</span>           <span class="op">#</span> <span class="op">(</span>rgb565 <span class="op">&amp;</span> <span class="bn">0xF800</span><span class="op">)</span> <span class="op">&gt;&gt;</span> <span class="dv">8</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>l<span class="op">.</span>muli r5<span class="op">,</span>r5<span class="op">,</span><span class="dv">5</span>          <span class="op">#</span> <span class="op">((</span>rgb565 <span class="op">&amp;</span> <span class="bn">0xF800</span><span class="op">)</span> <span class="op">&gt;&gt;</span> <span class="dv">8</span><span class="op">)</span> <span class="op">*</span> <span class="dv">5</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>l<span class="op">.</span>sri r5<span class="op">,</span>r5<span class="op">,</span><span class="dv">4</span>           <span class="op">#</span> <span class="op">(((</span>rgb565 <span class="op">&amp;</span> <span class="bn">0xF800</span><span class="op">)</span> <span class="op">&gt;&gt;</span> <span class="dv">8</span><span class="op">)</span> <span class="op">*</span> <span class="dv">5</span><span class="op">)</span> <span class="op">&gt;&gt;</span> <span class="dv">4</span></span></code></pre></div>
+<p>However, in HW it’s way simpler: select wires for the first instr,
+a*5 translate to a*2 + a (so only 10-bit adder), and then b&gt;&gt;4
+which is just wiring.</p>
+<h3 id="custom-instruction-hw-interface">Custom instruction hw
+interface</h3>
+<p>The minimal set of signals that the µC provides us with to create
+custom instruction hardware is (note: input/output is from the
+perspective of the µC):</p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Name</th>
+<th>Direction</th>
+<th>#bits</th>
+<th>Function</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>ciStart</td>
+<td>output</td>
+<td>1</td>
+<td>Indicates an active custom instruction</td>
+</tr>
+<tr class="even">
+<td>ciN</td>
+<td>output</td>
+<td>8</td>
+<td>The custom instruction identifier code.</td>
+</tr>
+<tr class="odd">
+<td>ciDataA</td>
+<td>output</td>
+<td>32</td>
+<td>The value of register A (Ra) going into the ALU/CI.</td>
+</tr>
+<tr class="even">
+<td>ciDataB</td>
+<td>output</td>
+<td>32</td>
+<td>The value of register B (Rb) going into the ALU/CI.</td>
+</tr>
+<tr class="odd">
+<td>ciResult</td>
+<td>input</td>
+<td>32</td>
+<td>The result value to be written to the register file (Rd).</td>
+</tr>
+<tr class="even">
+<td>ciDone</td>
+<td>input</td>
+<td>1</td>
+<td>The signal indicating that the CI performed it’s operation</td>
+</tr>
+</tbody>
+</table>
+<p>The <code>ciDone</code> signal is a very important signal. If the µC
+activates a custom instruction by the <code>ciStart</code> signal it
+will wait (stall) till an activation of the <code>ciDone</code>. If the
+<code>ciDone</code> is not activated your system will
+<strong>DEADLOCK</strong>!</p>
+<p>The signal `ciN`` indicates which custom instruction is activated. As
+this signal is 8-bit wide we can implement up to 256 custom
+instructions.</p>
+<h4 id="ci-example">ci example</h4>
+<p>We can implement multiple custom instructions. Why not “multiplexing”
+the ciDone and the ciResult signals by using the ciN signal?</p>
+<p>Very simple: multiplexers have more logic as simple or-gates (or
+and-gates, the alternative)…</p>
+<p>This poses, however, some restrictions that we have to take into
+account when designing a custom instruction module….</p>
+<p>Timing requirements: assume that the custom instruction hw has the
+custom instruction identifier 0x17.</p>
+<p>When the <code>ciN</code> does not correspond to the custom
+instruction identifier no <code>done</code> is generated.</p>
+<p>If it does correspond, we can have a single-cycle or a multi-cycle
+response (any number of cycles between the start and done). For example,
+stall for some delay, and the ci will stall the CPU for specified number
+of microseconds</p>
+<blockquote>
+<p>Note that in case of a multi-cycle response the µC is stalled!</p>
+</blockquote>
+<h3 id="custom-instruction-sw-interface">Custom instruction SW
+interface</h3>
+<p>To interact with the ci, we need to activate them with assembly
+instruction, since compiler does not know it. E.g. (note that 0x17 is
+the ci identifier):</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="dt">uint32_t</span> result<span class="op">,</span> regA<span class="op">,</span> regB<span class="op">;</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>asm <span class="dt">volatile</span> <span class="op">(</span><span class="st">&quot;l.nios_rrr %[rd],%[ra],%[rb],0x17&quot;</span><span class="op">:[</span>rd<span class="op">]</span><span class="st">&quot;=r&quot;</span><span class="op">(</span>result<span class="op">):</span> <span class="op">[</span>ra<span class="op">]</span><span class="st">&quot;r&quot;</span><span class="op">(</span>regA<span class="op">),[</span>rb<span class="op">]</span><span class="st">&quot;r&quot;</span><span class="op">(</span>regB<span class="op">)</span> <span class="op">);</span></span></code></pre></div>
+<p>Some variations:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">// ci with only inputs, e.g. for a flipflop outputs to another flipflop (this is defined in hw)</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co">// :: is required because after the first : are the registers that are written, and after the second : are the registers that are read</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>asm <span class="dt">volatile</span> <span class="op">(</span><span class="st">&quot;l.nios_rrr r0,%[ra],%[rb],0x1A&quot;</span><span class="op">::[</span>ra<span class="op">]</span><span class="st">&quot;r&quot;</span><span class="op">(</span>regA<span class="op">),[</span>rb<span class="op">]</span><span class="st">&quot;r&quot;</span><span class="op">(</span>regB<span class="op">)</span> <span class="op">);</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co">// ci with only an output, e.g. output of several chained flipflop</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="co">// second : is not required here</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>asm <span class="dt">volatile</span> <span class="op">(</span><span class="st">&quot;l.nios_rrr %[rd],r0,r0,0x72&quot;</span><span class="op">:[</span>rd<span class="op">]</span><span class="st">&quot;=r&quot;</span><span class="op">(</span>result<span class="op">)</span> <span class="op">);</span></span></code></pre></div>
+<p><code>r0</code> is used as a replacement for <code>rd</code>, since
+it is the dummy register in RISC arch (writing to it does nothing,
+reading always gives 0)</p>
+<p>Compiler looking into this code cannot infer if it can apply any
+optimizations, since it does not know what it happening.</p>
+<h4 id="ci-usage">ci Usage</h4>
+<p>Example, for converting rgb to grayscale:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="dt">void</span> rgbToGrayscale<span class="op">(</span> <span class="dt">int</span> width<span class="op">,</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>                     <span class="dt">int</span> height<span class="op">,</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>                     <span class="dt">const</span> <span class="dt">uint32_t</span> <span class="op">*</span>rgb_source<span class="op">,</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>                     <span class="dt">uint32_t</span> <span class="op">*</span>grayscale_destination <span class="op">)</span> <span class="op">{</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>   <span class="dt">int</span> loop<span class="op">;</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>   <span class="dt">uint32_t</span> temp<span class="op">,</span> grayscale<span class="op">;</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>   <span class="cf">for</span> <span class="op">(</span>loop <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> loop <span class="op">&lt;</span> width<span class="op">*</span>height<span class="op">;</span> loop<span class="op">++)</span> <span class="op">{</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>      temp <span class="op">=</span> rgb_source<span class="op">[</span>loop<span class="op">]</span> <span class="op">&amp;</span> <span class="bn">0x3F</span><span class="op">;</span> <span class="co">// red value</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>      grayscale <span class="op">=</span> temp<span class="op">*</span><span class="dv">77</span><span class="op">;</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>      temp <span class="op">=</span> <span class="op">(</span>rgb_source<span class="op">[</span>loop<span class="op">]</span> <span class="op">&gt;&gt;</span> <span class="dv">8</span><span class="op">)</span> <span class="op">&amp;</span> <span class="bn">0x3F</span><span class="op">;</span> <span class="co">// green value</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>      grayscale <span class="op">+=</span> temp<span class="op">*</span><span class="dv">151</span><span class="op">;</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>      temp <span class="op">=</span> <span class="op">(</span>rgb_source<span class="op">[</span>loop<span class="op">]</span> <span class="op">&gt;&gt;</span> <span class="dv">16</span><span class="op">)</span> <span class="op">&amp;</span> <span class="bn">0x3F</span><span class="op">;</span> <span class="co">// blue value</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>      grayscale <span class="op">+=</span> temp<span class="op">*</span><span class="dv">28</span><span class="op">;</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>      grayscale <span class="op">&amp;=</span> <span class="bn">0xFF00</span><span class="op">;</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>      grayscale_destination<span class="op">[</span>loop<span class="op">]</span> <span class="op">=</span> <span class="op">(</span>grayscale <span class="op">&lt;&lt;</span> <span class="dv">8</span><span class="op">)</span> <span class="op">|</span> grayscale <span class="op">|</span> <span class="op">(</span>grayscale <span class="op">&gt;&gt;</span> <span class="dv">8</span><span class="op">);</span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>   <span class="op">}</span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p>This is a lot of operations: mask, multiply, shift + mask, multiply
+….</p>
+<p>In DFG (data flow graph), we can group actions into groups:</p>
+<ul>
+<li>reading: software load of RGB-values</li>
+<li>putting values into expected formats: shifting and masking has no
+cost in hw (just wiring)</li>
+<li>calculating grayscale: fixed coefficient multiplication of 8x6 bits
+and addtition can be performed in less than 1 CPU clock cycle in hw</li>
+<li>result value: shifting and formatting has no cost in hw (just
+wiring)</li>
+<li>storing: software store</li>
+</ul>
+<p>We reduce this algorithm to the: load, ci, store. And the speedup is
+the number of instructions removed.</p>
+<h3 id="profiling">Profiling</h3>
+<p>Profiling is used to see the hotspots and see what the hw
+enhancements influence is.</p>
+<p>Examples of it is gprof of the GNU-tool-chain, or valgrind and
+kcachegrind.</p>
+<p>However these tools gives use just info on execution time, not the
+limitations/hotspots due to hw.</p>
+<h4 id="profiling-limitations">Profiling limitations</h4>
+<p>Software:</p>
+<ul>
+<li>It requires representative data-sets to profile as:
+<ol type="1">
+<li>a given data-set might not trigger some parts of the code resulting
+in improper profiling information</li>
+<li>a given dataset might be a corner case only banging on one function
+resulting in improper profiling info</li>
+<li>in general: garbage-in =&gt; garbage-out</li>
+</ol></li>
+<li>Profiling should be performed on the target hw, as compilers
+optimize different</li>
+<li>the program should behave properly, e.g. profiling might be useless
+due to the use of function pointers</li>
+</ul>
+<p>Hardware:</p>
+<ul>
+<li>If profiling is done on another architecture the results can be
+bogus as it does not represent the dynamic behavior of the target
+system.</li>
+<li>Modeling of all parameters in the virtual prototype has to been done
+correctly, otherwise the real SOC can behave completely different.</li>
+</ul>
+<h4 id="profiling-information">Profiling information</h4>
+<ul>
+<li>On fixed systems we are only interested in the number of cpu-cycles
+burned, as we cannot change the underlying architecture.</li>
+<li>This is very often accomplished by using performance counters.
+Performance counters are hardware counters that count clock-cycles (your
+I3/I5/i/ for example has such counters build in).</li>
+<li>in SOC design we have the liberty to modify the arch and the sw</li>
+<li>here we are often also interested in more hw speficific parameters
+as:
+<ul>
+<li>bus occupation (natural bottleneck)</li>
+<li>cpu stall cycles</li>
+<li>cache hit/miss ratio</li>
+<li>cache thrashing latencies</li>
+</ul></li>
+</ul>
+<p>All of this can be accomplished with performance (hw) counters</p>
+<h4 id="performance-counters-limitations">Performance counters
+limitations</h4>
+<p>Limited by the number of bits they have (hence the “time” they can
+measure)</p>
+<p>They take area on the FPGA, so usually you have two versions - with
+and without perf counters</p>
+<p>The hardware needs to be observable (as in our case where everything
+is available in verilog) in many cases it is not the case as some parts
+are provided as IP-cores, in which case the perf counters can use
+“models”</p>
+<p>sets of models known are: worst case, typical case, best case.</p>
 </body>
 </html>
