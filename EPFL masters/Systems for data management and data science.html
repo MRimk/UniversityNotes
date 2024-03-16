@@ -506,8 +506,9 @@ distributed computing</a>
 <li><a href="#concurrency-control"
 id="toc-concurrency-control">Concurrency control</a>
 <ul>
-<li><a href="#first-19-slides-skipped"
-id="toc-first-19-slides-skipped">FIRST 19 SLIDES SKIPPED</a></li>
+<li><a href="#acid-transaction-schedules"
+id="toc-acid-transaction-schedules">ACID &amp; Transaction
+Schedules</a></li>
 <li><a href="#pessimistic-concurrency-control-protocols"
 id="toc-pessimistic-concurrency-control-protocols">Pessimistic
 concurrency control protocols</a></li>
@@ -990,7 +991,64 @@ RDDs and functions/transformations)</p>
 raw text files), and expensive (high space overhead)</p>
 <p>Spark has an extension which translates RDDs to data frames.</p>
 <h2 id="concurrency-control">Concurrency control</h2>
-<h3 id="first-19-slides-skipped">FIRST 19 SLIDES SKIPPED</h3>
+<h3 id="acid-transaction-schedules">ACID &amp; Transaction
+Schedules</h3>
+<p><strong>Transaction (txn, or Xact)</strong> - sequence of actions
+executed on a shared database to perform some higher-level function.
+Basic unit of change in the DBMS.</p>
+<p><strong>ACID</strong>:</p>
+<ul>
+<li><strong>Atomicity</strong> - Either all actions in the txn happen or
+none happen</li>
+<li><strong>Consistency</strong> - if each txn is consstent and the DB
+starts consistent, it ends up consistent</li>
+<li><strong>Isolation</strong> - Execution of one txn is isolated from
+that of other txns</li>
+<li><strong>Durability</strong> - if a txn commits, its effects
+persist</li>
+</ul>
+<p>Txn could either commit after completing all its actions or abort
+after executing some of its actions</p>
+<p>All transactions are atomic.</p>
+<p>Durability relies on logs.</p>
+<p>Each transaction must leave the database in a consistent state</p>
+<p>Users submit transactions, and expect isolation – each txn executed
+by itself. <strong>Concurrency</strong> is very important for the
+performance. Net effect identical to executing all txns one after the
+other in some serial order.</p>
+<p>For concurrency, DBMS uses schedules - a list of actions (reading,
+writing, aborting or committing) from a set of txns.</p>
+<h4 id="scheduling-transactions">Scheduling transactions</h4>
+<ul>
+<li><strong>Serial schedule</strong> - schedule that does not interleave
+the actions of different transactions.</li>
+<li><strong>Equivalent schedules</strong> - for any db state, the effect
+(on the set of objects in the db) of executing the first schedule is
+identical to the effect of executing the second schedule</li>
+<li><strong>Serializable schedule</strong> - a schedule that is
+equivalent to some serial execution of the txns.</li>
+</ul>
+<p>Anomalies with interleaved execution:</p>
+<ul>
+<li>Dirty reads - WR conflicts - reading uncommitted data</li>
+<li>RW conflicts - unrepeatable reads</li>
+<li>WW conflicts - overwriting uncommitted data</li>
+</ul>
+<h4 id="aborting-a-transaction">Aborting a transaction</h4>
+<p>If txn is aborted, all its actions need to be undone. And due to
+<strong>cascading aborts</strong> the dependent txns need to be aborted
+(e.g. if Tj reads an object last written by Ti, Tj must be aborted as
+well)</p>
+<h4 id="precedence-graph">Precedence graph</h4>
+<p>One node per txn, edge from Ti to Tj if Tj reads/writes an object
+last read/written by Ti.</p>
+<p><strong>Theorem</strong> - a schedule is conflict serializable iff
+its dependency graph is acyclic.</p>
+<p><strong>Conflict serializable</strong> - if schedule is conflict
+equivalent to some serial schedule. I.e. they involve the same actions
+of the same txns, every pair of conflicting actions is ordered the same
+way -&gt; basically if we can turn the one into the other by swapping
+non-conflicting adjacent actions</p>
 <h3 id="pessimistic-concurrency-control-protocols">Pessimistic
 concurrency control protocols</h3>
 <h4 id="lock-based-concurrency-control">Lock-based concurrency
