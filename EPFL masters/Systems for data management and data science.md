@@ -481,7 +481,52 @@ Spark has an extension which translates RDDs to data frames.
 
 ## Concurrency control
 
-### FIRST 19 SLIDES SKIPPED
+### ACID & Transaction Schedules
+
+**Transaction (txn, or Xact)** - sequence of actions executed on a shared database to perform some higher-level function. Basic unit of change in the DBMS.
+
+**ACID**:
+
+- **Atomicity** - Either all actions in the txn happen or none happen
+- **Consistency** - if each txn is consstent and the DB starts consistent, it ends up consistent
+- **Isolation** - Execution of one txn is isolated from that of other txns
+- **Durability** - if a txn commits, its effects persist
+
+Txn could either commit after completing all its actions or abort after executing some of its actions
+
+All transactions are atomic.
+
+Durability relies on logs.
+
+Each transaction must leave the database in a consistent state
+
+Users submit transactions, and expect isolation -- each txn executed by itself. **Concurrency** is very important for the performance. Net effect identical to executing all txns one after the other in some serial order.
+
+For concurrency, DBMS uses schedules - a list of actions (reading, writing, aborting or committing) from a set of txns.
+
+#### Scheduling transactions
+
+- **Serial schedule** - schedule that does not interleave the actions of different transactions.
+- **Equivalent schedules** - for any db state, the effect (on the set of objects in the db) of executing the first schedule is identical to the effect of executing the second schedule
+- **Serializable schedule** - a schedule that is equivalent to some serial execution of the txns.
+
+Anomalies with interleaved execution:
+
+- Dirty reads - WR conflicts - reading uncommitted data
+- RW conflicts - unrepeatable reads
+- WW conflicts - overwriting uncommitted data
+
+#### Aborting a transaction
+
+If txn is aborted, all its actions need to be undone. And due to **cascading aborts** the dependent txns need to be aborted (e.g. if Tj reads an object last written by Ti, Tj must be aborted as well)
+
+#### Precedence graph
+
+One node per txn, edge from Ti to Tj if Tj reads/writes an object last read/written by Ti.
+
+**Theorem** - a schedule is conflict serializable iff its dependency graph is acyclic.
+
+**Conflict serializable** - if schedule is conflict equivalent to some serial schedule. I.e. they involve the same actions of the same txns, every pair of conflicting actions is ordered the same way -> basically if we can turn the one into the other by swapping non-conflicting adjacent actions
 
 ### Pessimistic concurrency control protocols
 
