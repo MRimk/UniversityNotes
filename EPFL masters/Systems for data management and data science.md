@@ -643,3 +643,219 @@ Snapshot isolation (SI) is the most popular isolation guarantee in real DBMS.
 - the txn successfully commits only if no updates it has made conflict with any concurrent updates made since that snapshot.
 
 SI does not guarantee serializability!
+
+## Query execution and distributed transactions
+
+### Parallel architectures
+
+#### Shared memory
+
+Nodes share both RAM and disk. Dozens to hundreds of processors, easy to use and program, BUT expensive to scale.
+
+#### Shared disk
+
+All nodes access same disks (which are found in the largest non-cluster multiprocessors)
+
+Traditionally hard to scale past a certain point - due to contention on storage bandwidth. Existing deployments have < 10 machines
+
+However due to cloud incarnation - running over Amazon s3 or other service, there is an arbitrary scaleout because **S3 has a lot of disks and executors are stateless**.
+
+#### Shared nothing
+
+Cluster machines on high-speed network.
+Where each machine has its own memory and disk. (each machine might run several nodes in it).
+
+Characteristics: most scalable today (because of lowest contention) but hard to manage and tune (e.g. because of data rebalancing when adding a new node)
+
+### Distributed transactions
+
+#### Single node vs distributed txns
+
+Single-node txn accesses the data on one partition, whereas distr txn accesses data at one or more partitions, so it requires expensive coordination between concurrent transactions.
+
+#### Transaction coordination
+
+Two types:
+
+- **Centralized** - global "traffic coordinator"
+- **Decentralized** - nodes organize themselves.
+
+#### Distributed concurrency control
+
+Need to allow multiple transactions to execute simultaneously across multiple nodes.
+
+Many of the protocols from single-node DBMS can be adapted
+
+It is harder because of:
+
+- network communication overhead
+- clock skew
+- node failures
+- replication
+- distributed 2PL:
+  - increased clock duration
+  - who detects deadlocks?
+- timestamp-based:
+  - whose clock is correct?
+  - can we have 1 global clock?
+
+##### Distributed locking - not done 12-15
+
+##### Distributed recovery - not done 16
+
+If sub-transactions of an txn execute at different sites, all or none must commit
+
+A log is maintained at each site, as in a centralized DBMS, and commit protocol actions are additionally logged.
+
+#### Commits
+
+When a multi-node transaction finishes, the DBMS needs to ask all of the nodes involved whether it is safe to commit.
+
+Nodes must use an **atomic commit protocol** - all nodes have to agree. E.g.:
+
+- Two-phase commit
+- Three-phase commit (many assumptions; not used)
+- Paxos
+- Raft
+- ZAB (Apache Zookeeper)
+
+#### 2PC (Two-phase commit)
+
+Site at which Xact originates is coordinator; other sites at which it executes are subordinates.
+
+First phase - collect information.
+
+Second phase - implement a decision.
+
+When txn wants to commit:
+
+- coordinator sends **prepare** msg to each subordinate (do you all agree that this txn should be committed?)
+- subordinate force-writes an **abort** or **prepare** log records and then sends a _no_ or _yes_ msg to coordinator.
+- if coordinator gets unanimous yes votes, force-writes a **commit** log records and sends a **commit** msg to all subs. Else, force-writes abort log rec, and sends **abort** msg
+- Subordinates force-write **abort/commit** log rec based on msg they get, then send **ack** msg to coordinator.
+- Coordinator writes **end** log rec after getting all acks.
+
+> Recovery system:
+>
+> 1. log records (ARIES style) - long record, and any time there is a new transaction it adds its actions to the log. One reason is if the txn was aborted, it needs to be **undone**. Another reason - failure to make the value to the disk - action needs to be **redone**.
+> 2. Redo then undo - txn table where there are winners and losers, so winners need to redo actions, and losers undo actions
+
+Commets on 2PC:
+
+- a lot of messages because of the two rounds of communication
+- any site can decite to abort a txn, all sites must agree to commit.
+- Every msg reflects a decision by the sender; **to ensure that this decision survives failures, it is first recorded in the local log**
+- Because of logging 2PC is expensive because of the force-writes - we need to wait for the log to be on disk before moving on.
+
+ACKs are sent to ensure everyone knows final outcome.
+
+Subordinates force-write the log records so that they do not need to ask the coordinator about the info.
+
+#### 2PC with presume commit (optimization on 2PC)
+
+Because of the idea that most txns usually commit, I assume that everything is fine.
+
+Cheaper to Require ACKs for Aborts and to Eliminate ACKs for commits.
+
+Force only **abort\*** (star means forced), no information means commit! Problem - Commit after crash of the coordinator after sending out “prepare”!
+
+Record subordinate names before prepared state
+⇒Subordinates as in PA; coordinator writes collecting\* (star means forced)
+⇒Read-only optimizations apply here
+
+#### 2PC with presume abort (optimization on 2PC)
+
+This is the opposite to presumed commit, but it's not used.
+
+#### 2PC Coordinator failures & Blocking
+
+If coordinator for Xact T fails, subordinates who have voted yes cannot decide whether to commit or abort T until coordinator recovers. **T is blocked** and even if all subordinates know each other (extra overhead in prepare msg) they are blocked unless one of them voted no.
+
+### Replication
+
+Copying data is annoying but necessary for availability, and failures.
+
+Replication:
+
+- keep several copies of the data in other servers
+- if a server fails, another server takes over
+- use for load balancing
+
+**Synchronouse replication**: All copies of a modified relation (fragment) must be updated before the modifying Xact commits.
+
+**Asynchronous Replication**: Copies of a modified relation are only periodically updated; different copies may get out of sync in the meantime.
+
+#### Synchronous replication
+
+Two versions:
+
+- Voting: Xact **must write a majority** of copies to modify an object; **must read enough copies** to be sure of seeing at least one most recent copy
+- Read-any Write-all: Writes are slower and reads are faster, relative to Voting. (Most common approach to synchronous replication)
+
+Cost - very expensive:
+
+- Before an update Xact can commit, it must obtain locks on all modified copies:
+  - Sends lock requests to remote sites, and while waiting for the response, holds on toother locks!
+  - If sites or links fail, Xact cannot commit until they are back up.
+  - Even if there is no failure, committing must follow an expensive commit protocol
+    with many msgs.
+
+Due to the cost, alternative of asynchronous replication is widely used in NoSQL systems (eventual consistency)
+
+#### Asynchronous replication
+
+Allows modifying Xact to commit before all copies have been changed (and readers nonetheless look at just one copy).
+
+Two approaches: **Primary Site** and **Peer-to-Peer** replication. - Difference lies in how many copies are _"updatable"_ or
+_"master copies"_
+
+##### Primary site
+
+Exactly one copy of a relation is designated the primary or master copy. Replicas at other sites cannot be directly updated.
+
+- The primary copy is published.
+- Other sites subscribe to (fragments of) this relation; these are secondary copies.
+
+Main issue: How are changes to the primary copy propagated to the secondary copies?
+
+– Done in two steps. First, capture changes made by committed Xacts; then
+apply these changes.
+
+**Implementing the Capture step**:
+
+- **(Physical) Log-Based Capture**: The log (kept for recovery) is used to generate a Change Data Table (CDT). This is faster one.
+  - If this is done when the log tail is written to disk, must somehow remove changes due to subsequently aborted Xacts.
+- **Procedural Capture**: A procedure that is automatically invoked (ex: trigger) does the capture; typically, just takes a snapshot. This is slower but more portable.
+- Log-Based Capture is cheaper & faster, but relies on proprietary log details.
+- Middle-ground: Logical log-based capture
+  - [MySQL] Row-based replication: Describe edits at row granularity
+
+**Implementing the Apply step**:
+
+The Apply process at the secondary site periodically obtains (a snapshot or) changes to the CDT table from the primary site, and updates the copy. Replica can be a view over the modified relation!
+
+Log-Based Capture plus continuous Apply minimizes delay in propagating changes.
+
+Procedural Capture plus application-driven Apply is the most flexible way to process changes.
+
+#### Peer-to-Peer (multi-leader) Replication
+
+More than one of the copies of an object can be a master in this approach.
+
+Changes to a master copy must be propagated to other copies somehow.
+
+If two master copies are changed in a conflicting manner, this must be resolved. (e.g., Site 1: Joe’s age changed to 35; Site 2: to 36)
+
+### Eventual consistency
+
+Tracking mutable, replicated state. Due to replication we need to decide: Synchronous or asynchronous? And Can processes read from / write to any replica? What are we going to do in case of the failure?
+
+#### CAP Theorem
+
+**Consistency** - linearizability
+
+**Availability** - all alive nodes can satisfy all requests
+
+**Partition Tolerance** - operate correctly despite message loss
+
+We cannot have all 3 at once.
