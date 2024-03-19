@@ -501,6 +501,14 @@ id="toc-custom-instruction-sw-interface">Custom instruction SW
 interface</a></li>
 <li><a href="#profiling" id="toc-profiling">Profiling</a></li>
 </ul></li>
+<li><a href="#timing-closure" id="toc-timing-closure">Timing closure</a>
+<ul>
+<li><a href="#rtl-register-transfer-level-design"
+id="toc-rtl-register-transfer-level-design">RTL (Register Transfer
+Level) design</a></li>
+<li><a href="#what-is-timing-closure"
+id="toc-what-is-timing-closure">What is timing closure</a></li>
+</ul></li>
 </ul>
 </nav>
 <!-- markdownlint-disable MD010 MD041 MD001 MD036 MD029 MD034-->
@@ -853,10 +861,10 @@ custom instruction hardware is (note: input/output is from the
 perspective of the µC):</p>
 <table>
 <colgroup>
-<col style="width: 25%" />
-<col style="width: 25%" />
-<col style="width: 25%" />
-<col style="width: 25%" />
+<col style="width: 10%" />
+<col style="width: 11%" />
+<col style="width: 6%" />
+<col style="width: 72%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -1047,5 +1055,155 @@ is available in verilog) in many cases it is not the case as some parts
 are provided as IP-cores, in which case the perf counters can use
 “models”</p>
 <p>sets of models known are: worst case, typical case, best case.</p>
+<h2 id="timing-closure">Timing closure</h2>
+<p>To get the system running at the required frequency we need to go
+into the phase called <em>timing closure</em></p>
+<h3 id="rtl-register-transfer-level-design">RTL (Register Transfer
+Level) design</h3>
+<p>To prevent gated clocks the flipflops are connected to the same clock
+source.</p>
+<p>We know that due to transistor capacitance all gates have a date
+delay that causes hazards.</p>
+<p>Hazard - change in level that are caused by time gate delays</p>
+<p><strong>Critical path</strong> - longest combinational path between
+two flipflops. We need to wait for critical path time to be sure on the
+value and that we are not hitting on the hazard.</p>
+<p>What happens with the clock line? There are 3k flipflops in the mc
+and all are connected to one clock line &lt;- the clock line thus would
+have a big capacitave load. The RTL-design method assumes that the
+rising edgeg of the clock arrives at all flipflops at same time.</p>
+<h4 id="avoiding-big-capacitive-load">Avoiding big capacitive load</h4>
+<p>Use binary tree of inverters because they will reduce load on each
+output. Howver what is the resul of this op?</p>
+<p>We introduce at the flipflop level a clock-skew (can be positive or
+negative) due to the fakc that not all inverters have the same delay and
+line-length-mismatches</p>
+<p>There is also jitter - due to temperature and other things transistor
+flips back and forth.</p>
+<p>To reduce jitter and skew we have clock tree in form of a H-tree
+(fractal). Clock is inserted in the middle, and inverters are at the
+split points, and at the leaf points the flipflops and memory is
+connected.</p>
+<h4 id="setup-and-hold">Setup and hold</h4>
+<p>Flipflops particularity - output delay and setup-and-hold time.</p>
+<p>Setup and hold time - in which the D-input needs to be kept stable
+(otherwise the flipflop goes into meta stable state - oscilation, which
+ends up into unknown state).</p>
+<p>Problem this causes - finite state machine goes into a ghost state
+and stays in the ghost state.</p>
+<p>What could cause this condition (in relation to the clock time):</p>
+<ol type="1">
+<li>The path between two flipflops is too fast (race-condition)</li>
+<li>The path is too slow (frequency cannot be met)</li>
+</ol>
+<h4 id="race-condition">Race condition</h4>
+<p>Putting together, the uncertainty we have - 2 * skew + jitter</p>
+<p>If the output of flipflop C changes before setup-time of flipflop B,
+hence we have a functional error as the data is too early available.</p>
+<p>The output of flipflop C changes during tDstable of flipflop B which
+goes in meta stable state (Note that this situation will always happen
+independent of the clock frequency!).</p>
+<p>The problem can be solved by inserting a delay between the flipflops
+C and B. We don’t have to do this ourselves because it is done by
+synthesis tools</p>
+<p>This does not prevent hazards but does not produce hazards</p>
+<h4 id="timing-not-met">Timing not met</h4>
+<p><span class="math inline">t_{p,clock} = t_{clock_to_output} +
+t_{critical,max} + t_{setup} + t_{uncertainty}</span></p>
+<p>We know that during the critical path time we may have hazards on the
+D-input of flipflop C, and that the correct value is available after
+<span class="math inline">t_{critical_path}</span>.</p>
+<p>All timing analyzers are in cases: best, typical, and worst case.
+These models are based on the distribution of produced chips.</p>
+<p>Tools use worst case timing model so that it makes sure that it works
+with the given frequency</p>
+<p>Note that the synthesizer and/or P&amp;R-tool might insert in front
+of the combinational logic some inverters to prevent flipflop C from
+going into meta stable state due to <span
+class="math inline">t_{Dstable}</span> violation caused by hazards!</p>
+<p>Timing is not met when there exists at least one combinational logic
+path with a <span class="math inline">t_{critical_path} &gt;
+t_{critical_path,max}</span>.</p>
+<h3 id="what-is-timing-closure">What is timing closure</h3>
+<p>Process of getting all <span class="math inline">t_{critical_paths}
+&lt; t_{critical_path,max}</span>.</p>
+<p>But that’s not all, we have two more timings that need attention:</p>
+<ol type="1">
+<li>The latest arrival of an external input signal (tlai) to the
+flipflop with respect to the positive clock edge. Peripherals that
+receive signals outside of the chip</li>
+<li>The latest arrival of the signal from a flipflop to the edge of the
+package (tlao) with respect to the positive clock edge.</li>
+</ol>
+<p>It used to be 4ns to go from chip to off-chip and same vice-versa
+=&gt; 8ns delay to go to chip.</p>
+<p>These numbers depend on the chip pconnected to this one and are in
+general more difficult to determine.</p>
+<p>We need to specify input-output delays</p>
+<h4 id="timing-closure-off-chip">Timing closure off-chip</h4>
+<p><strong>If you go off-chip - you put a flipflop in-between, and same
+vice-versa</strong></p>
+<p>More in detail: The later aspect is “easily” solved by not using any
+combinational logic between the input(s) and the fist flipflop(s) and no
+combinational logic between the last flipflop(s) and the output(s).
+<strong>This has the advantage that you do not have any hazards outside
+of your chip (good thing!).</strong></p>
+<p>However, this is not always possible, in this case more advanced
+methods are required like:</p>
+<ul>
+<li>Usage of a PLL/DLL to synchronize the attached chip with yours
+(think of DDR memory).</li>
+<li>Adding extra delays in some of the outputs to meet external
+timings.</li>
+</ul>
+<h4 id="how-to-reduce-critical-paths">How to reduce critical paths</h4>
+<p>On-chip aspect synthesis tool is more intelligent.</p>
+<p>Methods that the synthesizer does not know about:</p>
+<ul>
+<li><strong>Fine-grained paralyzing</strong></li>
+<li><strong>Multi-cycling</strong></li>
+<li><strong>Pipelining</strong></li>
+</ul>
+<h4 id="speeding-up-your-circuit">Speeding up your circuit</h4>
+<p>Have: 4-bit carry-riplle adder (CRA)</p>
+<p>Assume this adder is in the critical path.</p>
+<p>The critical path from this adder goes from Cin through the and- and
+or-gates up to Cout/S3 - the carry path</p>
+<p>What are the speed-up methods:</p>
+<ul>
+<li>Trading-off bigger area/energy consumption against speed
+<ul>
+<li>This is an example of Fine-grained paralyzing</li>
+<li>We cut circuit in the middle, and we calculate the top when the
+carry is 1, and we calculate the top when the carry is 0. We select the
+result with a multiplexer.</li>
+<li>This circuit becomes carry select adder that is almost twice as fast
+- single cycle 4-bits addition</li>
+</ul></li>
+<li>Trading-off time against speed
+<ul>
+<li>Example of pipelining</li>
+<li>In this method we divide the critical path in 2 (or more) parts and
+place a row of flipflops between the parts.</li>
+<li>The advantage is that we can do a calculation each cycle.</li>
+<li>However, we introduce latency, which could cause problems in case of
+a feed-back loop (e.g. data dependencies)</li>
+</ul></li>
+<li>Trading-off latency (performance) against area
+<ul>
+<li>Example of multi-cycle operation</li>
+<li>We calculate one bit per cycle. (Of course this has an impact on the
+performance, as now the addition takes 4 cycles instead of a single
+cycle.)</li>
+<li>Very often we perform a radix-N multi-cycle operation where at each
+cycle N-bits are determined.</li>
+<li>Of course, when A and B are guaranteed to be constant between
+<code>start</code> and <code>done</code>, we can replace the input
+shift-registers by a multiplexer</li>
+<li>This is nice for division because it is difficult - it is subraction
+and dependance. On a 32-bit CPU using a library, we need 120 cycles for
+Integer division.</li>
+</ul></li>
+</ul>
 </body>
 </html>
