@@ -548,7 +548,7 @@ This does not prevent hazards but does not produce hazards
 
 #### Timing not met
 
-$t_{p,clock} = t_{clock_to_output} + t_{critical,max} + t_{setup} + t_{uncertainty}$
+$t_{p,clock} = t_{clock\_to\_output} + t_{critical,max} + t_{setup} + t_{uncertainty}$
 
 We know that during the critical path time we may have hazards on the D-input of flipflop C, and that the correct value is available after $t_{critical_path}$.
 
@@ -558,11 +558,11 @@ Tools use worst case timing model so that it makes sure that it works with the g
 
 Note that the synthesizer and/or P&R-tool might insert in front of the combinational logic some inverters to prevent flipflop C from going into meta stable state due to $t_{Dstable}$ violation caused by hazards!
 
-Timing is not met when there exists at least one combinational logic path with a $t_{critical_path} > t_{critical_path,max}$.
+Timing is not met when there exists at least one combinational logic path with a $t_{critical\_path} > t_{critical\_path,max}$.
 
 ### What is timing closure
 
-Process of getting all $t_{critical_paths} < t_{critical_path,max}$.
+Process of getting all $t_{critical\_paths} < t_{critical\_path,max}$.
 
 But that's not all, we have two more timings that need attention:
 

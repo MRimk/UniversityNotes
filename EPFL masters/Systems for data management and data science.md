@@ -699,9 +699,16 @@ It is harder because of:
   - whose clock is correct?
   - can we have 1 global clock?
 
-##### Distributed locking - not done 12-15
+##### Distributed locking
 
-##### Distributed recovery - not done 16
+- Centralized: One site does all locking.
+  - Vulnerable to single site failure.
+- Primary Copy: All locking for an object done at the primary copy site for this object.
+  - Reading requires access to locking site as well as site where the object is stored.
+- Fully Distributed: Locking for a copy done at site where the copy is stored.
+  - Locks at all sites while writing an object
+
+##### Distributed recovery
 
 If sub-transactions of an txn execute at different sites, all or none must commit
 
