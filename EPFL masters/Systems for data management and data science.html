@@ -1253,10 +1253,25 @@ multiple nodes.</p>
 <li>can we have 1 global clock?</li>
 </ul></li>
 </ul>
-<h5 id="distributed-locking---not-done-12-15">Distributed locking - not
-done 12-15</h5>
-<h5 id="distributed-recovery---not-done-16">Distributed recovery - not
-done 16</h5>
+<h5 id="distributed-locking">Distributed locking</h5>
+<ul>
+<li>Centralized: One site does all locking.
+<ul>
+<li>Vulnerable to single site failure.</li>
+</ul></li>
+<li>Primary Copy: All locking for an object done at the primary copy
+site for this object.
+<ul>
+<li>Reading requires access to locking site as well as site where the
+object is stored.</li>
+</ul></li>
+<li>Fully Distributed: Locking for a copy done at site where the copy is
+stored.
+<ul>
+<li>Locks at all sites while writing an object</li>
+</ul></li>
+</ul>
+<h5 id="distributed-recovery">Distributed recovery</h5>
 <p>If sub-transactions of an txn execute at different sites, all or none
 must commit</p>
 <p>A log is maintained at each site, as in a centralized DBMS, and

@@ -1108,7 +1108,7 @@ C and B. We don’t have to do this ourselves because it is done by
 synthesis tools</p>
 <p>This does not prevent hazards but does not produce hazards</p>
 <h4 id="timing-not-met">Timing not met</h4>
-<p><span class="math inline">t_{p,clock} = t_{clock_to_output} +
+<p><span class="math inline">t_{p,clock} = t_{clock\_to\_output} +
 t_{critical,max} + t_{setup} + t_{uncertainty}</span></p>
 <p>We know that during the critical path time we may have hazards on the
 D-input of flipflop C, and that the correct value is available after
@@ -1122,11 +1122,11 @@ of the combinational logic some inverters to prevent flipflop C from
 going into meta stable state due to <span
 class="math inline">t_{Dstable}</span> violation caused by hazards!</p>
 <p>Timing is not met when there exists at least one combinational logic
-path with a <span class="math inline">t_{critical_path} &gt;
-t_{critical_path,max}</span>.</p>
+path with a <span class="math inline">t_{critical\_path} &gt;
+t_{critical\_path,max}</span>.</p>
 <h3 id="what-is-timing-closure">What is timing closure</h3>
-<p>Process of getting all <span class="math inline">t_{critical_paths}
-&lt; t_{critical_path,max}</span>.</p>
+<p>Process of getting all <span class="math inline">t_{critical\_paths}
+&lt; t_{critical\_path,max}</span>.</p>
 <p>But that’s not all, we have two more timings that need attention:</p>
 <ol type="1">
 <li>The latest arrival of an external input signal (tlai) to the
