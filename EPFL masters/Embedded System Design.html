@@ -509,6 +509,14 @@ Level) design</a></li>
 <li><a href="#what-is-timing-closure"
 id="toc-what-is-timing-closure">What is timing closure</a></li>
 </ul></li>
+<li><a href="#bus-architectures" id="toc-bus-architectures">Bus
+architectures</a>
+<ul>
+<li><a href="#simple-bus-architectures"
+id="toc-simple-bus-architectures">Simple bus architectures</a></li>
+<li><a href="#crossbar-architectures"
+id="toc-crossbar-architectures">Crossbar architectures</a></li>
+</ul></li>
 </ul>
 </nav>
 <!-- markdownlint-disable MD010 MD041 MD001 MD036 MD029 MD034-->
@@ -1205,5 +1213,74 @@ and dependance. On a 32-bit CPU using a library, we need 120 cycles for
 Integer division.</li>
 </ul></li>
 </ul>
+<h2 id="bus-architectures">Bus architectures</h2>
+<p>It is used to exchange information from <em>master</em> device(s) to
+<em>slave</em> device(s).</p>
+<p>Information consists of:</p>
+<ul>
+<li>the memory address of the access</li>
+<li>the type of access (read/write)</li>
+<li>the data (to/from the master)</li>
+<li>some handshake signals</li>
+</ul>
+<p>Therer are many ways how we can set-up this transfer of
+information.</p>
+<h3 id="simple-bus-architectures">Simple bus architectures</h3>
+<figure>
+<img src="../Images/ESD-simplebusarch.png" alt="Simple architecture" />
+<figcaption aria-hidden="true">Simple architecture</figcaption>
+</figure>
+<p>This bus is working with a 74.25MHz clock.</p>
+<p>There are OR-gates (sometimes realized with AND-gates), which is
+typical for on-chip buses, as we do not apply tr-state (bi-directional)
+buses as they are slow (tri-state capacitance, etc) and they may cause
+short circuits if used improperly.</p>
+<h4 id="signals-in-the-bus">Signals in the bus</h4>
+<ul>
+<li><strong>address_data</strong> : 32-bit channel that transports the
+address or data.</li>
+<li><strong>byte_enables</strong> : 4-bit channel that indicates in a
+single transfer which bytes are valid.</li>
+<li><strong>burst_size</strong> : 8-bit channel that indicates the
+number of words to transfer (value+1).</li>
+<li><strong>read_n_write</strong> : 1-bit channel indicates a read (when
+1) or write transaction (when 0).</li>
+<li><strong>begin_transaction</strong> : 1-bit channel that indicates
+the beginning of a transaction.</li>
+<li><strong>end_transaction</strong> : 1-bit channel that indicates the
+end of a transaction.</li>
+<li><strong>data_valid</strong> : 1-bit channel that indicates a valid
+datum on the address_data lines.</li>
+<li><strong>busy</strong> : 1-bit channel that indicates that the
+receiver cannot process yet the datum.</li>
+<li><strong>error</strong> : 1-bit channel that indicates a bus
+error.</li>
+</ul>
+<p>All signals (50-bits) are active-high and should be forced to 0 when
+not in use (due to the or-gates)</p>
+<h4 id="write-transactions">Write transactions</h4>
+<p>Single word transactions: at the begining of the transaction all
+information is provided. In case of an “error” the master must end the
+transaction. The minimal single word transaction time is 5
+clock-cycles</p>
+<p>Multiple words write transactions: the minimal time of the
+transaction is 3+NrOfWords clock-cycles.</p>
+<h5 id="read-transactions">Read transactions</h5>
+<p>For single word read transactions: In case of an “error” the master
+must end the transaction. Otherwise the slave ends the transaction. The
+minimal single word transaction time is 5 clock-cycles</p>
+<p>For multiple word read transactions they take the same amount of time
+as write.</p>
+<p>For multiple words read <strong>aborted</strong> transaction, in case
+the error is detected the master must end the transaction. IF the slave
+sees an end of transaction before the burst/single read is finished it
+must end the ongoing transacttion and release the bus.</p>
+<h3 id="crossbar-architectures">Crossbar architectures</h3>
+<figure>
+<img src="../Images/ESD-crossbararch.png" alt="Crossbar architecture" />
+<figcaption aria-hidden="true">Crossbar architecture</figcaption>
+</figure>
+<p>There are many bus architectures, of which one example is this -
+cross-bar (or sometimes called as point-to-point)</p>
 </body>
 </html>
