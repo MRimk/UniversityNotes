@@ -623,3 +623,57 @@ What are the speed-up methods:
   - Of course, when A and B are guaranteed to be constant between `start` and `done`, we can replace the input shift-registers by a multiplexer
   - This is nice for division because it is difficult - it is subraction and dependance. On a 32-bit CPU using a library, we need 120 cycles for Integer division.
 
+## Bus architectures
+
+It is used to exchange information from _master_ device(s) to _slave_ device(s).
+
+Information consists of:
+
+- the memory address of the access
+- the type of access (read/write)
+- the data (to/from the master)
+- some handshake signals
+
+Therer are many ways how we can set-up this transfer of information.
+
+### Simple bus architectures
+
+![Simple architecture](../Images/ESD-simplebusarch.png)
+
+This bus is working with a 74.25MHz clock.
+
+There are OR-gates (sometimes realized with AND-gates), which is typical for on-chip buses, as we do not apply tr-state (bi-directional) buses as they are slow (tri-state capacitance, etc) and they may cause short circuits if used improperly.
+
+#### Signals in the bus
+
+- **address_data** : 32-bit channel that transports the address or data.
+- **byte_enables** : 4-bit channel that indicates in a single transfer which bytes are valid.
+- **burst_size** : 8-bit channel that indicates the number of words to transfer (value+1).
+- **read_n_write** : 1-bit channel indicates a read (when 1) or write transaction (when 0).
+- **begin_transaction** : 1-bit channel that indicates the beginning of a transaction.
+- **end_transaction** : 1-bit channel that indicates the end of a transaction.
+- **data_valid** : 1-bit channel that indicates a valid datum on the address_data lines.
+- **busy** : 1-bit channel that indicates that the receiver cannot process yet the datum.
+- **error** : 1-bit channel that indicates a bus error.
+
+All signals (50-bits) are active-high and should be forced to 0 when not in use (due to the or-gates)
+
+#### Write transactions
+
+Single word transactions: at the begining of the transaction all information is provided. In case of an "error" the master must end the transaction. The minimal single word transaction time is 5 clock-cycles
+
+Multiple words write transactions: the minimal time of the transaction is 3+NrOfWords clock-cycles.
+
+##### Read transactions
+
+For single word read transactions: In case of an “error” the master must end the transaction. Otherwise the slave ends the transaction. The minimal single word transaction time is 5 clock-cycles
+
+For multiple word read transactions they take the same amount of time as write.
+
+For multiple words read **aborted** transaction, in case the error is detected the master must end the transaction. IF the slave sees an end of transaction before the burst/single read is finished it must end the ongoing transacttion and release the bus.
+
+### Crossbar architectures
+
+![Crossbar architecture](../Images/ESD-crossbararch.png)
+
+There are many bus architectures, of which one example is this - cross-bar (or sometimes called as point-to-point)
