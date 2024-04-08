@@ -866,3 +866,248 @@ Tracking mutable, replicated state. Due to replication we need to decide: Synchr
 **Partition Tolerance** - operate correctly despite message loss
 
 We cannot have all 3 at once.
+
+## Gossip-based computing
+
+### Achieving random topologies
+
+#### Peer sampling service
+
+Provide sample of the network to each node.
+
+How: by building a random graph with an out-degree of f. In a decentralized way.
+
+Goal: create an overlay network. Provide each peer with a random sample of the network.
+
+Means: gossip-based protocol - what data should be gossiped? To whom? How to process the exchanged data?
+
+Result is "who knows who" graphs - overlay of Properties (degree, clustering, diameter, etc.), Resilience to network dynamics, Closeness to random graphs
+
+Objective is to provide nodes with a peer drawn uniformly at random from the complete set of nodes. Sampling is accurate: reflects the current set of nodes. Independent views. Scalable service
+
+Using gossip, we will periodically exchange the knowledge of the system.
+
+##### System model of the service
+
+- System of n peers
+- Peers join and leave (and fail) the system dynamically and are identified uniquely (IP @)
+- Epidemic interaction model:
+  - Peers exchange some membership information periodically to update their own membership information
+  - Reflect the dynamics of the system
+  - Ensures connectivity
+- Each peer maintains a local view (membership table) of c entries
+  - Network @ (IP@)
+  - Age (freshness of the descriptor)
+  - Each entry is unique
+  - Ordered list
+- Active and passive threads on each node
+
+##### Operations on partial views (membership)
+
+- selectPeer() - returns an item
+- permute() - randomly shuffles items
+- increaseAge() - forall items add 1 to age
+- append(...) - append a number of items
+- removeDuplicates() - remove duplicates (on same address), keep youngest
+- removeOldItems(n) - remove n descriptors with highest age
+- removeHead(n) - remove n first descriptors
+- removeRandom(n) - remove n random descriptors
+
+##### Threads of the peer
+
+> assume no byzantine behaviour
+
+Active thread:
+
+```pseudocode
+Wait (T time units) // T is the cycle length
+
+p <- selectPeer() // Sample a live peer from the current view
+
+if push then // Takes initiative
+  myDescriptor <- (my@,0)
+  buffer <- merge (view, {myDescriptor}) //temporary list
+  view.permute() //shuffle the items in the view
+  move oldest h items to end of the view //to get rid of old nodes
+  buffer.append(view.head(c/2)) // copy first half of the items
+  send buffer to p
+else send{} to p //triggers response
+
+if pull then
+  receive buffer from p
+  view.selectView(c,h,s,buffer)
+
+view.increaseage(viewp)
+```
+
+Passive thread
+
+```pseudocode
+Do forever
+
+Receive bufferp from p
+
+if pull then
+  myDescriptor <-(my@,0)
+  buffer <-merge(view,{myDescriptor}) // here we append ourselves with age 0
+  view.permute ()
+  move oldest h items to end of the view
+  buffer.append(view.head(c/2))
+  send buffer to p
+
+view.selectView(c,h,s,buffer)
+view.increaseage(view_p)
+```
+
+##### Design space
+
+Periodically each peer initiates communication with another peer
+
+**Peer selection**:
+
+selectPeer(): returns a live peer from the current view
+
+- Rand: pick a peer uniformly at random
+- Head: pick the “youngest” peer
+- Tail: pick the “oldest” peer
+
+Note that _head_ leads to correlated views - self-reinforcement leads to bias of the view.
+
+**Data exchange** (View propagation) - How peers exchange their membership information?
+
+- push: Node sends descriptors to selected peer
+- pull: Node only pulls in descriptors from selected peer
+- pushpull: Node and selected peer exchange descriptors
+
+Pulling alone is pretty bad: a node has no opportunity to insert information on itself. Potential loss
+of all incoming connections.
+
+Buffer (h)
+
+- initialized with the descriptor of the gossiper
+- contains c/2 elements
+- ignore h “oldest”
+
+Communication model
+
+- Push: buffer sent
+- Push/Pull: buffers sent both ways
+- (Pull: left out, the gossiper cannot inject information about itself, harms connectivity)
+
+**Data processing** (View selection): Select (c, buffer) where c: size of the resulting view, and Buffer: information exchanged
+
+Select(c,h,s,buffer):
+
+1. Buffer appended to view
+2. Keep the freshest entry for each node
+3. h oldest items removed
+4. s first items removed (the one sent over)
+5. Random nodes removed
+
+Merge strategies
+
+- Blind (h=0,s=0): select a random subset
+- Healer (h=c/2): select the “freshest” entries
+- Shuffler (h=0, s=c/2): minimize loss
+
+Where:
+
+- c: size of the resulting view
+- h: self-healing parameter
+- s: shuffle
+- Buffer: information exchanged
+
+##### Existing systems
+
+Lpbcast [Eugster & al, DSN 2001,ACM TOCS 2003]
+
+- Node selection: random
+- Data exchange: push
+- Data processing: random
+
+Newscast [Jelasity & van Steen, 2002]
+
+- Node selection: head
+- Data exchange : pushpull
+- Data processing : head
+
+Cyclon [Voulgaris & al JNSM 2005]
+
+- Node selection: random
+- Data exchange : pushpull
+- Data processing : shuffle
+
+Comparison metrics:
+
+- Degree distribution
+- Average path length
+- Clustering coefficient
+
+### A generic gossip-based substrate
+
+Each node maintains a set of neighbors (c entries)
+
+Periodic peerwise exchange of information
+
+Each process runs an active and passive threads
+
+And the parameter space for this is peer selection, data exchange and data processing
+
+This is useful for many things, nowadays for decentralized learning, it used to be for graph parting.
+
+#### Gossip-based aggregation
+
+Each node holds a numeric value s
+
+Aggregation function: average over the set of nodes
+
+Active thread:
+
+```pseudocode
+do exactly once in each consecutive delta time units at randomly picked neighbor:
+
+  q = GetNeighbour()
+  send s_p to q
+
+  s_q = receive(q)
+  s_p = Update(s_p, s_q)
+```
+
+Passive thread:
+
+```pseudocode
+do forever:
+  s_q = receive(*)
+  send s_p to sender(s_q)
+  s_p = Update(s_p, s_q)
+```
+
+- Assume getneighbor() returns a uniform random sample
+- Update(sp,sq) returns (sp + sq)/2
+- Operation does not change the global average but redistributes the variance over the set of all estimates in the system
+- Proven that the variance tends to zero
+- Exponential convergence
+
+##### Counting with gossip
+
+1. Initialize all nodes with value 0 but the initiator
+2. Global average = 1/N
+3. Size of the network can be easily deduced
+4. Robust implementation
+   1. Multiple nodes start with their identifier
+   2. Each concurrent instance led by a node
+   3. Message and data of an instance tagged with a unique Id
+
+##### Ordered slicing
+
+Each node has a value (storage). We want to separate them in separate same-size groups. E.g. split the memory load to 3 groups: first 33%, second 33%, last 33%
+
+- Create and maintain a partitioning of the network
+- Each node belongs to one slice
+- Ex: 20% of nodes with the largest bandwidth
+- Network of size N
+- Each node _i_ has an attribute xi
+- We assume that values (x1 , xN) can be ordered
+- Problem: automatically assign a slice (top 20%) for each node
+
+Each time there is a problem with matching random value with the actual node value (sorted), we exchage the random numbers between those values. Then the resulting (initially random) values will be representing the slices correctly.
