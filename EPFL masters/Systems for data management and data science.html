@@ -533,6 +533,16 @@ id="toc-distributed-transactions">Distributed transactions</a></li>
 <li><a href="#eventual-consistency"
 id="toc-eventual-consistency">Eventual consistency</a></li>
 </ul></li>
+<li><a href="#gossip-based-computing"
+id="toc-gossip-based-computing">Gossip-based computing</a>
+<ul>
+<li><a href="#achieving-random-topologies"
+id="toc-achieving-random-topologies">Achieving random
+topologies</a></li>
+<li><a href="#a-generic-gossip-based-substrate"
+id="toc-a-generic-gossip-based-substrate">A generic gossip-based
+substrate</a></li>
+</ul></li>
 </ul>
 </nav>
 <!-- markdownlint-disable MD010 MD041 MD001 MD036 MD029 MD034-->
@@ -1461,5 +1471,239 @@ requests</p>
 <p><strong>Partition Tolerance</strong> - operate correctly despite
 message loss</p>
 <p>We cannot have all 3 at once.</p>
+<h2 id="gossip-based-computing">Gossip-based computing</h2>
+<h3 id="achieving-random-topologies">Achieving random topologies</h3>
+<h4 id="peer-sampling-service">Peer sampling service</h4>
+<p>Provide sample of the network to each node.</p>
+<p>How: by building a random graph with an out-degree of f. In a
+decentralized way.</p>
+<p>Goal: create an overlay network. Provide each peer with a random
+sample of the network.</p>
+<p>Means: gossip-based protocol - what data should be gossiped? To whom?
+How to process the exchanged data?</p>
+<p>Result is “who knows who” graphs - overlay of Properties (degree,
+clustering, diameter, etc.), Resilience to network dynamics, Closeness
+to random graphs</p>
+<p>Objective is to provide nodes with a peer drawn uniformly at random
+from the complete set of nodes. Sampling is accurate: reflects the
+current set of nodes. Independent views. Scalable service</p>
+<p>Using gossip, we will periodically exchange the knowledge of the
+system.</p>
+<h5 id="system-model-of-the-service">System model of the service</h5>
+<ul>
+<li>System of n peers</li>
+<li>Peers join and leave (and fail) the system dynamically and are
+identified uniquely (IP @)</li>
+<li>Epidemic interaction model:
+<ul>
+<li>Peers exchange some membership information periodically to update
+their own membership information</li>
+<li>Reflect the dynamics of the system</li>
+<li>Ensures connectivity</li>
+</ul></li>
+<li>Each peer maintains a local view (membership table) of c entries
+<ul>
+<li>Network @ (IP@)</li>
+<li>Age (freshness of the descriptor)</li>
+<li>Each entry is unique</li>
+<li>Ordered list</li>
+</ul></li>
+<li>Active and passive threads on each node</li>
+</ul>
+<h5 id="operations-on-partial-views-membership">Operations on partial
+views (membership)</h5>
+<ul>
+<li>selectPeer() - returns an item</li>
+<li>permute() - randomly shuffles items</li>
+<li>increaseAge() - forall items add 1 to age</li>
+<li>append(…) - append a number of items</li>
+<li>removeDuplicates() - remove duplicates (on same address), keep
+youngest</li>
+<li>removeOldItems(n) - remove n descriptors with highest age</li>
+<li>removeHead(n) - remove n first descriptors</li>
+<li>removeRandom(n) - remove n random descriptors</li>
+</ul>
+<h5 id="threads-of-the-peer">Threads of the peer</h5>
+<blockquote>
+<p>assume no byzantine behaviour</p>
+</blockquote>
+<p>Active thread:</p>
+<pre class="pseudocode"><code>Wait (T time units) // T is the cycle length
+
+p &lt;- selectPeer() // Sample a live peer from the current view
+
+if push then // Takes initiative
+  myDescriptor &lt;- (my@,0)
+  buffer &lt;- merge (view, {myDescriptor}) //temporary list
+  view.permute() //shuffle the items in the view
+  move oldest h items to end of the view //to get rid of old nodes
+  buffer.append(view.head(c/2)) // copy first half of the items
+  send buffer to p
+else send{} to p //triggers response
+
+if pull then
+  receive buffer from p
+  view.selectView(c,h,s,buffer)
+
+view.increaseage(viewp)</code></pre>
+<p>Passive thread</p>
+<pre class="pseudocode"><code>Do forever
+
+Receive bufferp from p
+
+if pull then
+  myDescriptor &lt;-(my@,0)
+  buffer &lt;-merge(view,{myDescriptor}) // here we append ourselves with age 0
+  view.permute ()
+  move oldest h items to end of the view
+  buffer.append(view.head(c/2))
+  send buffer to p
+
+view.selectView(c,h,s,buffer)
+view.increaseage(view_p)</code></pre>
+<h5 id="design-space">Design space</h5>
+<p>Periodically each peer initiates communication with another peer</p>
+<p><strong>Peer selection</strong>:</p>
+<p>selectPeer(): returns a live peer from the current view</p>
+<ul>
+<li>Rand: pick a peer uniformly at random</li>
+<li>Head: pick the “youngest” peer</li>
+<li>Tail: pick the “oldest” peer</li>
+</ul>
+<p>Note that <em>head</em> leads to correlated views -
+self-reinforcement leads to bias of the view.</p>
+<p><strong>Data exchange</strong> (View propagation) - How peers
+exchange their membership information?</p>
+<ul>
+<li>push: Node sends descriptors to selected peer</li>
+<li>pull: Node only pulls in descriptors from selected peer</li>
+<li>pushpull: Node and selected peer exchange descriptors</li>
+</ul>
+<p>Pulling alone is pretty bad: a node has no opportunity to insert
+information on itself. Potential loss of all incoming connections.</p>
+<p>Buffer (h)</p>
+<ul>
+<li>initialized with the descriptor of the gossiper</li>
+<li>contains c/2 elements</li>
+<li>ignore h “oldest”</li>
+</ul>
+<p>Communication model</p>
+<ul>
+<li>Push: buffer sent</li>
+<li>Push/Pull: buffers sent both ways</li>
+<li>(Pull: left out, the gossiper cannot inject information about
+itself, harms connectivity)</li>
+</ul>
+<p><strong>Data processing</strong> (View selection): Select (c, buffer)
+where c: size of the resulting view, and Buffer: information
+exchanged</p>
+<p>Select(c,h,s,buffer):</p>
+<ol type="1">
+<li>Buffer appended to view</li>
+<li>Keep the freshest entry for each node</li>
+<li>h oldest items removed</li>
+<li>s first items removed (the one sent over)</li>
+<li>Random nodes removed</li>
+</ol>
+<p>Merge strategies</p>
+<ul>
+<li>Blind (h=0,s=0): select a random subset</li>
+<li>Healer (h=c/2): select the “freshest” entries</li>
+<li>Shuffler (h=0, s=c/2): minimize loss</li>
+</ul>
+<p>Where:</p>
+<ul>
+<li>c: size of the resulting view</li>
+<li>h: self-healing parameter</li>
+<li>s: shuffle</li>
+<li>Buffer: information exchanged</li>
+</ul>
+<h5 id="existing-systems">Existing systems</h5>
+<p>Lpbcast [Eugster &amp; al, DSN 2001,ACM TOCS 2003]</p>
+<ul>
+<li>Node selection: random</li>
+<li>Data exchange: push</li>
+<li>Data processing: random</li>
+</ul>
+<p>Newscast [Jelasity &amp; van Steen, 2002]</p>
+<ul>
+<li>Node selection: head</li>
+<li>Data exchange : pushpull</li>
+<li>Data processing : head</li>
+</ul>
+<p>Cyclon [Voulgaris &amp; al JNSM 2005]</p>
+<ul>
+<li>Node selection: random</li>
+<li>Data exchange : pushpull</li>
+<li>Data processing : shuffle</li>
+</ul>
+<p>Comparison metrics:</p>
+<ul>
+<li>Degree distribution</li>
+<li>Average path length</li>
+<li>Clustering coefficient</li>
+</ul>
+<h3 id="a-generic-gossip-based-substrate">A generic gossip-based
+substrate</h3>
+<p>Each node maintains a set of neighbors (c entries)</p>
+<p>Periodic peerwise exchange of information</p>
+<p>Each process runs an active and passive threads</p>
+<p>And the parameter space for this is peer selection, data exchange and
+data processing</p>
+<p>This is useful for many things, nowadays for decentralized learning,
+it used to be for graph parting.</p>
+<h4 id="gossip-based-aggregation">Gossip-based aggregation</h4>
+<p>Each node holds a numeric value s</p>
+<p>Aggregation function: average over the set of nodes</p>
+<p>Active thread:</p>
+<pre class="pseudocode"><code>do exactly once in each consecutive delta time units at randomly picked neighbor:
+
+  q = GetNeighbour()
+  send s_p to q
+
+  s_q = receive(q)
+  s_p = Update(s_p, s_q)</code></pre>
+<p>Passive thread:</p>
+<pre class="pseudocode"><code>do forever:
+  s_q = receive(*)
+  send s_p to sender(s_q)
+  s_p = Update(s_p, s_q)</code></pre>
+<ul>
+<li>Assume getneighbor() returns a uniform random sample</li>
+<li>Update(sp,sq) returns (sp + sq)/2</li>
+<li>Operation does not change the global average but redistributes the
+variance over the set of all estimates in the system</li>
+<li>Proven that the variance tends to zero</li>
+<li>Exponential convergence</li>
+</ul>
+<h5 id="counting-with-gossip">Counting with gossip</h5>
+<ol type="1">
+<li>Initialize all nodes with value 0 but the initiator</li>
+<li>Global average = 1/N</li>
+<li>Size of the network can be easily deduced</li>
+<li>Robust implementation
+<ol type="1">
+<li>Multiple nodes start with their identifier</li>
+<li>Each concurrent instance led by a node</li>
+<li>Message and data of an instance tagged with a unique Id</li>
+</ol></li>
+</ol>
+<h5 id="ordered-slicing">Ordered slicing</h5>
+<p>Each node has a value (storage). We want to separate them in separate
+same-size groups. E.g. split the memory load to 3 groups: first 33%,
+second 33%, last 33%</p>
+<ul>
+<li>Create and maintain a partitioning of the network</li>
+<li>Each node belongs to one slice</li>
+<li>Ex: 20% of nodes with the largest bandwidth</li>
+<li>Network of size N</li>
+<li>Each node <em>i</em> has an attribute xi</li>
+<li>We assume that values (x1 , xN) can be ordered</li>
+<li>Problem: automatically assign a slice (top 20%) for each node</li>
+</ul>
+<p>Each time there is a problem with matching random value with the
+actual node value (sorted), we exchage the random numbers between those
+values. Then the resulting (initially random) values will be
+representing the slices correctly.</p>
 </body>
 </html>
