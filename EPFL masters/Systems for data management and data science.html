@@ -543,6 +543,30 @@ topologies</a></li>
 id="toc-a-generic-gossip-based-substrate">A generic gossip-based
 substrate</a></li>
 </ul></li>
+<li><a href="#dhts" id="toc-dhts">DHTs</a>
+<ul>
+<li><a href="#distributed-systems-complexity"
+id="toc-distributed-systems-complexity">Distributed systems
+complexity</a></li>
+<li><a href="#architectures"
+id="toc-architectures">Architectures</a></li>
+<li><a href="#decentralized-architectures"
+id="toc-decentralized-architectures">Decentralized
+architectures</a></li>
+<li><a href="#implementations-of-dhts"
+id="toc-implementations-of-dhts">Implementations of DHTs</a></li>
+</ul></li>
+<li><a href="#consistency-models"
+id="toc-consistency-models">Consistency models</a>
+<ul>
+<li><a href="#when-is-it-needed" id="toc-when-is-it-needed">When is it
+needed?</a></li>
+<li><a href="#examples-of-consistency-guarantees"
+id="toc-examples-of-consistency-guarantees">Examples of consistency
+guarantees</a></li>
+<li><a href="#strong-consistency" id="toc-strong-consistency">Strong
+consistency</a></li>
+</ul></li>
 </ul>
 </nav>
 <!-- markdownlint-disable MD010 MD041 MD001 MD036 MD029 MD034-->
@@ -1705,5 +1729,157 @@ second 33%, last 33%</p>
 actual node value (sorted), we exchage the random numbers between those
 values. Then the resulting (initially random) values will be
 representing the slices correctly.</p>
+<h2 id="dhts">DHTs</h2>
+<h3 id="distributed-systems-complexity">Distributed systems
+complexity</h3>
+<p>No global clock, so no single global notion of the correct titme</p>
+<p>Unpredictable failures of components</p>
+<p>Highly variable bandwidth</p>
+<p>possibly large and variable latency - few ms to several seconds</p>
+<h3 id="architectures">Architectures</h3>
+<p>client server, datacenters/cloud, decentralized</p>
+<h3 id="decentralized-architectures">Decentralized architectures</h3>
+<h4 id="p2p-applications">P2P applications</h4>
+<p>~50% of the Internet traffic</p>
+<p>Applications - mastadon, torrent, blockchain, streaming protocols,
+decentralized AI</p>
+<h4 id="why-is-it-interesting">Why is it interesting</h4>
+<ul>
+<li>End-nodes are promoted to active components</li>
+<li>Nodes participate, interact, contribute to the services they
+use.</li>
+<li>Harness huge pools of resources accumulated in millions of
+end-nodes.</li>
+<li>Avoid a central/master entity</li>
+<li>Irregularities and dynamicity are treated as the norm</li>
+</ul>
+<h4 id="overlay-networks">Overlay networks</h4>
+<p>Decentralized system implemented over decentralized network. This is
+higher layer over the internet</p>
+<p>Unstructed overlays - random graphs that are hard to deal with
+because it requires flooding for search.</p>
+<p>Structured overlays - nodes, in addition to identification by IP
+address, also have a role of being in a position in that structure.</p>
+<h4 id="hash-tables">Hash tables</h4>
+<p>Data structure that has put() and get() operations, and has efficient
+indexing such that read is quick.</p>
+<p>Distributed hash table does the same thing but across millions of
+hosts on the internet. P2P infrastructure ensures mapping between keys
+and physical nodes. No node has entire view of the system but has enough
+local knowledge to route the key to the node.</p>
+<h4 id="distributed-hash-table">Distributed hash table</h4>
+<p>partitions data in large-scale distributed system:</p>
+<ul>
+<li>Tuples in a global database engine</li>
+<li>Data blocks in a global file system</li>
+<li>Files in a P2P file-sharing system</li>
+</ul>
+<p>Lookup would be in a structured overlay,</p>
+<h3 id="implementations-of-dhts">Implementations of DHTs</h3>
+<h4 id="pastry">Pastry</h4>
+<p><strong>P2P routing infrastructure</strong></p>
+<p>Overlay: network abstraction on top of IP</p>
+<p>Basic functionality: distributed hash table:
+<code>key = SHA-1(data)</code></p>
+<p>An identifier is associated to each node
+<code>nodeId = SHA-1(IP address)</code></p>
+<p>Large identifier space (keys and nodeId)</p>
+<p>A node is reposible for a range of keys</p>
+<p>Routing: search efficiently for keys</p>
+<p><strong>Object distribution</strong></p>
+<p>128 bit cirular id space (0 to <span class="math inline">2^^{128} -
+1</span>) - <em>nodeIds</em> (uniform random) and <em>objIds</em>
+(uniform random)</p>
+<p>node with numerically closest <em>nodeId</em> maintains that
+object.</p>
+<p>There can be unbalance to the system, e.g. when a file is accessed
+frequently, so the responsible node will have higher traffic</p>
+<p><strong>Naming space</strong> - Ring of 128 bit integers, and
+<em>nodeIds</em> chosen at random</p>
+<p><strong>Key/node mapping</strong> - key associated to the node with
+the numerically closest node id</p>
+<p><strong>Routing table</strong> - to have efficient routing such that
+if churn is experienced, it is still possible to access the data.</p>
+<p><strong>Leaf set</strong> - 8 or 16 closest numerical neighbors in
+the naming space</p>
+<h5 id="pastry-routing-table">Pastry routing table</h5>
+<p>We split the circle such that in each part there is a path from node
+to a representative from a different part.</p>
+<p>Routing tables based on prefix matching:</p>
+<ul>
+<li>Identifiers are a set of digits in base 16</li>
+<li>Matrix of 128/4 lines et 16 columns</li>
+<li>routeTable(i,j):
+<ul>
+<li>nodeId matching the current node identifier up to level I</li>
+<li>with the next digit is j</li>
+</ul></li>
+</ul>
+<p><strong>Example:</strong></p>
+<p>Consider a peer with id 01110100101 Maintains a neighor peer in each
+of the following prefixes: 1, 00, 010, 0110, …</p>
+<p>At each routing step, forward to a neigbor with the largest matching
+prefix</p>
+<h5 id="pastry-routing">Pastry routing</h5>
+<p>Leaf set helps with partitioning, i.e. if there are too many nodes
+that are disconnected.</p>
+<p>Each node will contain 8 or 16 all the closest neighbors, which also
+enables direct access to the node when the prefix matches.</p>
+<p>Routing algo is week 8 slide</p>
+<h5 id="node-departure">Node departure</h5>
+<p>Explicit departure or failure</p>
+<p>Graceful replacement of a node</p>
+<p>The leafset of the closest node in the leafset contains the closest
+new node, not yet in the leafset.</p>
+<p>Update from the leafset information - since we’re already routing in
+the correct partition, and the main replica node fails, the neighboring
+node will have the replica and it will be found through leafset.</p>
+<p>Update the application.</p>
+<h5 id="state-maintenance">State maintenance</h5>
+<p><strong>Leaf set</strong> (maintained with pings), is aggressively
+monitored and fixed; and is eventual guarantee up to L/2 nodes with
+adjacent nodeIds fail simultaineously.</p>
+<p><strong>Routing table</strong> is lazily repaired - when a hole is
+detected during the routing. It is periodic gossip-based maintenance</p>
+<h5 id="reducing-latency">Reducing latency</h5>
+<p><strong>Random assignment of nodeId</strong> - nodes numerically
+close are geographically (topologically) distant</p>
+<p>Objective - fill the routing table with nodes so that routing hops
+are as short (latency wise) as possible</p>
+<p>Topological metric is <em>latency</em></p>
+<h2 id="consistency-models">Consistency models</h2>
+<p>Replication is key to availability (low latency, failure resilience,
+load balancing). But it creates inconsistencies due to concurrent
+accesses.</p>
+<h3 id="when-is-it-needed">When is it needed?</h3>
+<p>Whenever objects are replicated</p>
+<p>Replicase must be consistent in some way: modifications have to be
+carried out on all copies, and in the presence of concurrent
+updates/reads</p>
+<p>Differenc consistency models - a consistency model is a set of rueles
+that process obeys while accessing data. Edge cases - strong consistency
+(having the latest updates), and eventual consistency (maintain the
+replica, such that eventually everyone will have the same data)</p>
+<h3 id="examples-of-consistency-guarantees">Examples of consistency
+guarantees</h3>
+<p>Strong consistency - seee all previous writes</p>
+<p>Eventual consistency - see subset of previous writes</p>
+<p>Consistent prefix - see initial sequence of writes</p>
+<p>Monotonic freshness - see increasing sequence of writes</p>
+<p>Read my writes - see all writes performed by reader</p>
+<p>Bounded staleness - see all “old” writes</p>
+<h3 id="strong-consistency">Strong consistency</h3>
+<p>Aka linearizability , one-copy serializability</p>
+<p>The responses to the operations invoked in an execution are the same
+as if all operations were executed in a sequential order and this order
+respects those specified by each process</p>
+<p>Strong consistency is impossible to achieve in the presence of
+partition (CAP-next lecture)</p>
+<p>Strong consistency is impossible to achieve in an asynchronous system
+without assumptions on message delivery latencies (FLP) - thinking the
+node is slow but it actually failed or vice-versa. To fix this we have a
+timeout.</p>
+<p><strong>Guarantee</strong>: see all previous writes. All reads at
+time t should reflect all the writes that happened before t.</p>
 </body>
 </html>
