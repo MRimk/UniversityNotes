@@ -1111,3 +1111,185 @@ Each node has a value (storage). We want to separate them in separate same-size 
 - Problem: automatically assign a slice (top 20%) for each node
 
 Each time there is a problem with matching random value with the actual node value (sorted), we exchage the random numbers between those values. Then the resulting (initially random) values will be representing the slices correctly.
+
+## DHTs
+
+### Distributed systems complexity
+
+No global clock, so no single global notion of the correct titme
+
+Unpredictable failures of components
+
+Highly variable bandwidth
+
+possibly large and variable latency - few ms to several seconds
+
+### Architectures
+
+client server, datacenters/cloud, decentralized
+
+### Decentralized architectures
+
+#### P2P applications
+
+~50% of the Internet traffic
+
+Applications - mastadon, torrent, blockchain, streaming protocols, decentralized AI
+
+#### Why is it interesting
+
+- End-nodes are promoted to active components
+- Nodes participate, interact, contribute to the services they use.
+- Harness huge pools of resources accumulated in millions of end-nodes.
+- Avoid a central/master entity
+- Irregularities and dynamicity are treated as the norm
+
+#### Overlay networks
+
+Decentralized system implemented over decentralized network. This is higher layer over the internet
+
+Unstructed overlays - random graphs that are hard to deal with because it requires flooding for search.
+
+Structured overlays - nodes, in addition to identification by IP address, also have a role of being in a position in that structure.
+
+#### Hash tables
+
+Data structure that has put() and get() operations, and has efficient indexing such that read is quick.
+
+Distributed hash table does the same thing but across millions of hosts on the internet. P2P infrastructure ensures mapping between keys and physical nodes. No node has entire view of the system but has enough local knowledge to route the key to the node.
+
+#### Distributed hash table
+
+partitions data in large-scale distributed system:
+
+- Tuples in a global database engine
+- Data blocks in a global file system
+- Files in a P2P file-sharing system
+
+Lookup would be in a structured overlay,
+
+### Implementations of DHTs
+
+#### Pastry
+
+**P2P routing infrastructure**
+
+Overlay: network abstraction on top of IP
+
+Basic functionality: distributed hash table: `key = SHA-1(data)`
+
+An identifier is associated to each node `nodeId = SHA-1(IP address)`
+
+Large identifier space (keys and nodeId)
+
+A node is reposible for a range of keys
+
+Routing: search efficiently for keys
+
+**Object distribution**
+
+128 bit cirular id space (0 to $2^^{128} - 1$) - _nodeIds_ (uniform random) and _objIds_ (uniform random)
+
+node with numerically closest _nodeId_ maintains that object.
+
+There can be unbalance to the system, e.g. when a file is accessed frequently, so the responsible node will have higher traffic
+
+**Naming space** - Ring of 128 bit integers, and _nodeIds_ chosen at random
+
+**Key/node mapping** - key associated to the node with the numerically closest node id
+
+**Routing table** - to have efficient routing such that if churn is experienced, it is still possible to access the data.
+
+**Leaf set** - 8 or 16 closest numerical neighbors in the naming space
+
+##### Pastry routing table
+
+We split the circle such that in each part there is a path from node to a representative from a different part.
+
+Routing tables based on prefix matching:
+
+- Identifiers are a set of digits in base 16
+- Matrix of 128/4 lines et 16 columns
+- routeTable(i,j):
+  - nodeId matching the current node identifier up to level I
+  - with the next digit is j
+
+**Example:**
+
+Consider a peer with id 01110100101
+Maintains a neighor peer in each of the following prefixes:
+1, 00, 010, 0110, …
+
+At each routing step, forward to a neigbor with the largest matching prefix
+
+##### Pastry routing
+
+Leaf set helps with partitioning, i.e. if there are too many nodes that are disconnected.
+
+Each node will contain 8 or 16 all the closest neighbors, which also enables direct access to the node when the prefix matches.
+
+Routing algo is week 8 slide
+
+##### Node departure
+
+Explicit departure or failure
+
+Graceful replacement of a node
+
+The leafset of the closest node in the leafset contains the closest new node, not yet in the leafset.
+
+Update from the leafset information - since we're already routing in the correct partition, and the main replica node fails, the neighboring node will have the replica and it will be found through leafset.
+
+Update the application.
+
+##### State maintenance
+
+**Leaf set** (maintained with pings), is aggressively monitored and fixed; and is eventual guarantee up to L/2 nodes with adjacent nodeIds fail simultaineously.
+
+**Routing table** is lazily repaired - when a hole is detected during the routing. It is periodic gossip-based maintenance
+
+##### Reducing latency
+
+**Random assignment of nodeId** - nodes numerically close are geographically (topologically) distant
+
+Objective - fill the routing table with nodes so that routing hops are as short (latency wise) as possible
+
+Topological metric is _latency_
+
+## Consistency models
+
+Replication is key to availability (low latency, failure resilience, load balancing). But it creates inconsistencies due to concurrent accesses.
+
+### When is it needed?
+
+Whenever objects are replicated
+
+Replicase must be consistent in some way: modifications have to be carried out on all copies, and in the presence of concurrent updates/reads
+
+Differenc consistency models - a consistency model is a set of rueles that process obeys while accessing data. Edge cases - strong consistency (having the latest updates), and eventual consistency (maintain the replica, such that eventually everyone will have the same data)
+
+### Examples of consistency guarantees
+
+Strong consistency - seee all previous writes
+
+Eventual consistency - see subset of previous writes
+
+Consistent prefix - see initial sequence of writes
+
+Monotonic freshness - see increasing sequence of writes
+
+Read my writes - see all writes performed by reader
+
+Bounded staleness - see all "old" writes
+
+### Strong consistency
+
+Aka linearizability , one-copy serializability
+
+The responses to the operations invoked in an execution are the same as if all operations were executed in a sequential order and this order respects those specified by each process
+
+Strong consistency is impossible to achieve in the presence of partition (CAP-next lecture)
+
+Strong consistency is impossible to achieve in an asynchronous system without assumptions on message delivery latencies (FLP) - thinking the node is slow but it actually failed or vice-versa. To fix this we have a timeout.
+
+**Guarantee**: see all previous writes. All reads at time t should reflect all the writes that happened before t.
