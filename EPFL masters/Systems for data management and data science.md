@@ -1293,3 +1293,237 @@ Strong consistency is impossible to achieve in the presence of partition (CAP-ne
 Strong consistency is impossible to achieve in an asynchronous system without assumptions on message delivery latencies (FLP) - thinking the node is slow but it actually failed or vice-versa. To fix this we have a timeout.
 
 **Guarantee**: see all previous writes. All reads at time t should reflect all the writes that happened before t.
+
+## Key-value store
+
+### CAP theory skipped (first 18 slides of week9)
+
+### Key-value Abstraction
+
+For example:
+
+1. (twitter.com) tweet id -> information about tweet
+2. (amazon.com) item number -> information about it
+3. (expedia.com) flight number -> information about flight, e.g., availability
+4. (bank.com) account number -> information about it
+
+- A dictionary datastructure, but distributed.
+  - Insert, lookup, and delete by key
+  - E.g., hash table
+
+Key-value stores reuse many techniques from DHTs.
+
+#### Key-value/NoSQL Data Model
+
+NoSQL = Not Only SQL
+
+Necessary API operations: get(key) and put(key, value)
+
+Tables:
+
+- “Column families” in Cassandra, “Table” in HBase, “Collection” in MongoDB
+- Like RDBMS tables, but …
+- May be unstructured: May not have schemas - Some columns may be missing from some rows
+- Do not always support joins or have foreign keys
+
+#### Cassandra
+
+Objectives:
+
+- Distributed storage system
+- Targets large amount of structured data
+- Intended to run in a datacenter (and also across DCs) across many commodity servers
+- No single point of failure
+- But: does not support joins, limited support for transactions and aggregation
+
+(Originally designed at Facebook, Open-sourced later, today an Apache project (2010))
+
+It actually is:
+
+- A distributed key-value store
+- Many companies use Cassandra in their production clusters
+  - IBM, Adobe, HP, eBay, Ericsson, Symantec
+  - Twitter, Spotify
+  - PBS Kids
+  - Netflix: uses Cassandra to keep track of your current position in the video you’re watching
+- Scalable data model: data split across nodes
+- C**AP**: availability and partition tolerance
+
+##### Cassandra data model
+
+Table in Cassandra: distributed multi-dimensional map indexed by a key
+
+**Row**: identified by a Unique Key (Primary key)
+
+**Keyspace**: A logical container for column families that defines the replication strategy and other configuration options
+
+**Column Family**: A logical grouping of columns with a shared key, contains Supercolumns or Columns
+
+**Column**: basic data structures with key, value, timestamp
+
+**Supercolumn**: stores a map of sub-columns. Columns that are likely to be queried together should be place in the **same column family**
+
+You want the key to contain different information sets to be accessed by it.
+
+**Facebook example**:
+
+FB maintains a per-user index of all messages exchanged between senders and receivers
+
+Two kind of search features enabled in 2008: Term search, Interactions: given a person’s name, returns all the messages sent/received by that person
+
+Term search:
+
+Primary key: UserID,
+Words of messages: super columns,
+Columns within the super columns: individual message identifiers (messageId) of the messages that contains the word
+
+Inbox search (interactions):
+
+primary key - UserID,
+Recipients IDs: super columns,
+Columns within the super columns: messageId
+
+With this data structure we have granularity for both terms and interactions, so we can access both in the specific super column families.
+
+##### Cassandra architecture
+
+1. Partitioning
+2. Replication
+3. Membership
+4. Scaling
+
+Decentralized storage system for managing large amount of data
+
+All nodes participate in a cluster : Peer-to-peer paradigm
+
+Scale-out architecture: Add or remove server as needed
+
+Typically a read/write request for a key gets routed to any node that hold a replica
+
+Writes: routed to the replicas and wait for a quorum
+
+Reads: depends on the consistency guarantees (any replica or quorums (majority))
+
+###### Partitioning (similar to DHT)
+
+- Incremental scale
+- Consistent hashing for partitioning (order-preserving hash function)
+- Dynamic partition of the data over a set of nodes in a cluster organized in a ring
+- Each node is assigned a random value which determines its place on the ring
+- Each data item is assigned to a node by hashing its key
+  - The key defines the item position on the ring
+  - Each node is responsible for the region of the ring between itself and its predecessor on the ring (Chord model)
+- Departure or arrival affect only immediate neighbours
+- Full membership (Routing done in O(1), since you know everyone)
+
+Data Partitioning:
+
+Random Partitioning leads to non-uniform data and load distribution, The basic algorithm is oblivious to the heterogeneity in nodes’ performance
+
+It is addressed by: 1) Load information is analysed on the ring: Lightly loaded nodes move on the
+ring to alleviate loaded ones, 2) Virtual nodes (e.g. if the ring is very busy, we can create new nodes to distribute the load or have nodes that are virtually on the oposite sides of the ring)
+
+###### Partitioning in Cassandra
+
+- Replication factor: determines how many copies of the data exist
+- Each data is replicated at N hosts (N=replication factor)
+- Coordinator node is in charge of the replication of the data items
+- Consistency level refers to the consistency achieved among replicas
+- Various replication strategies
+
+Partitioner: determines how data is distributed across the nodes in the cluster (including replicas)
+
+**Replication strategies**:
+
+1. **Simple Strategy**: uses the Partitioner, of which there are two kinds
+   1. RandomPartitioner: Chord-like hash partitioning
+   2. ByteOrderedPartitioner: Assigns ranges of keys to servers. (Easier for range queries (e.g., Get me all twitter users starting with [a-b]))
+2. **NetworkTopologyStrategy**: for multi-DC deployments
+
+###### Writes
+
+**Coordinator**: acts as a proxy for the application and the nodes involved in the request flow. Responsible for managing the entire request path and to respond back to the client
+
+Writes need to be lock-free and fast (no reads or disk seeks)
+
+Client sends write to one coordinator node in a Cassandra cluster: Coordinator may be per-key, or per-client, or per-query, Per-key Coordinator ensures writes for the key are serialized
+
+Coordinator uses Partitioner to send queries to one or all replica nodes responsible for the key
+
+When X replicas respond, coordinator returns an acknowledgement to the client
+
+Always writable: Hinted Handoff mechanism
+If any replica is down, the coordinator writes to all other replicas, and keeps the write locally until the down replica comes back up.
+OR When all replicas are down, the coordinator (front end) buffers writes (for up to a few hours).
+
+**One ring per datacenter**. Per-DC coordinator (only 1) elected to coordinate with other DCs. Election done via Zookeeper, which runs a Paxos (consensus) variant
+
+**Data structures**:
+
+Commit log - Transactional log, used for recovery in case of failures
+
+Memtables (in memory) - Write-back cache of data partitions that can be searched by key. In-memory representation of multiple key-value pairs. Append-only data structure (fast)
+
+SSTables Sorted String Tables (disk): Persistent, ordered immutable map from keys to values, where both keys and values are arbitrary byte strings. And a Bloom filter (for efficient search). This is where the memtables flush
+
+**Memtable flushes**:
+
+- Background thread keeps checking the size of all memtables
+- When a new Memtable is created, the previous one marked for flushing
+- Node’s global memory threshold have been reached
+- Commit log is full
+- Another thread flushes all the marked Memtables
+- Commit log segments of the flushed Memtable are marked for recycling
+- A Bloom filter (data structure that is efficient to tell you if the item is there or not (especially when it's not there). It's a hash of the key and put to bitmap. There is some probability of false positives but it's possible to fix this either by extending bits or changing the hash function) and index are created
+
+###### Reads
+
+Similar to writes, except:
+
+1. Coordinator can contact X replicas (e.g., in same rack) - Coordinator sends read to replicas that have responded quickest in the past. Takes the last timestamp from the responded ones.
+2. Coordinator also fetches value from other replicas - Checks consistency in the background, initiating a read repair if any two values are different. This mechanism seeks to eventually bring all replicas up to date
+3. At a replica - Read looks at Memtables first, and then SSTables. A row may be split across multiple SSTables => reads need to touch multiple SSTables => reads slower than writes (but still fast)
+
+###### Membership protocol
+
+- Any server in cluster could be the coordinator
+- So every server needs to maintain a list of all the other servers that are currently in the cluster: full membership
+- Membership needs to be updated automatically as servers join, leave, and fail
+
+Efficient anti-entropy gossip-based protocol
+
+P2P protocol to discover and share location and state information about other nodes in a Cassandra cluster
+
+##### Consistency in Cassandra
+
+Cassandra has consistency levels. Client is allowed to choose a consistency level for each operation (read/write):
+
+- ANY: any server (may not be a replica)
+  - Fastest: coordinator caches write and replies quickly to client
+- ALL: all replicas
+  - Ensures strong consistency, but slowest
+- ONE: at least one replica
+  - Faster than ALL, but cannot tolerate a failure
+- QUORUM: quorum across all replicas in all datacenters (DCs)
+  - Global consistency, but still fast
+- LOCAL_QUORUM: quorum in coordinator’s DC
+  - Faster: only waits for quorum in first DC client contacts
+
+**Quorum-based protocols**
+
+Each client should acquire the permission of multiple servers (quorum) before reading or writing a replicated data
+
+Suppose: N replicas exist, R: read quorum, W: write quorum
+
+Constraints : 1. R+W>N 2. W>N/2
+
+The first constraint is used to prevent read-write conflicts, whereas the **second prevents write-write conflicts**. Only after the appropriate number of servers has agreed to participate can a file be read or written.
+
+Quorum = majority (> 50%)
+
+1. Any two quorums intersect
+2. Client 1 does a write in red quorum
+3. Then client 2 does read in blue quorum
+4. At least one server in blue quorum returns latest write
+
+(Associated with timestamp)
