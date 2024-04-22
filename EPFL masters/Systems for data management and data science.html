@@ -567,6 +567,15 @@ guarantees</a></li>
 <li><a href="#strong-consistency" id="toc-strong-consistency">Strong
 consistency</a></li>
 </ul></li>
+<li><a href="#key-value-store" id="toc-key-value-store">Key-value
+store</a>
+<ul>
+<li><a href="#cap-theory-skipped-first-18-slides-of-week9"
+id="toc-cap-theory-skipped-first-18-slides-of-week9">CAP theory skipped
+(first 18 slides of week9)</a></li>
+<li><a href="#key-value-abstraction"
+id="toc-key-value-abstraction">Key-value Abstraction</a></li>
+</ul></li>
 </ul>
 </nav>
 <!-- markdownlint-disable MD010 MD041 MD001 MD036 MD029 MD034-->
@@ -1881,5 +1890,276 @@ node is slow but it actually failed or vice-versa. To fix this we have a
 timeout.</p>
 <p><strong>Guarantee</strong>: see all previous writes. All reads at
 time t should reflect all the writes that happened before t.</p>
+<h2 id="key-value-store">Key-value store</h2>
+<h3 id="cap-theory-skipped-first-18-slides-of-week9">CAP theory skipped
+(first 18 slides of week9)</h3>
+<h3 id="key-value-abstraction">Key-value Abstraction</h3>
+<p>For example:</p>
+<ol type="1">
+<li>(twitter.com) tweet id -&gt; information about tweet</li>
+<li>(amazon.com) item number -&gt; information about it</li>
+<li>(expedia.com) flight number -&gt; information about flight, e.g.,
+availability</li>
+<li>(bank.com) account number -&gt; information about it</li>
+</ol>
+<ul>
+<li>A dictionary datastructure, but distributed.
+<ul>
+<li>Insert, lookup, and delete by key</li>
+<li>E.g., hash table</li>
+</ul></li>
+</ul>
+<p>Key-value stores reuse many techniques from DHTs.</p>
+<h4 id="key-valuenosql-data-model">Key-value/NoSQL Data Model</h4>
+<p>NoSQL = Not Only SQL</p>
+<p>Necessary API operations: get(key) and put(key, value)</p>
+<p>Tables:</p>
+<ul>
+<li>“Column families” in Cassandra, “Table” in HBase, “Collection” in
+MongoDB</li>
+<li>Like RDBMS tables, but …</li>
+<li>May be unstructured: May not have schemas - Some columns may be
+missing from some rows</li>
+<li>Do not always support joins or have foreign keys</li>
+</ul>
+<h4 id="cassandra">Cassandra</h4>
+<p>Objectives:</p>
+<ul>
+<li>Distributed storage system</li>
+<li>Targets large amount of structured data</li>
+<li>Intended to run in a datacenter (and also across DCs) across many
+commodity servers</li>
+<li>No single point of failure</li>
+<li>But: does not support joins, limited support for transactions and
+aggregation</li>
+</ul>
+<p>(Originally designed at Facebook, Open-sourced later, today an Apache
+project (2010))</p>
+<p>It actually is:</p>
+<ul>
+<li>A distributed key-value store</li>
+<li>Many companies use Cassandra in their production clusters
+<ul>
+<li>IBM, Adobe, HP, eBay, Ericsson, Symantec</li>
+<li>Twitter, Spotify</li>
+<li>PBS Kids</li>
+<li>Netflix: uses Cassandra to keep track of your current position in
+the video you’re watching</li>
+</ul></li>
+<li>Scalable data model: data split across nodes</li>
+<li>C<strong>AP</strong>: availability and partition tolerance</li>
+</ul>
+<h5 id="cassandra-data-model">Cassandra data model</h5>
+<p>Table in Cassandra: distributed multi-dimensional map indexed by a
+key</p>
+<p><strong>Row</strong>: identified by a Unique Key (Primary key)</p>
+<p><strong>Keyspace</strong>: A logical container for column families
+that defines the replication strategy and other configuration
+options</p>
+<p><strong>Column Family</strong>: A logical grouping of columns with a
+shared key, contains Supercolumns or Columns</p>
+<p><strong>Column</strong>: basic data structures with key, value,
+timestamp</p>
+<p><strong>Supercolumn</strong>: stores a map of sub-columns. Columns
+that are likely to be queried together should be place in the
+<strong>same column family</strong></p>
+<p>You want the key to contain different information sets to be accessed
+by it.</p>
+<p><strong>Facebook example</strong>:</p>
+<p>FB maintains a per-user index of all messages exchanged between
+senders and receivers</p>
+<p>Two kind of search features enabled in 2008: Term search,
+Interactions: given a person’s name, returns all the messages
+sent/received by that person</p>
+<p>Term search:</p>
+<p>Primary key: UserID, Words of messages: super columns, Columns within
+the super columns: individual message identifiers (messageId) of the
+messages that contains the word</p>
+<p>Inbox search (interactions):</p>
+<p>primary key - UserID, Recipients IDs: super columns, Columns within
+the super columns: messageId</p>
+<p>With this data structure we have granularity for both terms and
+interactions, so we can access both in the specific super column
+families.</p>
+<h5 id="cassandra-architecture">Cassandra architecture</h5>
+<ol type="1">
+<li>Partitioning</li>
+<li>Replication</li>
+<li>Membership</li>
+<li>Scaling</li>
+</ol>
+<p>Decentralized storage system for managing large amount of data</p>
+<p>All nodes participate in a cluster : Peer-to-peer paradigm</p>
+<p>Scale-out architecture: Add or remove server as needed</p>
+<p>Typically a read/write request for a key gets routed to any node that
+hold a replica</p>
+<p>Writes: routed to the replicas and wait for a quorum</p>
+<p>Reads: depends on the consistency guarantees (any replica or quorums
+(majority))</p>
+<h6 id="partitioning-similar-to-dht">Partitioning (similar to DHT)</h6>
+<ul>
+<li>Incremental scale</li>
+<li>Consistent hashing for partitioning (order-preserving hash
+function)</li>
+<li>Dynamic partition of the data over a set of nodes in a cluster
+organized in a ring</li>
+<li>Each node is assigned a random value which determines its place on
+the ring</li>
+<li>Each data item is assigned to a node by hashing its key
+<ul>
+<li>The key defines the item position on the ring</li>
+<li>Each node is responsible for the region of the ring between itself
+and its predecessor on the ring (Chord model)</li>
+</ul></li>
+<li>Departure or arrival affect only immediate neighbours</li>
+<li>Full membership (Routing done in O(1), since you know everyone)</li>
+</ul>
+<p>Data Partitioning:</p>
+<p>Random Partitioning leads to non-uniform data and load distribution,
+The basic algorithm is oblivious to the heterogeneity in nodes’
+performance</p>
+<p>It is addressed by: 1) Load information is analysed on the ring:
+Lightly loaded nodes move on the ring to alleviate loaded ones, 2)
+Virtual nodes (e.g. if the ring is very busy, we can create new nodes to
+distribute the load or have nodes that are virtually on the oposite
+sides of the ring)</p>
+<h6 id="partitioning-in-cassandra">Partitioning in Cassandra</h6>
+<ul>
+<li>Replication factor: determines how many copies of the data
+exist</li>
+<li>Each data is replicated at N hosts (N=replication factor)</li>
+<li>Coordinator node is in charge of the replication of the data
+items</li>
+<li>Consistency level refers to the consistency achieved among
+replicas</li>
+<li>Various replication strategies</li>
+</ul>
+<p>Partitioner: determines how data is distributed across the nodes in
+the cluster (including replicas)</p>
+<p><strong>Replication strategies</strong>:</p>
+<ol type="1">
+<li><strong>Simple Strategy</strong>: uses the Partitioner, of which
+there are two kinds
+<ol type="1">
+<li>RandomPartitioner: Chord-like hash partitioning</li>
+<li>ByteOrderedPartitioner: Assigns ranges of keys to servers. (Easier
+for range queries (e.g., Get me all twitter users starting with
+[a-b]))</li>
+</ol></li>
+<li><strong>NetworkTopologyStrategy</strong>: for multi-DC
+deployments</li>
+</ol>
+<h6 id="writes">Writes</h6>
+<p><strong>Coordinator</strong>: acts as a proxy for the application and
+the nodes involved in the request flow. Responsible for managing the
+entire request path and to respond back to the client</p>
+<p>Writes need to be lock-free and fast (no reads or disk seeks)</p>
+<p>Client sends write to one coordinator node in a Cassandra cluster:
+Coordinator may be per-key, or per-client, or per-query, Per-key
+Coordinator ensures writes for the key are serialized</p>
+<p>Coordinator uses Partitioner to send queries to one or all replica
+nodes responsible for the key</p>
+<p>When X replicas respond, coordinator returns an acknowledgement to
+the client</p>
+<p>Always writable: Hinted Handoff mechanism If any replica is down, the
+coordinator writes to all other replicas, and keeps the write locally
+until the down replica comes back up. OR When all replicas are down, the
+coordinator (front end) buffers writes (for up to a few hours).</p>
+<p><strong>One ring per datacenter</strong>. Per-DC coordinator (only 1)
+elected to coordinate with other DCs. Election done via Zookeeper, which
+runs a Paxos (consensus) variant</p>
+<p><strong>Data structures</strong>:</p>
+<p>Commit log - Transactional log, used for recovery in case of
+failures</p>
+<p>Memtables (in memory) - Write-back cache of data partitions that can
+be searched by key. In-memory representation of multiple key-value
+pairs. Append-only data structure (fast)</p>
+<p>SSTables Sorted String Tables (disk): Persistent, ordered immutable
+map from keys to values, where both keys and values are arbitrary byte
+strings. And a Bloom filter (for efficient search). This is where the
+memtables flush</p>
+<p><strong>Memtable flushes</strong>:</p>
+<ul>
+<li>Background thread keeps checking the size of all memtables</li>
+<li>When a new Memtable is created, the previous one marked for
+flushing</li>
+<li>Node’s global memory threshold have been reached</li>
+<li>Commit log is full</li>
+<li>Another thread flushes all the marked Memtables</li>
+<li>Commit log segments of the flushed Memtable are marked for
+recycling</li>
+<li>A Bloom filter (data structure that is efficient to tell you if the
+item is there or not (especially when it’s not there). It’s a hash of
+the key and put to bitmap. There is some probability of false positives
+but it’s possible to fix this either by extending bits or changing the
+hash function) and index are created</li>
+</ul>
+<h6 id="reads">Reads</h6>
+<p>Similar to writes, except:</p>
+<ol type="1">
+<li>Coordinator can contact X replicas (e.g., in same rack) -
+Coordinator sends read to replicas that have responded quickest in the
+past. Takes the last timestamp from the responded ones.</li>
+<li>Coordinator also fetches value from other replicas - Checks
+consistency in the background, initiating a read repair if any two
+values are different. This mechanism seeks to eventually bring all
+replicas up to date</li>
+<li>At a replica - Read looks at Memtables first, and then SSTables. A
+row may be split across multiple SSTables =&gt; reads need to touch
+multiple SSTables =&gt; reads slower than writes (but still fast)</li>
+</ol>
+<h6 id="membership-protocol">Membership protocol</h6>
+<ul>
+<li>Any server in cluster could be the coordinator</li>
+<li>So every server needs to maintain a list of all the other servers
+that are currently in the cluster: full membership</li>
+<li>Membership needs to be updated automatically as servers join, leave,
+and fail</li>
+</ul>
+<p>Efficient anti-entropy gossip-based protocol</p>
+<p>P2P protocol to discover and share location and state information
+about other nodes in a Cassandra cluster</p>
+<h5 id="consistency-in-cassandra">Consistency in Cassandra</h5>
+<p>Cassandra has consistency levels. Client is allowed to choose a
+consistency level for each operation (read/write):</p>
+<ul>
+<li>ANY: any server (may not be a replica)
+<ul>
+<li>Fastest: coordinator caches write and replies quickly to client</li>
+</ul></li>
+<li>ALL: all replicas
+<ul>
+<li>Ensures strong consistency, but slowest</li>
+</ul></li>
+<li>ONE: at least one replica
+<ul>
+<li>Faster than ALL, but cannot tolerate a failure</li>
+</ul></li>
+<li>QUORUM: quorum across all replicas in all datacenters (DCs)
+<ul>
+<li>Global consistency, but still fast</li>
+</ul></li>
+<li>LOCAL_QUORUM: quorum in coordinator’s DC
+<ul>
+<li>Faster: only waits for quorum in first DC client contacts</li>
+</ul></li>
+</ul>
+<p><strong>Quorum-based protocols</strong></p>
+<p>Each client should acquire the permission of multiple servers
+(quorum) before reading or writing a replicated data</p>
+<p>Suppose: N replicas exist, R: read quorum, W: write quorum</p>
+<p>Constraints : 1. R+W&gt;N 2. W&gt;N/2</p>
+<p>The first constraint is used to prevent read-write conflicts, whereas
+the <strong>second prevents write-write conflicts</strong>. Only after
+the appropriate number of servers has agreed to participate can a file
+be read or written.</p>
+<p>Quorum = majority (&gt; 50%)</p>
+<ol type="1">
+<li>Any two quorums intersect</li>
+<li>Client 1 does a write in red quorum</li>
+<li>Then client 2 does read in blue quorum</li>
+<li>At least one server in blue quorum returns latest write</li>
+</ol>
+<p>(Associated with timestamp)</p>
 </body>
 </html>
