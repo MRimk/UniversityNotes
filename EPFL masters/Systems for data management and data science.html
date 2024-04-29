@@ -576,6 +576,20 @@ id="toc-cap-theory-skipped-first-18-slides-of-week9">CAP theory skipped
 <li><a href="#key-value-abstraction"
 id="toc-key-value-abstraction">Key-value Abstraction</a></li>
 </ul></li>
+<li><a href="#scheduling" id="toc-scheduling">Scheduling</a>
+<ul>
+<li><a href="#single-processor-scheduling"
+id="toc-single-processor-scheduling">Single processor
+scheduling</a></li>
+<li><a href="#resource-allocation-in-mesos"
+id="toc-resource-allocation-in-mesos">Resource allocation in
+Mesos</a></li>
+<li><a href="#dominant-resource-fairness-drf"
+id="toc-dominant-resource-fairness-drf">Dominant Resource Fairness
+(DRF)</a></li>
+<li><a href="#hybrid-scheduling" id="toc-hybrid-scheduling">Hybrid
+Scheduling</a></li>
+</ul></li>
 </ul>
 </nav>
 <!-- markdownlint-disable MD010 MD041 MD001 MD036 MD029 MD034-->
@@ -2161,5 +2175,132 @@ be read or written.</p>
 <li>At least one server in blue quorum returns latest write</li>
 </ol>
 <p>(Associated with timestamp)</p>
+<h2 id="scheduling">Scheduling</h2>
+<p>Multiple “tasks” to schedule:</p>
+<ul>
+<li>The processes on a single-core OS</li>
+<li>The tasks of a Hadoop job</li>
+<li>The tasks of multiple Hadoop jobs</li>
+<li>The tasks of multiple frameworks</li>
+</ul>
+<p>Limited resources that these tasks require</p>
+<ul>
+<li>Processor(s)</li>
+<li>Memory</li>
+<li>(Less contentious) disk, network</li>
+</ul>
+<p>Scheduling goals:</p>
+<ol type="1">
+<li>Good throughput or response time for tasks (or jobs)</li>
+<li>High utilization of resources</li>
+<li>Share resources</li>
+</ol>
+<h3 id="single-processor-scheduling">Single processor scheduling</h3>
+<p><strong>FIFO scheduling</strong>:</p>
+<ul>
+<li>Maintain tasks in a queue in order of arrival</li>
+<li>When processor free, dequeue head and schedule it</li>
+</ul>
+<p><strong>Performance</strong>: (may be high): Average completion time
+of FIFO/FCFS = (Task 1 + Task 2 + Task 3)/3 = (10+15+18)/3 = 43/3 =
+14.33</p>
+<p><strong>Shortest Task First</strong>:</p>
+<ul>
+<li>Maintain all tasks in a queue, in increasing order of running
+time</li>
+<li>When processor free, dequeue head and schedule</li>
+</ul>
+<p><strong>Performance</strong>: Average completion of STF is the
+shortest among <strong>all scheduling approaches</strong></p>
+<p>Average completion time of STF = (Task 1 + Task 2 + Task 3)/3 =
+(18+8+3)/3 = 29/3 = 9.66 (versus 14.33 for FIFO/FCFS)</p>
+<p>In general, STF is a special case of <em>priority scheduling</em>
+(Instead of using time as priority, scheduler could use user-provided
+priority)</p>
+<p><strong>Round-Robin Scheduling</strong></p>
+<h4 id="skipped-everything-until-later">SKIPPED EVERYTHING UNTIL
+LATER</h4>
+<h3 id="resource-allocation-in-mesos">Resource allocation in Mesos</h3>
+<h3 id="dominant-resource-fairness-drf">Dominant Resource Fairness
+(DRF)</h3>
+<p>Proposes notion of fairness across jobs with multi-resource
+requirements</p>
+<p>They showed that DRF is • Fair for multi-tenant systems •
+Strategy-proof: tenant cannot benefit by lying • Envy-free: tenant
+cannot envy another tenant’s allocations</p>
+<p>Useful in:</p>
+<ul>
+<li>Usable in scheduling VMs in a cluster</li>
+<li>Usable in scheduling Hadoop in a cluster</li>
+<li>Mesos</li>
+<li>DRF-like strategies also used some cloud computing company’s
+distributed OS’s</li>
+</ul>
+<p>Dominant resource of a user: the resource that user has the biggest
+share of.</p>
+<p>Total resources: 8CPU; 5GB. User A allocation: 2CPU; 1GB</p>
+<p>Then 2/8 = 25% CPU and 1/5 = 20% RAM And Dominant resource of User A
+is CPU (25% &gt; 20%) ==&gt; User A dominant share is 25%</p>
+<p><strong>Dominant share of a user</strong>: the fraction of the
+dominant resource she is allocated.</p>
+<p>Apply max-min fairness to dominant shares: give every user an equal
+share of her dominant resource.</p>
+<p>Equalize the dominant share of the users.</p>
+<p>Total resources: (9CPU; 18GB)</p>
+<p>User A wants (1CPU; 4GB) for each task; Dominant resource: RAM ( 1/9
+&lt; 4/18 ) 22% RAM</p>
+<p>User B wants (3CPU; 1GB) for each task; Dominant resource: CPU ( 3/9
+&gt; 1/18 ) 33% CPU</p>
+<p>x is the number of tasks allocated to User A, y to User B</p>
+<p>So calculation:</p>
+<pre class="math"><code>max(x; y) subject to
+x + 3y &lt;= 9 (CPU constraints)
+4x + y &lt;=18 (Memory constraints)
+4x/18 = 3y/9 (equalize dominant shares)
+User A: x = 3: (33%CPU; 66%GB)
+User B: y = 2: (66%CPU; 16%GB)</code></pre>
+<h4 id="algorithm">Algorithm</h4>
+<figure>
+<img src="../Images/SDMDS-DRF-algorithm.png" alt="DRF Algorithm" />
+<figcaption aria-hidden="true">DRF Algorithm</figcaption>
+</figure>
+<h4 id="drf-fairness">DRF Fairness</h4>
+<p>For a given job, the % of its dominant resource type that it gets
+cluster-wide, is the same for all jobs (Job 1’s % of RAM = Job 2’s % of
+CPU)</p>
+<p>Can be written as linear equations, and solved</p>
+<h4 id="drf-details">DRF details</h4>
+<p>DRF generalizes to multiple jobs</p>
+<p>DRF also generalizes to more than 2 resource types (CPU, RAM,
+Network, Disk, etc)</p>
+<p>DRF ensures that each job gets a fair share of that type of resource
+which the job desires the most =&gt; Hence fairness</p>
+<h3 id="hybrid-scheduling">Hybrid Scheduling</h3>
+<p>Number of machines that have centralized scheduling and then other
+machines run distributed scheduling.</p>
+<p>Elephant and the mice - short tasks that take little resources and
+are many of them, and there are long tasks which are rare and use a lot
+of resources and will be majority of the resource consumption.</p>
+<p>Long jobs will be centralized and short jobs distributed</p>
+<p>Big jobs =&gt; Bulk of resources therefore we give better allocation
+and it’s few jobs so worse scheduling (because it does not matter if big
+get held up by small)</p>
+<p>Small jobs =&gt; Little resources therefore we don’t care about
+allocation and it’s many jobs so we prioritize scheduling</p>
+<h4 id="sparrow">Sparrow</h4>
+<p>Implement random placement - low likelihood on finidng a free node
+(on a high loaded system).</p>
+<h4 id="hawk">Hawk</h4>
+<p>It is the reverse of Sparrow, and most nodes are busy (which makes it
+hard to find a free node).</p>
+<p>In Hawk, therefore, free nodes look for busy nodes by probing, and
+the overloaded busy nodes will then send their jobs to the free
+nodes.</p>
+<p>There is a centralized scheduler will schedule long jobs, and we
+don’t want small jobs in free nodes.</p>
+<p>The distributed scheduler will only schedule short jobs and does not
+coordinate with the centralized scheduler.</p>
+<p>There are reserved nodes (small server partition) for short jobs, so
+that long jobs don’t occupy all the nodes.</p>
 </body>
 </html>
