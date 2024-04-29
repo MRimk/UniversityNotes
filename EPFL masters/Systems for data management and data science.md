@@ -1527,3 +1527,144 @@ Quorum = majority (> 50%)
 4. At least one server in blue quorum returns latest write
 
 (Associated with timestamp)
+
+## Scheduling
+
+Multiple “tasks” to schedule:
+
+- The processes on a single-core OS
+- The tasks of a Hadoop job
+- The tasks of multiple Hadoop jobs
+- The tasks of multiple frameworks
+
+Limited resources that these tasks require
+
+- Processor(s)
+- Memory
+- (Less contentious) disk, network
+
+Scheduling goals:
+
+1. Good throughput or response time for tasks (or jobs)
+2. High utilization of resources
+3. Share resources
+
+### Single processor scheduling
+
+**FIFO scheduling**:
+
+- Maintain tasks in a queue in order of arrival
+- When processor free, dequeue head and schedule it
+
+**Performance**: (may be high): Average completion time of FIFO/FCFS = (Task 1 + Task 2 + Task 3)/3 = (10+15+18)/3 = 43/3 = 14.33
+
+**Shortest Task First**:
+
+- Maintain all tasks in a queue, in increasing order of running time
+- When processor free, dequeue head and schedule
+
+**Performance**: Average completion of STF is the shortest among **all scheduling approaches**
+
+Average completion time of STF = (Task 1 + Task 2 + Task 3)/3 = (18+8+3)/3 = 29/3 = 9.66 (versus 14.33 for FIFO/FCFS)
+
+In general, STF is a special case of _priority scheduling_ (Instead of using time as priority, scheduler could use user-provided priority)
+
+**Round-Robin Scheduling**
+
+#### SKIPPED EVERYTHING UNTIL LATER
+
+### Resource allocation in Mesos
+
+### Dominant Resource Fairness (DRF)
+
+Proposes notion of fairness across jobs with multi-resource requirements
+
+They showed that DRF is
+• Fair for multi-tenant systems
+• Strategy-proof: tenant cannot benefit by lying
+• Envy-free: tenant cannot envy another tenant’s allocations
+
+Useful in:
+
+- Usable in scheduling VMs in a cluster
+- Usable in scheduling Hadoop in a cluster
+- Mesos
+- DRF-like strategies also used some cloud computing company’s distributed OS’s
+
+Dominant resource of a user: the resource that user has the biggest share of.
+
+Total resources: 8CPU; 5GB. User A allocation: 2CPU; 1GB
+
+Then 2/8 = 25% CPU and 1/5 = 20% RAM And Dominant resource of User A is CPU (25% > 20%) ==> User A dominant share is 25%
+
+**Dominant share of a user**: the fraction of the dominant resource she is allocated.
+
+Apply max-min fairness to dominant shares: give every user an equal share of her dominant resource.
+
+Equalize the dominant share of the users.
+
+Total resources: (9CPU; 18GB)
+
+User A wants (1CPU; 4GB) for each task; Dominant resource: RAM ( 1/9 < 4/18 ) 22% RAM
+
+User B wants (3CPU; 1GB) for each task; Dominant resource: CPU ( 3/9 > 1/18 ) 33% CPU
+
+x is the number of tasks allocated to User A, y to User B
+
+So calculation:
+
+```math
+max(x; y) subject to
+x + 3y <= 9 (CPU constraints)
+4x + y <=18 (Memory constraints)
+4x/18 = 3y/9 (equalize dominant shares)
+User A: x = 3: (33%CPU; 66%GB)
+User B: y = 2: (66%CPU; 16%GB)
+```
+
+#### Algorithm
+
+![DRF Algorithm](../Images/SDMDS-DRF-algorithm.png)
+
+#### DRF Fairness
+
+For a given job, the % of its dominant resource type that it gets cluster-wide, is the same for all jobs (Job 1’s % of RAM = Job 2’s % of CPU)
+
+Can be written as linear equations, and solved
+
+#### DRF details
+
+DRF generalizes to multiple jobs
+
+DRF also generalizes to more than 2 resource types (CPU, RAM, Network, Disk, etc)
+
+DRF ensures that each job gets a fair share of that type of resource which the job desires the most => Hence fairness
+
+### Hybrid Scheduling
+
+Number of machines that have centralized scheduling and then other machines run distributed scheduling.
+
+Elephant and the mice - short tasks that take little resources and are many of them, and there are long tasks which are rare and use a lot of resources and will be majority of the resource consumption.
+
+Long jobs will be centralized and short jobs distributed
+
+Big jobs => Bulk of resources therefore we give better allocation and it's few jobs so worse scheduling (because it does not matter if big get held up by small)
+
+Small jobs => Little resources therefore we don't care about allocation and it's many jobs so we prioritize scheduling
+
+#### Sparrow
+
+Implement random placement - low likelihood on finidng a free node (on a high loaded system).
+
+#### Hawk
+
+It is the reverse of Sparrow, and most nodes are busy (which makes it hard to find a free node).
+
+In Hawk, therefore, free nodes look for busy nodes by probing, and the overloaded busy nodes will then send their jobs to the free nodes.
+
+There is a centralized scheduler will schedule long jobs, and we don't want small jobs in free nodes.
+
+The distributed scheduler will only schedule short jobs and does not coordinate with the centralized scheduler.
+
+There are reserved nodes (small server partition) for short jobs, so that long jobs don't occupy all the nodes.
+
