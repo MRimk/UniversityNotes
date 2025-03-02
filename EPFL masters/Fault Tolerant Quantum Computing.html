@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Fault Tolerant Quantum Computing</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="css/pandoc.css" />
+  <style>
+    html {
+      font-size: 100%;
+      overflow-y: scroll;
+      -webkit-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+    }
+
+    body {
+      color: #444;
+      font-family: Georgia, Palatino, "Palatino Linotype", Times,
+        "Times New Roman", serif;
+      font-size: 12px;
+      line-height: 1.7;
+      padding: 1em;
+      margin: auto;
+      max-width: 42em;
+      background: #fefefe;
+    }
+
+    a {
+      color: #0645ad;
+      text-decoration: none;
+    }
+
+    a:visited {
+      color: #0b0080;
+    }
+
+    a:hover {
+      color: #06e;
+    }
+
+    a:active {
+      color: #faa700;
+    }
+
+    a:focus {
+      outline: thin dotted;
+    }
+
+    *::-moz-selection {
+      background: rgba(255, 255, 0, 0.3);
+      color: #000;
+    }
+
+    *::selection {
+      background: rgba(255, 255, 0, 0.3);
+      color: #000;
+    }
+
+    a::-moz-selection {
+      background: rgba(255, 255, 0, 0.3);
+      color: #0645ad;
+    }
+
+    a::selection {
+      background: rgba(255, 255, 0, 0.3);
+      color: #0645ad;
+    }
+
+    p {
+      margin: 1em 0;
+    }
+
+    img {
+      max-width: 100%;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      color: #111;
+      line-height: 125%;
+      margin-top: 2em;
+      font-weight: normal;
+    }
+
+    h4,
+    h5,
+    h6 {
+      font-weight: bold;
+    }
+
+    h1 {
+      font-size: 2.5em;
+    }
+
+    h2 {
+      font-size: 2em;
+    }
+
+    h3 {
+      font-size: 1.5em;
+    }
+
+    h4 {
+      font-size: 1.2em;
+    }
+
+    h5 {
+      font-size: 1em;
+    }
+
+    h6 {
+      font-size: 0.9em;
+    }
+
+    blockquote {
+      color: #666666;
+      margin: 0;
+      padding-left: 3em;
+      border-left: 0.5em #eee solid;
+    }
+
+    hr {
+      display: block;
+      height: 2px;
+      border: 0;
+      border-top: 1px solid #aaa;
+      border-bottom: 1px solid #eee;
+      margin: 1em 0;
+      padding: 0;
+    }
+
+    pre,
+    code,
+    kbd,
+    samp {
+      color: #000;
+      font-family: monospace, monospace;
+      _font-family: "courier new", monospace;
+      font-size: 0.98em;
+    }
+
+    pre {
+      white-space: pre;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+
+    b,
+    strong {
+      font-weight: bold;
+    }
+
+    dfn {
+      font-style: italic;
+    }
+
+    ins {
+      background: #ff9;
+      color: #000;
+      text-decoration: none;
+    }
+
+    mark {
+      background: #ff0;
+      color: #000;
+      font-style: italic;
+      font-weight: bold;
+    }
+
+    sub,
+    sup {
+      font-size: 75%;
+      line-height: 0;
+      position: relative;
+      vertical-align: baseline;
+    }
+
+    sup {
+      top: -0.5em;
+    }
+
+    sub {
+      bottom: -0.25em;
+    }
+
+    ul,
+    ol {
+      margin: 1em 0;
+      padding: 0 0 0 2em;
+    }
+
+    li p:last-child {
+      margin-bottom: 0;
+    }
+
+    ul ul,
+    ol ol {
+      margin: 0.3em 0;
+    }
+
+    dl {
+      margin-bottom: 1em;
+    }
+
+    dt {
+      font-weight: bold;
+      margin-bottom: 0.8em;
+    }
+
+    dd {
+      margin: 0 0 0.8em 2em;
+    }
+
+    dd:last-child {
+      margin-bottom: 0;
+    }
+
+    img {
+      border: 0;
+      -ms-interpolation-mode: bicubic;
+      vertical-align: middle;
+    }
+
+    figure {
+      display: block;
+      text-align: center;
+      margin: 1em 0;
+    }
+
+    figure img {
+      border: none;
+      margin: 0 auto;
+    }
+
+    figcaption {
+      font-size: 0.8em;
+      font-style: italic;
+      margin: 0 0 0.8em;
+    }
+
+    table {
+      margin-bottom: 2em;
+      border-bottom: 1px solid #ddd;
+      border-right: 1px solid #ddd;
+      border-spacing: 0;
+      border-collapse: collapse;
+    }
+
+    table th {
+      padding: 0.2em 1em;
+      background-color: #eee;
+      border-top: 1px solid #ddd;
+      border-left: 1px solid #ddd;
+    }
+
+    table td {
+      padding: 0.2em 1em;
+      border-top: 1px solid #ddd;
+      border-left: 1px solid #ddd;
+      vertical-align: top;
+    }
+
+    .author {
+      font-size: 1.2em;
+      text-align: center;
+    }
+
+    @media only screen and (min-width: 480px) {
+      body {
+        font-size: 14px;
+      }
+    }
+    @media only screen and (min-width: 768px) {
+      body {
+        font-size: 16px;
+      }
+    }
+    @media print {
+      * {
+        background: transparent !important;
+        color: black !important;
+        filter: none !important;
+        -ms-filter: none !important;
+      }
+
+      body {
+        font-size: 12pt;
+        max-width: 100%;
+      }
+
+      a,
+      a:visited {
+        text-decoration: underline;
+      }
+
+      hr {
+        height: 1px;
+        border: 0;
+        border-bottom: 1px solid black;
+      }
+
+      a[href]:after {
+        content: " (" attr(href) ")";
+      }
+
+      abbr[title]:after {
+        content: " (" attr(title) ")";
+      }
+
+      .ir a:after,
+      a[href^="javascript:"]:after,
+      a[href^="#"]:after {
+        content: "";
+      }
+
+      pre,
+      blockquote {
+        border: 1px solid #999;
+        padding-right: 1em;
+        page-break-inside: avoid;
+      }
+
+      tr,
+      img {
+        page-break-inside: avoid;
+      }
+
+      img {
+        max-width: 100% !important;
+      }
+
+      @page :left {
+        margin: 15mm 20mm 15mm 10mm;
+      }
+
+      @page :right {
+        margin: 15mm 10mm 15mm 20mm;
+      }
+
+      p,
+      h2,
+      h3 {
+        orphans: 3;
+        widows: 3;
+      }
+
+      h2,
+      h3 {
+        page-break-after: avoid;
+      }
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/darkreader@4.7.15/darkreader.min.js"></script>
+  <script>
+    DarkReader.enable({
+      brightness: 100,
+      contrast: 90,
+      sepia: 10,
+    });
+  </script>
+  <link
+    rel="icon"
+    type="image/png"
+    href="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTJg97A-Sa8mxjkRCmjR51WjHATLvq2aF89Z1CprR2WcQ60qYZC"
+  />
+  <meta name="theme-color" content="#252525" />
+  <script defer=""
+  src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <link rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css" />
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#fault-tolerant-quantum-computing"
+id="toc-fault-tolerant-quantum-computing">Fault Tolerant Quantum
+Computing</a>
+<ul>
+<li><a href="#organization" id="toc-organization">Organization</a>
+<ul>
+<li><a href="#goal" id="toc-goal">Goal</a></li>
+</ul></li>
+<li><a href="#quantum-computers-challenges"
+id="toc-quantum-computers-challenges">Quantum computers challenges</a>
+<ul>
+<li><a href="#why-do-we-bother-if-they-are-so-noisy-and-slow"
+id="toc-why-do-we-bother-if-they-are-so-noisy-and-slow">Why do we bother
+if they are so noisy and slow</a></li>
+<li><a href="#getting-data-into-quantum-computer-is-slow"
+id="toc-getting-data-into-quantum-computer-is-slow">Getting data into
+quantum computer is slow</a></li>
+</ul></li>
+<li><a href="#different-layers-of-abstraction"
+id="toc-different-layers-of-abstraction">Different layers of
+abstraction</a>
+<ul>
+<li><a href="#bottom" id="toc-bottom">Bottom</a></li>
+<li><a href="#first-layer-physical-isa"
+id="toc-first-layer-physical-isa">First layer: <strong>Physical
+ISA</strong></a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+<h1 id="fault-tolerant-quantum-computing">Fault Tolerant Quantum
+Computing</h1>
+<h2 id="organization">Organization</h2>
+<p>Mathias Soeken - Microsoft employee now</p>
+<p>Send email to <a
+href="mailto:mathias.soeken@outlook.com">mathias.soeken@outlook.com</a>
+for him to know if I am taking the course.</p>
+<p>At the end of the course, we should be able to implement something
+from the course. Projects will be released around in a month.</p>
+<h3 id="goal">Goal</h3>
+<p>Explore how to execute quantum algorithms on quantum computers.</p>
+<p>Quantum algorithms &lt;–&gt; Quantum computers</p>
+<p>Since both algorithms and computers are black boxes.</p>
+<p><strong>Quantum algorithm</strong> is assumed to already exist. It
+exploits quantum mechanics to achieve (much) better computational
+complexity than classical computing. E.g. factoring or Grover algorithm
+(- solving optimzation problem, which is provably faster by quadratic),
+or simulation (exponentially faster)</p>
+<p><strong>Quantum computers</strong> are built out of qubits. And
+qubits can be made in various ways.</p>
+<h2 id="quantum-computers-challenges">Quantum computers challenges</h2>
+<p><strong>Quantum computers are slow and erronious</strong>:</p>
+<p>Classical computer’s CPU:</p>
+<ul>
+<li>elementary instruction: RISC CPU instruction, e.g. ADD (of 64-bit
+numbers)</li>
+<li>time: takes 10^^{-9} (1GHz)</li>
+<li>error rate: like 10^^{-9} or 10^^{-10} =&gt; We don’t think about
+error rates.</li>
+</ul>
+<p>Example optimistics QPU (future example, not even current):</p>
+<ul>
+<li>elementary instruction: XOR of 2 bits.</li>
+<li>time: depends on technology, but it could be 10^^{-3} or 10^^{-6}s
+(in superconducting or spin qubits). So already several orders slower
+with way smaller instruction. This is due to engineering problem or
+physical limitations.</li>
+<li>error rate: 10^^{-4} (realistic to have in the future) to 10^^{-6}
+(optimistic case)</li>
+</ul>
+<p>Now, say we want to build 64 bit addition operation in QPU: we would
+need for every bit 15 instructions =&gt; 960 QPU instructions
+(optimistic), and they would be on 128 qubits.</p>
+<p>So this means, every 10 add instructions, something would fail. This
+is very not possible.</p>
+<p>This is why <strong>Quantum error correction</strong> is important
+but makes it even slower.</p>
+<p>Using <strong>QEC</strong> we make logical instructions from physical
+instructions. Example for XOR:</p>
+<ul>
+<li>we will have slower speed -&gt; could be few secs.</li>
+<li>we will use more qubits (for redundancy) -&gt; 10,000 - 100,000
+qubits (just for one instruction)</li>
+<li>BUT we can get any error rate, even close to classical
+computer.</li>
+</ul>
+<h3 id="why-do-we-bother-if-they-are-so-noisy-and-slow">Why do we bother
+if they are so noisy and slow</h3>
+<p>Because quantum computers are good at executing multiple
+instructions. And since algorithms can achieve exponential speedup, this
+can overcome the slow computer implementation.</p>
+<p>Quantum computers for small problem size, are way worse than
+classical computers, so break-even point is late. So we are interested
+in problems which classical computing wouldn’t even do (month of
+computational time).</p>
+<p>Need to have a problem that is not solvable classically in reasonable
+amount of time. But also problem solution has to be worth expensive
+running cost of quantum computer.</p>
+<p>For example: breaking cryptography of AES. Even on optimistic quantum
+computer, we do <strong>resource estimation</strong> by performing
+compilation for a hypothetical quantum machine, we see that it’s going
+to take 10,000 years.</p>
+<p>Quadratic speedup now is not enough, cubic could be enough, and
+exponential speedup is more real.</p>
+<p>But now quantum algorithms are not that widespread - only some
+factoring problems for breaking crypto, simulating chemistry, etc.</p>
+<p>And normally you don’t run the program twice, as it is only one
+solution. This gives different perspective if it is worth to write a
+program for quantum computer.</p>
+<h3 id="getting-data-into-quantum-computer-is-slow">Getting data into
+quantum computer is slow</h3>
+<p>Quantum computers are not good at solving big data problems
+(e.g. ML). They are better are big compute problems.</p>
+<p>The data that quantum computer computes, e.g. for chemistry, can be
+used as input to train ML models on classical computer.</p>
+<h2 id="different-layers-of-abstraction">Different layers of
+abstraction</h2>
+<p>Going bottom up: physical layer and then Mathematical model.</p>
+<h3 id="bottom">Bottom</h3>
+<p>QPU does something physical (physical world)</p>
+<h3 id="first-layer-physical-isa">First layer: <strong>Physical
+ISA</strong></h3>
+<p>Operation that we use to control the QPU: quantum operations on 1 or
+2 qubits.</p>
+<p><strong>Qubit</strong> has a quantum state. <span
+class="math inline">\Ket{\Phi} = (a0, a1)</span> where <span
+class="math inline">a_0, a_1 \in \Complex</span> such that <span
+class="math inline">|a_0|^{2} + |a_1|^{2} = 1</span> (where
+probabilities add up to 1). E.g. <span
+class="math inline">\Ket{0}</span> state = (1 0), <span
+class="math inline">\Ket{1}&gt;</span> state = (0 1), |+&gt; state =
+(1/sqrt(2) 1/sqrt(2)), |-&gt; state = (1/sqrt(2) -1/sqrt(2))</p>
+<p>This is the main difference, as plus and minus states are different
+amplitudes, even though probabilities are the same. Amplitudes affect
+computation.</p>
+<p>For the quantum computing state (0 1) = -(0 1). (scalar product that
+still equation equals to 1). <span class="math inline">|\Phi\angle
+\text{and} e^{i\Theta}|\Phi\angle</span> are equal up to global
+phase</p>
+<p>Each qubit has a state, and when measured we get random output with
+probabilities of the state. Usually we measure when we know that the
+state will be in some high probability.</p>
+<p><strong>Quantum operation</strong> on 1 qubit is 2x2 unitary matrix
+in complex numbers. <span class="math inline">U \in \Complex^{2x2}
+\text{ is unitary if } U^{+}U = UU^{+} = I</span> where <span
+class="math inline">U^{+} = (U^{*})^{T}</span></p>
+<p>|0&gt; and |1&gt; are eigen vectors of Z |+&gt; and |-&gt; are eigen
+vectors of X</p>
+<p>Pauli matrices:</p>
+<p><span class="math display">
+X = \begin{matrix}
+    0 &amp;&amp; 1 \\
+    1 &amp;&amp; 0
+\end{matrix}
+</span></p>
+<p><span class="math display">
+Z = \begin{matrix}
+    1 &amp;&amp; 0 \\
+    0 &amp;&amp; -1
+\end{matrix}
+</span></p>
+<p><span class="math display">
+Y = \begin{matrix}
+    0 &amp;&amp; -i \\
+    i &amp;&amp; 0
+\end{matrix} = iXZ
+</span></p>
+<p>Hadamad operation <span class="math display">H =
+\frac{1}{\sqrt{2}}\begin{matrix}
+    1 &amp;&amp; 1 \\
+    1 &amp;&amp; -1
+\end{matrix}</span></p>
+<p>Applying Hadamad: H |0&gt; = |+&gt;, H |+&gt; = |0&gt;, H |1&gt; =
+|-&gt;, H |-&gt; = |1&gt;</p>
+<p><span class="math display">
+S = \begin{matrix}
+    1 &amp;&amp; 0 \\
+    0 &amp;&amp; i
+\end{matrix} \text{where} S^2 = Z
+</span></p>
+<p><span class="math display">
+S\begin{matrix}
+    a_0 \\
+    a_1
+\end{matrix} = \begin{matrix}
+    a_0 \\
+    i a_1
+\end{matrix}
+</span></p>
+<p>We can multiply these operations: e.g. H * X * H = Z</p>
+<p>If we multiply all operations together, we get a powerset of ~24.
+Clifford operations: I X Y Z H S.</p>
+<p>We want computational expressiveness of quantum operations have
+universal computation. (we want to find quantum <code>nand</code>
+gate)</p>
+<p>We pick a gate that is not expressed by Clifford gates:</p>
+<p><span class="math display">
+T = \begin{matrix}
+    1 &amp;&amp; 0 \\
+    1 &amp;&amp; e^{i\pi/4}
+\end{matrix}  \text{ s.t. } T^{2} = S
+</span></p>
+<p>Clifford + T + Cnot is universal set:</p>
+<p>Forall U (2x2 unitary matrix), and Forall epsilon &gt; 0, there
+Exists G1, … Gk in Clifford+T, such that U’ = G1 * G2 * … * Gk defines
+||U - U’|| &lt; epsilon</p>
+</body>
+</html>
